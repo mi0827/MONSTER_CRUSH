@@ -27,6 +27,8 @@
 // aisdjla
 //aaaaaa
 
+// プルできるかの実験
+
 
 //! カメラクラスのオブジェクト
 Camera camera;
