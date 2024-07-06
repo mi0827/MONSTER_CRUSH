@@ -22,9 +22,13 @@ CharacterBase::~CharacterBase()
 
 }
 
+//---------------------------------------------------------------------------
+// 移動用のあたり判定
+//---------------------------------------------------------------------------
 void CharacterBase::MoveHitUpdate(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box)
 {
-	move.Move_Hit(player_pos, before_pos, hit_size, box);
+	m_move_hit_box.CreateBox(*player_pos, *hit_size);
+	m_move.Move_Hit(player_pos, before_pos, hit_size, box);
 }
 
 //---------------------------------------------------------------------------
@@ -33,7 +37,7 @@ void CharacterBase::MoveHitUpdate(Vector3* player_pos, Vector3* before_pos, Vect
 void CharacterBase::BaseInit()
 {
 	// 座標、向き、回転の初期化
-	transform.pos.clear();
+	m_transform.pos.clear();
 }
 
 //---------------------------------------------------------------------------
@@ -42,5 +46,5 @@ void CharacterBase::BaseInit()
 void CharacterBase::BaseUpdate(bool* m_check_move, Vector3* camera_rot, const float* mov_speed)
 {
 	// 移動の処理
-	move.Update(m_check_move, camera_rot, &transform.rot, mov_speed, &transform.pos, m_pad_no, m_mov);
+	m_move.Update(m_check_move, camera_rot, &m_transform.rot, mov_speed, &m_transform.pos, m_pad_no, m_mov);
 }

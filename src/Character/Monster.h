@@ -3,9 +3,9 @@
 
 //! @fule SamplePlayer.h
 //! @brief モンスターのクラス
-//! @brief キャラクターベースクラスを継承
+//! @brief モンスターベースクラスを継承
 
-class Monster:public CharacterBase
+class Monster:public MonsterBase
 {
 public:
 	//-----------------------------------------------
@@ -57,8 +57,8 @@ public:
 	//! @brief 初期処理
 	void Init()override;
 	//! @brief 更新処理
-	//! @param カメラの向き
-	void Update(Vector3* camera_rot) override;
+	//! @param プレイヤーキャラの座標
+	void Update() override;
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理

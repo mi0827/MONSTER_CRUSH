@@ -42,6 +42,7 @@ SamplePlayer::~SamplePlayer()
 //-----------------------------------------------
 void SamplePlayer::Init()
 {
+	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit();
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Player/Player.mv1");
@@ -139,7 +140,7 @@ void SamplePlayer::Draw()
 	//m_right_hand.Draw();
 
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
-	m_model.DrawModel(&transform);
+	m_model.DrawModel(&m_transform);
 }
 
 //-----------------------------------------------
@@ -155,7 +156,7 @@ void SamplePlayer::Exit()
 void SamplePlayer::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateCapsule({ transform.pos.x, transform.pos.y, transform.pos.z });
+	m_body.CreateCapsule({ m_transform.pos.x, m_transform.pos.y, m_transform.pos.z });
 	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
 
 	// 右手のあたり判定
@@ -193,7 +194,7 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 	m_run_flag = false;
 
 	// 移動前の座標一旦保存しておく
-	m_before_pos = transform.pos;
+	m_before_pos = m_transform.pos;
 
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている

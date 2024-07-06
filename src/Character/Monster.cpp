@@ -11,9 +11,9 @@
 #include "src/Collision/BoxCollision.h"
 
 #include "src/Action/Combo.h"
-#include "src/System/Move.h"
+#include "src/System/TargetMove.h"
 
-#include "src/Character/CharacterBase.h"
+#include "src/Character/MonsterBase.h"
 #include "Monster.h"
 
 
@@ -46,7 +46,7 @@ Monster::~Monster()
 //-----------------------------------------------
 void Monster::Init()
 {
-	CharacterBase::BaseInit();
+	MonsterBase::BaseInit();
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Monster/Monster.mv1");
 	// アニメーションの初期設定
@@ -58,7 +58,7 @@ void Monster::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Monster::Update(Vector3* camera_rot)
+void Monster::Update()
 {
 	clsDx();
 
@@ -66,7 +66,7 @@ void Monster::Update(Vector3* camera_rot)
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true)
 	{
-		Move_Update(camera_rot);
+		//Move_Update(camera_rot);
 	}
 	
 	switch (m_player_mode)
@@ -189,9 +189,9 @@ void Monster::Move_Update(Vector3* camera_rot)
 	// 移動前の座標一旦保存しておく
 	m_before_pos = transform.pos;
 
-	// ベースクラスの更新処理
-	// 移動の処理が中に入っている
-	BaseUpdate(&m_run_flag, camera_rot, &PLAYER_MOVE_SPEED);
+	//// ベースクラスの更新処理
+	//// 移動の処理が中に入っている
+	//BaseUpdate(&m_run_flag, camera_rot, &PLAYER_MOVE_SPEED);
 
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時

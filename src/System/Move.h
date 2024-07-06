@@ -131,15 +131,15 @@ public:
 	void Move_Oblique_Lower_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed);
 
 public:
-	//! プレイヤーの座標を入れておくもの
-	Vector3 m_player_pos = { 0.0f,0.0f,0.0f };
+	////! プレイヤーの座標を入れておくもの
+	//Vector3 m_player_pos = { 0.0f,0.0f,0.0f };
 
-	//! プレイヤーの移動スピードを入れておくもの
-	// static const float player_mov_speed;
+	////! プレイヤーの移動スピードを入れておくもの
+	//// static const float player_mov_speed;
 
-	//! プレイヤーの向きを入れておくもの
-	Vector3 m_player_rot = { 0.0f,0.0f,0.0f };
+	////! プレイヤーの向きを入れておくもの
+	//Vector3 m_player_rot = { 0.0f,0.0f,0.0f };
 
-	//! カメラの向きを入れておくもの
-	Vector3 m_camera_rot = { 0.0f,0.0f,0.0f };
+	////! カメラの向きを入れておくもの
+	//Vector3 m_camera_rot = { 0.0f,0.0f,0.0f };
 };

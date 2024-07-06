@@ -131,7 +131,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     </Link>
     <PostBuildEvent>
       <Command>
-</Command>
+      </Command>
     </PostBuildEvent>
     <FxCompile>
       <ShaderModel>3.0</ShaderModel>
