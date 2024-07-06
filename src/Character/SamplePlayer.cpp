@@ -135,8 +135,8 @@ void SamplePlayer::Update(Vector3* camera_rot)
 void SamplePlayer::Draw()
 {
 	// カプセルの描画（仮）（後で消す）
-	m_body.Draw();
-	m_right_hand.Draw();
+	//m_body.Draw();
+	//m_right_hand.Draw();
 
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&transform);

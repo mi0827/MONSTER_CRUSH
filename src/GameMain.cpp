@@ -37,7 +37,7 @@ Camera camera;
 SamplePlayer player;
 
 //! モンスタークラスのオブジェクト
-Monster monster;
+//Monster monster;
 
 // シェーダーの基準の座標となる用の変数
 FLOAT4 shader_base_pos_;
@@ -79,7 +79,7 @@ void GameInit()
 	// プレイヤーの初期処理
 	player.Init();
 	// モンスターの初期処理
-	monster.Init();
+	//monster.Init();
 
 	// 地面モデルのも見込み
 	ground = MV1LoadModel("Data/ground.mqoz");
@@ -91,7 +91,7 @@ void GameInit()
 
 
 	// シャドーマップの作成
-	player_shadowmap_hanndle = MakeShadowMap(16334, 16334);
+	player_shadowmap_hanndle = MakeShadowMap(2048, 2048);
 	ShadowMapHandle = MakeShadowMap(4096, 4096);
 	//	ShadowMapHandle = MakeShadowMap(16384, 16384);
 
@@ -124,12 +124,12 @@ void GameInit()
 	// もう一つのライトの作成
 	// 今使うとまぶしすぎる
 	// キャラクターにだけ背後からのライトからの影響を受けない
-	//Vector3 light_pos = { 1000.0f, 100.0f, 0.0f };
-	//light_handle = CreateDirLightHandle(VGet(0.0f, 0.0f, 1.0f));
-	//// ライトのポジションの設定
-	//SetLightPositionHandle(light_handle, light_pos.VGet());
-	//// 色の設定
-	//SetLightDifColorHandle(light_handle, color);
+	Vector3 light_pos = { 1000.0f, 100.0f, 0.0f };
+	light_handle = CreateDirLightHandle(VGet(0.0f, 0.0f, 1.0f));
+	// ライトのポジションの設定
+	SetLightPositionHandle(light_handle, light_pos.VGet());
+	// 色の設定
+	SetLightDifColorHandle(light_handle, color);
 	//Vector3 light_pos_2 = { -1000.0f, 100.0f, 0.0f };
 	//light_handle_2 = CreateDirLightHandle(VGet(0.0f, 0.0f, -1.0f));
 	//// ライトのポジションの設定
@@ -146,7 +146,7 @@ void GameUpdate()
 	player.Update(&camera.m_rot);
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	monster.Update(&camera.m_rot);
+	//monster.Update(&camera.m_rot);
 
 	// カメラの更新処理
 	camera.Update(&player.transform.pos);
@@ -175,8 +175,8 @@ void GameDraw()
 
 	// シャドーマップに描画する範囲の設定
 	SetShadowMapDrawArea(player_shadowmap_hanndle,
-		VGet(player.transform.pos.x - 50.0f, -0.1f, player.transform.pos.z - 50.0f),
-		VGet(player.transform.pos.x + 50.0f, +50.0f, player.transform.pos.z + 50.0f));
+		VGet(player.transform.pos.x - 100.0f, -0.1f, player.transform.pos.z -100.0f),
+		VGet(player.transform.pos.x +100.0f, +50.0f, player.transform.pos.z +100.0f));
 
 	// 仮ボックスの描画
 	box1.Draw(255, 100);
@@ -200,7 +200,7 @@ void GameDraw()
 		MV1DrawModel(ground); // モデルの描画
 		
 		// モンスターの描画
-		monster.Draw();
+		//monster.Draw();
 	}
 
 	// シャドウマップへの描画を終了
@@ -232,7 +232,7 @@ void GameDraw()
 		MV1DrawModel(ground); // モデルの描画
 		
 		// モンスターの描画
-		monster.Draw();
+		//monster.Draw();
 	}
 
 	// 描画に使用するシャドウマップの設定を解除
