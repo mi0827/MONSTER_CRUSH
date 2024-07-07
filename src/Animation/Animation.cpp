@@ -18,6 +18,9 @@ Animation::Animation()
 Animation::~Animation()
 {
 	anim_handle.clear();
+
+	// ‰º‚Ì“ñ‚Â‚Ìdelete‚ÍƒGƒ‰[‚ªo‚é
+	//delete[] (m_contexts);
 	//delete m_contexts;
 }
 

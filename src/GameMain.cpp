@@ -17,6 +17,7 @@
 #include "src/Hit/Hit.h"
 
 #include "src/System/Move.h"
+#include "src/System/TargetMove.h"
 #include "src/Character/CharacterBase.h"
 #include "src/Character/MonsterBase.h"
 #include "src/Character/SamplePlayer.h"
@@ -147,7 +148,7 @@ void GameUpdate()
 	player.Update(&camera.m_rot);
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	//monster.Update(&camera.m_rot);
+	monster.Update();
 
 	// カメラの更新処理
 	camera.Update(&player.m_transform.pos);
