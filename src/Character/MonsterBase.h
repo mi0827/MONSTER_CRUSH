@@ -24,8 +24,8 @@ public:
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 更新処理
-	//! @param カメラの向き
-	virtual void Update() = 0;
+	//! @param 移動の際のターゲット座標
+	virtual void Update(Vector3* target_pos) = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
 
@@ -34,6 +34,12 @@ public:
 
 	//! @brief ベースクラスでの初期処理
 	void BaseInit();
+
+	//! @brief ベースクラスの更新処理
+	//! @param 移動スペード
+	//! @param 回転速度
+	//! @param 移動の際のターゲットの座標
+	void BaseUpdate(const float mov_speed, const float rot_speed, Vector3* target_pos);
 
 
 	//! @brief キャラの壁擦り判定用の関数
@@ -47,6 +53,6 @@ public:
 	//! クラスのオブジェクトを定義
 	//-----------------------------------------------
 	Transform transform;
-	//TargetMove move;
+	TargetMove move;
 	Spotlight spot_light;
 };

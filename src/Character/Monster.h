@@ -11,7 +11,8 @@ public:
 	//-----------------------------------------------
 	// 定数の宣言
 	//-----------------------------------------------
-	static constexpr float PLAYER_MOVE_SPEED = 2.0f;
+	static constexpr float MONSTER_MOVE_SPEED = 1.5f;
+	static constexpr float MONSTER_ROT_SPEED = 1.5f;
 
 	//-----------------------------------------------
 	// 列挙体の宣言
@@ -58,7 +59,7 @@ public:
 	void Init()override;
 	//! @brief 更新処理
 	//! @param プレイヤーキャラの座標
-	void Update() override;
+	void Update(Vector3* traget_pos) override;
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理

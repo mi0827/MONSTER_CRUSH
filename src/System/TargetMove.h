@@ -18,7 +18,7 @@ public:
 	//! @param 移動スピード
 	//! @param 振り向き速度
 	//! @param ターゲットにしたいものの座標
-	void Update(Transform* transform, const float mov_speed, const float rot_speed, Vector3& target_pos);
+	void Update(Transform* transform, const float mov_speed, const float rot_speed, Vector3* target_pos);
 
 	//!
 	//! @fn

@@ -17,7 +17,7 @@ TargetMove::~TargetMove()
 // 移動に関する更新処理用関数
 // Vector2 にｚ座標がないのでそこはｚ＝ｙとして使用している
 //---------------------------------------------------------------------------
-void TargetMove::Update(Transform* transform, const float mov_speed, const float rot_speed, Vector3& target_pos)
+void TargetMove::Update(Transform* transform, const float mov_speed, const float rot_speed, Vector3* target_pos)
 {
 	// １個目のベクトル（本体前方向のベクトル）
 	Vector2 front;
@@ -27,7 +27,7 @@ void TargetMove::Update(Transform* transform, const float mov_speed, const float
 	// 2個目のベクトル（本体からターゲットがどっちの方向にいるかのベクトル）
 	// Vector3をいったん置き換える
 	// ターゲット座標
-	Vector2 taget_poition{ target_pos.x,target_pos.z }; 
+	Vector2 taget_poition{ target_pos->x,target_pos->z }; 
 	// 本体の座標
 	Vector2 pos{ transform->pos.x,transform->pos.z };
 	Vector2 target = taget_poition - pos;

@@ -58,7 +58,7 @@ void Monster::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Monster::Update()
+void Monster::Update(Vector3* traget_pos)
 {
 	clsDx();
 
@@ -66,7 +66,7 @@ void Monster::Update()
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true)
 	{
-		//Move_Update(camera_rot);
+		Move_Update(traget_pos);
 	}
 	
 	switch (m_player_mode)
@@ -181,7 +181,7 @@ void Monster::Anima_Load_Init()
 //-----------------------------------------------
 // プレイヤーの移動用関数
 //-----------------------------------------------
-void Monster::Move_Update(Vector3* camera_rot)
+void Monster::Move_Update(Vector3* taget_pos)
 {
 	// 毎回リセット
 	m_run_flag = false;
@@ -191,7 +191,7 @@ void Monster::Move_Update(Vector3* camera_rot)
 
 	//// ベースクラスの更新処理
 	//// 移動の処理が中に入っている
-	//BaseUpdate(&m_run_flag, camera_rot, &PLAYER_MOVE_SPEED);
+	BaseUpdate(MONSTER_MOVE_SPEED, MONSTER_ROT_SPEED,taget_pos);
 
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時

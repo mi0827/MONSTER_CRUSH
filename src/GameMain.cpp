@@ -148,7 +148,7 @@ void GameUpdate()
 	player.Update(&camera.m_rot);
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	monster.Update();
+	monster.Update(&player.m_transform.pos);
 
 	// カメラの更新処理
 	camera.Update(&player.m_transform.pos);
