@@ -29,4 +29,8 @@ public:
 	//! @param 当たり判定をとりたいボックスの情報
 	//! @detail 移動の壁擦り用関数
 	void Move_Hit(Vector3* pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box);
+
+
+	//! @brief ターゲットとの距離によって移動をやめるための関数
+	void Target_Hit();
 };

@@ -5,14 +5,14 @@
 //! @brief モンスターのクラス
 //! @brief モンスターベースクラスを継承
 
-class Monster:public MonsterBase
+class Monster :public MonsterBase
 {
 public:
 	//-----------------------------------------------
 	// 定数の宣言
 	//-----------------------------------------------
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f;
-	static constexpr float MONSTER_ROT_SPEED = 1.5f;
+	static constexpr float MONSTER_ROT_SPEED = 5.0f;
 
 	//-----------------------------------------------
 	// 列挙体の宣言

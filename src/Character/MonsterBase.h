@@ -41,7 +41,6 @@ public:
 	//! @param 移動の際のターゲットの座標
 	void BaseUpdate(const float mov_speed, const float rot_speed, Vector3* target_pos);
 
-
 	//! @brief キャラの壁擦り判定用の関数
 	//! @param キャラの座標
 	//! @param キャラの動く前の座標
