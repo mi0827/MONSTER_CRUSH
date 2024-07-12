@@ -12,13 +12,49 @@ public:
 	//! デストラクタ
 	~TargetMove();
 
-	//! 
+	//=========================================================================
+	// 構造体の定義
+	//=========================================================================
+
+	struct Information
+	{
+		//! 自身の情報を入れる変数
+		Transform m_transform;
+		//! 自身の半径を入れる用の変数
+		float m_hit_r;
+		//! 自身の移動スピード
+		float M_MOV_SPEED;
+		//! 自身回転速度
+		float M_ROT_SPEED;
+	};
+
+
+	struct TargetInformation
+	{
+		//! ターゲットの座標を入れる変数
+		Vector3* m_target;
+		//! ターゲットの半径を入れる変数
+		float m_target_hit_r;
+	};
+
+
+
+	//=========================================================================
+	// 関数の定義
+	//=========================================================================
+
+	//! @ターゲットの設定
+	//! @param 自身の座標
+	//! @param 円の半径
+	//! @param ターゲットの座標
+	//! @param ターゲットの半径
+	void SetInfo(Information* info, TargetInformation* targetinfo);
+
 	//! @brief 移動全体の更新処理
 	//! @param このクラスを使って移動する本体のtransform
 	//! @param 移動スピード
 	//! @param 振り向き速度
-	//! @param ターゲットにしたいものの座標
-	void Update(Transform* transform, const float mov_speed, const float rot_speed, Vector3* target_pos);
+	void Update();
 
 	//!
 	//! @fn
@@ -33,4 +69,17 @@ public:
 
 	//! @brief ターゲットとの距離によって移動をやめるための関数
 	void Target_Hit();
+
+private:
+
+	//=========================================================================
+	// 変数の定義
+	//=========================================================================
+	//! 自身の情報を入れておくもの
+	Information m_info;
+	//! ターゲットの情報を入れておくもの
+	TargetInformation m_target_info;
+
+
+
 };

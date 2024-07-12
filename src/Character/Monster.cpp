@@ -29,7 +29,7 @@ Monster::Monster()
 	m_player_mode = IDLE;
 	
 	// 初期座標の設定
-	transform.pos.set(50.0f, 0.0f, 50.0f);
+	m_info.m_transform.pos.set(50.0f, 0.0f, 50.0f);
 	
 }
 
@@ -44,7 +44,7 @@ Monster::~Monster()
 //-----------------------------------------------
 // 初期化処理
 //-----------------------------------------------
-void Monster::Init()
+void Monster::Init(Vector3* traget_pos)
 {
 	MonsterBase::BaseInit();
 	// モデル画像の読み込み
@@ -58,7 +58,7 @@ void Monster::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Monster::Update(Vector3* traget_pos)
+void Monster::Update()
 {
 	clsDx();
 
@@ -66,7 +66,7 @@ void Monster::Update(Vector3* traget_pos)
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true)
 	{
-		Move_Update(traget_pos);
+		Move_Update();
 	}
 	
 	switch (m_player_mode)
@@ -139,7 +139,7 @@ void Monster::Draw()
 	m_right_hand.Draw();
 
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
-	m_model.DrawModel(&transform);
+	m_model.DrawModel(&m_info.m_transform);
 }
 
 //-----------------------------------------------
@@ -155,7 +155,7 @@ void Monster::Exit()
 void Monster::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateCapsule({ transform.pos.x, transform.pos.y, transform.pos.z });
+	m_body.CreateCapsule( m_info.m_transform.pos);
 	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
 
 	// 右手のあたり判定
@@ -181,17 +181,17 @@ void Monster::Anima_Load_Init()
 //-----------------------------------------------
 // プレイヤーの移動用関数
 //-----------------------------------------------
-void Monster::Move_Update(Vector3* taget_pos)
+void Monster::Move_Update()
 {
 	// 毎回リセット
 	m_run_flag = false;
 
 	// 移動前の座標一旦保存しておく
-	m_before_pos = transform.pos;
+	m_before_pos = m_info.m_transform.pos;
 
 	//// ベースクラスの更新処理
 	//// 移動の処理が中に入っている
-	BaseUpdate(MONSTER_MOVE_SPEED, MONSTER_ROT_SPEED,taget_pos);
+	BaseUpdate();
 
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時

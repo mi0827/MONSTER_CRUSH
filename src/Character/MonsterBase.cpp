@@ -29,17 +29,19 @@ MonsterBase::~MonsterBase()
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit()
+void MonsterBase::BaseInit(Vector3 target_pos,float m_target_hit_r)
+
 {
+	move.SetInfo(m_info, &targetinfo);
 }
 
 //---------------------------------------------------------------------------
 // ベースクラスの更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseUpdate(const float mov_speed, const float rot_speed, Vector3* target_pos)
+void MonsterBase::BaseUpdate()
 {
 	// 移動処理
-	move.Update(&transform, mov_speed, rot_speed, target_pos);
+	move.Update();
 }
 
 //---------------------------------------------------------------------------
