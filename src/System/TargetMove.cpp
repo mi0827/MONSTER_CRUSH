@@ -102,28 +102,30 @@ void TargetMove::Update()
 	/*}*/
 }
 
-void TargetMove::Move_Hit()
+bool TargetMove::Move_Hit()
 {
 	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
 	// １：プレイヤーとNPCの距離を求める
 	float distance = GetVector3Distance(m_info.m_transform->pos, m_target_info.m_target);
 	// ２：基準の距離を求める（それぞれの半径）
-	float radius = player.m_radius + npc.m_radius;
+	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r;
 
 	// ３：２キャラの距離が基準の長さよりも短かったら
 	if (distance < radius) {
-		// 4：どれくらい中に入っているか（この長さ分だけ円が重なっている
-		float in_lengef = radius - distance;
-		// ５：どのずらすか
-		Vector3 dir = player.m_pos - npc.m_pos;
+		//// 4：どれくらい中に入っているか（この長さ分だけ円が重なっている
+		//float in_lengef = radius - distance;
+		//// ５：どのずらすか
+		//Vector3 dir = m_info.m_transform->pos - m_target_info.m_target;
 
-		// ６：このベクトルの長さを中に入っていいる長さに半分にします
-		dir.SetLength(in_lengef);
-		// 7：この分だけプレイヤー座標を移動させる
-		player.m_pos += dir;
-		// ７：NPCはその逆方向に座標を移動させる
-		npc.m_pos -= dir;
+		//// ６：このベクトルの長さを中に入っていいる長さに半分にします
+		//dir.SetLength(in_lengef);
+		//// 7：この分だけプレイヤー座標を移動させる
+		//player.m_pos += dir;
+		//// ７：NPCはその逆方向に座標を移動させる
+		//npc.m_pos -= dir;
+		return false;
 	}
+	return true;
 }
 
 void TargetMove::Target_Hit()

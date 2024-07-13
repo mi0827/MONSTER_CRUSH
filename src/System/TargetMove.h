@@ -62,7 +62,7 @@ public:
 	//!
 	//! @fn
 	//! @brief プレイヤーの当たり判定用の関数
-	void Move_Hit();
+	bool Move_Hit();
 
 
 	//! @brief ターゲットとの距離によって移動をやめるための関数
