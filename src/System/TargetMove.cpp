@@ -19,12 +19,23 @@ TargetMove::~TargetMove()
 //---------------------------------------------------------------------------
 // 情報をセットする用の関数
 //---------------------------------------------------------------------------
-void TargetMove::SetInfo(Information* info, TargetInformation* target_info)
+void TargetMove::SetInfo(Transform* transform,const float hit_r)
 {
 	// 自身の情報をセット
-	m_info = *info;
-	// ターゲットのセット
-	m_target_info = *target_info;
+	m_info.m_transform = *transform;
+	// 移動制限の半径の設定
+	m_info.m_hit_r = hit_r;
+}
+
+//---------------------------------------------------------------------------
+// ターゲットの情報をセットする用の関数
+//---------------------------------------------------------------------------
+void TargetMove::SetTargetInfo(Vector3* target_pos, const float target_hit_r)
+{
+	// ターゲットの座標の設定
+	m_target_info.m_target = *target_pos;
+	// ターゲットの半径のせ設定
+	m_target_info.m_target_hit_r = target_hit_r;
 }
 
 //---------------------------------------------------------------------------
@@ -35,15 +46,15 @@ void TargetMove::Update()
 {
 	// １個目のベクトル（本体前方向のベクトル）
 	Vector2 front;
-	front.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y));
-	front.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y));
+	front.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform.rot.y));
+	front.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform.rot.y));
 
 	// 2個目のベクトル（本体からターゲットがどっちの方向にいるかのベクトル）
 	// Vector3をいったん置き換える
 	// ターゲット座標
-	Vector2 taget_poition{ m_target_info.m_target->x,m_target_info.m_target->z };
+	Vector2 taget_poition{ m_target_info.m_target.x,m_target_info.m_target.z };
 	// 本体の座標
-	Vector2 pos{ m_info.m_transform->pos.x,m_info.m_transform->pos.z };
+	Vector2 pos{ m_info.m_transform.pos.x,m_info.m_transform.pos.z };
 	Vector2 target = taget_poition - pos;
 
 	// ターゲットとの距離が見えるようにしている
@@ -65,25 +76,25 @@ void TargetMove::Update()
 		// その判断をするためにNPCの右方向のベクトルを作成
 	Vector2 right;
 	// NPCの右向きの：NPCの向き（m_rot）に90度たした方向
-	right.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
-	right.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
+	right.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform.rot.y + 90.0f));
+	right.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform.rot.y + 90.0f));
 
 	// 今作った右ベクトルとプレイヤーまでのベクトルの２つのベクトルの内積を取得
 	float right_dot = GetVector2Dot(right, target);
 
 	// この内積の値がプラスだったらプレイヤーはNPCからみて右にいる
 	if (right_dot > 0.0f) {
-		m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
+		m_info.m_transform.rot.y += m_info.M_ROT_SPEED;
 	}
 	// マイナスだった場合は左に回転
 	if (right_dot < 0.0f) {
-		m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
+		m_info.m_transform.rot.y -= m_info.M_ROT_SPEED;
 	}
 
 
 	// 向いている方向
-	m_info.m_transform->pos.x += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform->rot.y));
-	m_info.m_transform->pos.z += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));
+	m_info.m_transform.pos.x += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform.rot.y));
+	m_info.m_transform.pos.z += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform.rot.y));
 	/*}*/
 }
 

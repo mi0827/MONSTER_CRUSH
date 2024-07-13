@@ -32,7 +32,7 @@ public:
 	struct TargetInformation
 	{
 		//! ターゲットの座標を入れる変数
-		Vector3* m_target;
+		Vector3 m_target;
 		//! ターゲットの半径を入れる変数
 		float m_target_hit_r;
 	};
@@ -44,11 +44,14 @@ public:
 	//=========================================================================
 
 	//! @ターゲットの設定
-	//! @param 自身の座標
+	//! @param 自身の情報
 	//! @param 円の半径
+	void SetInfo(Transform* transform, const float hit_r);
+
+	//! @ターゲットの情報を設定
 	//! @param ターゲットの座標
-	//! @param ターゲットの半径
-	void SetInfo(Information* info, TargetInformation* targetinfo);
+	//! @param 円の半径
+	void SetTargetInfo(Vector3* taregt_pos, const float target_hit_r);
 
 	//! @brief 移動全体の更新処理
 	//! @param このクラスを使って移動する本体のtransform

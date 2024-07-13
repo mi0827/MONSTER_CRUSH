@@ -29,14 +29,15 @@ MonsterBase::~MonsterBase()
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit(Vector3 target_pos,float m_target_hit_r)
+void MonsterBase::BaseInit(Vector3* target_pos, const float m_target_hit_r)
 {
+	// 移動の際のターゲットのの設定
+	move.SetTargetInfo(target_pos, m_target_hit_r);
 
-	//引数の型が合わないから一つ一つ引数で渡してsetInfoの中で構造体の中に入れる
-	// 引数を受け取るところは考え中
-	//
 
-	move.SetInfo(m_info, &targetinfo);
+	// 自身の情報を設定
+	move.SetInfo(&);
+
 }
 
 //---------------------------------------------------------------------------

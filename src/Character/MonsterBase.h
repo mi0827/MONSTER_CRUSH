@@ -33,10 +33,10 @@ public:
 	virtual void CDUpdate() = 0;
 
 	//! @brief ベースクラスでの初期処理
-	void BaseInit();
+	void BaseInit(Vector3* target_pos, const  float m_target_hit_r);
 
 	//! @brief ベースクラスの更新処理
-	
+
 	void BaseUpdate();
 
 	//! @brief キャラの壁擦り判定用の関数
@@ -50,29 +50,15 @@ public:
 	//! クラスのオブジェクトを定義
 	//-----------------------------------------------
 
-	struct Information
-	{
+
 		//! 自身の情報を入れる変数
-		Transform m_transform;
-		//! 自身の半径を入れる用の変数
-		float m_hit_r;
-		//! 自身の移動スピード
-		float M_MOV_SPEED;
-		//! 自身回転速度
-		float M_ROT_SPEED;
-	};
-	Information* m_info;
-
-	
-	struct TargetInformation
-	{
-		//! ターゲットの座標を入れる変数
-		Vector3* m_target;
-		//! ターゲットの半径を入れる変数
-		float m_target_hit_r;
-	};
-	TargetInformation targetinfo;
-
+	Transform m_transform;
+	//! 自身の半径を入れる用の変数
+	float m_hit_r;
+	//! 自身の移動スピード
+	float M_MOV_SPEED;
+	//! 自身回転速度
+	float M_ROT_SPEED;
 
 	TargetMove move;
 	Spotlight spot_light;
