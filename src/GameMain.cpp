@@ -148,7 +148,7 @@ void GameUpdate()
 	player.Update(&camera.m_rot);
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	monster.Update(&player.m_transform.pos, player.m_hit_r);
+	monster.Update(&player.m_transform, player.m_hit_r);
 
 	// カメラの更新処理
 	camera.Update(&player.m_transform.pos);
@@ -182,8 +182,8 @@ void GameDraw()
 	// 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
 	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
 	SetShadowMapDrawArea(player_shadowmap_hanndle,
-		VGet(player.m_transform.pos.x - 100.0f, -0.1f, player.m_transform.pos.z -100.0f),
-		VGet(player.m_transform.pos.x +100.0f, +1000.0f, player.m_transform.pos.z +100.0f));
+		VGet(player.m_transform.pos.x - 100.0f, -0.1f, player.m_transform.pos.z - 100.0f),
+		VGet(player.m_transform.pos.x + 100.0f, +1000.0f, player.m_transform.pos.z + 100.0f));
 
 
 	// 仮ボックスの描画
@@ -206,7 +206,7 @@ void GameDraw()
 		MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
 		MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
 		MV1DrawModel(ground); // モデルの描画
-		
+
 		// モンスターの描画
 		monster.Draw();
 	}
@@ -238,7 +238,7 @@ void GameDraw()
 		MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
 		MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
 		MV1DrawModel(ground); // モデルの描画
-		
+
 		// モンスターの描画
 		monster.Draw();
 	}
@@ -246,9 +246,6 @@ void GameDraw()
 	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(1, -1);
 	SetUseShadowMap(0, -1);
-
-
-
 }
 
 // 終了処理

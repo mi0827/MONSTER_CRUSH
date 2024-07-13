@@ -29,7 +29,7 @@ MonsterBase::~MonsterBase()
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit(Vector3* target_pos, const float m_target_hit_r)
+void MonsterBase::BaseInit(Transform* target_pos, const float m_target_hit_r)
 {
 	// 移動の際のターゲットのの設定
 	move.SetTargetInfo(target_pos, m_target_hit_r);

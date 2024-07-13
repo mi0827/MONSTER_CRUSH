@@ -27,6 +27,8 @@ SamplePlayer::SamplePlayer()
 	m_idle_flag = true;
 	// 最初はアイドル状態にしておく
 	m_player_mode = IDLE;
+	// モデルのスケールの設定
+	m_transform.scale.set(0.1f,0.1,0.1);
 }
 
 
@@ -44,7 +46,7 @@ SamplePlayer::~SamplePlayer()
 //-----------------------------------------------
 void SamplePlayer::Init()
 {
-	
+
 	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit(PLAYER_R);
 	// モデル画像の読み込み
@@ -52,7 +54,7 @@ void SamplePlayer::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-	
+
 }
 
 //-----------------------------------------------
@@ -61,7 +63,7 @@ void SamplePlayer::Init()
 void SamplePlayer::Update(Vector3* camera_rot)
 {
 	clsDx();
-	
+
 	// 待機状態または走りの時だけｗ
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true)
@@ -164,7 +166,7 @@ void SamplePlayer::CDUpdate()
 
 	// 右手のあたり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 10);
-	m_right_hand.NodoSetSize(&m_model,9, 1.0f);
+	m_right_hand.NodoSetSize(&m_model, 9, 1.0f);
 
 }
 
@@ -340,14 +342,14 @@ void SamplePlayer::Combo_Update()
 	// コンボフラグが上がっているとき
 	if (m_combo_flag)
 	{
-		
+
 		// 今のアニメーション番号から一つ次のアニメーション
 		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
 		{
 			m_next_anim = attack_kick_1 + m_combo_count;
 		}
-		if(m_mouse_flag == MOUSE_INPUT_LEFT)
-		{	
+		if (m_mouse_flag == MOUSE_INPUT_LEFT)
+		{
 			m_next_anim = attack_1 + m_combo_count;
 		}
 		// コンボがアニメーションの最大と同じになったら

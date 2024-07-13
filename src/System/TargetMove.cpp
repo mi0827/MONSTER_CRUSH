@@ -19,7 +19,7 @@ TargetMove::~TargetMove()
 //---------------------------------------------------------------------------
 // 情報をセットする用の関数
 //---------------------------------------------------------------------------
-void TargetMove::SetInfo(Transform* transform,const float hit_r, const float MOV_SPEED, const float ROT_SPEED)
+void TargetMove::SetInfo(Transform* transform, const float hit_r, const float MOV_SPEED, const float ROT_SPEED)
 {
 	// 自身の情報をセット
 	m_info.m_transform = transform;
@@ -34,10 +34,10 @@ void TargetMove::SetInfo(Transform* transform,const float hit_r, const float MOV
 //---------------------------------------------------------------------------
 // ターゲットの情報をセットする用の関数
 //---------------------------------------------------------------------------
-void TargetMove::SetTargetInfo(Vector3* target_pos, const float target_hit_r)
+void TargetMove::SetTargetInfo(Transform* target_pos, const float target_hit_r)
 {
 	// ターゲットの座標の設定
-	m_target_info.m_target = *target_pos;
+	m_target_info.m_target = target_pos;
 	// ターゲットの半径のせ設定
 	m_target_info.m_target_hit_r = target_hit_r;
 }
@@ -48,75 +48,94 @@ void TargetMove::SetTargetInfo(Vector3* target_pos, const float target_hit_r)
 //---------------------------------------------------------------------------
 void TargetMove::Update()
 {
+
+
 	// １個目のベクトル（本体前方向のベクトル）
-	Vector2 front;
-	front.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y));
-	front.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y));
+	Vector3 front = m_info.m_transform->pos - m_target_info.m_target->pos;
+	/*front.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y));
+	front.y = 1.0f;
+	front.z = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y));*/
 
-	// 2個目のベクトル（本体からターゲットがどっちの方向にいるかのベクトル）
-	// Vector3をいったん置き換える
-	// ターゲット座標
-	Vector2 taget_poition{ m_target_info.m_target.x,m_target_info.m_target.z };
-	// 本体の座標
-	Vector2 pos{ m_info.m_transform->pos.x,m_info.m_transform->pos.z };
-	Vector2 target = taget_poition - pos;
+	VECTOR rot = front.VGet();
 
-	// ターゲットとの距離が見えるようにしている
-	// 後で消す
-	printfDx("距離%3f", target);
+	MATRIX mat_y = MGetRotY(TO_RADIAN(m_info.m_transform->rot.y));
 
-	// このベクトルを正規化する（長さを 1.0f にする）
-	target.normalize();
+	
+
+	VECTOR change_dir = VTransform(rot, mat_y);
 
 
+	//// 2個目のベクトル（本体からターゲットがどっちの方向にいるかのベクトル）
+	//// Vector3をいったん置き換える
+	//// ターゲット座標
+	//Vector2 taget_poition{ m_target_info.m_target->pos.x,m_target_info.m_target->pos.z };
+	//// 本体の座標
+	//Vector2 pos{ m_info.m_transform->pos.x,m_info.m_transform->pos.z };
+	//Vector2 target = taget_poition - pos;
 
-	// 上で求めた２つのベクトル（front, target）の内積を取得します
-	float front_dot = GetVector2Dot(front, target);
+	//// ターゲットとの距離が見えるようにしている
+	//// 後で消す
+	//printfDx("距離%3f\n", target);
 
-	// この取得した内積の値がプラスだった場合、プレイヤーはNPCの前にいると判断します
-	//if (front_dot >= 0.0f) {
-		// プレイヤーの方向に向きを変える
-		// プレイヤーがNPCから見てみぎにいるのかを判断したい
-		// その判断をするためにNPCの右方向のベクトルを作成
-	Vector2 right;
-	// NPCの右向きの：NPCの向き（m_rot）に90度たした方向
-	right.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
-	right.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
+	//// このベクトルを正規化する（長さを 1.0f にする）
+	//target.normalize();
 
-	// 今作った右ベクトルとプレイヤーまでのベクトルの２つのベクトルの内積を取得
-	float right_dot = GetVector2Dot(right, target);
 
-	// この内積の値がプラスだったらプレイヤーはNPCからみて右にいる
-	if (right_dot > 0.0f) {
-		m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
+
+	//// 上で求めた２つのベクトル（front, target）の内積を取得します
+	//float front_dot = GetVector2Dot(front, target);
+
+	//
+	//Vector2 right;
+	//// NPCの右向きの：NPCの向き（m_rot）に90度たした方向
+	//right.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
+	//right.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
+	//
+	//// 今作った右ベクトルとプレイヤーまでのベクトルの２つのベクトルの内積を取得
+	//float right_dot = GetVector2Dot(right, target);
+
+	// プレイヤーと一定の距離に入ったかを受け取る
+	bool hit = Target_Hit();
+	// 範囲に入っていないとき
+	if (hit)
+	{
+		//// この内積の値がプラスだったらプレイヤーはNPCからみて右にいる
+		//if (right_dot > 0.0f) {
+		//	m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
+		//}
+		//// マイナスだった場合は左に回転
+		//if (right_dot < 0.0f) {
+		//	m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
+		//}
+
+
+		// 向いている方向
+		m_info.m_transform->pos.x += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform->rot.y));
+		m_info.m_transform->pos.z += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));
+		/*}*/
+
 	}
-	// マイナスだった場合は左に回転
-	if (right_dot < 0.0f) {
-		m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
-	}
-
-
-	// 向いている方向
-	m_info.m_transform->pos.x += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform->rot.y));
-	m_info.m_transform->pos.z += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));
-	/*}*/
 }
 
-bool TargetMove::Move_Hit()
+
+//---------------------------------------------------------------------------
+// ターゲットと一定の距離に入ったかを返す関数
+//---------------------------------------------------------------------------
+bool TargetMove::Target_Hit()
 {
 	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
-	// １：プレイヤーとNPCの距離を求める
-	float distance = GetVector3Distance(m_info.m_transform->pos, m_target_info.m_target);
-	// ２：基準の距離を求める（それぞれの半径）
+	// 本体とターゲットの距離を求める
+	float distance = GetVector3Distance(m_info.m_transform->pos, m_target_info.m_target->pos);
+	// 基準の距離を求める（それぞれの半径）
 	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r;
 
-	// ３：２キャラの距離が基準の長さよりも短かったら
+	// 設定された値より近づいたら
 	if (distance < radius) {
+
 		//// 4：どれくらい中に入っているか（この長さ分だけ円が重なっている
 		//float in_lengef = radius - distance;
 		//// ５：どのずらすか
 		//Vector3 dir = m_info.m_transform->pos - m_target_info.m_target;
-
 		//// ６：このベクトルの長さを中に入っていいる長さに半分にします
 		//dir.SetLength(in_lengef);
 		//// 7：この分だけプレイヤー座標を移動させる
@@ -125,9 +144,6 @@ bool TargetMove::Move_Hit()
 		//npc.m_pos -= dir;
 		return false;
 	}
+	// まだ範囲外の時は移動ができるようにしておく
 	return true;
-}
-
-void TargetMove::Target_Hit()
-{
 }

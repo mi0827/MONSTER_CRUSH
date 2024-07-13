@@ -41,7 +41,7 @@ void Model::DrawModel(Transform *transform)
 {
 	// モデルのサイズの調整
 	m_transform = *transform;
-	m_transform.scale.set(0.1f, 0.1f, 0.1f);
+	//m_transform.scale.set(0.1f, 0.1f, 0.1f);
 	//m_transform.scale.set(1.0f, 1.0f, 1.0f);
 
 	MV1SetPosition(m_model, VGet(m_transform.pos.x, m_transform.pos.y, m_transform.pos.z)); // 描画するプレイヤーモデルの座標の設定

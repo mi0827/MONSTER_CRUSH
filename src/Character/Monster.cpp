@@ -30,7 +30,8 @@ Monster::Monster()
 
 	// 初期座標の設定
 	m_transform.pos.set(50.0f, 0.0f, 50.0f);
-
+	// モデルのスケールの設定
+	m_transform.scale.set(0.2f, 0.2f, 0.2f);
 }
 
 
@@ -58,7 +59,7 @@ void Monster::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Monster::Update(Vector3* traget_pos, float target_r)
+void Monster::Update(Transform* traget_pos, float target_r)
 {
 	clsDx();
 	

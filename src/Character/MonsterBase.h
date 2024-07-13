@@ -25,7 +25,7 @@ public:
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 更新処理
-	virtual void Update(Vector3* traget_pos, float traget_r) = 0;
+	virtual void Update(Transform* traget_pos, float traget_r) = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
 
@@ -33,7 +33,7 @@ public:
 	virtual void CDUpdate() = 0;
 
 	//! @brief ベースクラスでの初期処理
-	void BaseInit(Vector3* target_pos, const  float m_target_hit_r);
+	void BaseInit(Transform* target_pos, const  float m_target_hit_r);
 
 	//! @brief ベースクラスの更新処理
 
@@ -47,19 +47,26 @@ public:
 	//void MoveHitUpdate(Vector3* monster_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box);
 public:
 	//-----------------------------------------------
-	//! クラスのオブジェクトを定義
+	//! クラスのオブジェクトを宣言
 	//-----------------------------------------------
 
 
-		//! 自身の情報を入れる変数
+    //! 自身の情報を入れる変数
 	Transform m_transform;
+	// 移動に使うクラス
+	TargetMove move;
+
+	
+	//-----------------------------------------------
+	//! 変数を宣言
+	//-----------------------------------------------
+
 	//! 自身の半径を入れる用の変数
-	float m_hit_r;
+	float m_hit_r = 10.0f;
 	//! 自身の移動スピード
 	static constexpr float M_MOV_SPEED = 1.0f;
 	//! 自身回転速度
-	static constexpr float M_ROT_SPEED = 5.0f;
+	static constexpr float M_ROT_SPEED = 20.0f;
 
-	TargetMove move;
-	Spotlight spot_light;
+	
 };
