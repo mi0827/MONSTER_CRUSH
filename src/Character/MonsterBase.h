@@ -21,11 +21,11 @@ public:
 	//! 純粋仮想関数
 	//! @brief 初期処理
 	//! //! @param 移動の際のターゲット座標
-	virtual void Init(Vector3* traget_pos) = 0;
+	virtual void Init() = 0;
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 更新処理
-	virtual void Update() = 0;
+	virtual void Update(Vector3* traget_pos, float traget_r) = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
 
@@ -56,9 +56,9 @@ public:
 	//! 自身の半径を入れる用の変数
 	float m_hit_r;
 	//! 自身の移動スピード
-	float M_MOV_SPEED;
+	static constexpr float M_MOV_SPEED = 1.0f;
 	//! 自身回転速度
-	float M_ROT_SPEED;
+	static constexpr float M_ROT_SPEED = 5.0f;
 
 	TargetMove move;
 	Spotlight spot_light;

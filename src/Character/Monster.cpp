@@ -27,10 +27,10 @@ Monster::Monster()
 	m_idle_flag = true;
 	// 最初はアイドル状態にしておく
 	m_player_mode = IDLE;
-	
+
 	// 初期座標の設定
-	m_info.m_transform.pos.set(50.0f, 0.0f, 50.0f);
-	
+	m_transform.pos.set(50.0f, 0.0f, 50.0f);
+
 }
 
 
@@ -44,9 +44,9 @@ Monster::~Monster()
 //-----------------------------------------------
 // 初期化処理
 //-----------------------------------------------
-void Monster::Init(Vector3* traget_pos)
+void Monster::Init()
 {
-	MonsterBase::BaseInit();
+	
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Monster/Monster.mv1");
 	// アニメーションの初期設定
@@ -58,9 +58,11 @@ void Monster::Init(Vector3* traget_pos)
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Monster::Update()
+void Monster::Update(Vector3* traget_pos, float target_r)
 {
 	clsDx();
+	
+	MonsterBase::BaseInit(traget_pos, target_r);
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理
@@ -68,7 +70,7 @@ void Monster::Update()
 	{
 		Move_Update();
 	}
-	
+
 	switch (m_player_mode)
 	{
 	case IDLE:
@@ -139,7 +141,7 @@ void Monster::Draw()
 	m_right_hand.Draw();
 
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
-	m_model.DrawModel(&m_info.m_transform);
+	m_model.DrawModel(&m_transform);
 }
 
 //-----------------------------------------------
@@ -155,7 +157,7 @@ void Monster::Exit()
 void Monster::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateCapsule( m_info.m_transform.pos);
+	m_body.CreateCapsule(m_transform.pos);
 	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
 
 	// 右手のあたり判定
@@ -187,7 +189,7 @@ void Monster::Move_Update()
 	m_run_flag = false;
 
 	// 移動前の座標一旦保存しておく
-	m_before_pos = m_info.m_transform.pos;
+	m_before_pos = m_transform.pos;
 
 	//// ベースクラスの更新処理
 	//// 移動の処理が中に入っている

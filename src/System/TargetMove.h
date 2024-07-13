@@ -19,7 +19,7 @@ public:
 	struct Information
 	{
 		//! 自身の情報を入れる変数
-		Transform m_transform;
+		Transform* m_transform;
 		//! 自身の半径を入れる用の変数
 		float m_hit_r;
 		//! 自身の移動スピード
@@ -46,7 +46,7 @@ public:
 	//! @ターゲットの設定
 	//! @param 自身の情報
 	//! @param 円の半径
-	void SetInfo(Transform* transform, const float hit_r);
+	void SetInfo(Transform* transform, const float hit_r ,const float MOV_SPEED,const float ROT_SPEED);
 
 	//! @ターゲットの情報を設定
 	//! @param ターゲットの座標
@@ -61,13 +61,8 @@ public:
 
 	//!
 	//! @fn
-	//! @brief 移動に関する当たり判定用の関数
-	//! @param 自分 (キャラ) の座標(今の座標)
-	//! @param 自分（キャラ）の座標(当たり判定前の)
-	//! @param 自分（キャラ）の当たり判定のサイズ（中心から見たサイズ）
-	//! @param 当たり判定をとりたいボックスの情報
-	//! @detail 移動の壁擦り用関数
-	void Move_Hit(Vector3* pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box);
+	//! @brief プレイヤーの当たり判定用の関数
+	void Move_Hit();
 
 
 	//! @brief ターゲットとの距離によって移動をやめるための関数

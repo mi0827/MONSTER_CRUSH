@@ -81,7 +81,7 @@ void GameInit()
 	// プレイヤーの初期処理
 	player.Init();
 	// モンスターの初期処理
-	monster.Init(&player.m_transform.pos);
+	monster.Init();
 
 	// 地面モデルのも見込み
 	ground = MV1LoadModel("Data/ground.mqoz");
@@ -148,7 +148,7 @@ void GameUpdate()
 	player.Update(&camera.m_rot);
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	monster.Update();
+	monster.Update(&player.m_transform.pos, player.m_hit_r);
 
 	// カメラの更新処理
 	camera.Update(&player.m_transform.pos);

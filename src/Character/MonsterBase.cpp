@@ -36,7 +36,7 @@ void MonsterBase::BaseInit(Vector3* target_pos, const float m_target_hit_r)
 
 
 	// ©g‚Ìî•ñ‚ğİ’è
-	move.SetInfo(&);
+	move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 
 }
 

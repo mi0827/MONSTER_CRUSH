@@ -34,10 +34,12 @@ void CharacterBase::MoveHitUpdate(Vector3* player_pos, Vector3* before_pos, Vect
 //---------------------------------------------------------------------------
 // ベースクラスでの初期処理
 //---------------------------------------------------------------------------
-void CharacterBase::BaseInit()
+void CharacterBase::BaseInit(float r)
 {
 	// 座標、向き、回転の初期化
 	m_transform.pos.clear();
+	// 当たり判定の半径の設定
+	m_hit_r = r;
 }
 
 //---------------------------------------------------------------------------

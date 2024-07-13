@@ -56,10 +56,11 @@ public:
 
 	//! 継承先からの関数のオーバーライド
 	//! @brief 初期処理
-	void Init(Vector3* traget_pos)override;
+	void Init()override;
 	//! @brief 更新処理
-	//! @param プレイヤーキャラの座標
-	void Update() override;
+	//! @param 移動の時のターゲットの座標
+	//! @param ターゲットの半径
+	void Update(Vector3* traget_pos,float target_r) override;
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理
