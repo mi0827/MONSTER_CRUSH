@@ -53,7 +53,7 @@ void TargetMove::Update()
 
 	// 基準のベクトル作成
 	// ｚの値をいじると振り向きのがたがたがましになる
-	Vector3 base(0.0f, 0.0f, 10.0f);
+	Vector3 base(0.0f, 0.0f, 50.0f);
 	// 線の本体の向きに合わせたいので回転行列を作成
 	MATRIX mat = MGetRotY(TO_RADIAN(m_info.m_transform->rot.y));
 	// 上で作成した基準のベクトルを行列で変換

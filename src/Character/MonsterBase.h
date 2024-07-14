@@ -66,7 +66,7 @@ public:
 	//! 自身の移動スピード
 	static constexpr float M_MOV_SPEED = 1.0f;
 	//! 自身回転速度
-	static constexpr float M_ROT_SPEED = 20.0f;
+	static constexpr float M_ROT_SPEED = 5.0f;
 
 	
 };

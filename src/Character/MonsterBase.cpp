@@ -33,8 +33,6 @@ void MonsterBase::BaseInit(Transform* target_pos, const float m_target_hit_r)
 {
 	// 移動の際のターゲットのの設定
 	move.SetTargetInfo(target_pos, m_target_hit_r);
-
-
 	// 自身の情報を設定
 	move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 
