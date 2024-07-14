@@ -48,72 +48,69 @@ void TargetMove::SetTargetInfo(Transform* target_pos, const float target_hit_r)
 //---------------------------------------------------------------------------
 void TargetMove::Update()
 {
+	// ラインのスタート位置を本体の位置に設定する
+	m_line_start.set(m_info.m_transform->pos);
 
+	// 基準のベクトル作成
+	// ｚの値をいじると振り向きのがたがたがましになる
+	Vector3 base(0.0f, 0.0f, 10.0f);
+	// 線の本体の向きに合わせたいので回転行列を作成
+	MATRIX mat = MGetRotY(TO_RADIAN(m_info.m_transform->rot.y));
+	// 上で作成した基準のベクトルを行列で変換
+	Vector3 change = GetVector3VTransform(base, mat);
+	// ゴール座標は開始座標から変更したベクトル文先のとこ
+	m_line_goal = m_line_start + change;
 
-	// １個目のベクトル（本体前方向のベクトル）
-	Vector3 front = m_info.m_transform->pos - m_target_info.m_target->pos;
-	/*front.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y));
-	front.y = 1.0f;
-	front.z = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y));*/
+	// スタート座標とゴール座標が確定したので開始座標かそれぞれのベクトルを作成
+	// 線の開始座標からゴール座標へのベクトル
+	Vector3 line_dir = m_line_goal - m_line_start;
+	line_dir.y = 0;
+	// 線の開始座標からプレイヤー座標へのベクトル
+	Vector3 target_dir = m_target_info.m_target->pos - m_line_start;
+	target_dir.y = 0;
+	// 外積を使った判断をしたいので上で作った２つのベクトルの外積を求めます
+	Vector3 cross = GetVector3Cross(line_dir, target_dir);
 
-	VECTOR rot = front.VGet();
+	// ターゲットの場所のほうを向く
+	// 一定の範囲に入ったら振り向きをやめる
+	if (cross.y > RANGE) {
+		// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
+		
+		m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
+	}
+	else
+		if (cross.y < -RANGE)
+		{
+			// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
+			m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
+		}
+		else {
+			// 振り向きをやめる
+			m_info.m_transform->rot.y -= 0.0f;
+		}
 
-	MATRIX mat_y = MGetRotY(TO_RADIAN(m_info.m_transform->rot.y));
+	// 上で作成したラインを見えるようにする
+	{
+		// そのままの座標だと線が地面に埋まってしまうのですこしあげています
+		Vector3 start = m_line_start + Vector3(0.0f, 0.1f, 0.0f);
+		Vector3 goal = m_line_goal + Vector3(0.0f, 0.1f, 0.0f);
+		// 開始座標とゴール座標を結んで線の描画
+		DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
 
-	
-
-	VECTOR change_dir = VTransform(rot, mat_y);
-
-
-	//// 2個目のベクトル（本体からターゲットがどっちの方向にいるかのベクトル）
-	//// Vector3をいったん置き換える
-	//// ターゲット座標
-	//Vector2 taget_poition{ m_target_info.m_target->pos.x,m_target_info.m_target->pos.z };
-	//// 本体の座標
-	//Vector2 pos{ m_info.m_transform->pos.x,m_info.m_transform->pos.z };
-	//Vector2 target = taget_poition - pos;
-
-	//// ターゲットとの距離が見えるようにしている
-	//// 後で消す
-	//printfDx("距離%3f\n", target);
-
-	//// このベクトルを正規化する（長さを 1.0f にする）
-	//target.normalize();
-
-
-
-	//// 上で求めた２つのベクトル（front, target）の内積を取得します
-	//float front_dot = GetVector2Dot(front, target);
-
-	//
-	//Vector2 right;
-	//// NPCの右向きの：NPCの向き（m_rot）に90度たした方向
-	//right.x = 1.0f * cosf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
-	//right.y = 1.0f * sinf(TO_RADIAN(m_info.m_transform->rot.y + 90.0f));
-	//
-	//// 今作った右ベクトルとプレイヤーまでのベクトルの２つのベクトルの内積を取得
-	//float right_dot = GetVector2Dot(right, target);
+		// 開始座標の場所とくろいたま
+		DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		// ゴール座標の黄色い玉
+		DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
+	}
 
 	// プレイヤーと一定の距離に入ったかを受け取る
 	bool hit = Target_Hit();
 	// 範囲に入っていないとき
 	if (hit)
 	{
-		//// この内積の値がプラスだったらプレイヤーはNPCからみて右にいる
-		//if (right_dot > 0.0f) {
-		//	m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
-		//}
-		//// マイナスだった場合は左に回転
-		//if (right_dot < 0.0f) {
-		//	m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
-		//}
-
-
-		// 向いている方向
-		m_info.m_transform->pos.x += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform->rot.y));
-		m_info.m_transform->pos.z += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));
-		/*}*/
-
+		// 向いている方向に移動
+		m_info.m_transform->pos.x += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));
+		m_info.m_transform->pos.z += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform->rot.y));
 	}
 }
 
@@ -131,17 +128,6 @@ bool TargetMove::Target_Hit()
 
 	// 設定された値より近づいたら
 	if (distance < radius) {
-
-		//// 4：どれくらい中に入っているか（この長さ分だけ円が重なっている
-		//float in_lengef = radius - distance;
-		//// ５：どのずらすか
-		//Vector3 dir = m_info.m_transform->pos - m_target_info.m_target;
-		//// ６：このベクトルの長さを中に入っていいる長さに半分にします
-		//dir.SetLength(in_lengef);
-		//// 7：この分だけプレイヤー座標を移動させる
-		//player.m_pos += dir;
-		//// ７：NPCはその逆方向に座標を移動させる
-		//npc.m_pos -= dir;
 		return false;
 	}
 	// まだ範囲外の時は移動ができるようにしておく

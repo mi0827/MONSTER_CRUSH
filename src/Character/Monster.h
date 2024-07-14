@@ -12,7 +12,7 @@ public:
 	// �萔�̐錾
 	//=========================================================================
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f;
-	static constexpr float MONSTER_ROT_SPEED = 5.0f;
+	static constexpr float MONSTER_ROT_SPEED = 0.5f;
 
 	//=========================================================================
 	// �񋓑̂̐錾
