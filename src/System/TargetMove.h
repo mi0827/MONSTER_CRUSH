@@ -28,10 +28,8 @@ public:
 	void SetTargetInfo(Transform* taregt_pos, const float target_hit_r);
 
 	//! @brief 移動全体の更新処理
-	//! @param このクラスを使って移動する本体のtransform
-	//! @param 移動スピード
-	//! @param 振り向き速度
-	void Update();
+	//! @param 移動中かそうでないかのフラグ
+	void Update(bool* run_flag);
 
 	//! @brief ターゲットと一定の距離に入ったかを返す関数
 	bool Target_Hit();
@@ -53,7 +51,6 @@ private:
 		//! 自身回転速度
 		float M_ROT_SPEED;
 	};
-
 
 	struct TargetInformation
 	{
@@ -79,6 +76,7 @@ private:
 	//=========================================================================
 	// 定数の宣言
 	//=========================================================================
-	static constexpr int RANGE = 200;
+
+	static constexpr int RANGE = 500;
 
 };

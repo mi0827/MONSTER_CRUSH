@@ -41,10 +41,10 @@ void MonsterBase::BaseInit(Transform* target_pos, const float m_target_hit_r)
 //---------------------------------------------------------------------------
 // ベースクラスの更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseUpdate()
+void MonsterBase::BaseUpdate(bool* run_flag)
 {
 	// 移動処理
-	move.Update();
+	move.Update(run_flag);
 }
 
 //---------------------------------------------------------------------------

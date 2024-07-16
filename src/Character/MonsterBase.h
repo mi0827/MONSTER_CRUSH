@@ -37,7 +37,7 @@ public:
 
 	//! @brief ベースクラスの更新処理
 
-	void BaseUpdate();
+	void BaseUpdate(bool* run_flag);
 
 	//! @brief キャラの壁擦り判定用の関数
 	//! @param キャラの座標

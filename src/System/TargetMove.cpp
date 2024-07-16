@@ -46,8 +46,9 @@ void TargetMove::SetTargetInfo(Transform* target_pos, const float target_hit_r)
 // 移動に関する更新処理用関数
 // Vector2 にｚ座標がないのでそこはｚ＝ｙとして使用している
 //---------------------------------------------------------------------------
-void TargetMove::Update()
+void TargetMove::Update(bool* run_flag)
 {
+
 	// ラインのスタート位置を本体の位置に設定する
 	m_line_start.set(m_info.m_transform->pos);
 
@@ -75,7 +76,6 @@ void TargetMove::Update()
 	// 一定の範囲に入ったら振り向きをやめる
 	if (cross.y > RANGE) {
 		// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
-		
 		m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
 	}
 	else
@@ -111,6 +111,9 @@ void TargetMove::Update()
 		// 向いている方向に移動
 		m_info.m_transform->pos.x += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));
 		m_info.m_transform->pos.z += m_info.M_MOV_SPEED * cosf(TO_RADIAN(m_info.m_transform->rot.y));
+		// 移動中なので
+		*run_flag = true;
+
 	}
 }
 

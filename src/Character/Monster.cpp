@@ -26,7 +26,7 @@ Monster::Monster()
 	// 最初はアイドル状態にしておく
 	m_idle_flag = true;
 	// 最初はアイドル状態にしておく
-	m_player_mode = IDLE;
+	m_monster_mode = IDLE;
 
 	// 初期座標の設定
 	m_transform.pos.set(50.0f, 0.0f, 50.0f);
@@ -47,13 +47,10 @@ Monster::~Monster()
 //-----------------------------------------------
 void Monster::Init()
 {
-	
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Monster/Monster.mv1");
 	// アニメーションの初期設定
 	Anima_Load_Init();
-
-
 }
 
 //-----------------------------------------------
@@ -72,7 +69,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		Move_Update();
 	}
 
-	switch (m_player_mode)
+	switch (m_monster_mode)
 	{
 	case IDLE:
 		if (m_idle_flag)
@@ -100,7 +97,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			m_idle_flag = true;
 			// アニメーション変更が行えるようにする
 			m_animation.m_anim_change_flag = true;
-			m_player_mode = IDLE;
+			m_monster_mode = IDLE;
 		}
 
 		// 最初の攻撃を判断する
@@ -115,7 +112,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		// 待機モードにしておく
 		if (m_combo_flag == false && m_animation.m_contexts[0].is_playering == false)
 		{
-			m_player_mode = IDLE;
+			m_monster_mode = IDLE;
 		}
 		// 攻撃用の関数
 		Attack_Update();
@@ -127,9 +124,6 @@ void Monster::Update(Transform* traget_pos, float target_r)
 	m_animation.Play_Animation(&m_model, m_combo_flag);
 	// あたり判定の更新処理
 	CDUpdate();
-
-	// フラグ管理用関数
-	Player_Mode(m_player_mode);
 }
 
 //-----------------------------------------------
@@ -175,7 +169,9 @@ void Monster::Anima_Load_Init()
 	// アニメーションの初期設定
 	m_animation.Init_Animation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.Load_Animation("Data/Model/Monster/Animation/jump.mv1", idle, 0, 1.0f); //!< アイドル
+	m_animation.Load_Animation("Data/Model/Monster/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
+	m_animation.Load_Animation("Data/Model/Monster/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
+	
 
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.Init_Attach_Animation(&m_model, idle, true);
@@ -194,11 +190,11 @@ void Monster::Move_Update()
 
 	//// ベースクラスの更新処理
 	//// 移動の処理が中に入っている
-	BaseUpdate();
+	BaseUpdate(&m_run_flag);
 
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時
-	if (m_run_flag && m_player_mode != RUN)
+	if (m_run_flag && m_monster_mode != RUN)
 	{
 		// アニメーションの切り替えフラグを上げる
 		m_animation.m_anim_change_flag = true;
@@ -210,7 +206,7 @@ void Monster::Move_Update()
 		m_animation.Change_Animation(&m_model, run, true);
 		// アニメーションが変わったから
 		// プレイヤーモードの切り替えをする
-		m_player_mode = RUN;
+		m_monster_mode = RUN;
 	}
 }
 
@@ -252,14 +248,14 @@ void Monster::Attack_First()
 	{
 		// attack_flag が上がってるときかつ
 		// プレイヤーモードがATTACK以外の時
-		if (m_attack_flag && m_player_mode != ATTACK)
+		if (m_attack_flag && m_monster_mode != ATTACK)
 		{
 			// アニメーションの切り替えフラグを上げる
 			m_animation.m_anim_change_flag = true;
 
 		}
 		// 攻撃モードにしておく
-		m_player_mode = ATTACK;
+		m_monster_mode = ATTACK;
 		m_animation.Change_Animation(&m_model, attack_1, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = attack_1;
@@ -274,14 +270,14 @@ void Monster::Attack_First()
 	{
 		// attack_flag が上がってるときかつ
 		// プレイヤーモードがATTACK以外の時
-		if (m_attack_flag && m_player_mode != ATTACK)
+		if (m_attack_flag && m_monster_mode != ATTACK)
 		{
 			// アニメーションの切り替えフラグを上げる
 			m_animation.m_anim_change_flag = true;
 
 		}
 		// 攻撃モードにしておく
-		m_player_mode = ATTACK;
+		m_monster_mode = ATTACK;
 		m_animation.Change_Animation(&m_model, attack_kick_1, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = attack_1;

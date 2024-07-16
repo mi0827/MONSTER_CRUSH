@@ -35,8 +35,8 @@ public:
 		anim_max //!< アニメーションの最大数
 	};
 
-	//! プレイヤーの状態
-	enum PlayerMode
+	//! モンスターの状態
+	enum MonsterMode
 	{
 		IDLE,      // 待機
 		RUN,       // 走り状態
@@ -100,7 +100,7 @@ public:
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! プレイヤーのモードを管理する変数
-	int m_player_mode = -1;
+	int m_monster_mode = -1;
 	//! 今のアニメーション番号を保存する用の変数
 	int m_now_attack_anim = -1;
 

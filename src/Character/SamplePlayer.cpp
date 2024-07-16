@@ -70,11 +70,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 	{
 		Move_Update(camera_rot);
 	}
-	printfDx("run:%d", m_run_flag);
-	printfDx("idle:%d", m_idle_flag);
-	printfDx("attack:%d", m_attack_flag);
-	printfDx("combo_flag:%d", m_combo_flag);
-	printfDx("combo_count:%d", m_combo_count);
+	
 	switch (m_player_mode)
 	{
 	case IDLE:
@@ -89,7 +85,6 @@ void SamplePlayer::Update(Vector3* camera_rot)
 
 			}
 		}
-
 		// Å‰‚ÌUŒ‚‚ğ”»’f‚·‚é
 		Attack_First();
 		break;
