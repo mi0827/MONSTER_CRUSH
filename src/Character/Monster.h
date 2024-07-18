@@ -25,12 +25,8 @@ public:
 		idle, //!< ‘Ò‹@
 		run, //!< ‘–‚è
 		attack_1,      //< UŒ‚‚P
-		attack_2,      //< UŒ‚‚Q
-		attack_3,      //< UŒ‚‚R
-		attack_kick_1, //< ƒLƒbƒNUŒ‚‚P
-		attack_kick_2, //< ƒLƒbƒNUŒ‚‚Q
-		attack_kick_3, //< ƒLƒbƒNUŒ‚‚R
-		jump,             //< ƒWƒƒƒ“ƒvƒAƒNƒVƒ‡ƒ“
+		rolling,          //!< ƒ[ƒŠƒ“ƒO
+		jump,           //< ƒWƒƒƒ“ƒvƒAƒNƒVƒ‡ƒ“
 
 		anim_max //!< ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‘å”
 	};

@@ -104,9 +104,9 @@ void TargetMove::Update(bool* run_flag)
 	}
 
 	// ƒvƒŒƒCƒ„[‚Æˆê’è‚Ì‹——£‚É“ü‚Á‚½‚©‚ðŽó‚¯Žæ‚é
-	bool hit = Target_Hit();
+	m_hit = Target_Hit();
 	// ”ÍˆÍ‚É“ü‚Á‚Ä‚¢‚È‚¢‚Æ‚«
-	if (hit)
+	if (m_hit)
 	{
 		// Œü‚¢‚Ä‚¢‚é•ûŒü‚ÉˆÚ“®
 		m_info.m_transform->pos.x += m_info.M_MOV_SPEED * sinf(TO_RADIAN(m_info.m_transform->rot.y));

@@ -40,6 +40,7 @@ Monster::Monster()
 //-----------------------------------------------
 Monster::~Monster()
 {
+	Exit();
 }
 
 //-----------------------------------------------
@@ -71,7 +72,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 
 	switch (m_monster_mode)
 	{
-	case IDLE:
+	case IDLE: // 停止状態 
 		if (m_idle_flag)
 		{
 			//Player_Mode(IDLE);
@@ -80,12 +81,20 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			{
 				// アニメーションを停止に変更する
 				m_animation.Change_Animation(&m_model, idle, true);
-
 			}
+			
+			// 移動が止まっていたら
+			if (!move.m_hit)
+			{
+				// 最初の攻撃を行う
+				// 攻撃フラグを上げる
+				m_attack_flag = true;
+				Attack_First();
+			}
+			
 		}
 
-		// 最初の攻撃を判断する
-		Attack_First();
+	
 		break;
 	case RUN:
 		// 待機フラグを毎回リセット
@@ -99,9 +108,8 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			m_animation.m_anim_change_flag = true;
 			m_monster_mode = IDLE;
 		}
-
-		// 最初の攻撃を判断する
-		Attack_First();
+	
+	
 
 		break;
 	case ATTACK:
@@ -171,8 +179,12 @@ void Monster::Anima_Load_Init()
 	// アニメーションの読み込み
 	m_animation.Load_Animation("Data/Model/Monster/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Monster/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
-	
 
+	// もっとモンスターっぽい攻撃を探してこい
+
+	m_animation.Load_Animation("Data/Model/Monster/Animation/Punch_1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
+	m_animation.Load_Animation("Data/Model/Monster/Animation/rolling.mv1", rolling, 0, 1.0f); //!< ローリング
+	m_animation.Load_Animation("Data/Model/Monster/Animation/jump.mv1", jump, 0, 1.0f); //!< ジャンプ
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.Init_Attach_Animation(&m_model, idle, true);
 }
@@ -211,41 +223,10 @@ void Monster::Move_Update()
 }
 
 //-----------------------------------------------
-// 終了処理
-//----------------------------------------------- 
-void Monster::Player_Mode(int mode)
-{
-	switch (mode)
-	{
-	case IDLE:
-		m_idle_flag = true;
-		m_run_flag = false;
-		m_attack_flag = false;
-		break;
-	case RUN:
-		m_idle_flag = false;
-		m_run_flag = true;
-		m_attack_flag = false;
-
-		break;
-	case ATTACK:
-
-		m_idle_flag = false;
-		m_run_flag = false;
-		m_attack_flag = true;
-		break;
-
-	}
-}
-
-//-----------------------------------------------
 // 最初の攻撃を判断する
 //-----------------------------------------------
 void Monster::Attack_First()
-{
-	// 指定のマウスボタンが押されたら
-	if (PushMouseInput(MOUSE_INPUT_LEFT) /*& MOUSE_INPUT_LEFT*/)
-	{
+{	
 		// attack_flag が上がってるときかつ
 		// プレイヤーモードがATTACK以外の時
 		if (m_attack_flag && m_monster_mode != ATTACK)
@@ -264,29 +245,6 @@ void Monster::Attack_First()
 		m_combo_count = 0;
 
 		m_stop_combo_flag = true;
-	}
-	// 指定のマウスボタンが押されたら
-	if (PushMouseInput(MOUSE_INPUT_RIGHT) /*& MOUSE_INPUT_LEFT*/)
-	{
-		// attack_flag が上がってるときかつ
-		// プレイヤーモードがATTACK以外の時
-		if (m_attack_flag && m_monster_mode != ATTACK)
-		{
-			// アニメーションの切り替えフラグを上げる
-			m_animation.m_anim_change_flag = true;
-
-		}
-		// 攻撃モードにしておく
-		m_monster_mode = ATTACK;
-		m_animation.Change_Animation(&m_model, attack_kick_1, false);
-		// 攻撃アニメーション番号の保存
-		m_now_attack_anim = attack_1;
-		// コンボの回数をリセット
-		m_combo_count = 0;
-
-		// コンボをしていいようにする
-		m_stop_combo_flag = true;
-	}
 }
 
 //-----------------------------------------------
@@ -307,56 +265,56 @@ void Monster::Attack_Update()
 //-----------------------------------------------
 void Monster::Combo_Update()
 {
-	// コンボ可能か判断用関数
-	m_combo.Combo_Judgment
-	(
-		&m_combo_flag,
-		&m_mouse_flag,
-		MOUSE_INPUT_LEFT,
-		m_animation.m_contexts[0].play_time,
-		m_animation.m_contexts[0].animation_total_time,
-		&m_combo_count
-	);
-	m_combo.Combo_Judgment
-	(
-		&m_combo_flag,
-		&m_mouse_flag,
-		MOUSE_INPUT_RIGHT,
-		m_animation.m_contexts[0].play_time,
-		m_animation.m_contexts[0].animation_total_time,
-		&m_combo_count
-	);
-	// コンボフラグが上がっているとき
-	if (m_combo_flag)
-	{
+	//// コンボ可能か判断用関数
+	//m_combo.Combo_Judgment
+	//(
+	//	&m_combo_flag,
+	//	&m_mouse_flag,
+	//	MOUSE_INPUT_LEFT,
+	//	m_animation.m_contexts[0].play_time,
+	//	m_animation.m_contexts[0].animation_total_time,
+	//	&m_combo_count
+	//);
+	//m_combo.Combo_Judgment
+	//(
+	//	&m_combo_flag,
+	//	&m_mouse_flag,
+	//	MOUSE_INPUT_RIGHT,
+	//	m_animation.m_contexts[0].play_time,
+	//	m_animation.m_contexts[0].animation_total_time,
+	//	&m_combo_count
+	//);
+	//// コンボフラグが上がっているとき
+	//if (m_combo_flag)
+	//{
 
-		// 今のアニメーション番号から一つ次のアニメーション
-		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
-		{
-			m_next_anim = attack_kick_1 + m_combo_count;
-		}
-		if (m_mouse_flag == MOUSE_INPUT_LEFT)
-		{
-			m_next_anim = attack_1 + m_combo_count;
-		}
-		// コンボがアニメーションの最大と同じになったら
-		if (m_combo_count >= COMBO_MAX)
-		{
-			// コンボをストップするようにする
-			m_stop_combo_flag = false;
-			// コンボフラグを下げる
-			m_combo_flag = false;
-			// コンボの回数をリセット
-			m_combo_count = 0;
-		}
+	//	// 今のアニメーション番号から一つ次のアニメーション
+	//	if (m_mouse_flag == MOUSE_INPUT_RIGHT)
+	//	{
+	//		m_next_anim = attack_kick_1 + m_combo_count;
+	//	}
+	//	if (m_mouse_flag == MOUSE_INPUT_LEFT)
+	//	{
+	//		m_next_anim = attack_1 + m_combo_count;
+	//	}
+	//	// コンボがアニメーションの最大と同じになったら
+	//	if (m_combo_count >= COMBO_MAX)
+	//	{
+	//		// コンボをストップするようにする
+	//		m_stop_combo_flag = false;
+	//		// コンボフラグを下げる
+	//		m_combo_flag = false;
+	//		// コンボの回数をリセット
+	//		m_combo_count = 0;
+	//	}
 
-		// コンボ用のアニメーションをつける
-		m_animation.Action_Change_Animation(&m_model, m_next_anim, false, &m_combo_flag);
+	//	// コンボ用のアニメーションをつける
+	//	m_animation.Action_Change_Animation(&m_model, m_next_anim, false, &m_combo_flag);
 
-		if (!m_combo_flag)
-		{
-			// 現在の攻撃アニメーションを保存
-			m_now_attack_anim = m_next_anim;
-		}
-	}
+	//	if (!m_combo_flag)
+	//	{
+	//		// 現在の攻撃アニメーションを保存
+	//		m_now_attack_anim = m_next_anim;
+	//	}
+	//}
 }

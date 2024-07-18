@@ -243,11 +243,11 @@ void GameDraw()
 		monster.Draw();
 	}
 
-	printfDx("run:%d", monster.m_run_flag);
-	printfDx("idle:%d", monster.m_idle_flag);
-	printfDx("attack:%d", monster.m_attack_flag);
-	printfDx("combo_flag:%d", monster.m_combo_flag);
-	printfDx("combo_count:%d", monster.m_combo_count);
+	printfDx("run:%d ", monster.m_run_flag);
+	printfDx("idle:%d ", monster.m_idle_flag);
+	printfDx("attack:%d ", monster.m_attack_flag);
+	printfDx("combo_flag:%d ", monster.m_combo_flag);
+	printfDx("combo_count:%d ", monster.m_combo_count);
 	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(1, -1);
 	SetUseShadowMap(0, -1);

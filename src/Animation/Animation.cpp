@@ -1,9 +1,8 @@
 #include "src/WinMain.h"
 #include "src/Model/Model.h"
 #include "Animation.h"
-
-
 using namespace std;
+
 //-----------------------------------------------
 // コンストラクタ
 //-----------------------------------------------
