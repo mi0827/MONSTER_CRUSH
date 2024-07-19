@@ -60,7 +60,7 @@ void Monster::Init()
 void Monster::Update(Transform* traget_pos, float target_r)
 {
 	clsDx();
-	
+
 	MonsterBase::BaseInit(traget_pos, target_r);
 
 	// 待機状態または走りの時だけｗ
@@ -82,7 +82,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				// アニメーションを停止に変更する
 				m_animation.Change_Animation(&m_model, idle, true);
 			}
-			
+
 			// 移動が止まっていたら
 			if (!move.m_hit)
 			{
@@ -91,10 +91,10 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				m_attack_flag = true;
 				Attack_First();
 			}
-			
+
 		}
 
-	
+
 		break;
 	case RUN:
 		// 待機フラグを毎回リセット
@@ -108,8 +108,8 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			m_animation.m_anim_change_flag = true;
 			m_monster_mode = IDLE;
 		}
-	
-	
+
+
 
 		break;
 	case ATTACK:
@@ -226,25 +226,23 @@ void Monster::Move_Update()
 // 最初の攻撃を判断する
 //-----------------------------------------------
 void Monster::Attack_First()
-{	
-		// attack_flag が上がってるときかつ
-		// プレイヤーモードがATTACK以外の時
-		if (m_attack_flag && m_monster_mode != ATTACK)
-		{
-			// アニメーションの切り替えフラグを上げる
-			m_animation.m_anim_change_flag = true;
+{
+	// attack_flag が上がってるときかつ
+	// プレイヤーモードがATTACK以外の時
+	if (m_attack_flag && m_monster_mode != ATTACK)
+	{
+		// アニメーションの切り替えフラグを上げる
+		m_animation.m_anim_change_flag = true;
 
-		}
-		// 攻撃モードにしておく
-		m_monster_mode = ATTACK;
-		m_animation.Change_Animation(&m_model, attack_1, false);
-		// 攻撃アニメーション番号の保存
-		m_now_attack_anim = attack_1;
+	}
+	// 攻撃モードにしておく
+	m_monster_mode = ATTACK;
+	m_animation.Change_Animation(&m_model, attack_1, false);
+	// 攻撃アニメーション番号の保存
+	m_now_attack_anim = attack_1;
 
-		// コンボの回数をリセット
-		m_combo_count = 0;
 
-		m_stop_combo_flag = true;
+	m_stop_combo_flag = true;
 }
 
 //-----------------------------------------------
@@ -265,56 +263,72 @@ void Monster::Attack_Update()
 //-----------------------------------------------
 void Monster::Combo_Update()
 {
-	//// コンボ可能か判断用関数
-	//m_combo.Combo_Judgment
-	//(
-	//	&m_combo_flag,
-	//	&m_mouse_flag,
-	//	MOUSE_INPUT_LEFT,
-	//	m_animation.m_contexts[0].play_time,
-	//	m_animation.m_contexts[0].animation_total_time,
-	//	&m_combo_count
-	//);
-	//m_combo.Combo_Judgment
-	//(
-	//	&m_combo_flag,
-	//	&m_mouse_flag,
-	//	MOUSE_INPUT_RIGHT,
-	//	m_animation.m_contexts[0].play_time,
-	//	m_animation.m_contexts[0].animation_total_time,
-	//	&m_combo_count
-	//);
-	//// コンボフラグが上がっているとき
-	//if (m_combo_flag)
-	//{
+	// コンボを行っていい状態なのはかを保存する変数
+	bool combo_jug;
+	// TargetMoveがターゲットと接しているそうでないかで変わる
+	// 接していず移動可能状態になれば
+	if (move.m_hit)
+	{
+		// コンボをできる状態でない
+		combo_jug = false;
+	}
+	// 接していて止まっている場合
+	if (!move.m_hit)
+	{
+		// コンボできる状態
+		combo_jug = true;
+	}
 
-	//	// 今のアニメーション番号から一つ次のアニメーション
-	//	if (m_mouse_flag == MOUSE_INPUT_RIGHT)
-	//	{
-	//		m_next_anim = attack_kick_1 + m_combo_count;
-	//	}
-	//	if (m_mouse_flag == MOUSE_INPUT_LEFT)
-	//	{
-	//		m_next_anim = attack_1 + m_combo_count;
-	//	}
-	//	// コンボがアニメーションの最大と同じになったら
-	//	if (m_combo_count >= COMBO_MAX)
-	//	{
-	//		// コンボをストップするようにする
-	//		m_stop_combo_flag = false;
-	//		// コンボフラグを下げる
-	//		m_combo_flag = false;
-	//		// コンボの回数をリセット
-	//		m_combo_count = 0;
-	//	}
+	// コンボ可能か判断用関数
+	m_combo.Combo_Judgment_Condition
+	(
+		&m_combo_flag,
+		combo_jug,
+		m_animation.m_contexts[0].play_time,
+		m_animation.m_contexts[0].animation_total_time
 
-	//	// コンボ用のアニメーションをつける
-	//	m_animation.Action_Change_Animation(&m_model, m_next_anim, false, &m_combo_flag);
+	);
 
-	//	if (!m_combo_flag)
-	//	{
-	//		// 現在の攻撃アニメーションを保存
-	//		m_now_attack_anim = m_next_anim;
-	//	}
-	//}
+	// コンボフラグが上がっているとき
+	if (m_combo_flag)
+	{
+		m_next_anim = Set_Rand_Attack();
+
+		// コンボ用のアニメーションをつける
+		m_animation.Action_Change_Animation(&m_model, m_next_anim, false, &m_combo_flag);
+
+		if (!m_combo_flag)
+		{
+			// 現在の攻撃アニメーションを保存
+			m_now_attack_anim = m_next_anim;
+		}
+	}
+}
+
+
+//-----------------------------------------------
+// 行いたいアニメーションをランダムで選ぶための関数
+//-----------------------------------------------
+int Monster::Set_Rand_Attack()
+{
+	// 次に行ってほしいアニメーションを入れる変数
+	int next_anim = 0;
+
+	// アニメーションが決まる名で無限ループ
+	while (true)
+	{
+		// 次のアニメーションをランダムで入れる
+		// 攻撃アニメーションスタートから攻撃アニメーションの最大までで
+		next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
+		// 次に行いたいアニメーションと今のアニメーションがかぶったら
+		if (next_anim == m_now_attack_anim)
+		{
+			// またランダムで入れなおす
+			next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
+		}
+		break;
+	}
+
+	// 次に行ってほしい攻撃アニメーションを返す
+	return next_anim;
 }

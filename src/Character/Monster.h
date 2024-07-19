@@ -23,20 +23,26 @@ public:
 	enum Animation_Max
 	{
 		idle, //!< 待機
-		run, //!< 走り
-		attack_1,      //< 攻撃１
-		rolling,          //!< ローリング
-		jump,           //< ジャンプアクション
+		run,  //!< 走り
+		attack_1, //!< 攻撃１
+		rolling,  //!< ローリング
+		jump,     //!< ジャンプアクション
 
 		anim_max //!< アニメーションの最大数
 	};
 
+	//! 攻撃アニメーションの一番最初
+	static constexpr int ATTACK_ANIM_START = attack_1;
+	//! 攻撃アニメーション最大値
+	static constexpr int ATTACK_ANIM_MAX = jump - ATTACK_ANIM_START;
+
+
 	//! モンスターの状態
 	enum MonsterMode
 	{
-		IDLE,      // 待機
-		RUN,       // 走り状態
-		ATTACK,    // 攻撃
+		IDLE,      //!< 待機
+		RUN,       //!< 走り状態
+		ATTACK,    //!< 攻撃
 	};
 
 
@@ -44,7 +50,7 @@ public:
 
 	//=========================================================================
 	// 関数の宣言
-    //=========================================================================
+	//=========================================================================
 	//! @brief コンストラクタ
 	Monster();
 	//! @brief デストラクタ
@@ -56,7 +62,7 @@ public:
 	//! @brief 更新処理
 	//! @param 移動の時のターゲットの座標
 	//! @param ターゲットの半径
-	void Update(Transform* traget_pos,float target_r) override;
+	void Update(Transform* traget_pos, float target_r) override;
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理
@@ -83,6 +89,9 @@ public:
 
 	//! @brief コンボ関数
 	void Combo_Update();
+
+	//! @drief 行いたいアニメーションをランダムで選ぶための関数
+	int Set_Rand_Attack();
 
 public:
 	//-----------------------------------------------
@@ -113,13 +122,10 @@ public:
 	static constexpr int COMBO_MAX = 3;
 	//! コンボ用フラグ
 	bool m_combo_flag = false;
-	// コンボの際マウスのどちらを押されたか
-	int m_mouse_flag = 0; // MOUSE_INPUT_RIGHT : 右ボタン、MOUSE_INPUT_LEFT : 左ボタン 
-	// コンボが何回続いているかのカウント
-	int m_combo_count = 0;
-	// 次のアニメーション番号を保存
+	 
+	//! 次のアニメーション番号を保存
 	int m_next_anim = -1;
-	// コンボをやめてほしい時のフラグ
+	//! コンボをやめてほしい時のフラグ
 	bool m_stop_combo_flag = false;
 
 public:
@@ -136,4 +142,5 @@ public:
 	//! カプセルコリジョン
 	CapsuleCollision m_right_hand; //!< 右手のあたり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
+	
 };

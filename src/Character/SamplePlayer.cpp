@@ -316,7 +316,8 @@ void SamplePlayer::Attack_Update()
 void SamplePlayer::Combo_Update()
 {
 	// コンボ可能か判断用関数
-	m_combo.Combo_Judgment
+	// 指定のキー操作がされた場合
+	m_combo.Combo_Judgment_Key
 	(
 		&m_combo_flag,
 		&m_mouse_flag,
@@ -325,7 +326,7 @@ void SamplePlayer::Combo_Update()
 		m_animation.m_contexts[0].animation_total_time,
 		&m_combo_count
 	);
-	m_combo.Combo_Judgment
+	m_combo.Combo_Judgment_Key
 	(
 		&m_combo_flag,
 		&m_mouse_flag,
