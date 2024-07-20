@@ -113,7 +113,7 @@ void GameInit()
 	SetShadowMapLightDirection(player_shadowmap_hanndle, LightDirection);
 	SetShadowMapLightDirection(ShadowMapHandle, LightDirection);
 	// シャドーマップに描画する範囲の設定
-	SetShadowMapDrawArea(ShadowMapHandle, VGet(-1000.0f, -0.1f, -1000.0f), VGet(+1000.0f, 50.0f, +1000.0f));
+	SetShadowMapDrawArea(ShadowMapHandle, VGet(-2000.0f, -0.1f, -2000.0f), VGet(+2000.0f, 3000.0f, +2000.0f));
 
 
 	// デフォルトのライトは平行光源のまま少し暗めにします
@@ -132,12 +132,7 @@ void GameInit()
 	SetLightPositionHandle(light_handle, light_pos.VGet());
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
-	//Vector3 light_pos_2 = { -1000.0f, 100.0f, 0.0f };
-	//light_handle_2 = CreateDirLightHandle(VGet(0.0f, 0.0f, -1.0f));
-	//// ライトのポジションの設定
-	//SetLightPositionHandle(light_handle, light_pos_2.VGet());
-	//// 色の設定
-	//SetLightDifColorHandle(light_handle_2, color);
+	
 }
 
 // 更新処理
@@ -157,6 +152,10 @@ void GameUpdate()
 	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
 	{
 		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &box1);
+	}
+	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, monster.m_move_hit.m_box.hit_pos, monster.m_move_hit.m_box.half_size))
+	{
+		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &monster.m_move_hit);
 	}
 
 
@@ -182,8 +181,8 @@ void GameDraw()
 	// 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
 	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
 	SetShadowMapDrawArea(player_shadowmap_hanndle,
-		VGet(player.m_transform.pos.x - 100.0f, -0.1f, player.m_transform.pos.z - 100.0f),
-		VGet(player.m_transform.pos.x + 100.0f, +1000.0f, player.m_transform.pos.z + 100.0f));
+		VGet(player.m_transform.pos.x - 200.0f, -0.1f, player.m_transform.pos.z - 200.0f),
+		VGet(player.m_transform.pos.x + 200.0f, +1000.0f, player.m_transform.pos.z + 200.0f));
 
 
 	// 仮ボックスの描画

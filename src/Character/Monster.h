@@ -13,7 +13,7 @@ public:
 	//=========================================================================
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f;
 	static constexpr float MONSTER_ROT_SPEED = 0.5f;
-
+	
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -36,7 +36,7 @@ public:
 	//! 攻撃アニメーション最大値
 	static constexpr int ATTACK_ANIM_MAX = jump - ATTACK_ANIM_START;
 
-
+	
 	//! モンスターの状態
 	enum MonsterMode
 	{
@@ -142,5 +142,5 @@ public:
 	//! カプセルコリジョン
 	CapsuleCollision m_right_hand; //!< 右手のあたり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
-	
+	BoxCollision m_move_hit;       //!< プレイヤーの移動の際のあたり判定で使う
 };

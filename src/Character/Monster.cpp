@@ -16,6 +16,10 @@
 #include "src/Character/MonsterBase.h"
 #include "Monster.h"
 
+namespace
+{
+	 const Vector3 M_MOVE_SIZE{ 10.0f,0,10.0f };
+}
 
 
 //-----------------------------------------------
@@ -52,6 +56,9 @@ void Monster::Init()
 	m_model.LoadModel("Data/Model/Monster/Monster.mv1");
 	// アニメーションの初期設定
 	Anima_Load_Init();
+
+	// 足元にボックスの当たり判定の作成
+	m_move_hit.CreateBox(m_transform.pos, M_MOVE_SIZE);
 }
 
 //-----------------------------------------------
@@ -69,6 +76,9 @@ void Monster::Update(Transform* traget_pos, float target_r)
 	{
 		Move_Update();
 	}
+	
+	// 当たり判定の座標のセット
+	m_move_hit.SetPos(m_transform.pos);
 
 	switch (m_monster_mode)
 	{
@@ -142,7 +152,8 @@ void Monster::Draw()
 	// カプセルの描画（仮）（後で消す）
 	m_body.Draw();
 	m_right_hand.Draw();
-
+	
+	m_move_hit.Draw(255, 100);
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }

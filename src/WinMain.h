@@ -15,8 +15,8 @@
 //#include <d3dx9.h>
 
 // 画面サイズ
-#define SCREEN_W	800//1920//800
-#define SCREEN_H	    450//1080//450
+#define SCREEN_W	1280//800//1280//1920//800
+#define SCREEN_H	720    //450//720//1080//450
 
 #include "System/InputPad.h" // ゲームパッド
 

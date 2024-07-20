@@ -18,10 +18,9 @@ public:
 	//! 
 	void CreateBox(Vector3 pos, Vector3 size);
 
-	////! @brief カプセルのサイズを設定する関数
-	////! @param 設定したいサイズ(Vector3)
-	////! @param 半径(float)
-	//void SetSize(Vector3 pos, float radius);
+	void SetPos(Vector3 pos);
+
+	void SetSize(Vector3 size);
 
 public:
 	// ボックスの基本的な情報

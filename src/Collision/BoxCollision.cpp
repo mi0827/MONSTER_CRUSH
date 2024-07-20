@@ -52,4 +52,23 @@ void BoxCollision::CreateBox(Vector3 pos, Vector3 size )
 }
 
 
+void BoxCollision::SetPos(Vector3 pos)
+{
+	// 座標のセット
+	m_box.pos1.set(pos);
+	// 座標2も設定
+	m_box.pos2.set(pos.x + m_box.size.x, pos.y + m_box.size.y, pos.z + m_box.size.z);
+	// 当たり判定用ボックス座標の設定
+	m_box.hit_pos.set(pos.x + m_box.half_size.x, pos.y + m_box.half_size.y, pos.z + m_box.half_size.z);
+}
+
+void BoxCollision::SetSize(Vector3 size)
+{
+	// サイズの変更
+	m_box.size.set(size);
+	// 当たり判定用の半分のサイズの設定
+	m_box.half_size.set(size.x / 2.0f, size.y, size.z / 2.0f);
+}
+
+
 
