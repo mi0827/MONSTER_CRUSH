@@ -18,7 +18,10 @@
 
 namespace
 {
-	 const Vector3 M_MOVE_SIZE{ 10.0f,0,10.0f };
+	// プレイヤーのとのあたり判定で使うboxのあたり判定のサイズ
+	 const Vector3 M_MOVE_SIZE{ 15.0f,0,15.0f };
+	 // 上記で作成したサイズの半分のサイズ
+	 const Vector3 M_MOVE_SIZE_HALF{ M_MOVE_SIZE / 2 };
 }
 
 
@@ -77,8 +80,10 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		Move_Update();
 	}
 	
-	// 当たり判定の座標のセット
-	m_move_hit.SetPos(m_transform.pos);
+	// 足元の当たり判定の更新処理
+	// 当たり判定の座標をモンスターを中心にしたいので
+	// M_MOVE_SIZEの半分分ずらす(モンスターの座標からハーフ分ずらす)
+	m_move_hit.SetPos(m_transform.pos-M_MOVE_SIZE_HALF);
 
 	switch (m_monster_mode)
 	{
