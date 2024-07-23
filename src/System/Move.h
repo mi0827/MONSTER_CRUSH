@@ -4,7 +4,7 @@
 * @file Move.h
 * @ brief キャラの移動用のクラス
 */
-class Move 
+class Move
 {
 public:
 
@@ -35,13 +35,21 @@ public:
 	//! @detail 移動の壁擦り用関数
 	void Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box);
 
-	//!
+	//! 
+	//! @brief 移動に関する当てり判定用の関数
+	// !@param 自分 (キャラ) の座標(今の座標)
+	//! @param 自分（キャラ）の座標(当たり判定前の)
+	//! @param 自分（キャラ）の当たり判定のサイズ（中心から見たサイズ）
+	//! @param 当たり判定をとりたいボックスの情報
+	//! @detail 移動の壁擦り用関数
+	void Move_Hit_Capsule(Vector3* player_pos, float r, CapsuleCollision* capsule);
+	
 	//! @fn
 	//! @brief ゲームパッドでの移動用関数
 	//! @param 動いていいのかの変数
 	//! @param スティックの値
 	//! @param キャラの向いている向き
-    //! @param キャラの座標
+	//! @param キャラの座標
 	//! @param 移動スピード
 	//! @detail ゲームパッドでの移動用関数
 	//! 

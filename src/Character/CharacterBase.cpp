@@ -2,8 +2,13 @@
 #include "src/System/Vector3.h"
 #include "src/System/Transform.h"
 #include "src/System/Spotlight.h"
+
+#include "src/Model/Model.h"
+
 #include "src/Collision/BoxCollision.h"
+#include "src/Collision/CapsuleCollision.h"
 #include "src/System/Move.h"
+
 #include "CharacterBase.h"
 
 //---------------------------------------------------------------------------

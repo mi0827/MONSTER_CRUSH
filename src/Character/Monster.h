@@ -68,6 +68,7 @@ public:
 	//! @brief 終了処理
 	void Exit() override;
 
+	
 	//! @brief あたり判定の更新処理
 	void CDUpdate() override;
 
@@ -77,9 +78,7 @@ public:
 	//! @brief プレイヤーの移動用関数
 	void Move_Update();
 
-	//! @brief プレイヤーの状態管理関数
-	//! @param プレイヤーの状態
-	void Player_Mode(int mode);
+	
 
 	//! 攻撃開始かそうでないかを判断する関数
 	void Attack_First();

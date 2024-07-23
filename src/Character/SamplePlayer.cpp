@@ -136,8 +136,8 @@ void SamplePlayer::Update(Vector3* camera_rot)
 void SamplePlayer::Draw()
 {
 	// カプセルの描画（仮）（後で消す）
-	//m_body.Draw();
-	//m_right_hand.Draw();
+	m_body.Draw();
+	m_right_hand.Draw();
 
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
@@ -156,7 +156,7 @@ void SamplePlayer::Exit()
 void SamplePlayer::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateCapsule({ m_transform.pos.x, m_transform.pos.y, m_transform.pos.z });
+	m_body.CreateCapsule(m_transform.pos);
 	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
 
 	// 右手のあたり判定

@@ -67,6 +67,8 @@ int light_handle;
 int light_handle_2;
 //! ライトの座標用変数
 
+
+
 // 初期処理
 void GameInit()
 {
@@ -138,7 +140,7 @@ void GameInit()
 // 更新処理
 void GameUpdate()
 {
-
+	
 	// プレイヤーの更新処理
 	player.Update(&camera.m_rot);
 	// モンスターの更新処理
@@ -153,11 +155,14 @@ void GameUpdate()
 	{
 		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &box1);
 	}
-	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, monster.m_move_hit.m_box.hit_pos, monster.m_move_hit.m_box.half_size))
+	// モンスターとプレイヤーの移動の当たり判定
+	if (CheckCapsuleHit(monster.m_body,player.m_body))
 	{
-		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &monster.m_move_hit);
+		// 当たっていたら
+		player.m_move.Move_Hit_Capsule(&player.m_transform.pos, player.m_body.m_capsule.radius,
+			&monster.m_body);
 	}
-
+	
 
 
 	// ３：子の変数の値をシェーダーに渡します
@@ -167,7 +172,7 @@ void GameUpdate()
 // 描画処理
 void GameDraw()
 {
-
+	
 
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);

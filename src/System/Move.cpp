@@ -1,6 +1,8 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
 #include "src/Collision/BoxCollision.h"
+#include "src/Model/Model.h"
+#include "src/Collision/CapsuleCollision.h"
 #include "Move.h"
 
 
@@ -107,7 +109,7 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 }
 
 //---------------------------------------------------------------------------
-// キャラクターの壁擦り用関数
+// キャラクターの壁擦り用関数(ボックス)
 //---------------------------------------------------------------------------
 void Move::Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision *box)
 {
@@ -120,6 +122,33 @@ void Move::Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size,
 	{
 		// 縦方向だけ戻す
 		player_pos->x = before_pos->x;
+	}
+}
+
+
+//---------------------------------------------------------------------------
+// キャラクターの壁擦り用関数(円)
+//---------------------------------------------------------------------------
+void Move::Move_Hit_Capsule(Vector3* player_pos, float r, CapsuleCollision* capsule)
+{
+	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
+	// １：プレイヤーとNPCの距離を求める
+	float distance = GetVector3Distance(*player_pos, capsule->m_capsule.pos1);
+	// ２：基準の距離を求める（それぞれの半径）
+	float radius = r + capsule->m_capsule.radius;
+
+	// ３：２キャラの距離が基準の長さよりも短かったら
+	if (distance < radius) {
+		// 4：どれくらい中に入っているか（この長さ分だけ円が重なっている
+		float in_lengef = radius - distance;
+		// ５：どのずらすか
+		Vector3 dir = *player_pos - capsule->m_capsule.pos1;
+
+		// ６：このベクトルの長さを中に入っていいる長さに半分にします
+		dir.SetLength(in_lengef);
+		// 7：この分だけプレイヤー座標を移動させる
+		*player_pos += dir;
+	
 	}
 }
 

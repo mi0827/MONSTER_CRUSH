@@ -177,7 +177,7 @@ void Monster::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	m_body.CreateCapsule(m_transform.pos);
-	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
+	m_body.SetSize({ 0.0f,25.0f, 0.0f },7);
 
 	// 右手のあたり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 10);

@@ -29,6 +29,7 @@ public:
 	//! @brief I—¹ˆ—
 	virtual void Exit() = 0;
 
+	
 	//! @brief “–‚½‚è”»’è‚ÌXVˆ—
 	virtual void CDUpdate() = 0;
 
