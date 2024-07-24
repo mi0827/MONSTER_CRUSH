@@ -138,7 +138,7 @@ void SamplePlayer::Draw()
 	// カプセルの描画（仮）（後で消す）
 	m_body.Draw();
 	m_right_hand.Draw();
-
+	m_left_hand.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -160,9 +160,12 @@ void SamplePlayer::CDUpdate()
 	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
 
 	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 10);
-	m_right_hand.NodoSetSize(&m_model, 9, 1.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 9);
+	m_right_hand.NodoSetSize(&m_model, 10, 1.0f);
 
+	// 左手の当たり判定
+	m_left_hand.CreateNodoCapsule(&m_model, 33);
+	m_left_hand.NodoSetSize(&m_model, 34, 1.0f);
 }
 
 //-----------------------------------------------

@@ -60,8 +60,7 @@ void Monster::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-	// 足元にボックスの当たり判定の作成
-	m_move_hit.CreateBox(m_transform.pos, M_MOVE_SIZE);
+	
 }
 
 //-----------------------------------------------
@@ -80,11 +79,6 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		Move_Update();
 	}
 	
-	// 足元の当たり判定の更新処理
-	// 当たり判定の座標をモンスターを中心にしたいので
-	// M_MOVE_SIZEの半分分ずらす(モンスターの座標からハーフ分ずらす)
-	m_move_hit.SetPos(m_transform.pos-M_MOVE_SIZE_HALF);
-
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
@@ -154,11 +148,10 @@ void Monster::Update(Transform* traget_pos, float target_r)
 //-----------------------------------------------
 void Monster::Draw()
 {
-	// カプセルの描画（仮）（後で消す）
+	// カプセルの描画(当たり判定)
 	m_body.Draw();
+	m_left_hand.Draw();
 	m_right_hand.Draw();
-	
-	m_move_hit.Draw(255, 100);
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -179,10 +172,13 @@ void Monster::CDUpdate()
 	m_body.CreateCapsule(m_transform.pos);
 	m_body.SetSize({ 0.0f,25.0f, 0.0f },7);
 
-	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 10);
-	m_right_hand.NodoSetSize(&m_model, 9, 1.0f);
+	// 左手のあたり判定
+	m_left_hand.CreateNodoCapsule(&m_model, 12);
+	m_left_hand.NodoSetSize(&m_model, 22, 3.0f);
 
+	// 右手の当たり判定
+	m_right_hand.CreateNodoCapsule(&m_model, 36);
+	m_right_hand.NodoSetSize(&m_model, 46, 3.0f);
 }
 
 //-----------------------------------------------

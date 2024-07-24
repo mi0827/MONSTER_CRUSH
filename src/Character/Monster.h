@@ -139,7 +139,11 @@ public:
 	//! コンボクラス
 	Combo m_combo;
 	//! カプセルコリジョン
-	CapsuleCollision m_right_hand; //!< 右手のあたり判定
+	//=================
+	// 当たり判定
+	//=================
+	CapsuleCollision m_left_hand; //!< 左手のあたり判定
+	CapsuleCollision m_right_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
-	BoxCollision m_move_hit;       //!< プレイヤーの移動の際のあたり判定で使う
+	
 };

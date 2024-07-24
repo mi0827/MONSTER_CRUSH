@@ -167,6 +167,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Character\CharacterBase.cpp" />
+    <ClCompile Include="src\Character\Hero.cpp" />
     <ClCompile Include="src\Character\Monster.cpp" />
     <ClCompile Include="src\Character\MonsterBase.cpp" />
     <ClCompile Include="src\Character\SamplePlayer.cpp" />
@@ -208,6 +209,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\Animation\Animation.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Character\CharacterBase.h" />
+    <ClInclude Include="src\Character\Hero.h" />
     <ClInclude Include="src\Character\Monster.h" />
     <ClInclude Include="src\Character\MonsterBase.h" />
     <ClInclude Include="src\Character\SamplePlayer.h" />

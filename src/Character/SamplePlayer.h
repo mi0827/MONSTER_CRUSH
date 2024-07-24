@@ -135,6 +135,10 @@ public:
 	//! コンボクラス
 	Combo m_combo;
 	//! カプセルコリジョン
+    //=================
+	// 当たり判定
+	//=================
 	CapsuleCollision m_right_hand; //!< 右手のあたり判定
+	CapsuleCollision m_left_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
 };
