@@ -139,6 +139,9 @@ void Hero::Draw()
 	m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
+	m_left_feet.Draw();
+	m_right_feet.Draw();
+	m_sword.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -162,10 +165,21 @@ void Hero::CDUpdate()
 	// 右手のあたり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 9);
 	m_right_hand.NodoSetSize(&m_model, 10, 1.0f);
-
 	// 左手の当たり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 33);
 	m_left_hand.NodoSetSize(&m_model, 34, 1.0f);
+
+	// 左足の当たり判定
+	m_left_feet.CreateNodoCapsule(&m_model, 55);
+	m_left_feet.NodoSetSize(&m_model, 59,1.0f);
+	// 右足の当たり判定
+	m_right_feet.CreateNodoCapsule(&m_model, 60);
+	m_right_feet.NodoSetSize(&m_model, 64, 1.0f);
+	// ソードの当たり判定だけノード見つからないのでうまくいかない
+	// ソードの当たり判定
+	m_sword.CreateNodoCapsule(&m_model, 39);
+	m_sword.SetSize({-1.0f,10.0f,10.0f}, 1.0f);
+
 }
 
 //-----------------------------------------------
@@ -179,11 +193,11 @@ void Hero::Anima_Load_Init()
 	m_animation.Load_Animation("Data/Model/Hero/Animation/Idle.mv1", idle, 0, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Hero/Animation/Run.mv1", run, 0, 1.0f);   //!< 走り
 	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_1, 0, 1.0f);  //!< 攻撃１
-	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_2, 0, 2.0f); //!< 攻撃２
-	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_3, 0, 2.0f); //!< 攻撃３
-	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_4, 0, 1.5f); //<! キック攻撃
-	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_1, 0, 1.5f); //<! キック攻撃
-	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_2, 0, 1.5f); //<! キック攻撃
+	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_2, 0, 1.0f); //!< 攻撃２
+	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_3, 0, 1.0f); //!< 攻撃３
+	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_4, 0, 1.0f); //<! キック攻撃
+	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_1, 0, 1.0f); //<! キック攻撃
+	m_animation.Load_Animation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_2, 0, 1.0f); //<! キック攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.Init_Attach_Animation(&m_model, idle, true);
 }
@@ -341,7 +355,6 @@ void Hero::Combo_Update()
 	// コンボフラグが上がっているとき
 	if (m_combo_flag)
 	{
-
 		// 今のアニメーション番号から一つ次のアニメーション
 		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
 		{

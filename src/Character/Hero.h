@@ -25,9 +25,10 @@ public:
 		attack_1,      //< UŒ‚‚P
 		attack_2,      //< UŒ‚‚Q
 		attack_3,      //< UŒ‚‚R
-		attack_4,      //< UŒ‚4
+		
 		attack_kick_1, //< ƒLƒbƒNUŒ‚‚Q
 		attack_kick_2, //< ƒLƒbƒNUŒ‚‚R
+		attack_4,      //< UŒ‚4
 
 		anim_max //!< ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‘å”
 	};
@@ -140,5 +141,8 @@ public:
 	//=================
 	CapsuleCollision m_right_hand; //!< ‰Eè‚Ì‚ ‚½‚è”»’è
 	CapsuleCollision m_left_hand; //!< ‰Eè‚Ì“–‚½‚è”»’è
+	CapsuleCollision m_left_feet;  //!< ¶‘«‚Ì“–‚½‚è”»’è
+	CapsuleCollision m_right_feet; //!< ‰E‘«‚Ì“–‚½‚è”»’è
+	CapsuleCollision m_sword;     //!< ƒ\[ƒh‚Ì“–‚½‚è”»’è
 	CapsuleCollision m_body;       //!< –{‘Ì‚Ì‚ ‚½‚è”»’è
 };
