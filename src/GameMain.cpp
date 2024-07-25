@@ -194,7 +194,7 @@ void GameDraw()
 	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
 	SetShadowMapDrawArea(player_shadowmap_hanndle,
 		VGet(hero.m_transform.pos.x - 200.0f, -0.1f, hero.m_transform.pos.z - 200.0f),
-		VGet(hero.m_transform.pos.x + 200.0f, +1000.0f, hero.m_transform.pos.z + 200.0f));
+		VGet(hero.m_transform.pos.x + 200.0f, +1500.0f, hero.m_transform.pos.z + 200.0f));
 
 
 	// 仮ボックスの描画
