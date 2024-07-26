@@ -19,9 +19,9 @@
 namespace
 {
 	// プレイヤーのとのあたり判定で使うboxのあたり判定のサイズ
-	 const Vector3 M_MOVE_SIZE{ 15.0f,0,15.0f };
-	 // 上記で作成したサイズの半分のサイズ
-	 const Vector3 M_MOVE_SIZE_HALF{ M_MOVE_SIZE / 2 };
+	const Vector3 M_MOVE_SIZE{ 15.0f,0,15.0f };
+	// 上記で作成したサイズの半分のサイズ
+	const Vector3 M_MOVE_SIZE_HALF{ M_MOVE_SIZE / 2 };
 }
 
 
@@ -60,7 +60,7 @@ void Monster::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-	
+
 }
 
 //-----------------------------------------------
@@ -74,11 +74,11 @@ void Monster::Update(Transform* traget_pos, float target_r)
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理
-	if (m_idle_flag == true || m_run_flag == true)
+	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
 	{
 		Move_Update();
 	}
-	
+
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
@@ -123,6 +123,10 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		break;
 	case ATTACK:
 
+		// 歩いてほしくないのでフラグを
+		m_idle_flag = false;
+		m_run_flag = false;
+
 
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
@@ -130,9 +134,27 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		if (m_combo_flag == false && m_animation.m_contexts[0].is_playering == false)
 		{
 			m_monster_mode = IDLE;
+
+			// 歩いてほしいのでフラグを上げる
+			m_idle_flag = true;
+			m_run_flag = true;
+
 		}
+
+		// 歩いていい範囲かを調べる
+		move.m_hit = move.Target_Hit();
+		if (move.m_hit)
+		{
+			// コンボフラを下げる
+			m_combo_flag = false;
+		}
+
 		// 攻撃用の関数
 		Attack_Update();
+
+
+
+
 		break;
 	}
 
@@ -149,9 +171,9 @@ void Monster::Update(Transform* traget_pos, float target_r)
 void Monster::Draw()
 {
 	// カプセルの描画(当たり判定)
-	/*m_body.Draw();
+	m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();*/
+	m_right_hand.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -169,8 +191,11 @@ void Monster::Exit()
 void Monster::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
+
+
+	// この座標をモデルのノードをでとってくるといいかも
 	m_body.CreateCapsule(m_transform.pos);
-	m_body.SetSize({ 0.0f,25.0f, 0.0f },7);
+	m_body.SetSize({ 0.0f,25.0f, 0.0f }, 12);
 
 	// 左手のあたり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 12);

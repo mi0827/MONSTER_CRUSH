@@ -136,12 +136,12 @@ void Hero::Update(Vector3* camera_rot)
 void Hero::Draw()
 {
 	// カプセルの描画（仮）（後で消す）
-	/*m_body.Draw();
+	m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
 	m_left_feet.Draw();
 	m_right_feet.Draw();
-	m_sword.Draw();*/
+	m_sword.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }

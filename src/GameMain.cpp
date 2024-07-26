@@ -37,9 +37,9 @@
 Camera camera;
 
 //! サンプルプレイヤークラスのオブジェクト
-//SamplePlayer player;
+SamplePlayer player;
 //! ヒーロークラスのオブジェクト
-Hero hero;
+//Hero hero;
 //! モンスタークラスのオブジェクト
 Monster monster;
 
@@ -58,12 +58,14 @@ int ground = 0;
 
 // 影に使うやつ
 
+
 //! プレイヤー用のシャドウマップ
 int player_shadowmap_hanndle;
 //! シャドーマップ用の変数
 int ShadowMapHandle;
 float Angle;
 VECTOR LightDirection;
+
 
 int light_handle;
 int light_handle_2;
@@ -83,10 +85,10 @@ void GameInit()
 	camera.PlayField_Init();
 
 	// プレイヤーの初期処理
-	//player.Init();
+	player.Init();
 	
 	// ヒーローの初期処理
-	hero.Init();
+	//hero.Init();
 	// モンスターの初期処理
 	monster.Init();
 
@@ -145,28 +147,28 @@ void GameUpdate()
 {
 	
 	// プレイヤーの更新処理
-	//player.Update(&camera.m_rot);
+	player.Update(&camera.m_rot);
 
 	// ヒーローの更新処理
-	hero.Update(&camera.m_rot);
+	//hero.Update(&camera.m_rot);
 
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	monster.Update(&hero.m_transform, hero.m_hit_r);
+	monster.Update(&player.m_transform, player.m_hit_r);
 
 	// カメラの更新処理
-	camera.Update(&hero.m_transform.pos);
+	camera.Update(&player.m_transform.pos);
 
 	// プレイヤーとボックスの当たり判定があったときだけ壁すりをしてほしい
-	if (CheckBoxHit3D(hero.m_transform.pos, hero.move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
+	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
 	{
-		hero.MoveHitUpdate(&hero.m_transform.pos, &hero.m_before_pos, &hero.move_hit_size, &box1);
+		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &box1);
 	}
 	// モンスターとプレイヤーの移動の当たり判定
-	if (CheckCapsuleHit(monster.m_body, hero.m_body))
+	if (CheckCapsuleHit(monster.m_body, player.m_body))
 	{
 		// 当たっていたら
-		hero.m_move.Move_Hit_Capsule(&hero.m_transform.pos, hero.m_body.m_capsule.radius,
+		player.m_move.Move_Hit_Capsule(&player.m_transform.pos, player.m_body.m_capsule.radius,
 			&monster.m_body);
 	}
 	
@@ -193,8 +195,8 @@ void GameDraw()
 	// 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
 	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
 	SetShadowMapDrawArea(player_shadowmap_hanndle,
-		VGet(hero.m_transform.pos.x - 200.0f, -0.1f, hero.m_transform.pos.z - 200.0f),
-		VGet(hero.m_transform.pos.x + 200.0f, +1500.0f, hero.m_transform.pos.z + 200.0f));
+		VGet(player.m_transform.pos.x - 200.0f, -0.1f, player.m_transform.pos.z - 200.0f),
+		VGet(player.m_transform.pos.x + 200.0f, +1500.0f, player.m_transform.pos.z + 200.0f));
 
 
 	// 仮ボックスの描画
@@ -208,10 +210,10 @@ void GameDraw()
 	ShadowMap_DrawSetup(player_shadowmap_hanndle);
 	{
 		// プレイヤーの描画処理
-		//player.Draw();
+		player.Draw();
 
 		// ヒーローの描画処理
-		hero.Draw();
+		//hero.Draw();
 	}
 	ShadowMap_DrawSetup(ShadowMapHandle);
 	{
@@ -242,10 +244,10 @@ void GameDraw()
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, player_shadowmap_hanndle);
 	{
-		//player.Draw();
+		player.Draw();
 
 		// ヒーローの描画処理
-		hero.Draw();
+		//hero.Draw();
 	}
 	SetUseShadowMap(0, ShadowMapHandle);
 	{

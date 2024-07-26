@@ -107,7 +107,6 @@ void SamplePlayer::Update(Vector3* camera_rot)
 		break;
 	case ATTACK:
 
-
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
 		// 待機モードにしておく
@@ -148,6 +147,7 @@ void SamplePlayer::Draw()
 //-----------------------------------------------
 void SamplePlayer::Exit()
 {
+
 }
 
 //-----------------------------------------------
