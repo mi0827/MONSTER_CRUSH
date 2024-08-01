@@ -106,17 +106,15 @@ void TargetMove::Set_Direction()
 	}
 }
 
-
 //---------------------------------------------------------------------------
 // ターゲットと一定の距離に入ったかを返す関数
 //---------------------------------------------------------------------------
 bool TargetMove::Target_Hit()
 {
-
 	Set_Direction();
 	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
 	// 本体とターゲットの距離を求める
-	float distance = Target_Distance();
+	float distance = Get_Target_Distance();
 	// 基準の距離を求める（それぞれの半径）
 	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r;
 	// 回転していいときだけ回転する
@@ -143,8 +141,6 @@ bool TargetMove::Target_Hit()
 				}
 			}
 	}
-
-
 	// まだ範囲外の時は移動ができるようにしておく
 	return true;
 }
@@ -152,13 +148,16 @@ bool TargetMove::Target_Hit()
 //---------------------------------------------------------------------------
 // ターゲットとの距離を返す関数
 //---------------------------------------------------------------------------
-float TargetMove::Target_Distance()
+float TargetMove::Get_Target_Distance()
 {
 	// 本体とターゲットの距離を求める
 	float distance = GetVector3Distance(m_info.m_transform->pos, m_target_info.m_target->pos);
 	return distance;
 }
 
+//---------------------------------------------------------------------------
+// 本体の向きを回転していいかのフラグ立てようの関数
+//---------------------------------------------------------------------------
 void TargetMove::Set_Can_Rotate(bool can)
 {
 	m_can_rot = can;

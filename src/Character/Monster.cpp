@@ -94,7 +94,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				// アニメーションを停止に変更する
 				m_animation.Change_Animation(&m_model, idle, true);
 			}
-
+			
 			// 移動が止まっていたら
 			if (!move.m_hit)
 			{
@@ -102,6 +102,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				// 攻撃フラグを上げる
 				m_attack_flag = true;
 				Attack_First();
+				
 			}
 
 		}
@@ -121,7 +122,9 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			m_monster_mode = IDLE;
 		}
 
-
+		// 走っている間に一定以上の距離が空いたら
+		// ジャンプ攻撃をする
+		Attack_Jump();
 
 		break;
 	case ATTACK:
@@ -277,8 +280,6 @@ void Monster::Attack_First()
 	m_animation.Change_Animation(&m_model, attack_1, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack_1;
-
-
 	m_stop_combo_flag = true;
 }
 
@@ -292,6 +293,39 @@ void Monster::Attack_Update()
 	{
 		// コンボ関数を呼ぶ
 		Combo_Update();
+	}
+}
+
+//-----------------------------------------------
+// ジャンプ攻撃に関する処理
+//-----------------------------------------------
+void Monster::Attack_Jump()
+{
+	
+	// ターゲットとの距離
+    float distance = move.Get_Target_Distance();
+	// ターゲットとの距離が一定以上になったら
+	if (TARGET_DISTANCE <= distance)
+	{
+		// ジャンプ攻撃をしてほしいのでランフラグを下す
+		m_run_flag = false;
+
+		// attack_flag が上がってるときかつ
+	   // プレイヤーモードがATTACK以外の時
+		if (m_attack_flag && m_monster_mode != ATTACK)
+		{
+			// アニメーションの切り替えフラグを上げる
+			m_animation.m_anim_change_flag = true;
+
+		}
+	
+		// 攻撃モードにしておく
+		m_monster_mode = ATTACK;
+
+		m_animation.Change_Animation(&m_model, jump, false);
+		// 攻撃アニメーション番号の保存
+		m_now_attack_anim = jump;
+		m_stop_combo_flag = true;
 	}
 }
 

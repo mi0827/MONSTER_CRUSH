@@ -11,9 +11,9 @@ public:
 	//=========================================================================
 	// 定数の宣言
 	//=========================================================================
-	static constexpr float MONSTER_MOVE_SPEED = 1.5f;
-	static constexpr float MONSTER_ROT_SPEED = 0.5f;
-	
+	static constexpr float MONSTER_MOVE_SPEED = 1.5f; //! 移動スピード
+	static constexpr float MONSTER_ROT_SPEED = 0.5f;   //! 回転スピード
+	static constexpr float TARGET_DISTANCE = 150.0f;          //! ターゲットとの距離
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -80,11 +80,14 @@ public:
 
 	
 
-	//! 攻撃開始かそうでないかを判断する関数
+	//! @brief 攻撃開始かそうでないかを判断する関数
 	void Attack_First();
 
 	//! @brief 攻撃用の関数
 	void Attack_Update();
+
+	//! @brief ジャンプ攻撃用の関数
+	void Attack_Jump();
 
 	//! @brief コンボ関数
 	void Combo_Update();
