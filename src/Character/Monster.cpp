@@ -76,6 +76,9 @@ void Monster::Update(Transform* traget_pos, float target_r)
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
 	{
+		// モンスターの回転してよいようにする
+		move.Set_Can_Rotate(true);
+		// 移動処理
 		Move_Update();
 	}
 
@@ -138,23 +141,20 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			// 歩いてほしいのでフラグを上げる
 			m_idle_flag = true;
 			m_run_flag = true;
-
+			move.Set_Can_Rotate(true);
 		}
-
-		// 歩いていい範囲かを調べる
+		// 攻撃中(アニメーション中)は回転してほしくない
+		move.Set_Can_Rotate(false);
+		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
 		move.m_hit = move.Target_Hit();
+		// 条件がそろっていたら移動をしてほしいので
 		if (move.m_hit)
 		{
 			// コンボフラを下げる
 			m_combo_flag = false;
 		}
-
 		// 攻撃用の関数
 		Attack_Update();
-
-
-
-
 		break;
 	}
 

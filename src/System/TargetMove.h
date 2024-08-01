@@ -20,7 +20,7 @@ public:
 	//! @ターゲットの設定
 	//! @param 自身の情報
 	//! @param 円の半径
-	void SetInfo(Transform* transform, const float hit_r ,const float MOV_SPEED,const float ROT_SPEED);
+	void SetInfo(Transform* transform, const float hit_r, const float MOV_SPEED, const float ROT_SPEED);
 
 	//! @ターゲットの情報を設定
 	//! @param ターゲットの座標
@@ -31,8 +31,17 @@ public:
 	//! @param 移動中かそうでないかのフラグ
 	void Update(bool* run_flag);
 
+	//! @brief 本体の向きを
+	void Set_Direction();
+
 	//! @brief ターゲットと一定の距離に入ったかを返す関数
 	bool Target_Hit();
+
+	//! @brief ターゲットとの距離を返す関数
+	float Target_Distance();
+
+	// @brief 向きの変更をしてよいかのフラグを受け取る
+	void Set_Can_Rotate(bool can = true);
 
 private:
 
@@ -83,4 +92,9 @@ public:
 	// 動いていていい状態:true
 	// 動いてはならないとき:false
 	bool m_hit = false;
+private:
+	// 外積を使った判断をしたいので上で作った２つのベクトルの外積を求めます
+	Vector3 m_cross;
+	// 回転していいかのフラグようの変数
+	bool m_can_rot = true;
 };
