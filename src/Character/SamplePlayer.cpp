@@ -127,6 +127,13 @@ void SamplePlayer::Update(Vector3* camera_rot)
 
 	// フラグ管理用関数
 	Player_Mode(m_player_mode);
+
+	// 地面に埋まってしまった時のための処理
+	if (m_transform.pos.y <= 0)
+	{
+		m_transform.pos.y = 0;
+	}
+
 }
 
 //-----------------------------------------------

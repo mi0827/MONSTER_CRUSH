@@ -342,7 +342,7 @@ void Monster::Jump_Update()
 	{
 	case STANDBY: // 待機
 		// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
-		if (m_animation.m_contexts[0].play_time >= 80.0f )
+		if (m_animation.m_contexts[0].play_time >= 80.0f)
 		{
 			jump_num = GOUP; // 上がる処理へ
 		}
@@ -363,9 +363,9 @@ void Monster::Jump_Update()
 		break;
 
 	case MOVE:        // 座標移動
-		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分ずらしたとこ
-		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
-		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
+		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径より少し小さいくらいずらしたとこ
+		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius + 5;
+		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius + 5;
 
 		jump_num = STANDBY; // 落ちるタイミングを合わせるためにいったん待機へ
 		break;
