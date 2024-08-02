@@ -13,7 +13,8 @@ public:
 	//=========================================================================
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f; //! 移動スピード
 	static constexpr float MONSTER_ROT_SPEED = 0.5f;   //! 回転スピード
-	static constexpr float TARGET_DISTANCE = 150.0f;          //! ターゲットとの距離
+	static constexpr float TARGET_DISTANCE = 150.0f;     //! ターゲットとの距離
+	static constexpr float JUMP_HEIGHT = 50.0f;              //! ジャンプの最大
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -45,7 +46,17 @@ public:
 		ATTACK,    //!< 攻撃
 	};
 
+	enum Jump
+	{
+		STANDBY,     //! スタンバイ
+		GOUP,           //! 上がるタイミング
+		MOVE,           //! ジャンプ中の移動のタイミング
+		DROPDOWN,  //! 落ちてくるタイミング
 
+		max
+	};
+	//! ジャンプの状態を保存する変数
+	int jump_num=0;
 public:
 
 	//=========================================================================
@@ -78,8 +89,6 @@ public:
 	//! @brief プレイヤーの移動用関数
 	void Move_Update();
 
-	
-
 	//! @brief 攻撃開始かそうでないかを判断する関数
 	void Attack_First();
 
@@ -88,6 +97,9 @@ public:
 
 	//! @brief ジャンプ攻撃用の関数
 	void Attack_Jump();
+
+	//! @brief ジャンプ攻撃の更新処理
+	void Jump_Update();
 
 	//! @brief コンボ関数
 	void Combo_Update();

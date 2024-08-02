@@ -94,7 +94,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				// アニメーションを停止に変更する
 				m_animation.Change_Animation(&m_model, idle, true);
 			}
-			
+
 			// 移動が止まっていたら
 			if (!move.m_hit)
 			{
@@ -102,7 +102,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				// 攻撃フラグを上げる
 				m_attack_flag = true;
 				Attack_First();
-				
+
 			}
 
 		}
@@ -133,7 +133,6 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		m_idle_flag = false;
 		m_run_flag = false;
 
-
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
 		// 待機モードにしておく
@@ -155,6 +154,12 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		{
 			// コンボフラを下げる
 			m_combo_flag = false;
+		}
+
+		// ジャンプ攻撃時の処理
+		if (m_now_attack_anim == jump)
+		{
+			Jump_Update();
 		}
 		// 攻撃用の関数
 		Attack_Update();
@@ -240,8 +245,8 @@ void Monster::Move_Update()
 	// 移動前の座標一旦保存しておく
 	m_before_pos = m_transform.pos;
 
-	//// ベースクラスの更新処理
-	//// 移動の処理が中に入っている
+	// ベースクラスの更新処理
+	// 移動の処理が中に入っている
 	BaseUpdate(&m_run_flag);
 
 	// run_flag が上がってるときかつ
@@ -301,9 +306,8 @@ void Monster::Attack_Update()
 //-----------------------------------------------
 void Monster::Attack_Jump()
 {
-	
 	// ターゲットとの距離
-    float distance = move.Get_Target_Distance();
+	float distance = move.Get_Target_Distance();
 	// ターゲットとの距離が一定以上になったら
 	if (TARGET_DISTANCE <= distance)
 	{
@@ -316,9 +320,7 @@ void Monster::Attack_Jump()
 		{
 			// アニメーションの切り替えフラグを上げる
 			m_animation.m_anim_change_flag = true;
-
 		}
-	
 		// 攻撃モードにしておく
 		m_monster_mode = ATTACK;
 
@@ -326,7 +328,58 @@ void Monster::Attack_Jump()
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = jump;
 		m_stop_combo_flag = true;
+		// ジャンプ処理は大気にしておく
+		jump_num = STANDBY;
 	}
+}
+
+//-----------------------------------------------
+// ジャンプ攻撃中の処理
+//-----------------------------------------------
+void Monster::Jump_Update()
+{
+	switch (jump_num)
+	{
+	case STANDBY: // 待機
+		// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
+		if (m_animation.m_contexts[0].play_time >= 80.0f )
+		{
+			jump_num = GOUP; // 上がる処理へ
+		}
+		if (m_animation.m_contexts[0].play_time >= 110.0f)
+		{
+			jump_num = DROPDOWN; // 落ちる処理へ
+		}
+		break;
+	case GOUP:        // 上がる
+		m_transform.pos.y += 5;
+		// 一定の高さまで上がったら
+		if (m_transform.pos.y >= JUMP_HEIGHT)
+		{
+			// 上がるのを止めて移動の処理へ
+			m_transform.pos.y = JUMP_HEIGHT;
+			jump_num = MOVE;
+		}
+		break;
+
+	case MOVE:        // 座標移動
+		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分ずらしたとこ
+		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
+		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
+
+		jump_num = STANDBY; // 落ちるタイミングを合わせるためにいったん待機へ
+		break;
+
+	case DROPDOWN:   // 落ちる
+		m_transform.pos.y -= 5;
+		// 図面についたら落ちるのをやめる
+		if (m_transform.pos.y <= 0)
+		{
+			m_transform.pos.y = 0;
+		}
+		break;
+	}
+
 }
 
 //-----------------------------------------------
