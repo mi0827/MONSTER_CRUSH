@@ -144,6 +144,9 @@ void Animation::Attach_Animation(Model* model, int anim_num, bool loop)
 	// ループするかどうか
 	m_contexts[0].is_loop = loop;
 
+	// アニメーションを再生中にする
+	//m_contexts[0].is_playering = true;
+
 	// どのアニメーションかを保存
 	m_anim_num = anim_num;
 }
@@ -243,7 +246,7 @@ void Animation::Action_Change_Animation(Model* model, int anim_num, bool loop, b
 void Animation::Play_Animation(Model* model, bool combo_flag)
 {
 	// アニメーションを再生中にしておく
-	m_contexts[0].is_playering = true;
+ 	m_contexts[0].is_playering = true;
 	// アニメーションの再生フレームを進める
 	m_contexts[0].play_time += anim_handle[m_anim_num]->play_speed;
 	// ループするかどうかによって処理の変更
@@ -320,6 +323,7 @@ void Animation::Not_Loop(Model* model)
 	// アニメーションフレームが最後まで回ったら
 	if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
 	{
+		m_contexts[0].is_playering = false;
 		// デフォルトのアニメーションに設定
 		Change_Animation(model, m_default_anim, true);
 	}

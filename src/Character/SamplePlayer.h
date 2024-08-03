@@ -22,6 +22,7 @@ public:
 	{
 		idle, //!< 待機
 		run, //!< 走り
+		rolling, //!< ローリング
 		attack_1,      //< 攻撃１
 		attack_2,      //< 攻撃２
 		attack_3,      //< 攻撃３
@@ -37,6 +38,7 @@ public:
 	{
 		IDLE,      // 待機
 		RUN,       // 走り状態
+		ROLLING, // 回避
 		ATTACK,    // 攻撃
 	};
 
@@ -82,6 +84,12 @@ public:
 	 //! @brief 攻撃用の関数
 	 void Attack_Update();
 
+	 //! @brief ローリングセット用の関数
+	 void Set_Rolling();
+
+	 //! @brief ローリングアクション用の関数（回避）
+	 void Action_Rolling();
+
 	 //! @brief コンボ関数
 	 void Combo_Update();
 	
@@ -93,7 +101,8 @@ public:
 	bool m_idle_flag = false;
 	//! 走っていい以下のフラグ
 	bool m_run_flag = false;
-	
+	//! ローリングフラグ
+	bool m_rolling_flag = false;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! プレイヤーのモードを管理する変数
