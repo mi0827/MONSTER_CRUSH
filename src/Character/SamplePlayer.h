@@ -10,8 +10,9 @@ public:
 	//-----------------------------------------------
 	// 定数の宣言
 	//-----------------------------------------------
-	static constexpr float PLAYER_MOVE_SPEED = 2.0f;
-	static constexpr float PLAYER_R = 5.0f;
+	static constexpr float PLAYER_MOVE_SPEED = 2.0f;       //! プレイヤーの移動スピード
+	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
+	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
 	//-----------------------------------------------
 	// 列挙体の宣言
 	//-----------------------------------------------

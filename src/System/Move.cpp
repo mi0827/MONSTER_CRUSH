@@ -198,8 +198,8 @@ void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_
 	// “®‚¢‚Ä‚¢‚¢
 	*m_check_move = true;
 	// Œü‚¢‚Ä‚¢‚é•ûŒü‚ÉÀ•WˆÚ“®
-	player_pos->x += *mov_speed * sinf(TO_RADIAN(player_rot->y));
 	player_pos->z += *mov_speed * cosf(TO_RADIAN(player_rot->y));
+	player_pos->x += *mov_speed * sinf(TO_RADIAN(player_rot->y));
 }
 
 //---------------------------------------------------------------------------

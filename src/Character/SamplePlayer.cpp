@@ -63,17 +63,17 @@ void SamplePlayer::Init()
 void SamplePlayer::Update(Vector3* camera_rot)
 {
 	clsDx();
-	
+
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理
-	if (m_idle_flag == true || m_run_flag == true  )
+	if (m_idle_flag == true || m_run_flag == true)
 	{
 		if (m_rolling_flag == false)
 		{
 			Move_Update(camera_rot);
 		}
-		
+
 	}
 	// ローリングの切り替え
 	Set_Rolling();
@@ -194,7 +194,7 @@ void SamplePlayer::Anima_Load_Init()
 	// アニメーションの読み込み
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Idle.mv1", idle, 1, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Run.mv1", run, 1, 1.0f);   //!< 走り
-	m_animation.Load_Animation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 1.0f);
+	m_animation.Load_Animation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 2.0f);     //! ローリング
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_1, 1, 1.0f);  //!< 攻撃１
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_2, 1, 2.0f); //!< 攻撃２
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch3.mv1", attack_3, 1, 2.0f); //!< 攻撃３
@@ -351,15 +351,21 @@ void SamplePlayer::Action_Rolling()
 {
 	// ローリングアニメーションのセット
 	// ローリングフラグが上がっていないとき
-	if(!m_rolling_flag )
+	if (!m_rolling_flag)
 	{
 		// ローリングアニメーションをセットする
 		m_animation.Change_Animation(&m_model, rolling, false);
 		// ローリングフラグをあげる
 		m_rolling_flag = true;
 	}
+
+	// ローリング中の移動処理
+	// 向いている方向に PLAYER_ROLLING_SPEED 分移動する
+	m_transform.pos.z += PLAYER_ROLLING_SPEED * cosf(TO_RADIAN(m_transform.rot.y));
+	m_transform.pos.x += PLAYER_ROLLING_SPEED * sinf(TO_RADIAN(m_transform.rot.y));
+
 	// ローリングアニメーションが終わったら(終わりだとうまく入らなかったから終わる少し前にした)
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time -5)
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 5)
 	{
 		// アニメーションのチェンジフラグを上げる
 		m_animation.m_anim_change_flag = true;
