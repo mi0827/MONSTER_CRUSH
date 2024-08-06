@@ -16,6 +16,8 @@
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
 
+#include "src/System/UIBar.h"
+
 #include "src/System/Move.h"
 #include "src/System/TargetMove.h"
 #include "src/Character/CharacterBase.h"
@@ -226,7 +228,7 @@ void GameDraw()
 		// モンスターの描画
 		monster.Draw();
 	}
-
+	
 	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 
@@ -261,6 +263,8 @@ void GameDraw()
 		// モンスターの描画
 		monster.Draw();
 	}
+	
+
 
 	printfDx("run:%d ", player.m_run_flag);
 	printfDx("idle:%d ", player.m_idle_flag);

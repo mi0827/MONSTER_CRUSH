@@ -1,5 +1,6 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
+#include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
 #include "src/System/Spotlight.h"
@@ -12,6 +13,8 @@
 
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
+
+#include "src/System/UIBar.h"
 
 #include "src/Character/CharacterBase.h"
 #include "SamplePlayer.h"
@@ -54,7 +57,9 @@ void SamplePlayer::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-
+	// HPの設定
+	m_hp.Set({ 100,100 }, { 500,100 }, &m_hp_value, true);
+	m_hp.SetColor(255, 255, 255, &m_hp.m_color);
 }
 
 //-----------------------------------------------
@@ -63,6 +68,8 @@ void SamplePlayer::Init()
 void SamplePlayer::Update(Vector3* camera_rot)
 {
 	clsDx();
+
+	m_hp.Update(&m_hp_value);
 
 
 	// 待機状態または走りの時だけｗ
@@ -150,12 +157,20 @@ void SamplePlayer::Update(Vector3* camera_rot)
 //-----------------------------------------------
 void SamplePlayer::Draw()
 {
+	//===================
 	// カプセルの描画（仮）（後で消す）
+	//===================
 	m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
+
+	//===================
+	// UIの描画
+	//===================
+	// 後でUI専用の描画処理を作る
+	m_hp.Draw();
 }
 
 //-----------------------------------------------

@@ -13,6 +13,7 @@ public:
 	static constexpr float PLAYER_MOVE_SPEED = 2.0f;       //! プレイヤーの移動スピード
 	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
 	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
+	static constexpr int HP_MAX = 100;                               //! HPの最大値
 	//-----------------------------------------------
 	// 列挙体の宣言
 	//-----------------------------------------------
@@ -151,4 +152,10 @@ public:
 	CapsuleCollision m_right_hand; //!< 右手のあたり判定
 	CapsuleCollision m_left_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
+
+   //=================
+   // バー型のUI
+   //=================
+	UIBra m_hp;
+	int m_hp_value = HP_MAX;
 };

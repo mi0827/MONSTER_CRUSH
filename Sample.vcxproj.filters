@@ -117,6 +117,9 @@
     <ClCompile Include="src\Character\Hero.cpp">
       <Filter>ソース ファイル\Character</Filter>
     </ClCompile>
+    <ClCompile Include="src\System\UIBar.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameMain.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="src\Character\Hero.h">
       <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\UIBar.h">
+      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
