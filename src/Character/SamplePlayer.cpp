@@ -60,6 +60,7 @@ void SamplePlayer::Init()
 	// HPÇÃê›íË
 	m_hp.Set({ 100,100 }, { 500,100 }, &m_hp_value, true);
 	m_hp.SetColor(255, 255, 255, &m_hp.m_color);
+	m_hp.SetName("HP");
 }
 
 //-----------------------------------------------

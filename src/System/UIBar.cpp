@@ -49,6 +49,8 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 
 	// valueの値が１減るたびに減る量の設定
 	aaa = m_size.x / m_value;
+
+
 }
 
 //-----------------------------------------------
@@ -58,6 +60,20 @@ void UIBra::SetColor(int red, int green, int blue, int* color)
 {
 	// 色の設定
 	*color = GetColor(red, green, blue);
+	
+}
+
+//-----------------------------------------------
+// 名前の設定
+//-----------------------------------------------
+void UIBra::SetName(const char name[256])
+{
+	for (int i =0; i < 256; i++)
+	{
+		m_name[i] = name[i];
+	}
+	// 名前の設定をしたので名前のフラグを設定する
+	m_name_judge = true;
 }
 
 //-----------------------------------------------
@@ -81,6 +97,18 @@ void UIBra::Draw()
 	DrawBox(m_back_pos1.x, m_back_pos1.y, m_back_pos2.x, m_back_pos2.y, m_back_color, TRUE);
 	
 	DrawBox(m_pos1.x, m_pos1.y, m_pos2.x + new_aaa, m_pos2.y, m_color, TRUE);
+	
+	if (m_name_judge )
+	{
+		// 現在のフォントのサイズを保存してい置く
+		int font_size = GetFontSize();
+		// フォントのサイズを設定（バーのサイズに合わせる）
+		SetFontSize(m_size.y);
+		// 名前の描画
+		DrawString(m_back_pos1.x, m_back_pos1.y, m_name, GetColor(255, 0, 0));
+		// フォントのサイズをもとのサイズに戻す
+		SetFontSize(font_size);
+	}
 	
 	// 外枠のラインを引く場合
 	if (m_line_judgment)

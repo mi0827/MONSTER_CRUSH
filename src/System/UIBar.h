@@ -24,6 +24,10 @@ public:
 	//! @param UIBraクラスの各カラー変数のどれかを入れる
 	void SetColor(int red,int green, int blue, int* color);
 	
+	//! @brief 名前の設定関数
+	//! @param 名前
+	void SetName(const char name[256]);
+
 	//! @brief 更新処理
 	void Update(int* value);
 
@@ -68,6 +72,10 @@ private:
 	// 今どれだけ増減しているか
 	// 後で名前を変える
 	int new_aaa;
-	
+
+	//! 名前を保存するための変数
+	 char m_name[256] ;
+	 // 名前を描画する可の変数(最初は名前なし状態からする)
+	 bool m_name_judge = false;
 };
 
