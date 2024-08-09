@@ -45,7 +45,7 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 	// 各カラーの設定
 	SetColor(128, 128, 128, &m_color);
 	SetColor(0, 0, 0, &m_back_color);
-
+	SetColor(255, 255, 0, &m_character_color);
 
 	// valueの値が１減るたびに減る量の設定
 	aaa = m_size.x / m_value;
@@ -54,13 +54,12 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 }
 
 //-----------------------------------------------
-// カラーのセット
+// カラーのセット用関数
 //-----------------------------------------------
 void UIBra::SetColor(int red, int green, int blue, int* color)
 {
 	// 色の設定
 	*color = GetColor(red, green, blue);
-	
 }
 
 //-----------------------------------------------
@@ -105,7 +104,7 @@ void UIBra::Draw()
 		// フォントのサイズを設定（バーのサイズに合わせる）
 		SetFontSize(m_size.y);
 		// 名前の描画
-		DrawString(m_back_pos1.x, m_back_pos1.y, m_name, GetColor(255, 0, 0));
+		DrawString(m_back_pos1.x, m_back_pos1.y, m_name, m_character_color);
 		// フォントのサイズをもとのサイズに戻す
 		SetFontSize(font_size);
 	}

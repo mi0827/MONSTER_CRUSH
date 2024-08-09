@@ -57,10 +57,8 @@ void SamplePlayer::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-	// HPの設定
-	m_hp.Set({ 100,100 }, { 500,100 }, &m_hp_value, true);
-	m_hp.SetColor(255, 255, 255, &m_hp.m_color);
-	m_hp.SetName("HP");
+	// ステータスバーの設定
+	Suatus_Bar_Init();
 }
 
 //-----------------------------------------------
@@ -167,11 +165,7 @@ void SamplePlayer::Draw()
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 
-	//===================
-	// UIの描画
-	//===================
-	// 後でUI専用の描画処理を作る
-	m_hp.Draw();
+	
 }
 
 //-----------------------------------------------
@@ -198,6 +192,30 @@ void SamplePlayer::CDUpdate()
 	// 左手の当たり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 33);
 	m_left_hand.NodoSetSize(&m_model, 34, 1.0f);
+}
+
+//-----------------------------------------------
+// ステータスバーの設定用関数
+//-----------------------------------------------
+void SamplePlayer::Suatus_Bar_Init()
+{
+	// HPの設定
+	m_hp.Set({ 100,100 }, { 500,100 }, &m_hp_value, true);
+	m_hp.SetColor(255, 255, 255, &m_hp.m_color);
+	m_hp.SetName("HP");
+}
+
+//-----------------------------------------------
+// ステータスバー描画用関数
+//-----------------------------------------------
+void SamplePlayer::Status_Bar_Draw()
+{
+	// HPの値が減ったかどうか
+	m_hp.Update(&m_hp_value);
+	//===================
+	// UIの描画
+	//===================
+	m_hp.Draw();
 }
 
 //-----------------------------------------------

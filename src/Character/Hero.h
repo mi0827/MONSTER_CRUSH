@@ -25,7 +25,7 @@ public:
 		attack_1,      //< 攻撃１
 		attack_2,      //< 攻撃２
 		attack_3,      //< 攻撃３
-		
+
 		attack_kick_1, //< キック攻撃２
 		attack_kick_2, //< キック攻撃３
 		attack_4,      //< 攻撃4
@@ -41,7 +41,7 @@ public:
 		ATTACK,    // 攻撃
 	};
 
-	
+
 public:
 
 	//-----------------------------------------------
@@ -57,35 +57,37 @@ public:
 	void Init()override;
 	//! @brief 更新処理
 	//! @param カメラの向き
-	 void Update(Vector3* camera_rot) override;
+	void Update(Vector3* camera_rot) override;
 	//! @brief 描画処理
-	 void Draw() override;
+	void Draw() override;
 	//! @brief 終了処理
-	 void Exit() override;
+	void Exit() override;
 
-	
-	 //! @brief あたり判定の更新処理
-	 void CDUpdate() override;
+	//! @brief あたり判定の更新処理
+	void CDUpdate() override;
 
-	 //! @brief アニメーション読み込み関数
-	 void Anima_Load_Init();
+	//! @brief ステータスバーの描画関数
+	void Status_Bar_Draw() override;
 
-	 //! @brief プレイヤーの移動用関数
-	 void Move_Update(Vector3* camera_rot);
+	//! @brief アニメーション読み込み関数
+	void Anima_Load_Init();
 
-	 //! @brief プレイヤーの状態管理関数
-	 //! @param プレイヤーの状態
-	 void Hero_Mode(int mode);
+	//! @brief プレイヤーの移動用関数
+	void Move_Update(Vector3* camera_rot);
 
-	 //! 攻撃開始かそうでないかを判断する関数
-	 void Attack_First();
+	//! @brief プレイヤーの状態管理関数
+	//! @param プレイヤーの状態
+	void Hero_Mode(int mode);
 
-	 //! @brief 攻撃用の関数
-	 void Attack_Update();
+	//! 攻撃開始かそうでないかを判断する関数
+	void Attack_First();
 
-	 //! @brief コンボ関数
-	 void Combo_Update();
-	
+	//! @brief 攻撃用の関数
+	void Attack_Update();
+
+	//! @brief コンボ関数
+	void Combo_Update();
+
 public:
 	//-----------------------------------------------
 	// 変数の宣言
@@ -94,7 +96,7 @@ public:
 	bool m_idle_flag = false;
 	//! 走っていい以下のフラグ
 	bool m_run_flag = false;
-	
+
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! プレイヤーのモードを管理する変数
@@ -128,7 +130,7 @@ public:
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言
 	//-----------------------------------------------
-	
+
 	//! モデルクラスのオブジェクト
 	Model m_model;
 	//! アニメーションクラスのオブジェクト
@@ -136,7 +138,7 @@ public:
 	//! コンボクラス
 	Combo m_combo;
 	//! カプセルコリジョン
-    //=================
+	//=================
 	// 当たり判定
 	//=================
 	CapsuleCollision m_right_hand; //!< 右手のあたり判定

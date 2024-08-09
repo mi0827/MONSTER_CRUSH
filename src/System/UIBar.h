@@ -43,6 +43,9 @@ public:
 	int m_back_color;
 	//! 外枠のカラー
 	int m_line_color;
+	//! 文字のカラー
+	int m_character_color;
+
 private:
 	//! バーの座標
 	Vector2 m_pos1{0,0};

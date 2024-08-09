@@ -275,6 +275,9 @@ void GameDraw()
 	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(1, -1);
 	SetUseShadowMap(0, -1);
+
+	// ステータスバーの描画
+	StatusDraw();
 }
 
 // 終了処理
@@ -290,5 +293,10 @@ void GameExit()
 	// ライトの削除
 	//DeleteLightHandle(light_handle);
 	//DeleteLightHandle(light_handle_2);
+}
+
+void StatusDraw()
+{
+	player.Status_Bar_Draw();
 }
 

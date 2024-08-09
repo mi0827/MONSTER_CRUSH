@@ -44,7 +44,7 @@ public:
 		ATTACK,    // 攻撃
 	};
 
-	
+
 public:
 
 	//-----------------------------------------------
@@ -60,41 +60,46 @@ public:
 	void Init()override;
 	//! @brief 更新処理
 	//! @param カメラの向き
-	 void Update(Vector3* camera_rot) override;
+	void Update(Vector3* camera_rot) override;
 	//! @brief 描画処理
-	 void Draw() override;
+	void Draw() override;
 	//! @brief 終了処理
-	 void Exit() override;
+	void Exit() override;
 
-	
-	 //! @brief あたり判定の更新処理
-	 void CDUpdate() override;
 
-	 //! @brief アニメーション読み込み関数
-	 void Anima_Load_Init();
+	//! @brief あたり判定の更新処理
+	void CDUpdate() override;
 
-	 //! @brief プレイヤーの移動用関数
-	 void Move_Update(Vector3* camera_rot);
+	//! @brief ステータスバーの設定用関数
+	void Suatus_Bar_Init() override;
+	//! @brief ステータスバーの描画関数
+	void Status_Bar_Draw() override;
 
-	 //! @brief プレイヤーの状態管理関数
-	 //! @param プレイヤーの状態
-	 void Player_Mode(int mode);
+	//! @brief アニメーション読み込み関数
+	void Anima_Load_Init();
 
-	 //! 攻撃開始かそうでないかを判断する関数
-	 void Attack_First();
+	//! @brief プレイヤーの移動用関数
+	void Move_Update(Vector3* camera_rot);
 
-	 //! @brief 攻撃用の関数
-	 void Attack_Update();
+	//! @brief プレイヤーの状態管理関数
+	//! @param プレイヤーの状態
+	void Player_Mode(int mode);
 
-	 //! @brief ローリングセット用の関数
-	 void Set_Rolling();
+	//! 攻撃開始かそうでないかを判断する関数
+	void Attack_First();
 
-	 //! @brief ローリングアクション用の関数（回避）
-	 void Action_Rolling();
+	//! @brief 攻撃用の関数
+	void Attack_Update();
 
-	 //! @brief コンボ関数
-	 void Combo_Update();
-	
+	//! @brief ローリングセット用の関数
+	void Set_Rolling();
+
+	//! @brief ローリングアクション用の関数（回避）
+	void Action_Rolling();
+
+	//! @brief コンボ関数
+	void Combo_Update();
+
 public:
 	//-----------------------------------------------
 	// 変数の宣言
@@ -138,7 +143,7 @@ public:
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言
 	//-----------------------------------------------
-	
+
 	//! モデルクラスのオブジェクト
 	Model m_model;
 	//! アニメーションクラスのオブジェクト
@@ -146,16 +151,17 @@ public:
 	//! コンボクラス
 	Combo m_combo;
 	//! カプセルコリジョン
-    //=================
+	//=================
 	// 当たり判定
 	//=================
 	CapsuleCollision m_right_hand; //!< 右手のあたり判定
 	CapsuleCollision m_left_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
 
-   //=================
-   // バー型のUI
-   //=================
+	//=================
+	// バー型のUI
+	//=================
 	UIBra m_hp;
+	// HPの残量
 	int m_hp_value = HP_MAX;
 };

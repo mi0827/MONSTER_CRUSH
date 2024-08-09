@@ -3,19 +3,20 @@
 
 
 
-// 初期処理
+//! 初期処理
 void GameInit();
 
-// 更新処理
+//! 更新処理
 void GameUpdate();
 
-// 描画処理
+//! 描画処理
 void GameDraw();
 
-// 終了処理
+//! 終了処理
 void GameExit();
 
-
+//! ステータスバー描画用の関数
+void StatusDraw();
 
 
 ////! 頂点シェーダー用の変数
