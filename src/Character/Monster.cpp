@@ -1,5 +1,6 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
+#include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
 #include "src/System/Spotlight.h"
@@ -12,6 +13,8 @@
 
 #include "src/Action/Combo.h"
 #include "src/System/TargetMove.h"
+
+#include "src/System/UIBar.h"
 
 #include "src/Character/MonsterBase.h"
 #include "Monster.h"
@@ -60,7 +63,8 @@ void Monster::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-
+	// ステータスバーの設定
+	Status_Bar_Init();
 }
 
 //-----------------------------------------------
@@ -102,12 +106,8 @@ void Monster::Update(Transform* traget_pos, float target_r)
 				// 攻撃フラグを上げる
 				m_attack_flag = true;
 				Attack_First();
-
 			}
-
 		}
-
-
 		break;
 	case RUN:
 		// 待機フラグを毎回リセット
@@ -153,7 +153,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		if (move.m_hit)
 		{
 			// コンボフラを下げる
-			m_combo_flag = false;
+			m_combo_flag = true;
 		}
 
 		// ジャンプ攻撃時の処理
@@ -165,7 +165,6 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		Attack_Update();
 		break;
 	}
-
 
 	// アニメーションの再生
 	m_animation.Play_Animation(&m_model, m_combo_flag);
@@ -212,6 +211,33 @@ void Monster::CDUpdate()
 	// 右手の当たり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 36);
 	m_right_hand.NodoSetSize(&m_model, 46, 3.0f);
+}
+
+//-----------------------------------------------
+// ステータスバーの設定用関数
+//-----------------------------------------------
+void Monster::Status_Bar_Init()
+{
+	// HPの設定
+	m_hp.Set({ 25,25 }, { 1205, 25 }, &m_hp_value, true);
+	m_hp.SetColor(255, 100, 50, &m_hp.m_color);
+	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
+	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
+	m_hp.SetColor(255,255, 255, &m_hp.m_character_color);
+	m_hp.SetName("HP");
+}
+
+//-----------------------------------------------
+// ステータスバー描画用関数
+//-----------------------------------------------
+void Monster::Status_Bar_Draw()
+{
+	// HPの値が減ったかどうか
+	m_hp.Update(&m_hp_value);
+	//===================
+	// UIの描画
+	//===================
+	m_hp.Draw();
 }
 
 //-----------------------------------------------
@@ -328,7 +354,7 @@ void Monster::Attack_Jump()
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = jump;
 		m_stop_combo_flag = true;
-		// ジャンプ処理は大気にしておく
+		// ジャンプ処理は
 		jump_num = STANDBY;
 	}
 }

@@ -7,5 +7,8 @@
 敵に攻撃を当てるとノックバック（強攻撃を与えたとき）
 
 
+ダメージ計算の時に使う
+playerStatusSo.ATTACK / 2 - enemyStatusSo.enemyStatusList[0].DETENCE / 4
+
 （おふざけ）
 ログインボーナスみたいなのを作る

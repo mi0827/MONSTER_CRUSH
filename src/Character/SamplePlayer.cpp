@@ -58,7 +58,7 @@ void SamplePlayer::Init()
 	Anima_Load_Init();
 
 	// ステータスバーの設定
-	Suatus_Bar_Init();
+	Status_Bar_Init();
 }
 
 //-----------------------------------------------
@@ -197,11 +197,14 @@ void SamplePlayer::CDUpdate()
 //-----------------------------------------------
 // ステータスバーの設定用関数
 //-----------------------------------------------
-void SamplePlayer::Suatus_Bar_Init()
+void SamplePlayer::Status_Bar_Init()
 {
 	// HPの設定
-	m_hp.Set({ 100,100 }, { 500,100 }, &m_hp_value, true);
-	m_hp.SetColor(255, 255, 255, &m_hp.m_color);
+	m_hp.Set({ 50, 650}, { 500,25 }, &m_hp_value, true);
+	m_hp.SetColor(50, 255, 50, &m_hp.m_color);
+	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
+	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
+	m_hp.SetColor(255, 0, 0, &m_hp.m_character_color);
 	m_hp.SetName("HP");
 }
 

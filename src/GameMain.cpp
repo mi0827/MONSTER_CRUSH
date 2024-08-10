@@ -88,7 +88,7 @@ void GameInit()
 
 	// プレイヤーの初期処理
 	player.Init();
-	
+
 	// ヒーローの初期処理
 	//hero.Init();
 	// モンスターの初期処理
@@ -141,13 +141,13 @@ void GameInit()
 	SetLightPositionHandle(light_handle, light_pos.VGet());
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
-	
+
 }
 
 // 更新処理
 void GameUpdate()
 {
-	
+
 	// プレイヤーの更新処理
 	player.Update(&camera.m_rot);
 
@@ -173,7 +173,7 @@ void GameUpdate()
 		player.m_move.Move_Hit_Capsule(&player.m_transform.pos, player.m_body.m_capsule.radius,
 			&monster.m_body);
 	}
-	
+
 
 
 	// ３：子の変数の値をシェーダーに渡します
@@ -183,7 +183,7 @@ void GameUpdate()
 // 描画処理
 void GameDraw()
 {
-	
+
 
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
@@ -228,7 +228,7 @@ void GameDraw()
 		// モンスターの描画
 		monster.Draw();
 	}
-	
+
 	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 
@@ -263,15 +263,14 @@ void GameDraw()
 		// モンスターの描画
 		monster.Draw();
 	}
-	
 
+	// フラグがっているかを確認するためのもの（最後に消す）
+	//printfDx("run:%d ", player.m_run_flag);
+	//printfDx("idle:%d ", player.m_idle_flag);
+	//printfDx("rolling:%d ", player.m_rolling_flag);
+	//printfDx("attack:%d ", player.m_attack_flag);
+	//printfDx("combo_flag:%d ", player.m_combo_flag);
 
-	printfDx("run:%d ", player.m_run_flag);
-	printfDx("idle:%d ", player.m_idle_flag);
-	printfDx("rolling:%d ", player.m_rolling_flag);
-	printfDx("attack:%d ", player.m_attack_flag);
-	printfDx("combo_flag:%d ", player.m_combo_flag);
-	
 	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(1, -1);
 	SetUseShadowMap(0, -1);
@@ -295,8 +294,10 @@ void GameExit()
 	//DeleteLightHandle(light_handle_2);
 }
 
+// ステータスバーの描画
 void StatusDraw()
 {
 	player.Status_Bar_Draw();
+	monster.Status_Bar_Draw();
 }
 

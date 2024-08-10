@@ -104,7 +104,7 @@ void UIBra::Draw()
 		// フォントのサイズを設定（バーのサイズに合わせる）
 		SetFontSize(m_size.y);
 		// 名前の描画
-		DrawString(m_back_pos1.x, m_back_pos1.y, m_name, m_character_color);
+		DrawString(m_back_pos1.x  + 5, m_back_pos1.y, m_name, m_character_color);
 		// フォントのサイズをもとのサイズに戻す
 		SetFontSize(font_size);
 	}

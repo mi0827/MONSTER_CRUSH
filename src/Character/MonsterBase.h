@@ -33,6 +33,11 @@ public:
 	//! @brief 当たり判定の更新処理
 	virtual void CDUpdate() = 0;
 
+	//! @brief ステータスバーの設定用関数
+	virtual void Status_Bar_Init() = 0;
+	//! @brief ステータスバーの描画関数
+	virtual void Status_Bar_Draw() = 0;
+
 	//! @brief ベースクラスでの初期処理
 	void BaseInit(Transform* target_pos, const  float m_target_hit_r);
 

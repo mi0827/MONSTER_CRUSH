@@ -15,6 +15,7 @@ public:
 	static constexpr float MONSTER_ROT_SPEED = 0.5f;   //! 回転スピード
 	static constexpr float TARGET_DISTANCE = 150.0f;     //! ターゲットとの距離
 	static constexpr float JUMP_HEIGHT = 50.0f;              //! ジャンプの最大
+	static constexpr int HP_MAX = 500;                           //! HPの最大値
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -83,6 +84,11 @@ public:
 	//! @brief あたり判定の更新処理
 	void CDUpdate() override;
 
+	//! @brief ステータスバーの設定用関数
+	void Status_Bar_Init() override;
+	//! @brief ステータスバーの描画関数
+	void Status_Bar_Draw() override;
+
 	//! @brief アニメーション読み込み関数
 	void Anima_Load_Init();
 
@@ -142,6 +148,8 @@ public:
 	//! コンボをやめてほしい時のフラグ
 	bool m_stop_combo_flag = false;
 
+	
+
 public:
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言
@@ -161,4 +169,11 @@ public:
 	CapsuleCollision m_right_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
 	
+
+	//=================
+	// バー型のUI
+	//=================
+	UIBra m_hp;
+	// HPの残量
+	int m_hp_value = HP_MAX;
 };

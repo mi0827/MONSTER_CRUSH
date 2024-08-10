@@ -42,7 +42,7 @@ public:
 	virtual void CDUpdate() = 0;
 
 	//! @brief ステータスバーの設定用関数
-	virtual void Suatus_Bar_Init() = 0;
+	virtual void Status_Bar_Init() = 0;
 	//! @brief ステータスバーの描画関数
 	virtual void Status_Bar_Draw() = 0;
 

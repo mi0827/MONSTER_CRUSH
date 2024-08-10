@@ -71,7 +71,7 @@ public:
 	void CDUpdate() override;
 
 	//! @brief ステータスバーの設定用関数
-	void Suatus_Bar_Init() override;
+	void Status_Bar_Init() override;
 	//! @brief ステータスバーの描画関数
 	void Status_Bar_Draw() override;
 
