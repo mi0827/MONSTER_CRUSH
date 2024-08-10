@@ -8,7 +8,7 @@ using namespace std;
 //-----------------------------------------------
 Animation::Animation()
 {
-
+	m_contexts[0].is_playing = false;
 }
 
 //-----------------------------------------------
@@ -29,7 +29,7 @@ Animation::~Animation()
 void Animation::Information_Init(int num)
 {
 	//アニメーションの情報をすべて初期化しておく
-	m_contexts[num].is_playering = false;
+	m_contexts[num].is_playing = false;
 	m_contexts[num].is_loop = false;
 	m_contexts[num].animation_index = -1;
 	m_contexts[num].animation_attach_index = -1;
@@ -56,7 +56,7 @@ void Animation::Init_Animation(int anim_max, int default_anim)
 //-----------------------------------------------
 // 読み込み
 //-----------------------------------------------
-void Animation::Load_Animation(const char file_path[256], int anim_no, int anim_index,float anim_play_speed)
+void Animation::Load_Animation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed)
 {
 	// 読み込み
 	anim_handle[anim_no]->handle = MV1LoadModel(file_path);
@@ -194,7 +194,7 @@ bool Animation::Change_Flag(bool flag1)
 {
 	// キャラクターの各フラグと
 	// アニメーション変更フラグが両方上がっていたら
-	if (flag1 == true && m_anim_change_flag== true) 
+	if (flag1 == true && m_anim_change_flag == true)
 	{
 		// 変更の許可を出す
 		return true;
@@ -204,7 +204,7 @@ bool Animation::Change_Flag(bool flag1)
 		// アニメーションの変更はさせない
 		return false;
 	}
-	
+
 }
 
 //-----------------------------------------------
@@ -246,10 +246,14 @@ void Animation::Action_Change_Animation(Model* model, int anim_num, bool loop, b
 void Animation::Play_Animation(Model* model, bool combo_flag)
 {
 	// アニメーションを再生中にしておく
- 	m_contexts[0].is_playering = true;
+	if (m_contexts[0].play_time < m_contexts[0].animation_total_time)
+	{
+		m_contexts[0].is_playing = true;
+	}
 	// アニメーションの再生フレームを進める
 	m_contexts[0].play_time += anim_handle[m_anim_num]->play_speed;
 	// ループするかどうかによって処理の変更
+
 	if (m_contexts[0].is_loop)
 	{
 		Loop_Animation();
@@ -261,6 +265,7 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 			Not_Loop(model);
 		}
 	}
+
 	// ブレンド率の変更
 	Change_Blend();
 	// 二つ付いているときとそうでないときで処理を変える
@@ -307,10 +312,12 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 void Animation::Loop_Animation()
 {
 	// アニメーションフレームが最後まで回ったら
-	if (m_contexts[0].play_time > m_contexts[0].animation_total_time)
+	if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
 	{
 		// 最初にリセットする
 		m_contexts[0].play_time = 0.0f;
+		// アニメーション再生外にする
+		m_contexts[0].is_playing = false;
 	}
 }
 
@@ -323,7 +330,9 @@ void Animation::Not_Loop(Model* model)
 	// アニメーションフレームが最後まで回ったら
 	if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
 	{
-		m_contexts[0].is_playering = false;
+		// 最初にリセットする
+		m_contexts[0].play_time = 0.0f;
+
 		// デフォルトのアニメーションに設定
 		Change_Animation(model, m_default_anim, true);
 	}

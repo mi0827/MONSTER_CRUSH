@@ -136,33 +136,38 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
 		// 待機モードにしておく
-		if (m_combo_flag == false && m_animation.m_contexts[0].is_playering == false)
-		{
-			m_monster_mode = IDLE;
-
-			// 歩いてほしいのでフラグを上げる
-			m_idle_flag = true;
-			m_run_flag = true;
-			move.Set_Can_Rotate(true);
-		}
-		// 攻撃中(アニメーション中)は回転してほしくない
-		move.Set_Can_Rotate(false);
-		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
-		move.m_hit = move.Target_Hit();
-		// 条件がそろっていたら移動をしてほしいので
-		if (move.m_hit)
-		{
-			// コンボフラを下げる
-			m_combo_flag = true;
-		}
+		//if (move.m_hit && m_combo_flag == false && m_animation.m_contexts[0].is_playing == false)
+		//{
+		//	m_monster_mode = IDLE;
+		//	// 歩いてほしいのでフラグを上げる
+		//	m_idle_flag = true;
+		//	m_run_flag = true;
+		//	move.Set_Can_Rotate(true);
+		//}
 
 		// ジャンプ攻撃時の処理
 		if (m_now_attack_anim == jump)
 		{
 			Jump_Update();
 		}
+		// 攻撃中(アニメーション中)は回転してほしくない
+		move.Set_Can_Rotate(false);
+		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
+		move.m_hit = move.Target_Hit();
+		
+		// アニメーションの再生が終わったとき
+		if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time)
+		{
+			// 移動していい状態だったら
+			if (move.m_hit)
+			{
+				// 移動フラグを立てる
+				m_run_flag = true;
+			}
+		}
 		// 攻撃用の関数
 		Attack_Update();
+
 		break;
 	}
 
@@ -223,7 +228,7 @@ void Monster::Status_Bar_Init()
 	m_hp.SetColor(255, 100, 50, &m_hp.m_color);
 	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
 	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
-	m_hp.SetColor(255,255, 255, &m_hp.m_character_color);
+	m_hp.SetColor(255, 255, 255, &m_hp.m_character_color);
 	m_hp.SetName("HP");
 }
 
@@ -298,6 +303,7 @@ void Monster::Move_Update()
 //-----------------------------------------------
 void Monster::Attack_First()
 {
+
 	// attack_flag が上がってるときかつ
 	// プレイヤーモードがATTACK以外の時
 	if (m_attack_flag && m_monster_mode != ATTACK)
@@ -420,7 +426,7 @@ void Monster::Combo_Update()
 	if (move.m_hit)
 	{
 		// コンボをできる状態でない
-		combo_jug = false;
+		combo_jug = true;
 	}
 	// 接していて止まっている場合
 	if (!move.m_hit)
@@ -442,6 +448,7 @@ void Monster::Combo_Update()
 	// コンボフラグが上がっているとき
 	if (m_combo_flag)
 	{
+		// 次の攻撃アニメーションをランダムでセット
 		m_next_anim = Set_Rand_Attack();
 
 		// コンボ用のアニメーションをつける

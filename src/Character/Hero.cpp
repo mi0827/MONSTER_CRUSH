@@ -111,7 +111,7 @@ void Hero::Update(Vector3* camera_rot)
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
 		// 待機モードにしておく
-		if (m_combo_flag == false && m_animation.m_contexts[0].is_playering == false)
+		if (m_combo_flag == false && m_animation.m_contexts[0].is_playing == false)
 		{
 			m_hero_mode = IDLE;
 		}

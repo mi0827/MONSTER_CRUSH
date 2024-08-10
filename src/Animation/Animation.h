@@ -32,7 +32,7 @@ public:
 	//! 再生中のアニメーションの情報構造体
 	struct Information
 	{
-		bool  is_playering = false;         //!< 再生中かどうか
+		bool  is_playing = false;         //!< 再生中かどうか
 		bool  is_loop = false;              //!< ループ再生かどうか
 		int   animation_index = -1;         //!< 現在の再生中の番号
 		int   animation_attach_index = -1;  //!< アタッチされたスロット番号

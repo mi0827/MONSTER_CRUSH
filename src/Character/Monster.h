@@ -142,7 +142,9 @@ public:
 	static constexpr int COMBO_MAX = 3;
 	//! コンボ用フラグ
 	bool m_combo_flag = false;
-	 
+	
+	//! 動いてほしいかのフラグ
+
 	//! 次のアニメーション番号を保存
 	int m_next_anim = -1;
 	//! コンボをやめてほしい時のフラグ
