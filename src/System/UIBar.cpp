@@ -34,7 +34,7 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 	m_back_pos2 = m_pos2;
 
 	// 外枠のラインを引く場合
-	if (m_line_judgment) 
+	if (m_line_judgment)
 	{
 		// 外枠のラインの設定
 		m_line_pos1 = m_pos1;
@@ -48,7 +48,7 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 	SetColor(255, 255, 0, &m_character_color);
 
 	// valueの値が１減るたびに減る量の設定
-	aaa = m_size.x / m_value;
+	value_decrease = m_size.x / m_value;
 
 
 }
@@ -67,7 +67,7 @@ void UIBra::SetColor(int red, int green, int blue, int* color)
 //-----------------------------------------------
 void UIBra::SetName(const char name[256])
 {
-	for (int i =0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		m_name[i] = name[i];
 	}
@@ -78,12 +78,19 @@ void UIBra::SetName(const char name[256])
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void UIBra::Update(int*value)
+void UIBra::Update(int* value)
 {
-	// valueがどれだけ減っているのかを調べる
-	int value_difference = m_value_max - m_value ;
-	// 減っている分のバーを減らしたい
-	new_aaa = aaa * value_difference;
+	m_value = *value;
+	// m_value の数値が０いかになったらバーがそれ以上ひかれてほしくない
+	if (m_value >= 0)
+	{
+		// valueがどれだけ減っているのかを調べる
+		int value_difference = m_value_max - m_value;
+
+		// 減っている分のバーを減らしたい
+		new_value = value_decrease * value_difference;
+	}
+
 }
 
 //-----------------------------------------------
@@ -91,24 +98,24 @@ void UIBra::Update(int*value)
 //-----------------------------------------------
 void UIBra::Draw()
 {
-	
+
 	// バックバーの描画
 	DrawBox(m_back_pos1.x, m_back_pos1.y, m_back_pos2.x, m_back_pos2.y, m_back_color, TRUE);
-	
-	DrawBox(m_pos1.x, m_pos1.y, m_pos2.x + new_aaa, m_pos2.y, m_color, TRUE);
-	
-	if (m_name_judge )
+
+	DrawBox(m_pos1.x, m_pos1.y, m_pos2.x - new_value, m_pos2.y, m_color, TRUE);
+
+	if (m_name_judge)
 	{
 		// 現在のフォントのサイズを保存してい置く
 		int font_size = GetFontSize();
 		// フォントのサイズを設定（バーのサイズに合わせる）
 		SetFontSize(m_size.y);
 		// 名前の描画
-		DrawString(m_back_pos1.x  + 5, m_back_pos1.y, m_name, m_character_color);
+		DrawString(m_back_pos1.x + 5, m_back_pos1.y, m_name, m_character_color);
 		// フォントのサイズをもとのサイズに戻す
 		SetFontSize(font_size);
 	}
-	
+
 	// 外枠のラインを引く場合
 	if (m_line_judgment)
 	{

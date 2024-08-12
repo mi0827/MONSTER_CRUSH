@@ -120,6 +120,9 @@
     <ClCompile Include="src\System\UIBar.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
+    <ClCompile Include="src\System\DamageAction.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameMain.h">
@@ -198,6 +201,9 @@
       <Filter>ソース ファイル\Character</Filter>
     </ClInclude>
     <ClInclude Include="src\System\UIBar.h">
+      <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\DamageAction.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>

@@ -66,10 +66,8 @@ void SamplePlayer::Init()
 //-----------------------------------------------
 void SamplePlayer::Update(Vector3* camera_rot)
 {
-	clsDx();
-
+	// HP‚Ì’l‚ªŒ¸‚Á‚½‚©‚Ç‚¤‚©
 	m_hp.Update(&m_hp_value);
-
 
 	// ‘Ò‹@ó‘Ô‚Ü‚½‚Í‘–‚è‚Ì‚¾‚¯‚—
 	// ˆÚ“®ˆ—
@@ -213,8 +211,7 @@ void SamplePlayer::Status_Bar_Init()
 //-----------------------------------------------
 void SamplePlayer::Status_Bar_Draw()
 {
-	// HP‚Ì’l‚ªŒ¸‚Á‚½‚©‚Ç‚¤‚©
-	m_hp.Update(&m_hp_value);
+	
 	//===================
 	// UI‚Ì•`‰æ
 	//===================

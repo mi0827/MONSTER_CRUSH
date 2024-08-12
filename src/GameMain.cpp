@@ -26,6 +26,8 @@
 #include "src/Character/Hero.h"
 #include "src/Character/Monster.h"
 
+#include "src/System/DamageAction.h"
+
 #include "src/Camera.h"
 #include "GameMain.h"
 
@@ -165,6 +167,7 @@ void GameUpdate()
 	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
 	{
 		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &box1);
+		
 	}
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster.m_body, player.m_body))
@@ -172,9 +175,10 @@ void GameUpdate()
 		// 当たっていたら
 		player.m_move.Move_Hit_Capsule(&player.m_transform.pos, player.m_body.m_capsule.radius,
 			&monster.m_body);
+		Damage_Count(10, 5, &player.m_hp_value);
 	}
 
-
+	printfDx("HP:%3d ", player.m_hp_value);
 
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);

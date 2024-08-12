@@ -69,12 +69,10 @@ private:
 	int m_value_max;
 
 	//! valueの値が１減るたびにバーの減る量
-	// 後で名前を変える
-	 int aaa;
+	 int value_decrease;
 
-	// 今どれだけ増減しているか
-	// 後で名前を変える
-	int new_aaa;
+	// 今どれだけ増減してどれほぼ残っているか
+	int new_value;
 
 	//! 名前を保存するための変数
 	 char m_name[256] ;
