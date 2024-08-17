@@ -25,8 +25,10 @@
 #include "src/Character/SamplePlayer.h"
 #include "src/Character/Hero.h"
 #include "src/Character/Monster.h"
+#include "src/Character/Mutant.h"
 
 #include "src/System/DamageAction.h"
+#include "src/Action/Attack.h"
 
 #include "src/Camera.h"
 #include "GameMain.h"
@@ -45,7 +47,14 @@ SamplePlayer player;
 //! ヒーロークラスのオブジェクト
 //Hero hero;
 //! モンスタークラスのオブジェクト
-Monster monster;
+//Monster monster;
+Mutant mutant;
+
+//! 攻撃アクションの当たり判定用のオブジェクト
+// このクラスをただの関数でもよかったけど中にbool 型の変数が一つあるのでクラスにした
+Attack player_attack_hit;
+Attack monster_attack_hit;
+
 
 // シェーダーの基準の座標となる用の変数
 FLOAT4 shader_base_pos_;
@@ -54,6 +63,7 @@ int vertex_shader = 0;
 //	ピクセルシェーダー用の変数
 int pixel_shader = 0;
 
+// 仮のボックスの描画
 BoxCollision box1;
 
 // 仮の地面モデルの入れ物
@@ -61,8 +71,6 @@ int ground = 0;
 
 
 // 影に使うやつ
-
-
 //! プレイヤー用のシャドウマップ
 int player_shadowmap_hanndle;
 //! シャドーマップ用の変数
@@ -76,8 +84,9 @@ int light_handle_2;
 //! ライトの座標用変数
 
 
-
+//-------------------------------------------------------------
 // 初期処理
+//-------------------------------------------------------------
 void GameInit()
 {
 	//// シェーダーファイルの読み込み（ＤＸライブラリ用に変換されたファイル）
@@ -94,8 +103,8 @@ void GameInit()
 	// ヒーローの初期処理
 	//hero.Init();
 	// モンスターの初期処理
-	monster.Init();
-
+	//monster.Init();
+	mutant.Init();
 	// 地面モデルのも見込み
 	ground = MV1LoadModel("Data/ground.mqoz");
 	// 仮のボックス
@@ -146,9 +155,13 @@ void GameInit()
 
 }
 
+//-------------------------------------------------------------
 // 更新処理
+//-------------------------------------------------------------
 void GameUpdate()
 {
+
+	
 
 	// プレイヤーの更新処理
 	player.Update(&camera.m_rot);
@@ -158,8 +171,8 @@ void GameUpdate()
 
 	// モンスターの更新処理
 	// 今はプレイヤーと同じ更新処理だがモンスター独自の更新処理も追加する
-	monster.Update(&player.m_transform, player.m_hit_r);
-
+	//monster.Update(&player.m_transform, player.m_hit_r);
+	mutant.Update(&player.m_transform, player.m_hit_r);
 	// カメラの更新処理
 	camera.Update(&player.m_transform.pos);
 
@@ -170,21 +183,30 @@ void GameUpdate()
 		
 	}
 	// モンスターとプレイヤーの移動の当たり判定
-	if (CheckCapsuleHit(monster.m_body, player.m_body))
+	if (CheckCapsuleHit(mutant.m_body, player.m_body))
 	{
 		// 当たっていたら
 		player.m_move.Move_Hit_Capsule(&player.m_transform.pos, player.m_body.m_capsule.radius,
-			&monster.m_body);
-		Damage_Count(10, 5, &player.m_hp_value);
+			&mutant.m_body);
+	//	Damage_Count(10, 5, &player.m_hp_value);
 	}
 
-	printfDx("HP:%3d ", player.m_hp_value);
+	AttackUpdate();
+
+	
+	
+
+	//HitAttack(monster.m_body, player.m_body, monster.m_animation);
+
+	printfDx("HP:%3d ", mutant.m_hp_value);
 
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);
 }
 
+//-------------------------------------------------------------
 // 描画処理
+//-------------------------------------------------------------
 void GameDraw()
 {
 
@@ -230,7 +252,7 @@ void GameDraw()
 		MV1DrawModel(ground); // モデルの描画
 
 		// モンスターの描画
-		monster.Draw();
+		mutant.Draw();
 	}
 
 	// シャドウマップへの描画を終了
@@ -265,11 +287,11 @@ void GameDraw()
 		MV1DrawModel(ground); // モデルの描画
 
 		// モンスターの描画
-		monster.Draw();
+		mutant.Draw();
 	}
 
 	// フラグがっているかを確認するためのもの（最後に消す）
-	//printfDx("run:%d ", player.m_run_flag);
+	printfDx("run:%d ", player.m_now_attack);
 	//printfDx("idle:%d ", player.m_idle_flag);
 	//printfDx("rolling:%d ", player.m_rolling_flag);
 	//printfDx("attack:%d ", player.m_attack_flag);
@@ -298,10 +320,46 @@ void GameExit()
 	//DeleteLightHandle(light_handle_2);
 }
 
+//-------------------------------------------------------------
 // ステータスバーの描画
+//-------------------------------------------------------------
 void StatusDraw()
 {
 	player.Status_Bar_Draw();
-	monster.Status_Bar_Draw();
+	mutant.Status_Bar_Draw();
 }
+
+//-------------------------------------------------------------
+// 攻撃関係の更新処理
+//-------------------------------------------------------------
+void AttackUpdate()
+{
+	// プレイヤーの攻撃
+	if (player.m_attack_flag)
+	{
+		// 一つのアニメーションの間に一回だけ当たったらtrueを返すようにするようにしたいがうまくいかない
+		// 詳しくは関数の中に書く
+
+		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
+		if (player_attack_hit.HitAttack(mutant.m_body, player.attack_hit_damage[player.m_now_attack].m_attack_hit, player.m_animation) == true)
+		{
+			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
+			Damage_Count(player.attack_hit_damage[player.m_now_attack].m_attack_damage, 5, &mutant.m_hp_value);
+		}
+	}
+
+	//モンスターの攻撃
+	if (mutant.m_attack_flag)
+	{
+		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
+		if (monster_attack_hit.HitAttack(mutant.m_body, player.m_body, player.m_animation) == true)
+		{
+			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
+			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
+			Damage_Count(200, 5, &player.m_hp_value);
+		}
+	}
+}
+
+
 

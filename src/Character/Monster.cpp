@@ -224,7 +224,7 @@ void Monster::CDUpdate()
 void Monster::Status_Bar_Init()
 {
 	// HPÇÃê›íË
-	m_hp.Set({ 25,25 }, { 1205, 25 }, &m_hp_value, true);
+	m_hp.Set({ 25,25 }, { 1200, 25 }, &m_hp_value, true);
 	m_hp.SetColor(255, 100, 50, &m_hp.m_color);
 	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
 	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);

@@ -133,4 +133,5 @@ private:
 	//! このフラグをを上げるタイミングが大事
 	bool m_anim_change_flag = true; 
 
+	bool m_playing_anim = false;
 };

@@ -18,6 +18,8 @@ void GameExit();
 //! ステータスバー描画用の関数
 void StatusDraw();
 
+//! 攻撃に関する更新処理
+void AttackUpdate();
 
 ////! 頂点シェーダー用の変数
 //int vertex_shader;

@@ -80,17 +80,18 @@ void UIBra::SetName(const char name[256])
 //-----------------------------------------------
 void UIBra::Update(int* value)
 {
+	if (*value <= 0)
+	{
+		*value = 0;
+	}
 	m_value = *value;
 	// m_value の数値が０いかになったらバーがそれ以上ひかれてほしくない
-	if (m_value >= 0)
-	{
+	
 		// valueがどれだけ減っているのかを調べる
 		int value_difference = m_value_max - m_value;
 
 		// 減っている分のバーを減らしたい
 		new_value = value_decrease * value_difference;
-	}
-
 }
 
 //-----------------------------------------------
@@ -102,7 +103,7 @@ void UIBra::Draw()
 	// バックバーの描画
 	DrawBox(m_back_pos1.x, m_back_pos1.y, m_back_pos2.x, m_back_pos2.y, m_back_color, TRUE);
 
-	DrawBox(m_pos1.x, m_pos1.y, m_pos2.x - new_value, m_pos2.y, m_color, TRUE);
+	DrawBox(m_pos1.x, m_pos1.y, m_pos2.x - (float)new_value, m_pos2.y, m_color, TRUE);
 
 	if (m_name_judge)
 	{

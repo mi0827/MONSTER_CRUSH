@@ -157,13 +157,17 @@ void SamplePlayer::Draw()
 	//===================
 	// カプセルの描画（仮）（後で消す）
 	//===================
-	m_body.Draw();
+
+	attack_hit_damage[m_now_attack].m_attack_hit.Draw();
+	/*m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
+	m_right_feet.Draw();
+	m_left_feet.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 
-	
+
 }
 
 //-----------------------------------------------
@@ -180,16 +184,29 @@ void SamplePlayer::Exit()
 void SamplePlayer::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateCapsule(m_transform.pos);
-	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
-
+	m_body.CreateNodoCapsule(&m_model, 6);
+	m_body.NodoSetSize(&m_model, 65, 3.0f);
 	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 9);
-	m_right_hand.NodoSetSize(&m_model, 10, 1.0f);
-
+	m_right_hand.CreateNodoCapsule(&m_model, 33);
+	m_right_hand.NodoSetSize(&m_model, 34, 1.0f);
 	// 左手の当たり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 33);
-	m_left_hand.NodoSetSize(&m_model, 34, 1.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 9);
+	m_left_hand.NodoSetSize(&m_model, 10, 1.0f);
+	// 右足の当たり判定
+	m_right_feet.CreateNodoCapsule(&m_model, 60);
+	m_right_feet.NodoSetSize(&m_model, 62, 1.0f);
+	// 左足の当たり判定
+	m_left_feet.CreateNodoCapsule(&m_model, 55);
+	m_left_feet.NodoSetSize(&m_model, 57, 1.0f);
+
+	// 攻撃時の当たり当たり判定の保存
+	attack_hit_damage[attack_1-NORMAL_ACTION] = { m_left_hand,20 };
+	attack_hit_damage[attack_2 - NORMAL_ACTION] = { m_right_hand,20 };
+	attack_hit_damage[attack_3 - NORMAL_ACTION] = { m_right_hand,20 };
+	attack_hit_damage[attack_kick_1 - NORMAL_ACTION] = { m_right_feet,20 };
+	attack_hit_damage[attack_kick_2 - NORMAL_ACTION] = { m_left_feet,20 };
+	attack_hit_damage[attack_kick_3 - NORMAL_ACTION] = { m_right_feet,20 };
+	
 }
 
 //-----------------------------------------------
@@ -198,7 +215,7 @@ void SamplePlayer::CDUpdate()
 void SamplePlayer::Status_Bar_Init()
 {
 	// HPの設定
-	m_hp.Set({ 50, 650}, { 500,25 }, &m_hp_value, true);
+	m_hp.Set({ 50, 650 }, { 500,25 }, &m_hp_value, true);
 	m_hp.SetColor(50, 255, 50, &m_hp.m_color);
 	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
 	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
@@ -211,7 +228,7 @@ void SamplePlayer::Status_Bar_Init()
 //-----------------------------------------------
 void SamplePlayer::Status_Bar_Draw()
 {
-	
+
 	//===================
 	// UIの描画
 	//===================
@@ -322,6 +339,9 @@ void SamplePlayer::Attack_First()
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = attack_1;
 
+		// 現在の攻撃番号を保存する
+		m_now_attack = m_now_attack_anim - NORMAL_ACTION;
+
 		// コンボの回数をリセット
 		m_combo_count = 0;
 
@@ -342,7 +362,11 @@ void SamplePlayer::Attack_First()
 		m_player_mode = ATTACK;
 		m_animation.Change_Animation(&m_model, attack_kick_1, false);
 		// 攻撃アニメーション番号の保存
-		m_now_attack_anim = attack_1;
+		m_now_attack_anim = attack_kick_1;
+
+		// 現在の攻撃番号を保存する
+		m_now_attack = m_now_attack_anim - NORMAL_ACTION;
+
 		// コンボの回数をリセット
 		m_combo_count = 0;
 
@@ -438,7 +462,6 @@ void SamplePlayer::Combo_Update()
 	// コンボフラグが上がっているとき
 	if (m_combo_flag)
 	{
-
 		// 今のアニメーション番号から一つ次のアニメーション
 		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
 		{
@@ -457,6 +480,8 @@ void SamplePlayer::Combo_Update()
 			m_combo_flag = false;
 			// コンボの回数をリセット
 			m_combo_count = 0;
+			// 当たり判定の設定がバックっているので一下げる
+			m_next_anim--;
 		}
 
 		// コンボ用のアニメーションをつける
@@ -466,6 +491,10 @@ void SamplePlayer::Combo_Update()
 		{
 			// 現在の攻撃アニメーションを保存
 			m_now_attack_anim = m_next_anim;
+			// 現在の攻撃番号を保存する
+			m_now_attack = m_now_attack_anim - NORMAL_ACTION;
 		}
+		
 	}
+
 }

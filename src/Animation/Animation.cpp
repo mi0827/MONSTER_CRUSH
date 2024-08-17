@@ -245,8 +245,9 @@ void Animation::Action_Change_Animation(Model* model, int anim_num, bool loop, b
 //-----------------------------------------------
 void Animation::Play_Animation(Model* model, bool combo_flag)
 {
+	m_playing_anim = true;
 	// アニメーションを再生中にしておく
-	if (m_contexts[0].play_time < m_contexts[0].animation_total_time)
+	if (m_contexts[0].play_time <= m_contexts[0].animation_total_time)
 	{
 		m_contexts[0].is_playing = true;
 	}
@@ -330,6 +331,9 @@ void Animation::Not_Loop(Model* model)
 	// アニメーションフレームが最後まで回ったら
 	if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
 	{
+		//m_playing_anim = false;
+		// アニメーション再生外にする
+		m_contexts[0].is_playing = false;
 		// 最初にリセットする
 		m_contexts[0].play_time = 0.0f;
 

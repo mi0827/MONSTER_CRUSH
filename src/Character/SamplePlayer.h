@@ -14,6 +14,7 @@ public:
 	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
 	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
 	static constexpr int HP_MAX = 100;                               //! HPの最大値
+
 	//-----------------------------------------------
 	// 列挙体の宣言
 	//-----------------------------------------------
@@ -34,6 +35,9 @@ public:
 
 		anim_max //!< アニメーションの最大数
 	};
+
+	static constexpr int NORMAL_ACTION = 3;                     //! アニメーションの攻撃系以外のアニメーションの数
+	static constexpr int ATTACK_ACTION = anim_max - NORMAL_ACTION; //! 攻撃アニメーションの最大数
 
 	//! プレイヤーの状態
 	enum PlayerMode
@@ -154,14 +158,30 @@ public:
 	//=================
 	// 当たり判定
 	//=================
-	CapsuleCollision m_right_hand; //!< 右手のあたり判定
-	CapsuleCollision m_left_hand; //!< 右手の当たり判定
-	CapsuleCollision m_body;       //!< 本体のあたり判定
+	CapsuleCollision m_right_hand; //!< 右手の当たり判定
+	CapsuleCollision m_left_hand;   //!< 右手の当たり判定
+	CapsuleCollision m_body;         //!< 本体の当たり判定
+	CapsuleCollision m_left_feet;    //!< 左足の当たり判定
+	CapsuleCollision m_right_feet;  //!< 右足の当たり判定
+
+	//==================================
+	// 攻撃時の当たり判定とダメージの設定当たり判定
+	//==================================
+	// このカプセルの当たり判定を保存することがうまくできない
+	Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION];
+	
+
 
 	//=================
 	// バー型のUI
 	//=================
 	UIBra m_hp;
+
+	//=================
+	// ステータス
+	//=================
 	// HPの残量
 	int m_hp_value = HP_MAX;
+	// 防御力(とりあえず20)
+	static constexpr int M_DEFENSE = 20;
 };

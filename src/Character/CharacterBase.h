@@ -46,6 +46,8 @@ public:
 	//! @brief ステータスバーの描画関数
 	virtual void Status_Bar_Draw() = 0;
 
+	
+
 	//! @brief ベースクラスでの初期処理
 	//! @param 敵の移動の際に使う半径の設定
 	void BaseInit(float r);
@@ -98,5 +100,18 @@ public:
 
 	//! 敵との移動当たり判定に使う
 	float m_hit_r = 0.0f;
+	
+	// 攻撃の時の当たり判定とダメージの構造体
+	// 各子クラスで定義する
+	struct Attack_Hit_Damage
+	{
+		//!  攻撃時に使いたい当たり判定
+		CapsuleCollision m_attack_hit;
+		//! 攻撃にあったダメージ
+		int m_attack_damage = 0;
+	};
+	
+	//! プレイヤーの現在行っている攻撃アニメーション番号を保存する
+	int m_now_attack = -1;
 
 };
