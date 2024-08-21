@@ -184,6 +184,13 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClCompile Include="src\Hit\Hit.cpp" />
     <ClCompile Include="src\Hit\HitStop.cpp" />
     <ClCompile Include="src\Model\Model.cpp" />
+    <ClCompile Include="src\Scene\Base\Scene_Base.cpp" />
+    <ClCompile Include="src\Scene\EndScene.cpp" />
+    <ClCompile Include="src\Scene\GameScene.cpp" />
+    <ClCompile Include="src\Scene\TieleScene.cpp" />
+    <ClCompile Include="src\Scene\TitleScene.cpp" />
+    <ClCompile Include="src\Sound\BGM.cpp" />
+    <ClCompile Include="src\Sound\SE.cpp" />
     <ClCompile Include="src\System\DamageAction.cpp" />
     <ClCompile Include="src\System\InputPad.cpp" />
     <ClCompile Include="src\System\Move.cpp" />
@@ -229,6 +236,13 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\Hit\Hit.h" />
     <ClInclude Include="src\Hit\HitStop.h" />
     <ClInclude Include="src\Model\Model.h" />
+    <ClInclude Include="src\Scene\Base\Scene_Base.h" />
+    <ClInclude Include="src\Scene\EndScene.h" />
+    <ClInclude Include="src\Scene\GameScene.h" />
+    <ClInclude Include="src\Scene\TieleScene.h" />
+    <ClInclude Include="src\Scene\TitleScene.h" />
+    <ClInclude Include="src\Sound\BGM.h" />
+    <ClInclude Include="src\Sound\SE.h" />
     <ClInclude Include="src\System\DamageAction.h" />
     <ClInclude Include="src\System\InputPad.h" />
     <ClInclude Include="src\System\Move.h" />

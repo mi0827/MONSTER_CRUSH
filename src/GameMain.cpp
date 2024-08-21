@@ -30,6 +30,11 @@
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
 
+#include "src/Scene/Base/Scene_Base.h"
+#include "src/Scene/TitleScene.h"
+#include "src/Scene/GameScene.h"
+#include "src/Scene/EndScene.h"
+
 #include "src/Camera.h"
 #include "GameMain.h"
 
