@@ -2,7 +2,13 @@
 #include "src/System/Vector3.h"
 #include "src/System/Transform.h"
 #include "src/System/Spotlight.h"
+
+#include "src/Model/Model.h"
+
+
 #include "src/Collision/BoxCollision.h"
+#include "src/Collision/CapsuleCollision.h"
+
 #include "src/System/TargetMove.h"
 
 #include "src/Character/MonsterBase.h"
@@ -24,6 +30,17 @@ MonsterBase::MonsterBase()
 MonsterBase::~MonsterBase()
 {
 
+}
+
+//---------------------------------------------------------------------------
+// ローリングアクションの中の移動処理
+//---------------------------------------------------------------------------
+void MonsterBase::Action_Rolling(const int rolling_speed)
+{
+	// ローリング中の移動処理
+// 向いている方向に PLAYER_ROLLING_SPEED 分移動する
+	m_transform.pos.z += rolling_speed * cosf(TO_RADIAN(m_transform.rot.y));
+	m_transform.pos.x += rolling_speed * sinf(TO_RADIAN(m_transform.rot.y));
 }
 
 //---------------------------------------------------------------------------

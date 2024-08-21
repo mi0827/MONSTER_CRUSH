@@ -20,7 +20,7 @@ bool Attack::HitAttack(CapsuleCollision capsule1, CapsuleCollision capsule2, Ani
 // コンボをつなぐと入る
 // 本来はanim.m_contexts[0].is_playingで判定をとりたいがうまくいかない
 // プログラミングの順番的にはうまくいくはずなのにうまくいかない
-	if (/*anim.m_contexts[0].play_time >= anim.m_contexts[0].animation_total_time -1 */!anim.m_contexts[0].is_playing)
+	if (anim.m_contexts[0].play_time >= anim.m_contexts[0].animation_total_time -1 /*!anim.m_contexts[0].is_playing*/)
 	{
 		// 当たり判定がないときはfalseにしておく
 		hit = false;

@@ -317,6 +317,9 @@ void Monster::Attack_First()
 	m_animation.Change_Animation(&m_model, attack_1, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack_1;
+	// 現在の攻撃番号を保存する
+	m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
+
 	m_stop_combo_flag = true;
 }
 

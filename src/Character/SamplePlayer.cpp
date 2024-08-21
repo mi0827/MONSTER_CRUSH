@@ -202,10 +202,10 @@ void SamplePlayer::CDUpdate()
 	// UŒ‚‚Ì“–‚½‚è“–‚½‚è”»’è‚Ì•Û‘¶
 	attack_hit_damage[attack_1-NORMAL_ACTION] = { m_left_hand,20 };
 	attack_hit_damage[attack_2 - NORMAL_ACTION] = { m_right_hand,20 };
-	attack_hit_damage[attack_3 - NORMAL_ACTION] = { m_right_hand,20 };
+	attack_hit_damage[attack_3 - NORMAL_ACTION] = { m_right_hand,40 };
 	attack_hit_damage[attack_kick_1 - NORMAL_ACTION] = { m_right_feet,20 };
 	attack_hit_damage[attack_kick_2 - NORMAL_ACTION] = { m_left_feet,20 };
-	attack_hit_damage[attack_kick_3 - NORMAL_ACTION] = { m_right_feet,20 };
+	attack_hit_damage[attack_kick_3 - NORMAL_ACTION] = { m_right_feet,50 };
 	
 }
 

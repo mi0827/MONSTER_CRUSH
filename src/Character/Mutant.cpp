@@ -60,6 +60,7 @@ void Mutant::Init()
 {
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Mutant/Mutant.mv1");
+
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
@@ -133,22 +134,16 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 		m_idle_flag = false;
 		m_run_flag = false;
 
-		// コンボフラグが立っていなくて
-		// 攻撃アニメーションの再生が終わっていたら
-		// 待機モードにしておく
-		//if (move.m_hit && m_combo_flag == false && m_animation.m_contexts[0].is_playing == false)
-		//{
-		//	m_monster_mode = IDLE;
-		//	// 歩いてほしいのでフラグを上げる
-		//	m_idle_flag = true;
-		//	m_run_flag = true;
-		//	move.Set_Can_Rotate(true);
-		//}
 
 		// ジャンプ攻撃時の処理
 		if (m_now_attack_anim == jump)
 		{
 			Jump_Update();
+		}
+		// ローリングアクション時の処理
+		if (m_now_attack_anim == rolling)
+		{
+		Action_Rolling(ROLLING_SPEED);
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		move.Set_Can_Rotate(false);
@@ -182,10 +177,11 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 //-----------------------------------------------
 void Mutant::Draw()
 {
+	attack_hit_damage[m_now_attack].m_attack_hit.Draw();
 	// カプセルの描画(当たり判定)
-	m_body.Draw();
+	/*m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();
+	m_right_hand.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -217,6 +213,14 @@ void Mutant::CDUpdate()
 	// 爪の部分が当たり判定がない
 	m_right_hand.CreateNodoCapsule(&m_model, 9);
 	m_right_hand.NodoSetSize(&m_model, 11, 5.0f);
+
+	// 攻撃時の当たり当たり判定の保存
+	attack_hit_damage[attack_1 - ATTACK_ANIM_START] = { m_left_hand,20 };
+	attack_hit_damage[attack_2 - ATTACK_ANIM_START] = { m_right_hand,20 };
+	attack_hit_damage[attack_3 - ATTACK_ANIM_START] = { m_right_hand,20 };
+	attack_hit_damage[attack_4 - ATTACK_ANIM_START] = { m_right_hand,20 };
+	attack_hit_damage[rolling - ATTACK_ANIM_START] = { m_body,20 };
+	attack_hit_damage[jump - ATTACK_ANIM_START] = { m_body,20 };
 }
 
 //-----------------------------------------------
@@ -320,6 +324,10 @@ void Mutant::Attack_First()
 	m_animation.Change_Animation(&m_model, attack_1, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack_1;
+
+	// 現在の攻撃番号を保存する
+	m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
+
 	m_stop_combo_flag = true;
 }
 
@@ -362,6 +370,9 @@ void Mutant::Attack_Jump()
 		m_animation.Change_Animation(&m_model, jump, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = jump;
+		// 現在の攻撃番号を保存する
+		m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
+
 		m_stop_combo_flag = true;
 		// ジャンプ処理は
 		jump_num = STANDBY;
@@ -461,6 +472,8 @@ void Mutant::Combo_Update()
 		{
 			// 現在の攻撃アニメーションを保存
 			m_now_attack_anim = m_next_anim;
+			// 現在の攻撃番号を保存する
+			m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
 		}
 	}
 }

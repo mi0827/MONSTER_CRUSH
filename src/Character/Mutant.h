@@ -16,6 +16,7 @@ public:
 	static constexpr float TARGET_DISTANCE = 150.0f;     //! ターゲットとの距離
 	static constexpr float JUMP_HEIGHT = 50.0f;              //! ジャンプの最大
 	static constexpr int HP_MAX = 500;                           //! HPの最大値
+	static constexpr int ROLLING_SPEED = 1.0f;               //! ローリングスピード
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -38,9 +39,11 @@ public:
 
 	//! 攻撃アニメーションの一番最初
 	static constexpr int ATTACK_ANIM_START = attack_1;
-	//! 攻撃アニメーション最大値
+	//! 攻撃アニメーション最大値（jumpを抜いた分）
 	static constexpr int ATTACK_ANIM_MAX = jump - ATTACK_ANIM_START;
 
+	//! 攻撃アクションの数
+	static constexpr int ATTACK_ACTION_MAX = anim_max - attack_1;
 	
 	//! モンスターの状態
 	enum MonsterMode
@@ -173,7 +176,12 @@ public:
 	CapsuleCollision m_left_hand; //!< 左手のあたり判定
 	CapsuleCollision m_right_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
-	
+
+	//==================================
+	// 攻撃時の当たり判定とダメージの設定当たり判定
+	//==================================
+	// このカプセルの当たり判定を保存することがうまくできない
+	Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION_MAX];
 
 	//=================
 	// バー型のUI

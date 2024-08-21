@@ -161,7 +161,7 @@ void GameInit()
 void GameUpdate()
 {
 
-	
+
 
 	// プレイヤーの更新処理
 	player.Update(&camera.m_rot);
@@ -180,7 +180,7 @@ void GameUpdate()
 	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
 	{
 		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &box1);
-		
+
 	}
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(mutant.m_body, player.m_body))
@@ -188,13 +188,13 @@ void GameUpdate()
 		// 当たっていたら
 		player.m_move.Move_Hit_Capsule(&player.m_transform.pos, player.m_body.m_capsule.radius,
 			&mutant.m_body);
-	//	Damage_Count(10, 5, &player.m_hp_value);
+		//	Damage_Count(10, 5, &player.m_hp_value);
 	}
 
 	AttackUpdate();
 
-	
-	
+
+
 
 	//HitAttack(monster.m_body, player.m_body, monster.m_animation);
 
@@ -292,6 +292,10 @@ void GameDraw()
 
 	// フラグがっているかを確認するためのもの（最後に消す）
 	printfDx("run:%d ", player.m_now_attack);
+
+	// 攻撃時の当たり判定がうまく一定ないので可視化しておく
+	printfDx("playerhit:%d ", player_attack_hit.hit);
+	printfDx("monsterhit:%d ", monster_attack_hit.hit);
 	//printfDx("idle:%d ", player.m_idle_flag);
 	//printfDx("rolling:%d ", player.m_rolling_flag);
 	//printfDx("attack:%d ", player.m_attack_flag);
@@ -341,6 +345,7 @@ void AttackUpdate()
 		// 詳しくは関数の中に書く
 
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
+		// 当たり判定がうまく一定ないのはこの関数の中身のせい
 		if (player_attack_hit.HitAttack(mutant.m_body, player.attack_hit_damage[player.m_now_attack].m_attack_hit, player.m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
@@ -348,15 +353,16 @@ void AttackUpdate()
 		}
 	}
 
+
 	//モンスターの攻撃
 	if (mutant.m_attack_flag)
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
-		if (monster_attack_hit.HitAttack(mutant.m_body, player.m_body, player.m_animation) == true)
+		if (monster_attack_hit.HitAttack(mutant.attack_hit_damage[mutant.m_now_attack].m_attack_hit, player.m_body, player.m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-			Damage_Count(200, 5, &player.m_hp_value);
+			Damage_Count(mutant.attack_hit_damage[mutant.m_now_attack].m_attack_damage, 5, &player.m_hp_value);
 		}
 	}
 }
