@@ -29,7 +29,7 @@ public:
 	//! @brief 終了処理
 	virtual void Exit() = 0;
 
-	
+
 	//! @brief 当たり判定の更新処理
 	virtual void CDUpdate() = 0;
 
@@ -39,14 +39,33 @@ public:
 	virtual void Status_Bar_Draw() = 0;
 
 	//! @brief ローリングアクション用の関数（回避）
+	//! @param ローリングしたときの移動スピード
 	virtual void Action_Rolling(const int rolling_speed);
 
 	//! @brief ベースクラスでの初期処理
-	void BaseInit(Transform* target_pos, const  float m_target_hit_r);
+	//! @param ターゲットの座標
+	//! @param ターゲットのカプセルの当たり判定の半径
+	void BaseInit(Transform* target_pos, const  float m_target_hit_r, int hp_num);
 
 	//! @brief ベースクラスの更新処理
-
+	//! @param  歩いている状態かのフラグ
 	void BaseUpdate(bool* run_flag);
+
+	// 攻撃の時の当たり判定とダメージの構造体
+	// 各子クラスで定義する
+	struct Attack_Hit_Damage
+	{
+		//!  攻撃時に使いたい当たり判定
+		CapsuleCollision attack_hit;
+		//! 攻撃にあったダメージ
+		int attack_damage = 0;
+	};
+	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
+
+	//! @brief 攻撃時の当たり判定を設定する用の関数
+	//! @param 攻撃アニメーションの最大数
+	void  NEW_Set_Attack_Hit_Damage(int attack_anim_max);
+
 
 	//! @brief キャラの壁擦り判定用の関数
 	//! @param キャラの座標
@@ -55,20 +74,27 @@ public:
 	//! @param 当たり判定相手のボックスの情報
 	//void MoveHitUpdate(Vector3* monster_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box);
 public:
+
 	//-----------------------------------------------
-	//! クラスのオブジェクトを宣言
+	// 変数の宣言
 	//-----------------------------------------------
+	//! アイドル状態かのフラグ
+	bool m_idle_flag = false;
+	//! 走っていい以下のフラグ
+	bool m_run_flag = false;
+
+	//! 攻撃状態かどおかのフラグ
+	bool m_attack_flag = false;
+	//! プレイヤーのモードを管理する変数
+	int m_monster_mode = -1;
+	//! 今のアニメーション番号を保存する用の変数
+	int m_now_attack_anim = -1;
 
 
-    //! 自身の情報を入れる変数
-	Transform m_transform;
-	// 移動に使うクラス
-	TargetMove move;
-
-	
-	//-----------------------------------------------
-	//! 変数を宣言
-	//-----------------------------------------------
+	//! 壁擦り判定のためにいったん座標を保存しておく変数
+	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
+	//! 移動の際の当たり判定用のサイズ
+	Vector3 move_hit_size = { 1.0f ,0.0f,1.0f };
 
 	//! 自身の半径を入れる用の変数
 	float m_hit_r = 10.0f;
@@ -77,15 +103,48 @@ public:
 	//! 自身回転速度
 	static constexpr float M_ROT_SPEED = 5.0f;
 
-	// 攻撃の時の当たり判定とダメージの構造体
-	// 各子クラスで定義する
-	struct Attack_Hit_Damage
-	{
-		//!  攻撃時に使いたい当たり判定
-		CapsuleCollision m_attack_hit;
-		//! 攻撃にあったダメージ
-		int m_attack_damage = 0;
-	};
+	// HPの残量
+	int m_hp_value;
+
+	//------------------------------------------
+	// コンボ関連
+	//------------------------------------------
+	// コンボの最大数
+	static constexpr int COMBO_MAX = 3;
+	//! コンボ用フラグ
+	bool m_combo_flag = false;
+
+	//! 動いてほしいかのフラグ
+
+	//! 次のアニメーション番号を保存
+	int m_next_anim = -1;
+	//! コンボをやめてほしい時のフラグ
+	bool m_stop_combo_flag = false;
+
+	
 	//! モンスターの現在行っている攻撃アニメーション番号を保存する
 	int m_now_attack = -1;
+
+	//-----------------------------------------------
+    // クラスのオブジェクトの宣言
+    //-----------------------------------------------
+	//! 自身の情報を入れる変数
+	Transform m_transform;
+	//! 移動に使うクラス
+	TargetMove move;
+    //! モデルクラスのオブジェクト
+	Model m_model;
+	//! アニメーションクラスのオブジェクト
+	Animation m_animation;
+	//! コンボクラス
+	Combo m_combo;
+
+	//! カプセルコリジョン
+	//=================
+	// 当たり判定
+	//=================
+	CapsuleCollision m_left_hand; //!< 左手のあたり判定
+	CapsuleCollision m_right_hand; //!< 右手の当たり判定
+	CapsuleCollision m_body;       //!< 本体のあたり判定
+
 };

@@ -6,8 +6,6 @@
 #include "src/System/Transform.h"
 #include "src/System/InputPad.h"
 
-#include "src/System/Spotlight.h"
-
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
 #include "src/Effect/Effect.h"
@@ -16,10 +14,13 @@
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
 
-#include "src/System/UIBar.h"
+
 
 #include "src/System/Move.h"
 #include "src/System/TargetMove.h"
+
+#include "src/System/UIBar.h"
+
 #include "src/Character/CharacterBase.h"
 #include "src/Character/MonsterBase.h"
 #include "src/Character/SamplePlayer.h"
@@ -27,15 +28,19 @@
 #include "src/Character/Monster.h"
 #include "src/Character/Mutant.h"
 
+#include "src/Field/Field.h"
+
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
+
+#include "src/Camera.h"
 
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/TitleScene.h"
 #include "src/Scene/GameScene.h"
 #include "src/Scene/EndScene.h"
 
-#include "src/Camera.h"
+
 #include "GameMain.h"
 
 // aisdjla
@@ -75,6 +80,9 @@ BoxCollision box1;
 int ground = 0;
 
 
+// ライトとシャドーマップの設定はゲームメインで行う
+
+
 // 影に使うやつ
 //! プレイヤー用のシャドウマップ
 int player_shadowmap_hanndle;
@@ -87,6 +95,9 @@ VECTOR LightDirection;
 int light_handle;
 int light_handle_2;
 //! ライトの座標用変数
+
+// フィールドオブジェクト
+Field field;
 
 
 //-------------------------------------------------------------
@@ -158,6 +169,8 @@ void GameInit()
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
 
+	// フィールドの初期化
+	field.Init();
 }
 
 //-------------------------------------------------------------
@@ -182,9 +195,9 @@ void GameUpdate()
 	camera.Update(&player.m_transform.pos);
 
 	// プレイヤーとボックスの当たり判定があったときだけ壁すりをしてほしい
-	if (CheckBoxHit3D(player.m_transform.pos, player.move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
+	if (CheckBoxHit3D(player.m_transform.pos, player.m_move_hit_size, box1.m_box.hit_pos, box1.m_box.half_size))
 	{
-		player.MoveHitUpdate(&player.m_transform.pos, &player.m_before_pos, &player.move_hit_size, &box1);
+		player.MoveHitUpdate( &box1);
 
 	}
 	// モンスターとプレイヤーの移動の当たり判定
@@ -251,11 +264,11 @@ void GameDraw()
 	ShadowMap_DrawSetup(ShadowMapHandle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		MV1DrawModel(ground); // モデルの描画
-
+		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
+		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
+		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
+		//MV1DrawModel(ground); // モデルの描画
+		field.Draw();
 		// モンスターの描画
 		mutant.Draw();
 	}
@@ -286,11 +299,11 @@ void GameDraw()
 	{
 		// シャドウマップへキャラクターモデルの描画
 
-		MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		MV1DrawModel(ground); // モデルの描画
-
+		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
+		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
+		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
+		//MV1DrawModel(ground); // モデルの描画
+		field.Draw();
 		// モンスターの描画
 		mutant.Draw();
 	}
@@ -309,7 +322,7 @@ void GameDraw()
 	// 描画に使用するシャドウマップの設定を解除
 	SetUseShadowMap(1, -1);
 	SetUseShadowMap(0, -1);
-
+	
 	// ステータスバーの描画
 	StatusDraw();
 }
@@ -351,10 +364,10 @@ void AttackUpdate()
 
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
 		// 当たり判定がうまく一定ないのはこの関数の中身のせい
-		if (player_attack_hit.HitAttack(mutant.m_body, player.attack_hit_damage[player.m_now_attack].m_attack_hit, player.m_animation) == true)
+		if (player_attack_hit.HitAttack(mutant.m_body, player->m_attack_hit_damage[player.m_now_attack].m_attack_hit, player.m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-			Damage_Count(player.attack_hit_damage[player.m_now_attack].m_attack_damage, 5, &mutant.m_hp_value);
+			Damage_Count(player->m_attack_hit_damage[player.m_now_attack].m_attack_damage, 5, &mutant.m_hp_value);
 		}
 	}
 

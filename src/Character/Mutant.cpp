@@ -3,20 +3,18 @@
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
-#include "src/System/Spotlight.h"
-
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
 
-#include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
+#include "src/Collision/CapsuleCollision.h"
 
-#include "src/Action/Combo.h"
+
 #include "src/System/TargetMove.h"
+#include "src/Action/Combo.h"
+#include "src/Character/MonsterBase.h"
 
 #include "src/System/UIBar.h"
-
-#include "src/Character/MonsterBase.h"
 #include "Mutant.h"
 
 namespace

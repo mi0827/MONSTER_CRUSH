@@ -89,7 +89,7 @@ public:
 	//! @param プレイヤーの状態
 	void Player_Mode(int mode);
 
-	//! 攻撃開始かそうでないかを判断する関数
+	//! @brief 攻撃開始かそうでないかを判断する関数
 	void Attack_First();
 
 	//! @brief 攻撃用の関数
@@ -105,27 +105,25 @@ public:
 	void Combo_Update();
 
 public:
-	//-----------------------------------------------
-	// 変数の宣言
-	//-----------------------------------------------
-	//! アイドル状態かのフラグ
-	bool m_idle_flag = false;
-	//! 走っていい以下のフラグ
-	bool m_run_flag = false;
-	//! ローリングフラグ
-	bool m_rolling_flag = false;
-	//! 攻撃状態かどおかのフラグ
-	bool m_attack_flag = false;
-	//! プレイヤーのモードを管理する変数
-	int m_player_mode = -1;
-	//! 今のアニメーション番号を保存する用の変数
-	int m_now_attack_anim = -1;
+	////-----------------------------------------------
+	//// 変数の宣言
+	////-----------------------------------------------
+	////! アイドル状態かのフラグ
+	//bool m_idle_flag = false;
+	////! 走っていい以下のフラグ
+	//bool m_run_flag = false;
+	////! ローリングフラグ
+	//bool m_rolling_flag = false;
+	////! 攻撃状態かどおかのフラグ
+	//bool m_attack_flag = false;
+	////! プレイヤーのモードを管理する変数
+	//int m_player_mode = -1;
+	////! 今のアニメーション番号を保存する用の変数
+	//int m_now_attack_anim = -1;
 
 
-	//! 壁擦り判定のためにいったん座標を保存しておく変数
-	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
-	//! 移動の際の当たり判定用のサイズ
-	Vector3 move_hit_size = { 1.0f ,0.0f,1.0f };
+
+
 
 	//------------------------------------------
 	// コンボ関連
@@ -148,40 +146,40 @@ public:
 	// クラスのオブジェクトの宣言
 	//-----------------------------------------------
 
-	//! モデルクラスのオブジェクト
-	Model m_model;
-	//! アニメーションクラスのオブジェクト
-	Animation m_animation;
-	//! コンボクラス
-	Combo m_combo;
-	//! カプセルコリジョン
-	//=================
-	// 当たり判定
-	//=================
-	CapsuleCollision m_right_hand; //!< 右手の当たり判定
-	CapsuleCollision m_left_hand;   //!< 右手の当たり判定
-	CapsuleCollision m_body;         //!< 本体の当たり判定
-	CapsuleCollision m_left_feet;    //!< 左足の当たり判定
-	CapsuleCollision m_right_feet;  //!< 右足の当たり判定
+	////! モデルクラスのオブジェクト
+	//Model m_model;
+	////! アニメーションクラスのオブジェクト
+	//Animation m_animation;
+	////! コンボクラス
+	//Combo m_combo;
+	////! カプセルコリジョン
+	////=================
+	//// 当たり判定
+	////=================
+	//CapsuleCollision m_right_hand; //!< 右手の当たり判定
+	//CapsuleCollision m_left_hand;   //!< 右手の当たり判定
+	//CapsuleCollision m_body;         //!< 本体の当たり判定
+	//CapsuleCollision m_left_feet;    //!< 左足の当たり判定
+	//CapsuleCollision m_right_feet;  //!< 右足の当たり判定
 
 	//==================================
 	// 攻撃時の当たり判定とダメージの設定当たり判定
 	//==================================
 	// このカプセルの当たり判定を保存することがうまくできない
-	Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION];
-	
+	//Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION];
+	//
 
 
-	//=================
-	// バー型のUI
-	//=================
+	////=================
+	//// バー型のUI
+	////=================
 	UIBra m_hp;
 
 	//=================
 	// ステータス
 	//=================
-	// HPの残量
-	int m_hp_value = HP_MAX;
+	
 	// 防御力(とりあえず20)
 	static constexpr int M_DEFENSE = 20;
+
 };

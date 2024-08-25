@@ -3,8 +3,6 @@
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
-#include "src/System/Spotlight.h"
-
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
 
@@ -32,6 +30,8 @@ SamplePlayer::SamplePlayer()
 	m_player_mode = IDLE;
 	// モデルのスケールの設定
 	m_transform.scale.set(0.1f, 0.1, 0.1);
+	// 移動の際の当たり判定のサイズの設定
+	m_move_hit_size = { 1.0f,0.0f,1.0f };
 }
 
 
@@ -51,11 +51,14 @@ void SamplePlayer::Init()
 {
 
 	// ベースクラスで行っている初期化を呼ぶ
-	CharacterBase::BaseInit(PLAYER_R);
+	CharacterBase::BaseInit(PLAYER_R, HP_MAX);
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Player/Player.mv1");
 	// アニメーションの初期設定
 	Anima_Load_Init();
+
+	// 攻撃アニメーションの数分の当たり判定の入れ物を確保する
+	NEW_Set_Attack_Hit_Damage(ATTACK_ACTION);
 
 	// ステータスバーの設定
 	Status_Bar_Init();
@@ -158,7 +161,7 @@ void SamplePlayer::Draw()
 	// カプセルの描画（仮）（後で消す）
 	//===================
 
-	attack_hit_damage[m_now_attack].m_attack_hit.Draw();
+	m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 	/*m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
@@ -200,12 +203,19 @@ void SamplePlayer::CDUpdate()
 	m_left_feet.NodoSetSize(&m_model, 57, 1.0f);
 
 	// 攻撃時の当たり当たり判定の保存
-	attack_hit_damage[attack_1-NORMAL_ACTION] = { m_left_hand,20 };
-	attack_hit_damage[attack_2 - NORMAL_ACTION] = { m_right_hand,20 };
-	attack_hit_damage[attack_3 - NORMAL_ACTION] = { m_right_hand,40 };
-	attack_hit_damage[attack_kick_1 - NORMAL_ACTION] = { m_right_feet,20 };
-	attack_hit_damage[attack_kick_2 - NORMAL_ACTION] = { m_left_feet,20 };
-	attack_hit_damage[attack_kick_3 - NORMAL_ACTION] = { m_right_feet,50 };
+	// 本来は二つまとめて保存できたができなくなっているためひとつづつしている
+	m_attack_hit_damage[attack_1-NORMAL_ACTION]->attack_hit = m_left_hand;
+	m_attack_hit_damage[attack_1 - NORMAL_ACTION]->attack_damage = 20;
+	m_attack_hit_damage[attack_2 - NORMAL_ACTION]->attack_hit = m_right_hand;
+	m_attack_hit_damage[attack_2 - NORMAL_ACTION]->attack_damage = 20;
+	m_attack_hit_damage[attack_3 - NORMAL_ACTION]->attack_hit = m_right_hand;
+	m_attack_hit_damage[attack_3 - NORMAL_ACTION]->attack_damage = 40;
+	m_attack_hit_damage[attack_kick_1 - NORMAL_ACTION]->attack_hit = m_right_feet;
+	m_attack_hit_damage[attack_kick_1 - NORMAL_ACTION]->attack_damage = 20;
+	m_attack_hit_damage[attack_kick_2 - NORMAL_ACTION]->attack_hit = m_left_feet;
+	m_attack_hit_damage[attack_kick_2 - NORMAL_ACTION]->attack_damage = 20;
+	m_attack_hit_damage[attack_kick_3 - NORMAL_ACTION]->attack_hit = m_right_feet;
+	m_attack_hit_damage[attack_kick_3 - NORMAL_ACTION]->attack_damage = 40;
 	
 }
 

@@ -3,12 +3,30 @@
 
 
 //	Field(フィールド)クラス
-// Baseクラスを継承
-class Field : public Base
+class Field 
 {
+
+	// モデルの保存番号
+	enum
+	{
+		// 木のモデル番号
+		tree1,
+		/*tree2,
+		tree3,*/
+		// フェンスのモデル番号
+		fence1,
+
+		// 石のモデル番号
+		stone1,
+
+
+		MODEL_MAX
+	};
+
 	//---------------
 	// 定数
 	//---------------
+
 
 private:
 
@@ -30,22 +48,22 @@ public:
 	//---------------
 	// 変数の定義
 	//---------------
-public:
-	//---------------
-	// マップ情報の設定
-	//---------------
-	
-	// 一つのマスの大きさ
-	const int m_field_size = 70;   // サイズ
-	const int m_wall_size = 70 ;
-	// 置物用のオブジェクト
-	std::vector<Object*> objects;  // オブジェクトクラス型のポインタがはいてる　
-	int m_obj_max = 0;               // オブジェクトの数
 
-	// 周りの壁
-	std::vector<Object*> m_wall_objects;  // オブジェクトクラス型のポインタがはいてる
-	int m_wall_obj_max = 0;                   // オブジェクトの数
-private:
-	int m_model = 0; // モデル用の変数
+	//--------------- 
+	// 各クラスのオブジェクトの作成
+	//---------------
+	// フィールドのオブジェクト
+	struct field
+	{
+		Model model;
+		Transform transform;
+		// 当たり判定用のボックス
+		BoxCollision box_hit;
+	};
+	// 置かれるオブジェクトの数分用意する
+	field m_field_object[MODEL_MAX];
 
+	//フィールドモデルの入れ物
+	Model m_field_model;
+	Transform m_field_transform;
 };

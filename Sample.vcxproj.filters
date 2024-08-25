@@ -159,6 +159,9 @@
     <ClCompile Include="src\Sound\BGM.cpp">
       <Filter>ソース ファイル\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="src\Field\Field.cpp">
+      <Filter>ソース ファイル\Field</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameMain.h">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="src\Sound\SE.h">
       <Filter>ソース ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Field\Field.h">
+      <Filter>ソース ファイル\Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

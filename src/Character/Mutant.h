@@ -120,41 +120,9 @@ public:
 	int Set_Rand_Attack();
 
 public:
-	//-----------------------------------------------
-	// 変数の宣言
-	//-----------------------------------------------
-	//! アイドル状態かのフラグ
-	bool m_idle_flag = false;
-	//! 走っていい以下のフラグ
-	bool m_run_flag = false;
-
-	//! 攻撃状態かどおかのフラグ
-	bool m_attack_flag = false;
-	//! プレイヤーのモードを管理する変数
-	int m_monster_mode = -1;
-	//! 今のアニメーション番号を保存する用の変数
-	int m_now_attack_anim = -1;
-
-
-	//! 壁擦り判定のためにいったん座標を保存しておく変数
-	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
-	//! 移動の際の当たり判定用のサイズ
-	Vector3 move_hit_size = { 1.0f ,0.0f,1.0f };
-
-	//------------------------------------------
-	// コンボ関連
-	//------------------------------------------
-	// コンボの最大数
-	static constexpr int COMBO_MAX = 3;
-	//! コンボ用フラグ
-	bool m_combo_flag = false;
 	
-	//! 動いてほしいかのフラグ
 
-	//! 次のアニメーション番号を保存
-	int m_next_anim = -1;
-	//! コンボをやめてほしい時のフラグ
-	bool m_stop_combo_flag = false;
+	
 
 	
 
@@ -163,19 +131,19 @@ public:
 	// クラスのオブジェクトの宣言
 	//-----------------------------------------------
 
-	//! モデルクラスのオブジェクト
-	Model m_model;
-	//! アニメーションクラスのオブジェクト
-	Animation m_animation;
-	//! コンボクラス
-	Combo m_combo;
-	//! カプセルコリジョン
-	//=================
-	// 当たり判定
-	//=================
-	CapsuleCollision m_left_hand; //!< 左手のあたり判定
-	CapsuleCollision m_right_hand; //!< 右手の当たり判定
-	CapsuleCollision m_body;       //!< 本体のあたり判定
+	////! モデルクラスのオブジェクト
+	//Model m_model;
+	////! アニメーションクラスのオブジェクト
+	//Animation m_animation;
+	////! コンボクラス
+	//Combo m_combo;
+	////! カプセルコリジョン
+	////=================
+	//// 当たり判定
+	////=================
+	//CapsuleCollision m_left_hand; //!< 左手のあたり判定
+	//CapsuleCollision m_right_hand; //!< 右手の当たり判定
+	//CapsuleCollision m_body;       //!< 本体のあたり判定
 
 	//==================================
 	// 攻撃時の当たり判定とダメージの設定当たり判定
@@ -187,6 +155,5 @@ public:
 	// バー型のUI
 	//=================
 	UIBra m_hp;
-	// HPの残量
-	int m_hp_value = HP_MAX;
+	
 };
