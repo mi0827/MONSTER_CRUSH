@@ -133,7 +133,7 @@ void GameInit()
 	ShadowMapHandle = MakeShadowMap(4096, 4096);
 	//	ShadowMapHandle = MakeShadowMap(16384, 16384);
 
-		// ライトの角度を初期化
+	// ライトの角度を初期化
 	Angle = 10.0f;
 
 	// ライトの方向ベクトルの算出
