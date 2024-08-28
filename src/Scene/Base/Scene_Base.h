@@ -6,6 +6,7 @@ class Scene_Base
 public:
 
 
+
 	//! @brief 初期処理
 	virtual void Init() = 0;
 	//! @brief
@@ -22,6 +23,12 @@ public:
 
 	//! @brief プレイヤーのシャドーマップの範囲の設定
 	void SetPlayerShadowMapArea(Vector3 player_pos);
+
+	//! @brief 描画に使用するシャドウマップの設定を解除（これを使わないとシャドーマップが使えない）
+	void UseShadowMapSet();
+
+	//! @brief シャドーマップの削除
+	void ExitShadowMap();
 
 public:
 	const int FLAME_MAX = 60; // 一秒何フレームか

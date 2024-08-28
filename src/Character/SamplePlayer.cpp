@@ -75,7 +75,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 	// ‘Ò‹@ó‘Ô‚Ü‚½‚Í‘–‚è‚Ì‚¾‚¯‚—
 	// ˆÚ“®ˆ—
 	if (m_idle_flag == true || m_run_flag == true)
-	{
+	{            
 		if (m_rolling_flag == false)
 		{
 			Move_Update(camera_rot);

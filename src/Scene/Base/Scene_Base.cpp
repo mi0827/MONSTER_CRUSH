@@ -43,3 +43,22 @@ void Scene_Base::SetPlayerShadowMapArea(Vector3 player_pos)
 		VGet(player_pos.x - 200.0f, -0.1f, player_pos.z - 200.0f),
 		VGet(player_pos.x + 200.0f, +1500.0f, player_pos.z + 200.0f));
 }
+
+//-----------------------------------------------
+// 描画に使用するシャドウマップの設定を解除
+//-----------------------------------------------
+void Scene_Base::UseShadowMapSet()
+{
+	
+	SetUseShadowMap(1, -1);
+	SetUseShadowMap(0, -1);
+}
+
+//-----------------------------------------------
+// シャドーマップの削除
+//-----------------------------------------------
+void Scene_Base::ExitShadowMap()
+{
+	DeleteShadowMap(m_player_shadowMap_handle);
+	DeleteShadowMap(m_shadowMap_handle);
+}

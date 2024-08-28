@@ -364,10 +364,10 @@ void AttackUpdate()
 
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
 		// 当たり判定がうまく一定ないのはこの関数の中身のせい
-		if (player_attack_hit.HitAttack(mutant.m_body, player->m_attack_hit_damage[player.m_now_attack].m_attack_hit, player.m_animation) == true)
+		if (player_attack_hit.HitAttack(mutant.m_body, player->m_attack_hit_damage[player.m_now_attack].attack_hit, player.m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-			Damage_Count(player->m_attack_hit_damage[player.m_now_attack].m_attack_damage, 5, &mutant.m_hp_value);
+			Damage_Count(player->m_attack_hit_damage[player.m_now_attack].attack_damage, 5, &mutant.m_hp_value);
 		}
 	}
 
@@ -376,11 +376,11 @@ void AttackUpdate()
 	if (mutant.m_attack_flag)
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
-		if (monster_attack_hit.HitAttack(mutant.attack_hit_damage[mutant.m_now_attack].m_attack_hit, player.m_body, player.m_animation) == true)
+		if (monster_attack_hit.HitAttack(mutant.attack_hit_damage[mutant.m_now_attack].attack_hit, player.m_body, player.m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-			Damage_Count(mutant.attack_hit_damage[mutant.m_now_attack].m_attack_damage, 5, &player.m_hp_value);
+			Damage_Count(mutant.attack_hit_damage[mutant.m_now_attack].attack_damage, 5, &player.m_hp_value);
 		}
 	}
 }

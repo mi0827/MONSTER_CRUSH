@@ -175,7 +175,7 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 //-----------------------------------------------
 void Mutant::Draw()
 {
-	attack_hit_damage[m_now_attack].m_attack_hit.Draw();
+	attack_hit_damage[m_now_attack].attack_hit.Draw();
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
 	/*m_body.Draw();
 	m_left_hand.Draw();

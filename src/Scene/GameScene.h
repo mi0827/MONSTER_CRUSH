@@ -23,6 +23,9 @@ public:
 	//! @brief 終了処理
 	void Exit()override;
 
+	//! @brief ステータスバーの描画
+	void StatusDraw();
+
 	// 現時点で必要かわからない
 	//// SEの初期化
 	//void SE_Init();
