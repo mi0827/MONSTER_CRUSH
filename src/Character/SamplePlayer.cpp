@@ -51,7 +51,7 @@ void SamplePlayer::Init()
 {
 
 	// ベースクラスで行っている初期化を呼ぶ
-	CharacterBase::BaseInit(PLAYER_R, HP_MAX);
+	CharacterBase::BaseInit(PLAYER_HIT_R, HP_MAX);
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Player/Player.mv1");
 	// アニメーションの初期設定

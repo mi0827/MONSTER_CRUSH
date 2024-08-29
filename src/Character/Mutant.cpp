@@ -73,7 +73,7 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 {
 	clsDx();
 
-	MonsterBase::BaseInit(traget_pos, target_r);
+	MonsterBase::BaseInit(traget_pos, target_r, HP_MAX);
 
 	// ‘Ò‹@ó‘Ô‚Ü‚½‚Í‘–‚è‚Ì‚¾‚¯‚—
 	// ˆÚ“®ˆ—

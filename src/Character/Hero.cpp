@@ -48,7 +48,7 @@ void Hero::Init()
 {
 
 	// ベースクラスで行っている初期化を呼ぶ
-	CharacterBase::BaseInit(HERO_R);
+	CharacterBase::BaseInit(PLAYER_HIT_R , HP_MAX);
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Hero/Hero.mv1");
 	// アニメーションの初期設定

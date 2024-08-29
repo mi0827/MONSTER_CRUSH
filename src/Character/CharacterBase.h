@@ -103,6 +103,7 @@ public:
 	//! 移動の際の当たり判定に使う
 	BoxCollision m_move_hit_box; 
 
+
 	//! モデルクラスのオブジェクト
 	Model m_model;
 	//! アニメーションクラスのオブジェクト

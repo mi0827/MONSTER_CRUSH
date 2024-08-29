@@ -5,6 +5,15 @@
 class GameScene :public Scene_Base
 {
 public:
+
+	//--------------------
+	// 定数
+	//--------------------
+	static constexpr int SAMPLEPLAYER = 0; // サンプルプレイヤーの番号
+	static constexpr int MUTANT = 0;           // ミュータントの番号
+	static constexpr int MONSTER = 1;         // モンスターの番号
+
+
 	GameScene();
 	 ~GameScene();
 	 //! ゲームシーンにだけ使う初期処理
@@ -60,7 +69,7 @@ public:
 	//void End_Draw();
 
 	// 攻撃のあたり判定を行う関数
-	void Attack_Hit(int player1, int player2);
+	//void Attack_Hit(int player1, int player2);
 	// ガードの当たり判定
 	// void Block_Hit(int player1, int player2);
 	// キャラクターのステータス描画処理

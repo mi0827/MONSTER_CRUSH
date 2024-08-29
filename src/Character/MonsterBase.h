@@ -45,6 +45,7 @@ public:
 	//! @brief ベースクラスでの初期処理
 	//! @param ターゲットの座標
 	//! @param ターゲットのカプセルの当たり判定の半径
+	//! @param モンスターのHPマックス
 	void BaseInit(Transform* target_pos, const  float m_target_hit_r, int hp_num);
 
 	//! @brief ベースクラスの更新処理
