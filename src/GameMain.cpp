@@ -69,6 +69,9 @@ void GameInit()
 	// とりあえず今はゲームシーンをつけておく
 	scene = new GameScene;
 
+	// キャラクターのせってい
+	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
+
 	scene->Init();
 
 	// デフォルトのライトは平行光源のまま少し暗めにします
@@ -108,6 +111,7 @@ void GameUpdate()
 //-------------------------------------------------------------
 void GameDraw()
 {
+
 	// シーンの描画処理
 	scene->Draw();
 

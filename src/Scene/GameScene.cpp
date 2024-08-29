@@ -77,33 +77,40 @@ GameScene::~GameScene()
 }
 
 //---------------------------------------------------------------------------
-// 初期処理
+// キャラクターの設定
 //---------------------------------------------------------------------------
-void GameScene::GameSceneInit(int player_num, int monster_num)
+void GameScene::GameSceneInit()
 {
-	// プレイヤーをセットしておく
-	if (player_num == SAMPLEPLAYER)
+	// キャラクターの設定
+	if (m_player_num == SAMPLEPLAYER)
 	{
 		player = new SamplePlayer;
 	}
-	if (monster_num == MUTANT)
+	if (m_monster_num == MUTANT)
 	{
 		monster = new Mutant;
 	}
-	if (monster_num == MONSTER)
+	if (m_monster_num == MONSTER)
 	{
 		monster = new Monster;
 	}
 	
 }
 
+
 //---------------------------------------------------------------------------
 // 初期処理
 //---------------------------------------------------------------------------
 void GameScene::Init()
 {
+
+	GameSceneInit();
+
 	// カメラの初期設定
 	camera.PlayField_Init();
+
+	// キャラクターの初期処理
+	Character_Init();
 
 	// フィールドの初期化 
 	field.Init();
@@ -228,6 +235,8 @@ void GameScene::Character_Init()
 {
 	// プレイヤーの初期処理
 	player->Init();
+	// モンスターの初期処理
+	monster->Init();
 }
 
 //---------------------------------------------------------------------------

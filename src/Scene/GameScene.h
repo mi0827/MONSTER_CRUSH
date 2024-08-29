@@ -6,18 +6,17 @@ class GameScene :public Scene_Base
 {
 public:
 
-	//--------------------
-	// 定数
-	//--------------------
-	static constexpr int SAMPLEPLAYER = 0; // サンプルプレイヤーの番号
-	static constexpr int MUTANT = 0;           // ミュータントの番号
-	static constexpr int MONSTER = 1;         // モンスターの番号
+	
 
 
 	GameScene();
 	 ~GameScene();
+
 	 //! ゲームシーンにだけ使う初期処理
-	 void GameSceneInit(int player_num = 0, int monster_num = 0);
+	 void GameSceneInit();
+
+	
+
 	 //! @brief 初期処理
 	void Init()override;
 

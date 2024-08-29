@@ -4,8 +4,17 @@
 class Scene_Base
 {
 public:
+	//--------------------
+	// 定数
+	//--------------------
+	static constexpr int SAMPLEPLAYER = 0; // サンプルプレイヤーの番号
+	static constexpr int MUTANT = 0;           // ミュータントの番号
+	static constexpr int MONSTER = 1;         // モンスターの番号
 
-
+	//! @brief どのキャラクターを使うかを設定する関数
+	//! @param どのプレイヤーを使うかの番号
+	//! @param どのモンスターを使うかの番号
+	void SetCharacter(int player_num = 0, int monster_num = 0);
 
 	//! @brief 初期処理
 	virtual void Init() = 0;
@@ -44,4 +53,10 @@ public:
 	float m_light_angle = 0;
 	// ライトのベクトル
 	VECTOR m_light_direction;
+
+
+	//! どのプレイヤーを使うかの番号を保存する
+	int m_player_num = 0;
+	//! どのモンスターを使うかの番号を保存する
+	int m_monster_num = 0;
 };

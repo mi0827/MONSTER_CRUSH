@@ -145,6 +145,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// EffekseerXVˆ—
 		UpdateEffekseer3D();
 
+
 		// ƒQ[ƒ€•`‰æˆ—
 		GameDraw();
 
