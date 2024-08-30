@@ -56,6 +56,9 @@ Mutant::~Mutant()
 //-----------------------------------------------
 void Mutant::Init()
 {
+
+	// aaaaa
+
 	// ƒ‚ƒfƒ‹‰æ‘œ‚Ì“Ç‚İ‚İ
 	m_model.LoadModel("Data/Model/Mutant/Mutant.mv1");
 
