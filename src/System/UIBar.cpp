@@ -86,12 +86,12 @@ void UIBra::Update(int* value)
 	}
 	m_value = *value;
 	// m_value の数値が０いかになったらバーがそれ以上ひかれてほしくない
-	
-		// valueがどれだけ減っているのかを調べる
-		int value_difference = m_value_max - m_value;
 
-		// 減っている分のバーを減らしたい
-		new_value = value_decrease * value_difference;
+		// valueがどれだけ減っているのかを調べる
+	int value_difference = m_value_max - m_value;
+
+	// 減っている分のバーを減らしたい
+	new_value = value_decrease * value_difference;
 }
 
 //-----------------------------------------------

@@ -226,6 +226,8 @@ void Mutant::CDUpdate()
 //-----------------------------------------------
 void Mutant::Status_Bar_Init()
 {
+	// HPÇÃ
+	m_hp_value = HP_MAX;
 	// HPÇÃê›íË
 	m_hp.Set({ 25,25 }, { 1200, 25 }, &m_hp_value, true);
 	m_hp.SetColor(255, 100, 50, &m_hp.m_color);

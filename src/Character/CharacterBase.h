@@ -150,7 +150,7 @@ public:
 	
 	
 	//! プレイヤーの現在行っている攻撃アニメーション番号を保存する
-	int m_now_attack = -1;
+	int m_now_attack = 0;
 	// HPの残量
 	int m_hp_value;
 };

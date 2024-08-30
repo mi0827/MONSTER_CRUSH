@@ -219,6 +219,7 @@ void GameScene::StatusDraw()
 {
 	player->Status_Bar_Draw();
 	monster->Status_Bar_Draw();
+
 }
 
 //---------------------------------------------------------------------------
@@ -262,6 +263,9 @@ void GameScene::Character_Update(int se_volume)
 	{
 		player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &monster->m_body);
 	}
+
+	// 攻撃関係のアップデート
+	AttackUpdate();
 }
 
 //---------------------------------------------------------------------------

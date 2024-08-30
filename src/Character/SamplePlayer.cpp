@@ -239,6 +239,7 @@ void SamplePlayer::Status_Bar_Init()
 void SamplePlayer::Status_Bar_Draw()
 {
 
+	m_hp.Update(&m_hp_value);
 	//===================
 	// UI‚Ì•`‰æ
 	//===================
