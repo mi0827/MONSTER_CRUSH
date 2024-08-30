@@ -14,7 +14,7 @@ public:
 	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
 	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
 	static constexpr int HP_MAX = 100;                               //! HPの最大値
-	static constexpr int PLAYER_HIT_R = 1;                         //! プレイヤーの円の当たり半径の半径
+	static constexpr float PLAYER_HIT_R =1.5 ;                         //! プレイヤーの円の当たり半径の半径
 	//----------------------------------------------- 
 	// 列挙体の宣言
 	//-----------------------------------------------

@@ -43,10 +43,13 @@ public:
 	virtual void Action_Rolling(const int rolling_speed);
 
 	//! @brief ベースクラスでの初期処理
-	//! @param ターゲットの座標
-	//! @param ターゲットのカプセルの当たり判定の半径
 	//! @param モンスターのHPマックス
-	void BaseInit(Transform* target_pos, const  float m_target_hit_r, int hp_num);
+	void BaseInit( int hp_num);
+
+	//! @brief モンスターの移動に関するターゲットの設定
+	//! @param ターゲットの座標
+    //! @param ターゲットのカプセルの当たり判定の半径
+	void BaseSetTarget(Transform* target_pos, const float m_target_hit_r);
 
 	//! @brief ベースクラスの更新処理
 	//! @param  歩いている状態かのフラグ
@@ -87,9 +90,9 @@ public:
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! プレイヤーのモードを管理する変数
-	int m_monster_mode = -1;
+	int m_monster_mode = 0;
 	//! 今のアニメーション番号を保存する用の変数
-	int m_now_attack_anim = -1;
+	int m_now_attack_anim = 0;
 
 
 	//! 壁擦り判定のためにいったん座標を保存しておく変数

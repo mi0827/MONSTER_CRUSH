@@ -137,9 +137,9 @@ public:
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! プレイヤーのモードを管理する変数
-	int m_player_mode = -1;
+	int m_player_mode = 0;
 	//! 今のアニメーション番号を保存する用の変数
-	int m_now_attack_anim = -1;
+	int m_now_attack_anim = 0;
 
 
 	//!  ゲームパッド用移動用ベクトル用変数

@@ -62,8 +62,13 @@ void Mutant::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
+    // 攻撃アニメーションの数分のあたり判定んお入れ物を確保する
+	NEW_Set_Attack_Hit_Damage(ATTACK_ACTION_MAX);
+
 	// ステータスバーの設定
 	Status_Bar_Init();
+
+	BaseInit( HP_MAX);
 }
 
 //-----------------------------------------------
@@ -73,7 +78,7 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 {
 	clsDx();
 
-	MonsterBase::BaseInit(traget_pos, target_r, HP_MAX);
+	BaseSetTarget(traget_pos, target_r);
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理
@@ -141,7 +146,7 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 		// ローリングアクション時の処理
 		if (m_now_attack_anim == rolling)
 		{
-		Action_Rolling(ROLLING_SPEED);
+			Action_Rolling(ROLLING_SPEED);
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		move.Set_Can_Rotate(false);
@@ -213,12 +218,18 @@ void Mutant::CDUpdate()
 	m_right_hand.NodoSetSize(&m_model, 11, 5.0f);
 
 	// 攻撃時の当たり当たり判定の保存
-	attack_hit_damage[attack_1 - ATTACK_ANIM_START] = { m_left_hand,20 };
-	attack_hit_damage[attack_2 - ATTACK_ANIM_START] = { m_right_hand,20 };
-	attack_hit_damage[attack_3 - ATTACK_ANIM_START] = { m_right_hand,20 };
-	attack_hit_damage[attack_4 - ATTACK_ANIM_START] = { m_right_hand,20 };
-	attack_hit_damage[rolling - ATTACK_ANIM_START] = { m_body,20 };
-	attack_hit_damage[jump - ATTACK_ANIM_START] = { m_body,20 };
+	m_attack_hit_damage[attack_1 - ATTACK_ANIM_START]->attack_hit = m_left_hand;
+	m_attack_hit_damage[attack_1 - ATTACK_ANIM_START]->attack_damage = 20;
+	m_attack_hit_damage[attack_2 - ATTACK_ANIM_START]->attack_hit = m_right_hand;
+	m_attack_hit_damage[attack_2 - ATTACK_ANIM_START]->attack_damage = 20;
+	m_attack_hit_damage[attack_3 - ATTACK_ANIM_START]->attack_hit = m_right_hand;
+	m_attack_hit_damage[attack_3 - ATTACK_ANIM_START]->attack_damage = 20;
+	m_attack_hit_damage[attack_4 - ATTACK_ANIM_START]->attack_hit = m_right_hand;
+	m_attack_hit_damage[attack_4 - ATTACK_ANIM_START]->attack_damage = 20;
+	m_attack_hit_damage[rolling - ATTACK_ANIM_START]->attack_hit = m_body;
+	m_attack_hit_damage[rolling - ATTACK_ANIM_START]->attack_damage = 20;
+	m_attack_hit_damage[jump - ATTACK_ANIM_START]->attack_hit = m_body;
+	m_attack_hit_damage[jump - ATTACK_ANIM_START]->attack_damage = 20;
 }
 
 //-----------------------------------------------
@@ -235,6 +246,7 @@ void Mutant::Status_Bar_Init()
 	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
 	m_hp.SetColor(255, 255, 255, &m_hp.m_character_color);
 	m_hp.SetName("HP");
+
 }
 
 //-----------------------------------------------
@@ -494,7 +506,7 @@ int Mutant::Set_Rand_Attack()
 		// 攻撃アニメーションスタートから攻撃アニメーションの最大までで
 		next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
 		// 次に行いたいアニメーションと今のアニメーションがかぶったら
-		if (next_anim == m_now_attack_anim || next_anim==0)
+		if (next_anim == m_now_attack_anim || next_anim == 0)
 		{
 			// またランダムで入れなおす
 			next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;

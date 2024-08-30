@@ -65,6 +65,9 @@ void Monster::Init()
 
 	// ステータスバーの設定
 	Status_Bar_Init();
+
+	// モンスターのステータス部分の設定
+	MonsterBase::BaseInit(HP_MAX);
 }
 
 //-----------------------------------------------
@@ -73,8 +76,7 @@ void Monster::Init()
 void Monster::Update(Transform* traget_pos, float target_r)
 {
 	clsDx();
-
-	MonsterBase::BaseInit(traget_pos, target_r, HP_MAX);
+	BaseSetTarget(traget_pos, target_r);
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理

@@ -291,7 +291,9 @@ void GameScene::AttackUpdate()
 	if (monster->m_attack_flag)
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
-		if (monster_attack_hit.HitAttack(player->m_body,  monster->m_attack_hit_damage[monster->m_now_attack]->attack_hit,  monster->m_animation) == true)
+		int num = monster->m_now_attack;
+		MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
+		if (monster_attack_hit.HitAttack(player->m_body, ptr->attack_hit,  monster->m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら

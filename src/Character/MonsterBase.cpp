@@ -42,17 +42,26 @@ void MonsterBase::Action_Rolling(const int rolling_speed)
 	m_transform.pos.x += rolling_speed * sinf(TO_RADIAN(m_transform.rot.y));
 }
 
+
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit(Transform* target_pos, const float m_target_hit_r, int hp_num)
+void MonsterBase::BaseInit(int hp_num)
+{
+	m_hp_value = hp_num;
+}
+
+//---------------------------------------------------------------------------
+// モンスターの移動に関するターゲットの設定
+//---------------------------------------------------------------------------
+void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_r)
 {
 	// 移動の際のターゲットのの設定
 	move.SetTargetInfo(target_pos, m_target_hit_r);
 	// 自身の情報を設定
 	move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 
-	m_hp_value = hp_num;
+	
 }
 
 //---------------------------------------------------------------------------
