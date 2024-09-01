@@ -5,6 +5,7 @@
 #include "src/Model/Model.h"
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
+#include "src/Field/HitField.h"
 #include "src/Field/Field.h"
 
 
@@ -27,9 +28,11 @@ void Field::Init()
 {
 	// フィールドモデルの読み込み
 	m_field_model.LoadModel("Data/Field/ground/Stage00.mv1");
+	// 地面モデルの当たり判定の設定
+	SetHitGround(&m_field_model);
 	// フィールド設定
-	m_field_transform.pos.set(0, 0, 0);
-	m_field_transform.scale.set(0.1, 0.1, 0.1);
+	m_field_transform.pos.set(0, -10, 0);
+	m_field_transform.scale.set(1,1, 1);
 	//m_field_object[0].model.LoadModel();
 }
 

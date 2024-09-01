@@ -162,6 +162,9 @@
     <ClCompile Include="src\Field\Field.cpp">
       <Filter>ソース ファイル\Field</Filter>
     </ClCompile>
+    <ClCompile Include="src\Field\HitField.cpp">
+      <Filter>ソース ファイル\Field</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameMain.h">
@@ -270,6 +273,9 @@
       <Filter>ソース ファイル\Sound</Filter>
     </ClInclude>
     <ClInclude Include="src\Field\Field.h">
+      <Filter>ソース ファイル\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Field\HitField.h">
       <Filter>ソース ファイル\Field</Filter>
     </ClInclude>
   </ItemGroup>

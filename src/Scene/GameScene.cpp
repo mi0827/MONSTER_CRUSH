@@ -28,6 +28,7 @@
 #include "src/Character/Mutant.h"
 
 #include "src/Field/Field.h"
+#include "src/Field/HitField.h" 
 
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
@@ -94,7 +95,7 @@ void GameScene::GameSceneInit()
 	{
 		monster = new Monster;
 	}
-	
+
 }
 
 
@@ -127,6 +128,7 @@ void GameScene::Update(int bgm_volume, int se_volume)
 {
 	// キャラクターの更新処理
 	Character_Update(se_volume);
+
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
 }
@@ -208,7 +210,7 @@ void GameScene::Draw()
 //---------------------------------------------------------------------------
 void GameScene::Exit()
 {
-	 //　シャドーマップの削除
+	//　シャドーマップの削除
 	ExitShadowMap();
 }
 
@@ -249,13 +251,19 @@ void GameScene::Character_Update(int se_volume)
 	player->Update(&camera.m_rot);
 
 	// モンスターの更新処理
-	monster->Update(&player->m_transform,player->m_hit_r);
+	monster->Update(&player->m_transform, player->m_hit_r);
+
+	// フィールドの地面モデルとキャラクターの当たり判定
+	 HitGroundCharacter(&player->m_transform.pos,       &field.m_field_model);
+	 // 今の状態だとジャンプ攻撃ができない
+	 // 家のデスクトップ尾モデル自身に当たり判定を設定のソースにジャンプのヒントが書いてある
+	 HitGroundCharacter(&monster->m_transform.pos, &field.m_field_model);
 
 	// フィールドのオブジェクトとプレイヤーの移動の際の壁擦り判定
 	if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
 		field.m_field_object[0].box_hit.m_box.hit_pos, field.m_field_object[0].box_hit.m_box.half_size))
 	{
-		player->MoveHitUpdate(&field.m_field_object->box_hit);
+		player->MoveHitUpdate(&field.m_field_object[0].box_hit);
 	}
 
 	// モンスターとプレイヤーの移動の当たり判定
@@ -278,7 +286,7 @@ void GameScene::AttackUpdate()
 	{
 		// 一つのアニメーションの間に一回だけ当たったらtrueを返すようにするようにしたいがうまくいかない
 		// 詳しくは関数の中に書く
-		
+
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
 		// 当たり判定がうまく一定ないのはこの関数の中身のせい
 		if (player_attack_hit.HitAttack(monster->m_body, player->m_attack_hit_damage[player->m_now_attack]->attack_hit, player->m_animation) == true)
@@ -293,7 +301,7 @@ void GameScene::AttackUpdate()
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
 		MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
-		if (monster_attack_hit.HitAttack(player->m_body, ptr->attack_hit,  monster->m_animation) == true)
+		if (monster_attack_hit.HitAttack(player->m_body, ptr->attack_hit, monster->m_animation) == true)
 		{
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら

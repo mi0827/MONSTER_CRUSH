@@ -55,6 +55,9 @@ public:
 	//! @param  歩いている状態かのフラグ
 	void BaseUpdate(bool* run_flag);
 
+
+
+
 	// 攻撃の時の当たり判定とダメージの構造体
 	// 各子クラスで定義する
 	struct Attack_Hit_Damage
