@@ -31,7 +31,7 @@ SamplePlayer::SamplePlayer()
 	// モデルのスケールの設定
 	m_transform.scale.set(0.1f, 0.1, 0.1);
 	// 移動の際の当たり判定のサイズの設定
-	m_move_hit_size = { 1.0f,0.0f,1.0f };
+	m_move_hit_size = { 1.0f,5.0f,1.0f };
 }
 
 
@@ -160,7 +160,7 @@ void SamplePlayer::Draw()
 	//===================
 	// カプセルの描画（仮）（後で消す）
 	//===================
-
+	
 	m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 	/*m_body.Draw();
 	m_right_hand.Draw();
@@ -169,8 +169,8 @@ void SamplePlayer::Draw()
 	m_left_feet.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
-
-
+	
+	m_move_hit_box.Draw(255, 255);
 }
 
 //-----------------------------------------------
@@ -298,6 +298,8 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 		// プレイヤーモードの切り替えをする
 		m_player_mode = RUN;
 	}
+
+	
 }
 
 //-----------------------------------------------

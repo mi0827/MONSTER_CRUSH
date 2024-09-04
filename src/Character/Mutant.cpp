@@ -374,8 +374,6 @@ void Mutant::Attack_Jump()
 		// ジャンプ攻撃をしてほしいのでランフラグを下す
 		m_run_flag = false;
 
-	
-
 		// attack_flag が上がってるときかつ
 	   // プレイヤーモードがATTACK以外の時
 		if (m_attack_flag && m_monster_mode != ATTACK)
@@ -404,11 +402,11 @@ void Mutant::Attack_Jump()
 }
 
 //-----------------------------------------------
-// ジャンプ攻撃中の処理
-//-----------------------------------------------
+// ジャンプ攻撃中の処理aaaaaaaaaaaw
 void Mutant::Jump_Update()
 {
-	if (m_animation.m_contexts[0].play_time >= 80.0f)
+	// モンスターのアニメーションがジャンプしそうに瞬間から着地アニメーションが始まるまでの間
+	if (m_animation.m_contexts[0].play_time >= 80.0f && m_animation.m_contexts[0].play_time < 110.0f)
 	{
 		// ジャンプしてから下に下がるスピードをゼロにする
 		m_down_speed = 0.0f;
@@ -420,9 +418,12 @@ void Mutant::Jump_Update()
 		// 降下スピードをリセット
 		m_down_speed = JUMP_DOWN_SPEED;
 
-		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径より少し小さいくらいずらしたとこ
-		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius + 5;
-		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius + 5;
+		
+		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
+		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
+		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius ;
+
+		
 		// ジャンプフラグを下げる
 		m_jump_flag = false; // 落ちる処理へ
 	}
@@ -430,7 +431,7 @@ void Mutant::Jump_Update()
 	//{
 	//case STANDBY: // 待機
 	//	// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
-	
+
 		//	
 		//	break;
 		//case GOUP:        // 上がる
