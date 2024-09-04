@@ -46,9 +46,13 @@ void MonsterBase::Action_Rolling(const int rolling_speed)
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit(int hp_num)
+void MonsterBase::BaseInit(int hp_num,float up_speed, float down_speed)
 {
+	// HP設定
 	m_hp_value = hp_num;
+	// ジャンプ関連の設定
+	m_up_speed = up_speed;
+	m_down_speed = down_speed;
 }
 
 //---------------------------------------------------------------------------

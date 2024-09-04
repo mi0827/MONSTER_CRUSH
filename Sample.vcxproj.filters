@@ -165,6 +165,9 @@
     <ClCompile Include="src\Field\HitField.cpp">
       <Filter>ソース ファイル\Field</Filter>
     </ClCompile>
+    <ClCompile Include="src\Action\JompAction.cpp">
+      <Filter>ソース ファイル\Action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameMain.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="src\Field\HitField.h">
       <Filter>ソース ファイル\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Action\JompAction.h">
+      <Filter>ソース ファイル\Action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

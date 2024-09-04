@@ -65,13 +65,14 @@ void Mutant::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-    // 攻撃アニメーションの数分のあたり判定んお入れ物を確保する
+	// 攻撃アニメーションの数分のあたり判定んお入れ物を確保する
 	NEW_Set_Attack_Hit_Damage(ATTACK_ACTION_MAX);
 
 	// ステータスバーの設定
 	Status_Bar_Init();
 
-	BaseInit( HP_MAX);
+	// モンスターのステータスの初期設定
+	BaseInit(HP_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
 }
 
 //-----------------------------------------------
@@ -146,6 +147,7 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 		{
 			Jump_Update();
 		}
+
 		// ローリングアクション時の処理
 		if (m_now_attack_anim == rolling)
 		{
@@ -372,6 +374,8 @@ void Mutant::Attack_Jump()
 		// ジャンプ攻撃をしてほしいのでランフラグを下す
 		m_run_flag = false;
 
+	
+
 		// attack_flag が上がってるときかつ
 	   // プレイヤーモードがATTACK以外の時
 		if (m_attack_flag && m_monster_mode != ATTACK)
@@ -392,6 +396,11 @@ void Mutant::Attack_Jump()
 		// ジャンプ処理は
 		jump_num = STANDBY;
 	}
+	else
+	{
+		// ジャンプフラグを下げる
+		m_jump_flag = false;
+	}
 }
 
 //-----------------------------------------------
@@ -399,47 +408,59 @@ void Mutant::Attack_Jump()
 //-----------------------------------------------
 void Mutant::Jump_Update()
 {
-	switch (jump_num)
+	if (m_animation.m_contexts[0].play_time >= 80.0f)
 	{
-	case STANDBY: // 待機
-		// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
-		if (m_animation.m_contexts[0].play_time >= 80.0f)
-		{
-			jump_num = GOUP; // 上がる処理へ
-		}
-		if (m_animation.m_contexts[0].play_time >= 110.0f)
-		{
-			jump_num = DROPDOWN; // 落ちる処理へ
-		}
-		break;
-	case GOUP:        // 上がる
-		m_transform.pos.y += 5;
-		// 一定の高さまで上がったら
-		if (m_transform.pos.y >= JUMP_HEIGHT)
-		{
-			// 上がるのを止めて移動の処理へ
-			m_transform.pos.y = JUMP_HEIGHT;
-			jump_num = MOVE;
-		}
-		break;
+		// ジャンプしてから下に下がるスピードをゼロにする
+		m_down_speed = 0.0f;
+		m_jump_flag = true;
+	}
 
-	case MOVE:        // 座標移動
+	if (m_animation.m_contexts[0].play_time >= 110.0f)
+	{
+		// 降下スピードをリセット
+		m_down_speed = JUMP_DOWN_SPEED;
+
 		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径より少し小さいくらいずらしたとこ
 		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius + 5;
 		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius + 5;
-
-		jump_num = STANDBY; // 落ちるタイミングを合わせるためにいったん待機へ
-		break;
-
-	case DROPDOWN:   // 落ちる
-		m_transform.pos.y -= 5;
-		// 図面についたら落ちるのをやめる
-		if (m_transform.pos.y <= 0)
-		{
-			m_transform.pos.y = 0;
-		}
-		break;
+		// ジャンプフラグを下げる
+		m_jump_flag = false; // 落ちる処理へ
 	}
+	//switch (jump_num)
+	//{
+	//case STANDBY: // 待機
+	//	// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
+	
+		//	
+		//	break;
+		//case GOUP:        // 上がる
+		//	m_transform.pos.y += 5;
+		//	// 一定の高さまで上がったら
+		//	if (m_transform.pos.y >= JUMP_HEIGHT)
+		//	{
+		//		// 上がるのを止めて移動の処理へ
+		//		m_transform.pos.y = JUMP_HEIGHT;
+		//		jump_num = MOVE;
+		//	}
+		//	break;
+
+		//case MOVE:        // 座標移動
+		//	// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径より少し小さいくらいずらしたとこ
+		//	m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius + 5;
+		//	m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius + 5;
+
+		//	jump_num = STANDBY; // 落ちるタイミングを合わせるためにいったん待機へ
+		//	break;
+
+		//case DROPDOWN:   // 落ちる
+		//	m_transform.pos.y -= 5;
+		//	// 図面についたら落ちるのをやめる
+		//	if (m_transform.pos.y <= 0)
+		//	{
+		//		m_transform.pos.y = 0;
+		//	}
+		//	break;
+		//}
 
 }
 

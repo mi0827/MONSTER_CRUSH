@@ -257,7 +257,9 @@ void GameScene::Character_Update(int se_volume)
 	 HitGroundCharacter(&player->m_transform.pos,       &field.m_field_model);
 	 // 今の状態だとジャンプ攻撃ができない
 	 // 家のデスクトップ尾モデル自身に当たり判定を設定のソースにジャンプのヒントが書いてある
-	 HitGroundCharacter(&monster->m_transform.pos, &field.m_field_model);
+	 HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
+		                                   &monster->m_jump_flag, monster->m_up_speed,monster->m_down_speed,
+		                 &field.m_field_model);
 
 	// フィールドのオブジェクトとプレイヤーの移動の際の壁擦り判定
 	if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
