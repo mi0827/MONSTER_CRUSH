@@ -15,11 +15,15 @@ public:
 	void Draw(int color, int line_color);
 
 	//! @biref ボックスを作る関数
-	//! 
+	//! @param 設置したいBOXの中心座標
+	//! @param 設定したいサイズ
 	void CreateBox(Vector3 pos, Vector3 size);
 
+	//! @brief 座標の設定
 	void SetPos(Vector3 pos);
 
+	//! @biref サイズ設定
+	//! @param 設定したイサイズ
 	void SetSize(Vector3 size);
 
 public:

@@ -28,10 +28,13 @@ SamplePlayer::SamplePlayer()
 	m_idle_flag = true;
 	// 最初はアイドル状態にしておく
 	m_player_mode = IDLE;
+
+	// プレイヤーの初期座標
+	m_transform.pos.set(100, 0, 100);
 	// モデルのスケールの設定
 	m_transform.scale.set(0.1f, 0.1, 0.1);
 	// 移動の際の当たり判定のサイズの設定
-	m_move_hit_size = { 1.0f,5.0f,1.0f };
+	m_move_hit_size = { 3.0f,5.0f,3.0f };
 }
 
 
@@ -52,6 +55,9 @@ void SamplePlayer::Init()
 
 	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit(PLAYER_HIT_R, HP_MAX);
+	// プレイヤーの初期座標
+	m_transform.pos.set(100, 0, 100);
+
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Player/Player.mv1");
 	// アニメーションの初期設定

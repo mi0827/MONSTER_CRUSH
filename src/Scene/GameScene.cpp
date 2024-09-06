@@ -261,12 +261,17 @@ void GameScene::Character_Update(int se_volume)
 		                                   &monster->m_jump_flag, monster->m_up_speed,monster->m_down_speed,
 		                 &field.m_field_model);
 
-	// フィールドのオブジェクトとプレイヤーの移動の際の壁擦り判定
-	if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-		field.m_field_object[0].box_hit.m_box.hit_pos, field.m_field_object[0].box_hit.m_box.half_size))
-	{
-		player->MoveHitUpdate(&field.m_field_object[0].box_hit);
-	}
+	 // フィールドにあるオブジェクト分行う
+	 for (int i = 0; i < field.MODEL_MAX; ++i)
+	 {
+		 // フィールドのオブジェクトとプレイヤーの移動の際の壁擦り判定
+		 if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			 field.m_field_object[i].box_hit.m_box.hit_pos, field.m_field_object[i].box_hit.m_box.half_size))
+		 {
+			 player->MoveHitUpdate(&field.m_field_object[i].box_hit);
+		 }
+	 }
+	
 
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))

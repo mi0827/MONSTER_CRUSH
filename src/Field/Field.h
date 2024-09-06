@@ -6,6 +6,18 @@
 class Field 
 {
 
+	
+
+	
+
+
+private:
+	//---------------
+	// 定数
+	//---------------
+	const float MODEL_SIZE = 25.0f; // モデルサイズ
+
+public:
 	// モデルの保存番号
 	enum
 	{
@@ -15,35 +27,62 @@ class Field
 		tree3,*/
 		// フェンスのモデル番号
 		fence1,
-
+		fence2,
+		fence3,
+		fence4,
+		fence5,
+		fence6,
+		fence7,
+		fence8,
+		fence9,
+		fence10,
+		fence11,
+		fence12,
+		fence13,
+		fence14,
+		fence15,
+		fence16,
+		fence17,
+		fence18,
+		fence19,
+		fence20,
 		// 石のモデル番号
 		stone1,
 
 
 		MODEL_MAX
 	};
-
-	//---------------
-	// 定数
-	//---------------
-
-
-private:
-
-	const float MODEL_SIZE = 25.0f; // モデルサイズ
-
-public:
 	//---------------
 	// 関数の定義
 	//---------------
 	// コンストラクタ
-	Field();	//	初期化処理
-	void Init();             //　初期処理
-	int  Field_Init();       // フィールド上にオブジェクトの置く数を返す関数
-	void Object_Init();      // オブジェクトの座標、サイズの初期設定
-	void Update();		     //	更新処理
-	void Draw();		     //	描画処理
-	void Exit();		     //	終了処理
+	Field();	
+	// デストラクタ
+	~Field();
+
+	
+	
+	
+	
+	//! @brief 初期処理
+	void Init();             
+
+	
+	//! @brief 更新処理
+	void Update();		     
+	//! @brief 描画処理
+	void Draw();		     
+	//! @brief 終了処理
+	void Exit();		
+
+	//! @brinf オブジェクトの座標、サイズの初期設定
+	void ObjectInit();    
+	//! @brinf 木のオブジェクトの初期設定関数
+	void TreeInit();
+	//! @brinf フェンスのオブジェクトの初期設定
+	void FenceInit();
+	//! @brinf 石のオブジェクトの初期設定
+	void StoneInit();
 
 	//---------------
 	// 変数の定義
