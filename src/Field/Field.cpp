@@ -91,17 +91,29 @@ void Field::TreeInit()
 {
 	// モデルデータの読み込み
 	m_field_object[tree1].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree2].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree3].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+
 	// 座標設定
-	m_field_object[tree1].transform.pos.set(50.0f, 30.0f, 0.0f);
+	m_field_object[tree1].transform.pos.set(0.0f, 30.0f, 0.0f);
+	m_field_object[tree2].transform.pos.set(0.0f, 30.0f, 240.0f);
+	m_field_object[tree3].transform.pos.set(240.0f, 30.0f, 0.0f);
+
 
 	// 向きの設定
-	m_field_object[tree1].transform.rot.set(0.0f, 0.0f, 0.0f);
+	m_field_object[tree1].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree2].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree3].transform.rot.set(0.0f, 45.0f, 0.0f);
 
 	// サイズの設定
 	m_field_object[tree1].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree2].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree3].transform.scale.set(0.5f, 0.5f, 0.5f);
 
 	// 当たり判定の設定
 	m_field_object[tree1].box_hit.CreateBox(m_field_object[tree1].transform.pos, { 50.0f,20.0f,50.f });
+	m_field_object[tree2].box_hit.CreateBox(m_field_object[tree2].transform.pos, { 50.0f,20.0f,50.f });
+	m_field_object[tree3].box_hit.CreateBox(m_field_object[tree3].transform.pos, { 50.0f,20.0f,50.f });
 }
 
 //---------------------------------------------------------------------------
@@ -110,15 +122,15 @@ void Field::TreeInit()
 void Field::FenceInit()
 {
 	// モデルデータの読み込み
-	m_field_object[fence1  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence2  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence3  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence4  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence5  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence6  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence7  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence8  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
-	m_field_object[fence9  ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence1 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence2 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence3 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence4 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence5 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence6 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence7 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence8 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
+	m_field_object[fence9 ].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
 	m_field_object[fence10].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
 	m_field_object[fence11].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
 	m_field_object[fence12].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");

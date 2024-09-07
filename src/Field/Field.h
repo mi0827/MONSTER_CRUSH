@@ -23,8 +23,9 @@ public:
 	{
 		// 木のモデル番号
 		tree1,
-		/*tree2,
-		tree3,*/
+		tree2,
+		tree3,
+
 		// フェンスのモデル番号
 		fence1,
 		fence2,
@@ -46,6 +47,7 @@ public:
 		fence18,
 		fence19,
 		fence20,
+
 		// 石のモデル番号
 		stone1,
 
