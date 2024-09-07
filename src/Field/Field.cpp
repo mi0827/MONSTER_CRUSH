@@ -9,10 +9,6 @@
 #include "src/Field/Field.h"
 
 
-// フィールドのオブジェクトを置く座標 
-constexpr int MAP_W = 10;  // 縦
-constexpr int MAP_H = 10;  // 横
-
 // 1が壁０が何もない
 // フィールドのオブジェクトを置く座標用の二次元配列
 //	初期化処理
@@ -71,7 +67,13 @@ void Field::Draw()
 	for (int i = 0; i < MODEL_MAX; i++)
 	{
 		m_field_object[i].model.DrawModel(&m_field_object[i].transform);
-		m_field_object[i].box_hit.Draw(255, 255);
+		//m_field_object[i].box_hit.Draw(255, 255);
+	}
+
+	// フェンスの当たり判定の描画
+	for (int i = 0; i < TREE_MAX; i++)
+	{
+		m_hit_tree[i].Draw();
 	}
 
 }
@@ -93,27 +95,57 @@ void Field::TreeInit()
 	m_field_object[tree1].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 	m_field_object[tree2].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 	m_field_object[tree3].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree4].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree5].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree6].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree7].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
+	m_field_object[tree8].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 
 	// 座標設定
 	m_field_object[tree1].transform.pos.set(0.0f, 30.0f, 0.0f);
 	m_field_object[tree2].transform.pos.set(0.0f, 30.0f, 240.0f);
 	m_field_object[tree3].transform.pos.set(240.0f, 30.0f, 0.0f);
+	m_field_object[tree4].transform.pos.set(240.0f, 30.0f, 240.0f);
+	m_field_object[tree5].transform.pos.set(120.0f, 30.0f, 0.0f);
+	m_field_object[tree6].transform.pos.set(120.0f, 30.0f, 240.0f);
+	m_field_object[tree7].transform.pos.set(0.0f, 30.0f, 120.0f); 
+	m_field_object[tree8].transform.pos.set(240.0f, 30.0f, 120.0f);
+
+
 
 
 	// 向きの設定
 	m_field_object[tree1].transform.rot.set(0.0f, 45.0f, 0.0f);
 	m_field_object[tree2].transform.rot.set(0.0f, 45.0f, 0.0f);
 	m_field_object[tree3].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree4].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree5].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree6].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree7].transform.rot.set(0.0f, 45.0f, 0.0f);
+	m_field_object[tree8].transform.rot.set(0.0f, 45.0f, 0.0f);
+
 
 	// サイズの設定
 	m_field_object[tree1].transform.scale.set(0.5f, 0.5f, 0.5f);
 	m_field_object[tree2].transform.scale.set(0.5f, 0.5f, 0.5f);
 	m_field_object[tree3].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree4].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree5].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree6].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree7].transform.scale.set(0.5f, 0.5f, 0.5f);
+	m_field_object[tree8].transform.scale.set(0.5f, 0.5f, 0.5f);
 
 	// 当たり判定の設定
-	m_field_object[tree1].box_hit.CreateBox(m_field_object[tree1].transform.pos, { 50.0f,20.0f,50.f });
-	m_field_object[tree2].box_hit.CreateBox(m_field_object[tree2].transform.pos, { 50.0f,20.0f,50.f });
-	m_field_object[tree3].box_hit.CreateBox(m_field_object[tree3].transform.pos, { 50.0f,20.0f,50.f });
+	m_hit_tree[tree1].CreateCapsule(m_field_object[tree1].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree2].CreateCapsule(m_field_object[tree2].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree3].CreateCapsule(m_field_object[tree3].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree4].CreateCapsule(m_field_object[tree4].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree5].CreateCapsule(m_field_object[tree5].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree6].CreateCapsule(m_field_object[tree6].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree7].CreateCapsule(m_field_object[tree7].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+	m_hit_tree[tree8].CreateCapsule(m_field_object[tree8].transform.pos, { 0.0f,20.0f,0.0f }, 23.0f);
+
+	
 }
 
 //---------------------------------------------------------------------------

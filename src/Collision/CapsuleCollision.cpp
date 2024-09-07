@@ -23,27 +23,25 @@ void CapsuleCollision::Draw()
 //-----------------------------------------------
 // モデルの指定の位置にカプセルをつける
 //-----------------------------------------------
-void CapsuleCollision::CreateNodoCapsule(Model* model, int nodo_index)
+void CapsuleCollision::CreateNodoCapsule(Model* model, int nodo_index, int node_index2, float radius)
 {
 	// モデルの指定の位置の座標を取ってくる
 	m_capsule.pos1 = model->GetNodePos(nodo_index);
 	// サイズは適当な初期値を入れておく
 	m_capsule.pos2 = m_capsule.pos1 + Vector3(1.0f, 1.0f, 1.0f);
-	// 半径も適当な値を入れておく
-	m_capsule.radius = 1.0f;
+	// サイズを入れる
+	NodoSetSize(model, node_index2, radius);
 }
 
 //-----------------------------------------------
 // カプセルをつける
 //-----------------------------------------------
-void CapsuleCollision::CreateCapsule(Vector3 pos)
+void CapsuleCollision::CreateCapsule(Vector3 pos,Vector3 pos2, float radius)
 {
 	// 座標の保存
 	m_capsule.pos1 = pos;
-	// サイズは適当な初期値を入れておく
-	m_capsule.pos2 = m_capsule.pos1 + Vector3(1.0f, 1.0f, 1.0f);
-	// 半径も適当な値を入れておく
-	m_capsule.radius = 1.0f;
+	// サイズの設定
+	SetSize(pos2, radius);
 }
 
 //-----------------------------------------------

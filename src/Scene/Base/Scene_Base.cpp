@@ -37,7 +37,7 @@ void Scene_Base::ShadowMapInit()
 	SetShadowMapLightDirection(m_player_shadowMap_handle, m_light_direction);
 	SetShadowMapLightDirection(m_shadowMap_handle, m_light_direction);
 	// シャドーマップに描画する範囲の設定
-	SetShadowMapDrawArea(m_shadowMap_handle, VGet(-2000.0f, -0.1f, -2000.0f), VGet(+2000.0f, 3000.0f, +2000.0f));
+	SetShadowMapDrawArea(m_shadowMap_handle, VGet(-8192.0f, -0.1f, -8192.0f), VGet(+8192.0f, 3000.0f, +8192.0f));
 
 }
 

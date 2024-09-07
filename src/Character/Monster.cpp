@@ -208,16 +208,16 @@ void Monster::CDUpdate()
 
 
 	// この座標をモデルのノードをでとってくるといいかも
-	m_body.CreateCapsule(m_transform.pos);
-	m_body.SetSize({ 0.0f,25.0f, 0.0f }, 12);
+	// m_body.CreateCapsule(m_transform.pos);
+	// m_body.SetSize({ 0.0f,25.0f, 0.0f }, 12);
 
 	// 左手のあたり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 12);
-	m_left_hand.NodoSetSize(&m_model, 22, 3.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 12, 22, 3.0f);
+	
 
 	// 右手の当たり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 36);
-	m_right_hand.NodoSetSize(&m_model, 46, 3.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 36, 46, 3.0f);
+	
 }
 
 //-----------------------------------------------

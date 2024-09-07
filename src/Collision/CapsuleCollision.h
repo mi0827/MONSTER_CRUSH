@@ -18,11 +18,15 @@ public:
 	//! @brief モデルのノードの位置にカプセルをつける関数
 	//! @param モデルクラス
 	//! @param モデルのつけたい座標番号
-	void CreateNodoCapsule(Model* model, int node_index);
+	//! @param モデルのつけたい座標番号2
+	//! @param 半径の大きさ
+	void CreateNodoCapsule(Model* model, int node_index , int node_index2, float radius = 1);
 
 	//! @brief カプセルを作る関数
 	//! @param セットしたい座標(Vector3)
-	void CreateCapsule(Vector3 pos);
+	//! @param セットしたい座標２(Vector3)
+	//! @param セットしたい半径
+	void CreateCapsule(Vector3 pos, Vector3 pos2, float radius=1);
 
 	//! @brief カプセルのもう一つの座標をモデルのノードからもたってくる
 	//! @param モデルの情報

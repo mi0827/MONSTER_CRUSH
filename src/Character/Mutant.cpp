@@ -185,11 +185,11 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 //-----------------------------------------------
 void Mutant::Draw()
 {
-	attack_hit_damage[m_now_attack].attack_hit.Draw();
+	//attack_hit_damage[m_now_attack].attack_hit.Draw();
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
-	/*m_body.Draw();
+	m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();*/
+	m_right_hand.Draw();
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ (•`‰æ‚ğŒã‚É‚µ‚È‚¢‚Æ“–‚½‚è”»’è‚ª‚¿‚©‚¿‚©‚·‚é)
 	m_model.DrawModel(&m_transform);
 }
@@ -210,17 +210,17 @@ void Mutant::CDUpdate()
 
 
 	// ‚±‚ÌÀ•W‚ğƒ‚ƒfƒ‹‚Ìƒm[ƒh‚ğ‚Å‚Æ‚Á‚Ä‚­‚é‚Æ‚¢‚¢‚©‚à
-	m_body.CreateNodoCapsule(&m_model, 0);
-	m_body.NodoSetSize(&m_model, 7, 8.0f);
+	m_body.CreateNodoCapsule(&m_model, 0, 7, 8.0f);
+	
 
 	// ¶è‚Ì‚ ‚½‚è”»’è
-	m_left_hand.CreateNodoCapsule(&m_model, 13);
-	m_left_hand.NodoSetSize(&m_model, 19, 3.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 3.0f);
+	
 
 	// ‰Eè‚Ì“–‚½‚è”»’è
 	// ’Ü‚Ì•”•ª‚ª“–‚½‚è”»’è‚ª‚È‚¢
-	m_right_hand.CreateNodoCapsule(&m_model, 9);
-	m_right_hand.NodoSetSize(&m_model, 11, 5.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 5.0f);
+	
 
 	// UŒ‚‚Ì“–‚½‚è“–‚½‚è”»’è‚Ì•Û‘¶
 	m_attack_hit_damage[attack_1 - ATTACK_ANIM_START]->attack_hit = m_left_hand;

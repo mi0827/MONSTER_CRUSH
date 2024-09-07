@@ -159,26 +159,25 @@ void Hero::Exit()
 void Hero::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateCapsule(m_transform.pos);
-	m_body.SetSize({ 0.0f,15.0f, 0.0f }, 2.5);
+	m_body.CreateCapsule(m_transform.pos,{ 0.0f,15.0f, 0.0f }, 2.5);
+	
 
 	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 9);
-	m_right_hand.NodoSetSize(&m_model, 10, 1.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 9, 10, 1.0f);
 	// 左手の当たり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 33);
-	m_left_hand.NodoSetSize(&m_model, 34, 1.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 33, 34, 1.0f);
+
 
 	// 左足の当たり判定
-	m_left_feet.CreateNodoCapsule(&m_model, 55);
-	m_left_feet.NodoSetSize(&m_model, 59,1.0f);
+	m_left_feet.CreateNodoCapsule(&m_model, 55, 59, 1.0f);
+	//m_left_feet.NodoSetSize(&m_model, );
 	// 右足の当たり判定
-	m_right_feet.CreateNodoCapsule(&m_model, 60);
-	m_right_feet.NodoSetSize(&m_model, 64, 1.0f);
+	m_right_feet.CreateNodoCapsule(&m_model, 60,64, 1.0f);
+	
 	// ソードの当たり判定だけノード見つからないのでうまくいかない
 	// ソードの当たり判定
-	m_sword.CreateNodoCapsule(&m_model, 39);
-	m_sword.SetSize({-1.0f,10.0f,10.0f}, 1.0f);
+	//m_sword.CreateNodoCapsule(&m_model, 39, ({ -1.0f,10.0f,10.0f }), 1.0f);
+	//m_sword.SetSize();
 
 }
 

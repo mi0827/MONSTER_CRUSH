@@ -3,13 +3,8 @@
 
 
 //	Field(フィールド)クラス
-class Field 
+class Field
 {
-
-	
-
-	
-
 
 private:
 	//---------------
@@ -25,6 +20,12 @@ public:
 		tree1,
 		tree2,
 		tree3,
+		tree4,
+		tree5,
+		tree6,
+		tree7,
+		tree8,
+
 
 		// フェンスのモデル番号
 		fence1,
@@ -54,31 +55,41 @@ public:
 
 		MODEL_MAX
 	};
+
+	//! フェンスの数
+	static constexpr int FENCE_MAX = fence20 - fence1 + 1;
+
+	//! 木の数
+	static constexpr int TREE_MAX = tree8 - tree1 + 1;
+
+	//! 石の数
+	static constexpr int STONE_MAX = stone1 - stone1 + 1;
+
 	//---------------
 	// 関数の定義
 	//---------------
 	// コンストラクタ
-	Field();	
+	Field();
 	// デストラクタ
 	~Field();
 
-	
-	
-	
-	
-	//! @brief 初期処理
-	void Init();             
 
-	
+
+
+
+	//! @brief 初期処理
+	void Init();
+
+
 	//! @brief 更新処理
-	void Update();		     
+	void Update();
 	//! @brief 描画処理
-	void Draw();		     
+	void Draw();
 	//! @brief 終了処理
-	void Exit();		
+	void Exit();
 
 	//! @brinf オブジェクトの座標、サイズの初期設定
-	void ObjectInit();    
+	void ObjectInit();
 	//! @brinf 木のオブジェクトの初期設定関数
 	void TreeInit();
 	//! @brinf フェンスのオブジェクトの初期設定
@@ -101,8 +112,18 @@ public:
 		// 当たり判定用のボックス
 		BoxCollision box_hit;
 	};
+
 	// 置かれるオブジェクトの数分用意する
 	field m_field_object[MODEL_MAX];
+
+	//! フェンス用のあたり判定
+	BoxCollision m_hit_fence[FENCE_MAX];
+
+	//! 木の当たり判定
+	CapsuleCollision m_hit_tree[TREE_MAX];
+
+	//! 石の当たり判定
+	CapsuleCollision m_hit_stone[STONE_MAX];
 
 	//フィールドモデルの入れ物
 	Model m_field_model;

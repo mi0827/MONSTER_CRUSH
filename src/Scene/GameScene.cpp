@@ -127,7 +127,7 @@ void GameScene::Init()
 void GameScene::Update(int bgm_volume, int se_volume)
 {
 	// キャラクターの更新処理
-	Character_Update(se_volume);
+	CharacterUpdate(se_volume);
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
@@ -227,7 +227,14 @@ void GameScene::StatusDraw()
 //---------------------------------------------------------------------------
 // ライトの初期設定
 //---------------------------------------------------------------------------
-void GameScene::Light_Init()
+void GameScene::LightInit()
+{
+}
+
+//---------------------------------------------------------------------------
+// フィールドの当たり判定の
+//---------------------------------------------------------------------------
+void GameScene::HitField()
 {
 }
 
@@ -245,7 +252,7 @@ void GameScene::Character_Init()
 //---------------------------------------------------------------------------
 // キャラクタ―の更新処理
 //---------------------------------------------------------------------------
-void GameScene::Character_Update(int se_volume)
+void GameScene::CharacterUpdate(int se_volume)
 {
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);
@@ -272,6 +279,15 @@ void GameScene::Character_Update(int se_volume)
 		 }
 	 }
 	
+	 // 木のオブジェクトとプレイヤーの当たり判定
+	 for (int i = 0; i < field.TREE_MAX; i++)
+	 {
+		 // モンスターとプレイヤーの移動の当たり判定
+		 if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		 {
+			 player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+		 }
+	 }
 
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))

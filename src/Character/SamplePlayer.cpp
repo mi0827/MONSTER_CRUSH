@@ -167,12 +167,12 @@ void SamplePlayer::Draw()
 	// カプセルの描画（仮）（後で消す）
 	//===================
 	
-	m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-	/*m_body.Draw();
+	//m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+	m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
 	m_right_feet.Draw();
-	m_left_feet.Draw();*/
+	m_left_feet.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 	
@@ -193,20 +193,20 @@ void SamplePlayer::Exit()
 void SamplePlayer::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateNodoCapsule(&m_model, 6);
-	m_body.NodoSetSize(&m_model, 65, 3.0f);
+	m_body.CreateNodoCapsule(&m_model, 6, 65, 3.0f);
+	
 	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 33);
-	m_right_hand.NodoSetSize(&m_model, 34, 1.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 33, 34, 1.0f);
+	
 	// 左手の当たり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 9);
-	m_left_hand.NodoSetSize(&m_model, 10, 1.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 9, 10, 1.0f);
+	
 	// 右足の当たり判定
-	m_right_feet.CreateNodoCapsule(&m_model, 60);
-	m_right_feet.NodoSetSize(&m_model, 62, 1.0f);
+	m_right_feet.CreateNodoCapsule(&m_model, 60, 62, 1.0f);
+	
 	// 左足の当たり判定
-	m_left_feet.CreateNodoCapsule(&m_model, 55);
-	m_left_feet.NodoSetSize(&m_model, 57, 1.0f);
+	m_left_feet.CreateNodoCapsule(&m_model, 55, 57, 1.0f);
+	
 
 	// 攻撃時の当たり当たり判定の保存
 	// 本来は二つまとめて保存できたができなくなっているためひとつづつしている

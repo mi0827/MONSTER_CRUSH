@@ -41,16 +41,17 @@ public:
 	//void BGM_Init();
 
 	// ライトの初期化
-	void Light_Init();
+	void LightInit();
 	
-	
+	//! @brief フィールドとキャラクターとの当たり判定
+	void HitField();
 	
 	//! @brief キャラクターの初期処理
 	void Character_Init();
 
 	//! @brief キャラクターの更新処理
 	// @ param SEの音量
-	void Character_Update(int se_volume);
+	void CharacterUpdate(int se_volume);
 
 	//! @brief キャラクターの攻撃に関しての更新処理
 	void AttackUpdate();
