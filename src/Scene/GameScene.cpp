@@ -128,6 +128,9 @@ void GameScene::Update(int bgm_volume, int se_volume)
 {
 	// キャラクターの更新処理
 	CharacterUpdate(se_volume);
+	
+	// フィールドとの当たり判定
+	HitField();
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
@@ -236,6 +239,35 @@ void GameScene::LightInit()
 //---------------------------------------------------------------------------
 void GameScene::HitField()
 {
+	// 木のオブジェクトとプレイヤーの当たり判定
+	for (int i = 0; i < field.TREE_MAX; i++)
+	{
+		// モンスターとプレイヤーの移動の当たり判定
+		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		{
+			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+		}
+	}
+	// フェンスとキャラクターの当たり判定
+	for (int i = 0; i < field.FENCE_MAX; i++)
+	{
+		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			field.m_hit_fence[i].m_box.hit_pos, field.m_hit_fence[i].m_box.half_size))
+		{
+			player->MoveHitUpdate(&field.m_hit_fence[i]);
+		}
+	}
+
+
+	// 石とキャラクターの当たり判定
+	for (int i = 0; i < field.STONE_MAX; i++)
+	{
+		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			field.m_hit_stone[i].m_box.hit_pos, field.m_hit_stone[i].m_box.half_size))
+		{
+			player->MoveHitUpdate(&field.m_hit_stone[i]);
+		}
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -261,33 +293,16 @@ void GameScene::CharacterUpdate(int se_volume)
 	monster->Update(&player->m_transform, player->m_hit_r);
 
 	// フィールドの地面モデルとキャラクターの当たり判定
-	 HitGroundCharacter(&player->m_transform.pos,       &field.m_field_model);
-	 // 今の状態だとジャンプ攻撃ができない
-	 // 家のデスクトップ尾モデル自身に当たり判定を設定のソースにジャンプのヒントが書いてある
-	 HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
-		                                   &monster->m_jump_flag, monster->m_up_speed,monster->m_down_speed,
-		                 &field.m_field_model);
+	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	// 今の状態だとジャンプ攻撃ができない
+	// 家のデスクトップ尾モデル自身に当たり判定を設定のソースにジャンプのヒントが書いてある
+	HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
+		&monster->m_jump_flag, monster->m_up_speed, monster->m_down_speed,
+		&field.m_field_model);
 
-	 // フィールドにあるオブジェクト分行う
-	 for (int i = 0; i < field.MODEL_MAX; ++i)
-	 {
-		 // フィールドのオブジェクトとプレイヤーの移動の際の壁擦り判定
-		 if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			 field.m_field_object[i].box_hit.m_box.hit_pos, field.m_field_object[i].box_hit.m_box.half_size))
-		 {
-			 player->MoveHitUpdate(&field.m_field_object[i].box_hit);
-		 }
-	 }
-	
-	 // 木のオブジェクトとプレイヤーの当たり判定
-	 for (int i = 0; i < field.TREE_MAX; i++)
-	 {
-		 // モンスターとプレイヤーの移動の当たり判定
-		 if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
-		 {
-			 player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
-		 }
-	 }
+
+
+
 
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))

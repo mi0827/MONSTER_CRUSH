@@ -25,7 +25,11 @@ public:
 		tree6,
 		tree7,
 		tree8,
-
+		tree9,
+		tree10,
+		tree11,
+		tree12,
+		tree13,
 
 		// フェンスのモデル番号
 		fence1,
@@ -37,33 +41,32 @@ public:
 		fence7,
 		fence8,
 		fence9,
-		fence10,
-		fence11,
-		fence12,
-		fence13,
-		fence14,
-		fence15,
-		fence16,
-		fence17,
-		fence18,
-		fence19,
-		fence20,
+
+		
 
 		// 石のモデル番号
 		stone1,
+		stone2,
+		stone3,
+		stone4,
+		stone5,
 
 
 		MODEL_MAX
 	};
 
 	//! フェンスの数
-	static constexpr int FENCE_MAX = fence20 - fence1 + 1;
-
+	static constexpr int FENCE_MAX = fence9 - fence1 + 1;
+	//! フェンスの配列番号が始まる番号
+	static constexpr int FENCE_INDEX_STRAT = fence1;
 	//! 木の数
-	static constexpr int TREE_MAX = tree8 - tree1 + 1;
-
+	static constexpr int TREE_MAX = tree13 - tree1 + 1;
+	//! 木の配列番号が始まる番号
+	static constexpr int TREE_INDEX_STRAT = tree1;
 	//! 石の数
-	static constexpr int STONE_MAX = stone1 - stone1 + 1;
+	static constexpr int STONE_MAX = stone5 - stone1 + 1;
+	//! 石の配列番号が始まる番号
+	static constexpr int STONE_INDEX_STRAT = stone1;
 
 	//---------------
 	// 関数の定義
@@ -109,8 +112,6 @@ public:
 	{
 		Model model;
 		Transform transform;
-		// 当たり判定用のボックス
-		BoxCollision box_hit;
 	};
 
 	// 置かれるオブジェクトの数分用意する
@@ -123,7 +124,7 @@ public:
 	CapsuleCollision m_hit_tree[TREE_MAX];
 
 	//! 石の当たり判定
-	CapsuleCollision m_hit_stone[STONE_MAX];
+	BoxCollision m_hit_stone[STONE_MAX];
 
 	//フィールドモデルの入れ物
 	Model m_field_model;
