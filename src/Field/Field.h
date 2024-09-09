@@ -29,7 +29,26 @@ public:
 		tree10,
 		tree11,
 		tree12,
-		tree13,
+		tree13, // フィールドの周りを囲んでいる木の番号
+		
+		// 外の見た目の部分の木
+		// ここから下の木には当たり判定はいらない
+		tree14, 
+		tree15,
+		tree16,
+		tree17,
+		tree18,
+		tree19,
+		tree20,
+		tree21,
+		tree22,
+		tree23,
+		tree24,
+		tree25,
+		tree26,
+		tree27,
+
+
 
 		// フェンスのモデル番号
 		fence1,
@@ -55,15 +74,15 @@ public:
 		MODEL_MAX
 	};
 
-	//! フェンスの数
+	//! フェンスの数(当たり判定がいる数)
 	static constexpr int FENCE_MAX = fence9 - fence1 + 1;
 	//! フェンスの配列番号が始まる番号
 	static constexpr int FENCE_INDEX_STRAT = fence1;
-	//! 木の数
+	//! 木の数(当たり判定がいる数)
 	static constexpr int TREE_MAX = tree13 - tree1 + 1;
 	//! 木の配列番号が始まる番号
 	static constexpr int TREE_INDEX_STRAT = tree1;
-	//! 石の数
+	//! 石の数(当たり判定がいる数)
 	static constexpr int STONE_MAX = stone5 - stone1 + 1;
 	//! 石の配列番号が始まる番号
 	static constexpr int STONE_INDEX_STRAT = stone1;

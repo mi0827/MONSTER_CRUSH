@@ -130,7 +130,8 @@ void GameScene::Update(int bgm_volume, int se_volume)
 	CharacterUpdate(se_volume);
 	
 	// フィールドとの当たり判定
-	HitField();
+	// 一旦当たり判定を切っておく
+	//HitField();
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
