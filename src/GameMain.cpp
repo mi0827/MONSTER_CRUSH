@@ -59,6 +59,16 @@ int light_handle;
 
 //! ライトの座標用変数
 
+int scene_num = 0; // 今どのシーン名のを見る用の変数
+// 各シーンでの使い分けをするためのシーンの列挙隊
+enum Scene
+{
+	Titele, // タイトル
+	Play,  // メインのプレイシーン
+	End,   // エンド
+
+	Scene_Max // シーンの最大数
+};
 
 
 //-------------------------------------------------------------
@@ -66,8 +76,8 @@ int light_handle;
 //-------------------------------------------------------------
 void GameInit()
 {
-	// とりあえず今はゲームシーンをつけておく
-	scene = new GameScene;
+	// とりあえず今はタイトルシーンをつけておく
+	scene = new TitleScene;
 
 	// キャラクターのせってい
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
@@ -98,9 +108,41 @@ void GameInit()
 //-------------------------------------------------------------
 void GameUpdate()
 {
+	switch (scene_num)
+	{
+	case Titele: // タイトルシーン
 
-	// シーンの更新処理
-	scene->Update(50,50);
+		scene->Update();
+		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
+			scene->Exit();                                           // dekete前に終了処理を回す
+			Scene_Change_Judge(scene_num, Play);                     // シーンの切り替え
+			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
+			scene = new GameScene;                                   // 次のシーンをnewしておく
+			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		}
+		break;
+
+	case Play:  // プレイシーン
+		scene->Update();
+		if (scene->m_scene_change_judge) {                              // シーンの切り替えの許可が下りれば
+			scene->Exit();                                            // dekete前に終了処理を回す
+			Scene_Change_Judge(scene_num, End);  // シーンの切り替え	                                                        
+			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
+			scene = new EndScene;                                    // 次のシーンをnewしておく
+			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		}
+		break;
+	case End:  // エンドシーン
+		scene->Update();
+		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
+			scene->Exit();                                           // dekete前に終了処理を回す
+			Scene_Change_Judge(scene_num, Titele);                   // シーンの切り替え
+			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
+			scene = new TitleScene;                                 // 次のシーンをnewしておく
+			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		}
+		break;
+	}
 
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);
@@ -139,6 +181,14 @@ void GameExit()
 	
 }
 
+//----------------------------------------------
+// 今のシーンから次のシーンに切り替える関数
+//----------------------------------------------
+void Scene_Change_Judge(int& now_scene, const int& next_scene)
+{
+	// 今のシーン番号に次行いたいシーン番号を入れる
+	now_scene = next_scene;
+}
 
 
 

@@ -21,11 +21,14 @@ public:
 	//! @brief
 	//! @param BGMのボリューム
 	//! @param SEのボリューム
-	virtual void Update(int bgm_volume, int se_volume) = 0;
+	virtual void Update() = 0;
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
+
+	//! @bom,se の音量を設定する用の関数
+	// void SetSoundSize(int bgm_volume, int se_volume);
 
 	//! @brief シャドーマップ用の初期化関数
 	void ShadowMapInit();

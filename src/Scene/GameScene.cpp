@@ -124,10 +124,10 @@ void GameScene::Init()
 //---------------------------------------------------------------------------
 // 更新処理
 //---------------------------------------------------------------------------
-void GameScene::Update(int bgm_volume, int se_volume)
+void GameScene::Update()
 {
 	// キャラクターの更新処理
-	CharacterUpdate(se_volume);
+	CharacterUpdate();
 	
 	// フィールドとの当たり判定
 	// 一旦当たり判定を切っておく
@@ -135,6 +135,16 @@ void GameScene::Update(int bgm_volume, int se_volume)
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
+
+	// Xキーを押された時にシーンの変更をする（今だけの仮）
+	if (PushHitKey(KEY_INPUT_X))
+	{
+		m_scene_change_judge = true;
+	}
+	else
+	{
+		m_scene_change_judge = false;
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -285,7 +295,7 @@ void GameScene::Character_Init()
 //---------------------------------------------------------------------------
 // キャラクタ―の更新処理
 //---------------------------------------------------------------------------
-void GameScene::CharacterUpdate(int se_volume)
+void GameScene::CharacterUpdate()
 {
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);

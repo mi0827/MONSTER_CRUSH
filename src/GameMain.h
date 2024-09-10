@@ -14,6 +14,10 @@ void GameDraw();
 
 //! 終了処理
 void GameExit();
+
+
+
+
 //
 ////! ステータスバー描画用の関数
 //void StatusDraw();
@@ -26,3 +30,11 @@ void GameExit();
 //
 ////! ピクセルシェーダー用の変数
 //int pixel_shader;
+
+
+
+// シーン切り替え用の関数
+// 引数
+// １：今のシーン
+// ２：次のシーン
+void Scene_Change_Judge(int& now_scene, const int& next_scene);

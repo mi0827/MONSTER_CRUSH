@@ -7,7 +7,7 @@ public:
 	void Init()override;
 
 	// XVˆ—
-	void Update(int bgm_volume, int se_volume)override;
+	void Update()override;
 
 	// •`‰æˆ—
 	void Draw()override;

@@ -23,7 +23,7 @@ public:
 	//! @brief 更新処理
 	//! @param BGMの音量
 	//! @param SEの音量
-	void Update(int bgm_volume, int se_volume)override;
+	void Update()override;
 
 	//! @brief  描画処理
 	void Draw()override;
@@ -50,8 +50,7 @@ public:
 	void Character_Init();
 
 	//! @brief キャラクターの更新処理
-	// @ param SEの音量
-	void CharacterUpdate(int se_volume);
+	void CharacterUpdate();
 
 	//! @brief キャラクターの攻撃に関しての更新処理
 	void AttackUpdate();

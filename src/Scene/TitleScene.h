@@ -2,7 +2,7 @@
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/System/Vector2.h"
 // タイトルシーンのクラス
-class TiteleScene : public Scene_Base
+class TitleScene : public Scene_Base
 {
 	//int effeckt_h;
 public:
@@ -10,7 +10,7 @@ public:
 	void Init()override;
 
 	// 更新処理
-	void Update(int bgm_volume, int se_volume)override;
+	void Update()override;
 
 	// 描画処理
 	void Draw()override;
