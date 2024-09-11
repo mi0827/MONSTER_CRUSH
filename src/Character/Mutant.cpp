@@ -207,16 +207,12 @@ void Mutant::Exit()
 void Mutant::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-
-
 	// この座標をモデルのノードをでとってくるといいかも
 	m_body.CreateNodoCapsule(&m_model, 0, 7, 8.0f);
 	
-
 	// 左手のあたり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 3.0f);
 	
-
 	// 右手の当たり判定
 	// 爪の部分が当たり判定がない
 	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 5.0f);

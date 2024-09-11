@@ -145,6 +145,17 @@ void GameScene::Update()
 	{
 		m_scene_change_judge = false;
 	}
+
+	// プレイヤーのHPが０になったら
+	if (player->m_hp_value <= 0)
+	{
+		m_scene_change_judge = true;
+	}
+	// モンスターのHPがゼロになったら
+	if (monster->m_hp_value <= 0)
+	{
+		m_scene_change_judge = true;
+	}
 }
 
 //---------------------------------------------------------------------------

@@ -44,11 +44,34 @@ public:
 	//! @brief ステータスバーの描画関数
 	virtual void Status_Bar_Draw() = 0;
 
+	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
+	virtual void SetHitTimeInit() = 0;
+
+	//! @brief 当たり判定を行ってほしいタイミングをセットする関数
+	//! @param 当たり判定をとってほしいフレームのスタート
+	//! @param 当たり判定を終わってほしいフレームの終わり
+	//! @param 保存したい攻撃番号
+	void SetHitTime(int attack_frame_start, int attack_frame_end, int attack_num);
+
+	// 当たり判定をとってよいタイミングかを判断する関数
+	//! @brief 攻撃番号
+	bool AttackHitGoodTiming(int anim_num);
+
+	//! @brief 当たり判定とダメージを保存する関数
+	//! @param 当たり判定用のカプセル
+	//! @param 与えるダメージ
+	//! @param 攻撃番号
+	void SetHitDamage(CapsuleCollision attack_hit, int attack_damage, int attack_num);
+
+
+
 	//! @brief ベースクラスでの初期処理
 	//! @param 敵の移動の際に使う半径の設定
 	//! @param HPの最大量
 	void BaseInit(float r,int HP);
 
+
+	
 
 	// 攻撃の時の当たり判定とダメージの構造体
 	// 各子クラスで定義する
@@ -58,6 +81,12 @@ public:
 		CapsuleCollision attack_hit;
 		//! 攻撃にあったダメージ
 		int attack_damage = 0;
+
+		//! 当たり判定をとってほしいタイミング
+		//! スタート
+		int start_time = 0;
+		//! 終わり
+		int end_time = 0;
 	};
 	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
 	//! @brief 攻撃時の当たり判定を設定する用の関数
@@ -70,6 +99,8 @@ public:
 	//! @param ４：移動スピード
 	//! @detail 移動に関するものの更新処理
 	void BaseUpdate(bool* m_check_move, Vector3* camera_rot, const float* mov_speed);
+
+
 
 
 	//-----------------------------------------------

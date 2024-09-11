@@ -47,6 +47,7 @@ SamplePlayer::~SamplePlayer()
 	Exit();
 }
 
+
 //-----------------------------------------------
 // 初期化処理
 //-----------------------------------------------
@@ -70,6 +71,7 @@ void SamplePlayer::Init()
 	Status_Bar_Init();
 }
 
+
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
@@ -81,7 +83,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 	// 待機状態または走りの時だけｗ
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true)
-	{            
+	{
 		if (m_rolling_flag == false)
 		{
 			Move_Update(camera_rot);
@@ -158,6 +160,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 
 }
 
+
 //-----------------------------------------------
 // 描画処理
 //-----------------------------------------------
@@ -166,7 +169,7 @@ void SamplePlayer::Draw()
 	//===================
 	// カプセルの描画（仮）（後で消す）
 	//===================
-	
+
 	//m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 	m_body.Draw();
 	m_right_hand.Draw();
@@ -175,9 +178,10 @@ void SamplePlayer::Draw()
 	m_left_feet.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
-	
+
 	m_move_hit_box.Draw(255, 255);
 }
+
 
 //-----------------------------------------------
 // 終了処理
@@ -187,6 +191,7 @@ void SamplePlayer::Exit()
 
 }
 
+
 //-----------------------------------------------
 // あたり判定
 //-----------------------------------------------
@@ -194,36 +199,30 @@ void SamplePlayer::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	m_body.CreateNodoCapsule(&m_model, 6, 65, 3.0f);
-	
+
 	// 右手のあたり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 33, 34, 1.0f);
-	
+
 	// 左手の当たり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 9, 10, 1.0f);
-	
+
 	// 右足の当たり判定
 	m_right_feet.CreateNodoCapsule(&m_model, 60, 62, 1.0f);
-	
+
 	// 左足の当たり判定
 	m_left_feet.CreateNodoCapsule(&m_model, 55, 57, 1.0f);
-	
+
 
 	// 攻撃時の当たり当たり判定の保存
-	// 本来は二つまとめて保存できたができなくなっているためひとつづつしている
-	m_attack_hit_damage[attack_1-NORMAL_ACTION]->attack_hit = m_left_hand;
-	m_attack_hit_damage[attack_1 - NORMAL_ACTION]->attack_damage = 20;
-	m_attack_hit_damage[attack_2 - NORMAL_ACTION]->attack_hit = m_right_hand;
-	m_attack_hit_damage[attack_2 - NORMAL_ACTION]->attack_damage = 20;
-	m_attack_hit_damage[attack_3 - NORMAL_ACTION]->attack_hit = m_right_hand;
-	m_attack_hit_damage[attack_3 - NORMAL_ACTION]->attack_damage = 40;
-	m_attack_hit_damage[attack_kick_1 - NORMAL_ACTION]->attack_hit = m_right_feet;
-	m_attack_hit_damage[attack_kick_1 - NORMAL_ACTION]->attack_damage = 20;
-	m_attack_hit_damage[attack_kick_2 - NORMAL_ACTION]->attack_hit = m_left_feet;
-	m_attack_hit_damage[attack_kick_2 - NORMAL_ACTION]->attack_damage = 20;
-	m_attack_hit_damage[attack_kick_3 - NORMAL_ACTION]->attack_hit = m_right_feet;
-	m_attack_hit_damage[attack_kick_3 - NORMAL_ACTION]->attack_damage = 40;
-	
+	SetHitDamage(m_left_hand, 20, (attack_punch_1));
+	SetHitDamage(m_right_hand, 20, (attack_punch_2));
+	SetHitDamage(m_right_hand, 20, (attack_punch_3));
+	SetHitDamage(m_right_feet, 20, (attack_kick_1));
+	SetHitDamage(m_left_feet, 20, (attack_kick_2));
+	SetHitDamage(m_right_hand, 40, (attack_kick_3));
+
 }
+
 
 //-----------------------------------------------
 // ステータスバーの設定用関数
@@ -239,6 +238,7 @@ void SamplePlayer::Status_Bar_Init()
 	m_hp.SetName("HP");
 }
 
+
 //-----------------------------------------------
 // ステータスバー描画用関数
 //-----------------------------------------------
@@ -252,6 +252,24 @@ void SamplePlayer::Status_Bar_Draw()
 	m_hp.Draw();
 }
 
+
+//-----------------------------------------------
+// 当たり判定を行って欲しいタイミングを保存する関数
+//-----------------------------------------------
+void SamplePlayer::SetHitTimeInit()
+{
+	SetHitTime(attack_frame[attack_punch_1].start_frame,attack_frame[attack_punch_1].end_frame, attack_punch_1);
+
+	// 攻撃時の当たり当たり判定の保存
+	SetHitDamage(m_left_hand, 20, (attack_anim_1 - NORMAL_ACTION));
+	SetHitDamage(m_right_hand, 20, (attack_anim_2 - NORMAL_ACTION));
+	SetHitDamage(m_right_hand, 20, (attack_anim_3 - NORMAL_ACTION));
+	SetHitDamage(m_right_feet, 20, (attack_kick_anim_1 - NORMAL_ACTION));
+	SetHitDamage(m_left_feet, 20, (attack_kick_anim_2 - NORMAL_ACTION));
+	SetHitDamage(m_right_hand, 40, (attack_kick_anim_3 - NORMAL_ACTION));
+}
+
+
 //-----------------------------------------------
 // アニメーションの初期処理
 //-----------------------------------------------
@@ -263,12 +281,12 @@ void SamplePlayer::Anima_Load_Init()
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Idle.mv1", idle, 1, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Run.mv1", run, 1, 1.0f);   //!< 走り
 	m_animation.Load_Animation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 2.0f);     //! ローリング
-	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_1, 1, 1.0f);  //!< 攻撃１
-	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_2, 1, 2.0f); //!< 攻撃２
-	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch3.mv1", attack_3, 1, 2.0f); //!< 攻撃３
-	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Kick2.mv1", attack_kick_1, 1, 1.5f); //<! キック攻撃
-	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Kick3.mv1", attack_kick_2, 1, 1.5f); //<! キック攻撃
-	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Kick4.mv1", attack_kick_3, 1, 1.5f); //<! キック攻撃
+	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_anim_1, 1, 1.0f);  //!< 攻撃１
+	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_anim_2, 1, 2.0f); //!< 攻撃２
+	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch3.mv1", attack_anim_3, 1, 2.0f); //!< 攻撃３
+	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Kick2.mv1", attack_kick_anim_1, 1, 1.5f); //<! キック攻撃
+	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Kick3.mv1", attack_kick_anim_2, 1, 1.5f); //<! キック攻撃
+	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Kick4.mv1", attack_kick_anim_3, 1, 1.5f); //<! キック攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.Init_Attach_Animation(&m_model, idle, true);
 }
@@ -305,7 +323,7 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 		m_player_mode = RUN;
 	}
 
-	
+
 }
 
 //-----------------------------------------------
@@ -354,9 +372,9 @@ void SamplePlayer::Attack_First()
 		}
 		// 攻撃モードにしておく
 		m_player_mode = ATTACK;
-		m_animation.Change_Animation(&m_model, attack_1, false);
+		m_animation.Change_Animation(&m_model, attack_anim_1, false);
 		// 攻撃アニメーション番号の保存
-		m_now_attack_anim = attack_1;
+		m_now_attack_anim = attack_anim_1;
 
 		// 現在の攻撃番号を保存する
 		m_now_attack = m_now_attack_anim - NORMAL_ACTION;
@@ -379,9 +397,9 @@ void SamplePlayer::Attack_First()
 		}
 		// 攻撃モードにしておく
 		m_player_mode = ATTACK;
-		m_animation.Change_Animation(&m_model, attack_kick_1, false);
+		m_animation.Change_Animation(&m_model, attack_kick_anim_1, false);
 		// 攻撃アニメーション番号の保存
-		m_now_attack_anim = attack_kick_1;
+		m_now_attack_anim = attack_kick_anim_1;
 
 		// 現在の攻撃番号を保存する
 		m_now_attack = m_now_attack_anim - NORMAL_ACTION;
@@ -484,11 +502,11 @@ void SamplePlayer::Combo_Update()
 		// 今のアニメーション番号から一つ次のアニメーション
 		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
 		{
-			m_next_anim = attack_kick_1 + m_combo_count;
+			m_next_anim = attack_kick_anim_1 + m_combo_count;
 		}
 		if (m_mouse_flag == MOUSE_INPUT_LEFT)
 		{
-			m_next_anim = attack_1 + m_combo_count;
+			m_next_anim = attack_anim_1 + m_combo_count;
 		}
 		// コンボがアニメーションの最大と同じになったら
 		if (m_combo_count >= COMBO_MAX)
@@ -513,7 +531,7 @@ void SamplePlayer::Combo_Update()
 			// 現在の攻撃番号を保存する
 			m_now_attack = m_now_attack_anim - NORMAL_ACTION;
 		}
-		
+
 	}
 
 }
