@@ -166,11 +166,22 @@ void SamplePlayer::Update(Vector3* camera_rot)
 //-----------------------------------------------
 void SamplePlayer::Draw()
 {
+
 	//===================
 	// カプセルの描画（仮）（後で消す）
 	//===================
-
-	//m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+	// 攻撃フラグをが立っていたら
+	//if (m_attack_flag)
+	//{
+	//	// 攻撃の当たり判定行っていいときだけ
+	//	if (AttackHitGoodTiming(m_now_attack))
+	//	{
+	//		// 当たり判定を描画
+	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+	//	}
+	//}
+	
+	
 	m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
@@ -198,19 +209,15 @@ void SamplePlayer::Exit()
 void SamplePlayer::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateNodoCapsule(&m_model, 6, 65, 3.0f);
-
+	m_body.CreateNodoCapsule(&m_model, 6, 65, 3.5f);
 	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 33, 34, 1.0f);
-
+	m_right_hand.CreateNodoCapsule(&m_model, 33, 34, 2.0f);
 	// 左手の当たり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 9, 10, 1.0f);
-
+	m_left_hand.CreateNodoCapsule(&m_model, 9, 10, 2.0f);
 	// 右足の当たり判定
-	m_right_feet.CreateNodoCapsule(&m_model, 60, 62, 1.0f);
-
+	m_right_feet.CreateNodoCapsule(&m_model, 60, 62, 2.0f);
 	// 左足の当たり判定
-	m_left_feet.CreateNodoCapsule(&m_model, 55, 57, 1.0f);
+	m_left_feet.CreateNodoCapsule(&m_model, 55, 57, 2.0f);
 
 
 	// 攻撃時の当たり当たり判定の保存

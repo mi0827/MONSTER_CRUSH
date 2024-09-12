@@ -13,7 +13,7 @@ public:
 	//=========================================================================
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f; //! 移動スピード
 	static constexpr float MONSTER_ROT_SPEED = 0.5f;   //! 回転スピード
-	static constexpr float TARGET_DISTANCE = 150.0f;     //! ターゲットとの距離
+	static constexpr float TARGET_DISTANCE = 170.0f;     //! ターゲットとの距離
 	static constexpr float JUMP_UP_SPEED = 5.0f;            //! ジャンプの時の上昇スピード
 	static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
 	static constexpr int HP_MAX = 500;                           //! HPの最大値

@@ -56,24 +56,24 @@ public:
 	struct AttackFrame
 	{
 		// 始まりのフレーム
-		int start_frame;
+		float start_frame;
 		// 終わりのフレーム
-		int end_frame;
+		float end_frame;
 	};
 	AttackFrame attack_frame[attack_max] =
 	{
 		// パンチ１
-		{ 0.0f, 0.0f, },
+		{ 10.0f, 40.0f, },
 		// パンチ２
-		{ 0.0f, 0.0f, },
+		{ 20.0f, 40.0f, },
 		// パンチ３
-		{	0.0f, 0.0f, },
+		{	20.0f, 40.0f, },
 		// キック１
-		{	0.0f,	0.0f,	},
+		{	20.0f, 40.0f, },
 		// キック２
-		{	0.0f, 0.0f, },
+		{	20.0f, 40.0f, },
 		// キック３
-		{	0.0f,	0.0f, },
+		{	20.0f, 40.0f, },
 	};
 
 
