@@ -1,8 +1,9 @@
 #pragma once
+#pragma once
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/System/Vector2.h"
 // タイトルシーンのクラス
-class TitleScene : public Scene_Base
+class QuestAreaScene : public Scene_Base
 {
 	//int effeckt_h;
 public:

@@ -141,7 +141,7 @@
     <ClCompile Include="src\Scene\Base\Scene_Base.cpp">
       <Filter>ソース ファイル\Scene\Base</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scene\TieleScene.cpp">
+    <ClCompile Include="src\Scene\QuestAreaScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene\TitleScene.cpp">
@@ -260,7 +260,7 @@
     <ClInclude Include="src\Scene\GameScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene\TieleScene.h">
+    <ClInclude Include="src\Scene\QuestAreaScene.h">
       <Filter>ソース ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene\TitleScene.h">

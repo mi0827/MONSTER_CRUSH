@@ -34,6 +34,7 @@
 
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/TitleScene.h"
+#include "src/Scene/QuestAreaScene.h"
 #include "src/Scene/GameScene.h"
 #include "src/Scene/EndScene.h"
 
@@ -64,6 +65,7 @@ int scene_num = 0; // 今どのシーン名のを見る用の変数
 enum Scene
 {
 	Titele, // タイトル
+	QuestArea, // クエスト受注シーン
 	Play,  // メインのプレイシーン
 	End,   // エンド
 
@@ -100,7 +102,7 @@ void GameInit()
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
 
-	
+
 }
 
 //-------------------------------------------------------------
@@ -115,9 +117,20 @@ void GameUpdate()
 		scene->Update();
 		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
 			scene->Exit();                                           // dekete前に終了処理を回す
-			Scene_Change_Judge(scene_num, Play);                     // シーンの切り替え
+			Scene_Change_Judge(scene_num, QuestArea);                     // シーンの切り替え
 			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
-			scene = new GameScene;                                   // 次のシーンをnewしておく
+			scene = new QuestAreaScene;                                   // 次のシーンをnewしておく
+			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		}
+		break;
+
+	case QuestArea: // クエスト受注エリア
+		scene->Update();
+		if (scene->m_scene_change_judge) {                              // シーンの切り替えの許可が下りれば
+			scene->Exit();                                            // dekete前に終了処理を回す
+			Scene_Change_Judge(scene_num, Play);  // シーンの切り替え	                                                        
+			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
+			scene = new GameScene;                                    // 次のシーンをnewしておく
 			scene->Init();                                           // 次のシーンの初期処理もここで済ます
 		}
 		break;
@@ -175,10 +188,10 @@ void GameExit()
 
 	// シーンの終了処理
 	scene->Exit();
-	
+
 	// ライトの削除
 	//DeleteLightHandle(light_handle);
-	
+
 }
 
 //----------------------------------------------
