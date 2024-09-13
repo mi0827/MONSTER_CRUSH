@@ -36,18 +36,18 @@ public:
 		anim_max //!< ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‘å”
 	};
 
-	static constexpr int NORMAL_ACTION = 3;                     //! ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌUŒ‚ŒnˆÈŠO‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚Ì”
-	static constexpr int ATTACK_ACTION = anim_max - NORMAL_ACTION; //! UŒ‚ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‘å”
+	static constexpr int ATTACK_ANIM_STAR = attack_anim_1;                     //! ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌUŒ‚ŒnˆÈŠO‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚Ì”
+	static constexpr int ATTACK_ACTION = anim_max - ATTACK_ANIM_STAR; //! UŒ‚ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‘å”
 
 	// UŒ‚”Ô†‚ÌÄÝ’è
 	enum AttackAnim
 	{
-		attack_punch_1 = attack_anim_1 - NORMAL_ACTION,    //< UŒ‚‚P
-		attack_punch_2 = attack_anim_2 - NORMAL_ACTION,	   //< UŒ‚‚Q
-		attack_punch_3 = attack_anim_3 - NORMAL_ACTION,	   //< UŒ‚‚R
-		attack_kick_1 = attack_kick_anim_1 - NORMAL_ACTION, //< ƒLƒbƒNUŒ‚‚P
-		attack_kick_2 = attack_kick_anim_2 - NORMAL_ACTION,	//< ƒLƒbƒNUŒ‚‚Q
-		attack_kick_3 = attack_kick_anim_3 - NORMAL_ACTION,	//< ƒLƒbƒNUŒ‚‚R
+		attack_punch_1 = attack_anim_1 - ATTACK_ANIM_STAR,    //< UŒ‚‚P
+		attack_punch_2 = attack_anim_2 - ATTACK_ANIM_STAR,	   //< UŒ‚‚Q
+		attack_punch_3 = attack_anim_3 - ATTACK_ANIM_STAR,	   //< UŒ‚‚R
+		attack_kick_1 = attack_kick_anim_1 - ATTACK_ANIM_STAR, //< ƒLƒbƒNUŒ‚‚P
+		attack_kick_2 = attack_kick_anim_2 - ATTACK_ANIM_STAR,	//< ƒLƒbƒNUŒ‚‚Q
+		attack_kick_3 = attack_kick_anim_3 - ATTACK_ANIM_STAR,	//< ƒLƒbƒNUŒ‚‚R
 
 		attack_max
 	};

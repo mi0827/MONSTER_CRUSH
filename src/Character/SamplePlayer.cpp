@@ -67,6 +67,9 @@ void SamplePlayer::Init()
 	// 攻撃アニメーションの数分の当たり判定の入れ物を確保する
 	NEW_Set_Attack_Hit_Damage(ATTACK_ACTION);
 
+	// 当たり判定をとってほしいタイミングのせってい
+	SetHitTimeInit();
+
 	// ステータスバーの設定
 	Status_Bar_Init();
 }
@@ -171,22 +174,22 @@ void SamplePlayer::Draw()
 	// カプセルの描画（仮）（後で消す）
 	//===================
 	// 攻撃フラグをが立っていたら
-	//if (m_attack_flag)
-	//{
-	//	// 攻撃の当たり判定行っていいときだけ
-	//	if (AttackHitGoodTiming(m_now_attack))
-	//	{
-	//		// 当たり判定を描画
-	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-	//	}
-	//}
+	if (m_attack_flag)
+	{
+		// 攻撃の当たり判定行っていいときだけ
+		if (AttackHitGoodTiming(m_now_attack))
+		{
+			// 当たり判定を描画
+			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+		}
+	}
 	
 	
-	m_body.Draw();
-	m_right_hand.Draw();
-	m_left_hand.Draw();
-	m_right_feet.Draw();
-	m_left_feet.Draw();
+	//m_body.Draw();
+	//m_right_hand.Draw();
+	//m_left_hand.Draw();
+	//m_right_feet.Draw();
+	//m_left_feet.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 
@@ -267,13 +270,7 @@ void SamplePlayer::SetHitTimeInit()
 {
 	SetHitTime(attack_frame[attack_punch_1].start_frame,attack_frame[attack_punch_1].end_frame, attack_punch_1);
 
-	// 攻撃時の当たり当たり判定の保存
-	SetHitDamage(m_left_hand, 20, (attack_anim_1 - NORMAL_ACTION));
-	SetHitDamage(m_right_hand, 20, (attack_anim_2 - NORMAL_ACTION));
-	SetHitDamage(m_right_hand, 20, (attack_anim_3 - NORMAL_ACTION));
-	SetHitDamage(m_right_feet, 20, (attack_kick_anim_1 - NORMAL_ACTION));
-	SetHitDamage(m_left_feet, 20, (attack_kick_anim_2 - NORMAL_ACTION));
-	SetHitDamage(m_right_hand, 40, (attack_kick_anim_3 - NORMAL_ACTION));
+	
 }
 
 
@@ -384,7 +381,7 @@ void SamplePlayer::Attack_First()
 		m_now_attack_anim = attack_anim_1;
 
 		// 現在の攻撃番号を保存する
-		m_now_attack = m_now_attack_anim - NORMAL_ACTION;
+		m_now_attack = m_now_attack_anim - ATTACK_ANIM_STAR;
 
 		// コンボの回数をリセット
 		m_combo_count = 0;
@@ -409,7 +406,7 @@ void SamplePlayer::Attack_First()
 		m_now_attack_anim = attack_kick_anim_1;
 
 		// 現在の攻撃番号を保存する
-		m_now_attack = m_now_attack_anim - NORMAL_ACTION;
+		m_now_attack = m_now_attack_anim - ATTACK_ANIM_STAR;
 
 		// コンボの回数をリセット
 		m_combo_count = 0;
@@ -536,7 +533,7 @@ void SamplePlayer::Combo_Update()
 			// 現在の攻撃アニメーションを保存
 			m_now_attack_anim = m_next_anim;
 			// 現在の攻撃番号を保存する
-			m_now_attack = m_now_attack_anim - NORMAL_ACTION;
+			m_now_attack = m_now_attack_anim - ATTACK_ANIM_STAR;
 		}
 
 	}

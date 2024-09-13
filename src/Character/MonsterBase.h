@@ -42,6 +42,10 @@ public:
 	//! @param ローリングしたときの移動スピード
 	virtual void Action_Rolling(const int rolling_speed);
 
+	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
+	virtual void SetHitTimeInit() = 0;
+
+
 	//! @brief ベースクラスでの初期処理
 	//! @param モンスターのHPマックス
 	//! @param ジャンプの上昇スピード
@@ -57,7 +61,21 @@ public:
 	//! @param  歩いている状態かのフラグ
 	void BaseUpdate(bool* run_flag);
 
+	//! @brief 当たり判定を行ってほしいタイミングをセットする関数
+	//! @param 当たり判定をとってほしいフレームのスタート
+	//! @param 当たり判定を終わってほしいフレームの終わり
+	//! @param 保存したい攻撃番号
+	void SetHitTime(int attack_frame_start, int attack_frame_end, int attack_num);
 
+	// 当たり判定をとってよいタイミングかを判断する関数
+	//! @brief 攻撃番号
+	bool AttackHitGoodTiming(int anim_num);
+
+	//! @brief 当たり判定とダメージを保存する関数
+	//! @param 当たり判定用のカプセル
+	//! @param 与えるダメージ
+	//! @param 攻撃番号
+	void SetHitDamage(CapsuleCollision attack_hit, int attack_damage, int attack_num);
 
 
 	// 攻撃の時の当たり判定とダメージの構造体
@@ -68,6 +86,13 @@ public:
 		CapsuleCollision attack_hit;
 		//! 攻撃にあったダメージ
 		int attack_damage = 0;
+
+		//! 当たり判定をとってほしいタイミング
+		//! スタート
+		int start_time = 0;
+		//! 終わり
+		int end_time = 0;
+
 	};
 	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
 
@@ -106,7 +131,7 @@ public:
 	Vector3 move_hit_size = { 1.0f ,0.0f,1.0f };
 
 	//! 自身の半径を入れる用の変数
-	float m_hit_r = 10.0f;
+	float m_hit_r = 15.0f;
 	//! 自身の移動スピード
 	static constexpr float M_MOV_SPEED = 1.0f;
 	//! 自身回転速度

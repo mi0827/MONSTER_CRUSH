@@ -55,6 +55,10 @@ void CharacterBase::SetHitTime(int attack_frame_start, int attack_frame_end, int
 	m_attack_hit_damage[attack_num]->end_time = attack_frame_end;
 }
 
+
+//---------------------------------------------------------------------------
+// 当たり判定をタイミングを返するための関数
+//---------------------------------------------------------------------------
 bool CharacterBase::AttackHitGoodTiming(int attack_num)
 {
 	// スタートのフレーム
@@ -63,7 +67,8 @@ bool CharacterBase::AttackHitGoodTiming(int attack_num)
 	int end_time = m_attack_hit_damage[attack_num]->end_time;
 	// アニメーションの現在のフレーム
 	int play_anim_time = m_animation.m_contexts[0].play_time;
-	if (play_anim_time >= start_time && end_time <= play_anim_time)
+	// strattime以上　かつ　endtime以下の時
+	if (start_time <= play_anim_time &&  play_anim_time <= end_time )
 	{
 		return true;
 	}
@@ -71,8 +76,8 @@ bool CharacterBase::AttackHitGoodTiming(int attack_num)
 	{
 		return false;
 	}
-	
 }
+
 
 //---------------------------------------------------------------------------
 // 当たり判定とダメージを保存する関数
@@ -87,6 +92,7 @@ void CharacterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage,
 	m_attack_hit_damage[attack_num]->attack_damage = attack_damage;
 }
 
+
 //---------------------------------------------------------------------------
 // ベースクラスでの初期処理
 //---------------------------------------------------------------------------
@@ -99,6 +105,7 @@ void CharacterBase::BaseInit(float r, int HP)
 	// HPの設定
 	m_hp_value = HP;
 }
+
 
 //---------------------------------------------------------------------------
 // 攻撃時の当たり判定を設定する用の関数
@@ -115,6 +122,7 @@ void CharacterBase::NEW_Set_Attack_Hit_Damage(int attack_anim_max)
 		m_attack_hit_damage[i]->attack_damage = 0;
 	}
 }
+
 
 //---------------------------------------------------------------------------
 //  ベースクラスでの更新処理

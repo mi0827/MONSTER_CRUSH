@@ -45,7 +45,48 @@ public:
 
 	//! 攻撃アクションの数
 	static constexpr int ATTACK_ACTION_MAX = anim_max - attack_1;
+
+	// 攻撃番号の再設定
+	enum AttackAnim
+	{
+		attack_punch_1 = attack_1 - ATTACK_ANIM_START,      //< 攻撃１
+		attack_punch_2 = attack_2 - ATTACK_ANIM_START,	   //< 攻撃２
+		attack_punch_3 = attack_3 - ATTACK_ANIM_START,	   //< 攻撃３
+		attack_punch_4 = attack_4 - ATTACK_ANIM_START,       //< 攻撃４
+		attack_rolling = rolling - ATTACK_ANIM_START,      	//< 攻撃５
+		attack_jump = jump - ATTACK_ANIM_START,
+
+		attack_max
+	};
+
+
+	// 当たり判定をとってほしいフレームの構造体
+	struct AttackFrame
+	{
+		// 始まりのフレーム
+		float start_frame;
+		// 終わりのフレーム
+		float end_frame;
+	};
+	AttackFrame attack_frame[attack_max] =
+	{
+		// パンチ１
+		{ 10.0f, 40.0f, },
+		// パンチ２
+		{ 20.0f, 40.0f, },
+		// パンチ３
+		{	20.0f, 40.0f, },
+		// キック１
+		{	20.0f, 40.0f, },
+		// キック２
+		{	20.0f, 40.0f, },
+		// キック３
+		{	20.0f, 40.0f, },
 	
+	};
+
+
+
 	//! モンスターの状態
 	enum MonsterMode
 	{
@@ -64,7 +105,7 @@ public:
 		max
 	};
 	//! ジャンプの状態を保存する変数
-	int jump_num=0;
+	int jump_num = 0;
 public:
 
 	//=========================================================================
@@ -87,7 +128,7 @@ public:
 	//! @brief 終了処理
 	void Exit() override;
 
-	
+
 	//! @brief あたり判定の更新処理
 	void CDUpdate() override;
 
@@ -95,6 +136,11 @@ public:
 	void Status_Bar_Init() override;
 	//! @brief ステータスバーの描画関数
 	void Status_Bar_Draw() override;
+
+	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
+	void SetHitTimeInit() override;
+
+
 
 	//! @brief アニメーション読み込み関数
 	void Anima_Load_Init();
@@ -150,5 +196,5 @@ public:
 	// バー型のUI
 	//=================
 	UIBra m_hp;
-	
+
 };

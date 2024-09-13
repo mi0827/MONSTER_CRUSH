@@ -71,6 +71,8 @@ void Mutant::Init()
 	// ステータスバーの設定
 	Status_Bar_Init();
 
+	// 当たり判定をとってほしいタイミングのせってい 
+	SetHitTimeInit();
 	// モンスターのステータスの初期設定
 	BaseInit(HP_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
 }
@@ -209,28 +211,25 @@ void Mutant::CDUpdate()
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	// この座標をモデルのノードをでとってくるといいかも
 	m_body.CreateNodoCapsule(&m_model, 0, 7, 8.0f);
-	
+
 	// 左手のあたり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 3.0f);
-	
+
 	// 右手の当たり判定
 	// 爪の部分が当たり判定がない
 	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 5.0f);
-	
+
+
 
 	// 攻撃時の当たり当たり判定の保存
-	m_attack_hit_damage[attack_1 - ATTACK_ANIM_START]->attack_hit = m_left_hand;
-	m_attack_hit_damage[attack_1 - ATTACK_ANIM_START]->attack_damage = 20;
-	m_attack_hit_damage[attack_2 - ATTACK_ANIM_START]->attack_hit = m_right_hand;
-	m_attack_hit_damage[attack_2 - ATTACK_ANIM_START]->attack_damage = 20;
-	m_attack_hit_damage[attack_3 - ATTACK_ANIM_START]->attack_hit = m_right_hand;
-	m_attack_hit_damage[attack_3 - ATTACK_ANIM_START]->attack_damage = 20;
-	m_attack_hit_damage[attack_4 - ATTACK_ANIM_START]->attack_hit = m_right_hand;
-	m_attack_hit_damage[attack_4 - ATTACK_ANIM_START]->attack_damage = 20;
-	m_attack_hit_damage[rolling - ATTACK_ANIM_START]->attack_hit = m_body;
-	m_attack_hit_damage[rolling - ATTACK_ANIM_START]->attack_damage = 20;
-	m_attack_hit_damage[jump - ATTACK_ANIM_START]->attack_hit = m_body;
-	m_attack_hit_damage[jump - ATTACK_ANIM_START]->attack_damage = 20;
+	SetHitDamage(m_left_hand, 50, (attack_1));
+	SetHitDamage(m_right_hand, 50, (attack_2));
+	SetHitDamage(m_right_hand, 50, (attack_3));
+	SetHitDamage(m_right_hand, 50, (attack_4));
+	SetHitDamage(m_body, 50, (attack_rolling));
+	SetHitDamage(m_body, 50, (attack_jump));
+
+
 }
 
 //-----------------------------------------------
@@ -261,6 +260,15 @@ void Mutant::Status_Bar_Draw()
 	// UIの描画
 	//===================
 	m_hp.Draw();
+}
+
+
+//-----------------------------------------------
+// 当たり判定を行って欲しいタイミングを保存する関数
+//-----------------------------------------------
+void Mutant::SetHitTimeInit()
+{
+	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
 }
 
 //-----------------------------------------------
@@ -414,12 +422,12 @@ void Mutant::Jump_Update()
 		// 降下スピードをリセット
 		m_down_speed = JUMP_DOWN_SPEED;
 
-		
+
 		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
 		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
-		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius ;
+		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
 
-		
+
 		// ジャンプフラグを下げる
 		m_jump_flag = false; // 落ちる処理へ
 	}

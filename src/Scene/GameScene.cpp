@@ -38,30 +38,6 @@
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/GameScene.h"
 
-////! カメラクラスのオブジェクト
-//Camera camera;
-//
-////! サンプルプレイヤークラスのオブジェクト
-//SamplePlayer player;
-////! ヒーロークラスのオブジェクト
-////Hero hero;
-////! モンスタークラスのオブジェクト
-////Monster monster;
-//Mutant mutant;
-//
-////! 攻撃アクションの当たり判定用のオブジェクト
-//// このクラスをただの関数でもよかったけど中にbool 型の変数が一つあるのでクラスにした
-//Attack player_attack_hit;
-//Attack monster_attack_hit;
-//
-//// 仮のボックスの描画
-//BoxCollision box1;
-//
-//// 仮の地面モデルの入れ物
-//int ground = 0;
-//
-//// フィールドオブジェクト
-//Field field;
 
 //---------------------------------------------------------------------------
 // コンストラクタ
@@ -91,10 +67,10 @@ void GameScene::GameSceneInit()
 	{
 		monster = new Mutant;
 	}
-	if (m_monster_num == MONSTER)
+	/*if (m_monster_num == MONSTER)
 	{
 		monster = new Monster;
-	}
+	}*/
 
 }
 
@@ -270,6 +246,7 @@ void GameScene::HitField()
 			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
 		}
 	}
+
 	// フェンスとキャラクターの当たり判定
 	for (int i = 0; i < field.FENCE_MAX; i++)
 	{
@@ -323,9 +300,6 @@ void GameScene::CharacterUpdate()
 		&field.m_field_model);
 
 
-
-
-
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))
 	{
@@ -360,6 +334,7 @@ void GameScene::AttackUpdate()
 			
 		}
 	}
+
 	//モンスターの攻撃
 	if (monster->m_attack_flag)
 	{
