@@ -25,6 +25,7 @@
 #include "src/Character/Monster.h"
 #include "src/Character/Mutant.h"
 
+#include "src/Field/FieldBase.h"
 #include "src/Field/Field.h"
 
 #include "src/System/DamageAction.h"

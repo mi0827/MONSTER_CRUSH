@@ -1,11 +1,9 @@
 #pragma once
 
+// TitleFild(タイトル画面のフィールド)クラス
 
-
-//	Field(フィールド)クラス
-class Field:public FieldBase
+class TitleField : public FieldBase
 {
-
 
 public:
 	// モデルの保存番号
@@ -25,10 +23,10 @@ public:
 		tree11,
 		tree12,
 		tree13, // フィールドの周りを囲んでいる木の番号
-		
+
 		// 外の見た目の部分の木
 		// ここから下の木には当たり判定はいらない
-		tree14, 
+		tree14,
 		tree15,
 		tree16,
 		tree17,
@@ -56,7 +54,7 @@ public:
 		fence8,
 		fence9,
 
-		
+
 
 		// 石のモデル番号
 		stone1,
@@ -86,9 +84,9 @@ public:
 	// 関数の定義
 	//---------------
 	// コンストラクタ
-	Field();
+	TitleField();
 	// デストラクタ
-	~Field();
+	~TitleField();
 
 
 
@@ -139,5 +137,8 @@ public:
 
 	//! 石の当たり判定
 	BoxCollision m_hit_stone[STONE_MAX];
-	
+
+	////フィールドモデルの入れ物
+	//Model m_field_model;
+	//Transform m_field_transform;
 };

@@ -182,7 +182,9 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\Field\Field.cpp" />
+    <ClCompile Include="src\Field\FieldBase.cpp" />
     <ClCompile Include="src\Field\HitField.cpp" />
+    <ClCompile Include="src\Field\TitleField.cpp" />
     <ClCompile Include="src\GameMain.cpp" />
     <ClCompile Include="src\Hit\Hit.cpp" />
     <ClCompile Include="src\Hit\HitStop.cpp" />
@@ -237,7 +239,9 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="src\Field\Field.h" />
+    <ClInclude Include="src\Field\FieldBase.h" />
     <ClInclude Include="src\Field\HitField.h" />
+    <ClInclude Include="src\Field\TitleField.h" />
     <ClInclude Include="src\GameMain.h" />
     <ClInclude Include="src\Hit\Hit.h" />
     <ClInclude Include="src\Hit\HitStop.h" />

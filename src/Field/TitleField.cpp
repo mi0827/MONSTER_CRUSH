@@ -8,25 +8,24 @@
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h"
-#include "src/Field/Field.h"
-
+#include "src/Field/TitleField.h"
 
 // 1が壁０が何もない
 // フィールドのオブジェクトを置く座標用の二次元配列
 //	初期化処理
-Field::Field()
+TitleField::TitleField()
 {
 
 }
 
-Field::~Field()
+TitleField::~TitleField()
 {
 }
 
 //---------------------------------------------------------------------------
 //初期処理
 //---------------------------------------------------------------------------
-void Field::Init()
+void TitleField::Init()
 {
 	// フィールドモデルの読み込み
 	m_field_model.LoadModel("Data/Field/ground/Stage00.mv1");
@@ -40,7 +39,7 @@ void Field::Init()
 	ObjectInit();
 }
 
-void Field::ObjectInit()
+void TitleField::ObjectInit()
 {
 	// 木の初期処理
 	TreeInit();
@@ -53,7 +52,7 @@ void Field::ObjectInit()
 //---------------------------------------------------------------------------
 //	更新処理
 //---------------------------------------------------------------------------
-void Field::Update()
+void TitleField::Update()
 {
 
 }
@@ -61,7 +60,7 @@ void Field::Update()
 //---------------------------------------------------------------------------
 //	描画処理
 //---------------------------------------------------------------------------
-void Field::Draw()
+void TitleField::Draw()
 {
 
 	m_field_model.DrawModel(&m_field_transform);
@@ -93,7 +92,7 @@ void Field::Draw()
 //---------------------------------------------------------------------------
 //	終了処理
 //---------------------------------------------------------------------------
-void Field::Exit()
+void TitleField::Exit()
 {
 
 }
@@ -101,7 +100,7 @@ void Field::Exit()
 //---------------------------------------------------------------------------
 //	木のオブジェクトの初期設定
 //---------------------------------------------------------------------------
-void Field::TreeInit()
+void TitleField::TreeInit()
 {
 	// モデルデータの読み込み
 	m_field_object[tree1].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
@@ -263,7 +262,7 @@ void Field::TreeInit()
 //---------------------------------------------------------------------------
 //	フェンスのオブジェクトの初期設定
 //---------------------------------------------------------------------------
-void Field::FenceInit()
+void TitleField::FenceInit()
 {
 	// モデルデータの読み込み
 	m_field_object[fence1].model.LoadModel("Data/Field/object/fence/Stage_Obj009.mv1");
@@ -347,7 +346,7 @@ void Field::FenceInit()
 //---------------------------------------------------------------------------
 //	石のオブジェクトの初期設定
 //---------------------------------------------------------------------------
-void Field::StoneInit()
+void TitleField::StoneInit()
 {
 	// モデルデータの読み込み
 	m_field_object[stone1].model.LoadModel("Data/Field/object/stone/Stage_Obj002.mv1");
@@ -385,3 +384,5 @@ void Field::StoneInit()
 	m_hit_stone[stone5 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone5].transform.pos, { 40.0f , 20.0f,10.0f });
 
 }
+
+
