@@ -19,6 +19,8 @@ public:
 	//! @ターゲットの設定
 	//! @param 自身の情報
 	//! @param 円の半径
+	//! @param 移動スピード
+	//! @param 回転スピード
 	void SetInfo(Transform* transform, const float hit_r, const float MOV_SPEED, const float ROT_SPEED);
 
 	//! @ターゲットの情報を設定
