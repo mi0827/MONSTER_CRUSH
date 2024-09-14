@@ -27,6 +27,7 @@
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/Field.h"
+#include "src/Field/TitleField.h"
 
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"

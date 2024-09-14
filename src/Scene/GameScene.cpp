@@ -108,13 +108,13 @@ void GameScene::Update()
 	
 	// フィールドとの当たり判定
 	// 一旦当たり判定を切っておく
-	//HitField();
+	HitField();
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
 
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_X))
+	if (PushHitKey(KEY_INPUT_RETURN))
 	{
 		m_scene_change_judge = true;
 	}
@@ -122,6 +122,8 @@ void GameScene::Update()
 	{
 		m_scene_change_judge = false;
 	}
+
+
 
 	// プレイヤーのHPが０になったら
 	if (player->m_hp_value <= 0)

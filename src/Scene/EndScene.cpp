@@ -24,7 +24,7 @@ void EndScene::Update()
 {
 	
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_X))
+	if (PushHitKey(KEY_INPUT_RETURN))
 	{
 		m_scene_change_judge = true;
 	}

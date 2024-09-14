@@ -1,7 +1,6 @@
+
 #pragma once
-#pragma once
-#include "src/Scene/Base/Scene_Base.h"
-#include "src/System/Vector2.h"
+
 // タイトルシーンのクラス
 class QuestAreaScene : public Scene_Base
 {
@@ -57,5 +56,10 @@ private:
 	int m_title_scene = 0;
 
 	bool m_start_flag = false; // タイトル画面でボタンが押されたかどうかのフラグ
+
+	// カメラクラスのオブジェクト
+	Camera camera;
+
+	TitleField field;
 
 };
