@@ -60,6 +60,9 @@ private:
 	// カメラクラスのオブジェクト
 	Camera camera;
 
+	// フィールドオブジェクト
 	TitleField field;
 
+	// プレイヤーのオブジェクト
+	CharacterBase* player;
 };

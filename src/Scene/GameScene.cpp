@@ -296,8 +296,8 @@ void GameScene::CharacterUpdate()
 
 	// フィールドの地面モデルとキャラクターの当たり判定
 	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
-	// 今の状態だとジャンプ攻撃ができない
-	// 家のデスクトップ尾モデル自身に当たり判定を設定のソースにジャンプのヒントが書いてある
+	
+	// モンスターと地面の当たり判定（ジャンプ処理科できる）
 	HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
 		&monster->m_jump_flag, monster->m_up_speed, monster->m_down_speed,
 		&field.m_field_model);
