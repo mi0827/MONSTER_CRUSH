@@ -194,11 +194,6 @@ void GameScene::Draw()
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-
-		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		//MV1DrawModel(ground); // モデルの描画
 		field.Draw();
 		// モンスターの描画
 		monster->Draw();
@@ -207,6 +202,8 @@ void GameScene::Draw()
 
 	// ステータスバーの描画
 	StatusDraw();
+
+	
 }
 
 //---------------------------------------------------------------------------

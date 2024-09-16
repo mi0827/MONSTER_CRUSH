@@ -22,10 +22,7 @@ public:
 		tree10,
 		tree11,
 		tree12,
-		tree13, // フィールドの周りを囲んでいる木の番号
-
-		// 外の見た目の部分の木
-		// ここから下の木には当たり判定はいらない
+		tree13,
 		tree14,
 		tree15,
 		tree16,
@@ -53,32 +50,27 @@ public:
 		fence7,
 		fence8,
 		fence9,
+		fence10,
+		fence11,
+	
 
-
-
-		// 石のモデル番号
-		stone1,
-		stone2,
-		stone3,
-		stone4,
-		stone5,
 
 
 		MODEL_MAX
 	};
 
 	//! フェンスの数(当たり判定がいる数)
-	static constexpr int FENCE_MAX = fence9 - fence1 + 1;
+	static constexpr int FENCE_MAX = fence11 - fence1 + 1;
 	//! フェンスの配列番号が始まる番号
 	static constexpr int FENCE_INDEX_STRAT = fence1;
 	//! 木の数(当たり判定がいる数)
-	static constexpr int TREE_MAX = tree13 - tree1 + 1;
+	static constexpr int TREE_MAX = tree27 - tree1 + 1;
 	//! 木の配列番号が始まる番号
 	static constexpr int TREE_INDEX_STRAT = tree1;
 	//! 石の数(当たり判定がいる数)
-	static constexpr int STONE_MAX = stone5 - stone1 + 1;
+	//static constexpr int STONE_MAX = stone5 - stone1 + 1;
 	//! 石の配列番号が始まる番号
-	static constexpr int STONE_INDEX_STRAT = stone1;
+	//static constexpr int STONE_INDEX_STRAT = stone1;
 
 	//---------------
 	// 関数の定義
@@ -103,13 +95,13 @@ public:
 	//! @brief 終了処理
 	void Exit()override;
 
-	//! @brinf オブジェクトの座標、サイズの初期設定
+	//! @brief オブジェクトの座標、サイズの初期設定
 	void ObjectInit()override;
-	//! @brinf 木のオブジェクトの初期設定関数
+	//! @brief 木のオブジェクトの初期設定関数
 	void TreeInit();
-	//! @brinf フェンスのオブジェクトの初期設定
+	//! @brief フェンスのオブジェクトの初期設定
 	void FenceInit();
-	//! @brinf 石のオブジェクトの初期設定
+	//! @brief 石のオブジェクトの初期設定
 	void StoneInit();
 
 	//---------------
@@ -135,8 +127,12 @@ public:
 	//! 木の当たり判定
 	CapsuleCollision m_hit_tree[TREE_MAX];
 
-	//! 石の当たり判定
-	BoxCollision m_hit_stone[STONE_MAX];
+	//!  周りの当たり判定
+	//! 周りを囲む当たり判定の数
+	static constexpr int AROUND_MAX = 4;
+	BoxCollision m_hit_around[4];
+	Vector3 m_hit_around_pos[4];
+	Vector3 m_hit_around_size[4];
 
 	////フィールドモデルの入れ物
 	//Model m_field_model;

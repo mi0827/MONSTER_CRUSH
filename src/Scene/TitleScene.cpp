@@ -64,9 +64,6 @@ void TitleScene::Init()
 //------------------------------------------
 void TitleScene::Update()
 {
-
-	if(CheckHitKey(KEY_INPUT_W))
-		{ }
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);
 	// フィールドの地面モデルとキャラクターの当たり判定
@@ -76,6 +73,8 @@ void TitleScene::Update()
 	camera.Update(&player->m_transform.pos);
 
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
+
+#ifndef  IS_DEBUG
 	if (PushHitKey(KEY_INPUT_RETURN))
 	{
 		m_scene_change_judge = true;
@@ -84,6 +83,9 @@ void TitleScene::Update()
 	{
 		m_scene_change_judge = false;
 	}
+#endif //  IS_DEBUG
+
+	
 
 }
 
@@ -104,18 +106,11 @@ void TitleScene::Draw()
 		// プレイヤーの描画処理
 		player->Draw();
 
-		// ヒーローの描画処理
-		//hero.Draw();
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		//MV1DrawModel(ground); // モデルの描画
 		field.Draw();
-		
 	}
 
 	// シャドウマップへの描画を終了
@@ -144,11 +139,28 @@ void TitleScene::Draw()
 	{
 		// シャドウマップへキャラクターモデルの描画
 		field.Draw();
-		
+
 	}
 	UseShadowMapSet();
 
-	DrawString(100, 100, "タイトル :: RENTER", GetColor(255, 255, 255));
+	// フォントのデフォルトサイズの保存
+	int default_font_size = GetFontSize();
+	// フォントサイズの設定
+	SetFontSize(80);
+	const char* name = "モンスタークラッシュ :: RENTER";
+	// 描画幅の取得
+	float w = GetDrawStringWidth(name, -1);
+	// 文字列の高さの取得
+	float h = GetFontSize();
+	// 描画座標
+	Vector2 draw_pos = {SCREEN_W / 2 - w/ 2, 0 };
+	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+
+
+	// フォントのサイズをデフォルトサイズに戻す
+	SetFontSize(default_font_size);
+
+
 
 }
 
@@ -157,7 +169,7 @@ void TitleScene::Draw()
 //------------------------------------------
 void TitleScene::Exit()
 {
-	
+
 	//　シャドーマップの削除
 	ExitShadowMap();
 }

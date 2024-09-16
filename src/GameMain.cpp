@@ -172,6 +172,7 @@ void GameDraw()
 	// シーンの描画処理
 	scene->Draw();
 
+
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
 	////	頂点シェーダーのセット
