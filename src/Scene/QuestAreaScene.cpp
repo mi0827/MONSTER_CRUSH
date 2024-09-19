@@ -18,6 +18,7 @@
 #include "src/System/Move.h"
 #include "src/Character/CharacterBase.h"
 #include "src/Character/SamplePlayer.h"
+#include "src/Character/Receptionist.h"
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
@@ -49,8 +50,11 @@ void QuestAreaScene::Init()
 	// プレイヤーの設定
 	player = new SamplePlayer;
 
-	// プリえやーの初期設定 
+	// プレイヤーの初期設定 
 	player->Init();
+
+	// 受付嬢の初期設定
+	receptionist.Init();
 
 	// シャドーマップの設定
 	ShadowMapInit();
@@ -65,8 +69,15 @@ void QuestAreaScene::Update()
 
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);
-	// フィールドの地面モデルとキャラクターの当たり判定
+	// 受付嬢のの更新処理
+	receptionist.Update();
+
+	// フィールドの地面モデルとプレイヤーの当たり判定
 	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	// 受付嬢
+	HitGroundCharacter(&receptionist.m_transform.pos, &field.m_field_model);
+
+
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
@@ -106,11 +117,10 @@ void QuestAreaScene::Draw()
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
-		// シャドウマップへキャラクターモデルの描画
-		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		//MV1DrawModel(ground); // モデルの描画
+		// 受付嬢の描画
+		receptionist.Draw();
+
+		// フィールドの描画
 		field.Draw();
 
 	}
@@ -139,6 +149,9 @@ void QuestAreaScene::Draw()
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
+
+		// 受付嬢の描画
+		receptionist.Draw();
 		// シャドウマップへキャラクターモデルの描画
 		field.Draw();
 
@@ -146,6 +159,9 @@ void QuestAreaScene::Draw()
 	UseShadowMapSet();
 
 	
+
+	// 仮のフォントの描画
+	// 後で変更予定
 	// フォントのデフォルトサイズの保存
 	int default_font_size = GetFontSize();
 	// フォントサイズの設定

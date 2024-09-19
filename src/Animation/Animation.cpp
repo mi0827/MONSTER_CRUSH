@@ -109,6 +109,8 @@ void Animation::Init_Attach_Animation(Model* model, int anim_num, bool loop)
 		m_contexts[i].is_loop = loop;
 	}
 	m_detach_flag = true;
+	// どのアニメーションかを保存
+	m_anim_num = anim_num;
 }
 
 //-----------------------------------------------

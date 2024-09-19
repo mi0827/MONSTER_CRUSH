@@ -172,6 +172,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClCompile Include="src\Character\Monster.cpp" />
     <ClCompile Include="src\Character\MonsterBase.cpp" />
     <ClCompile Include="src\Character\Mutant.cpp" />
+    <ClCompile Include="src\Character\Receptionist.cpp" />
     <ClCompile Include="src\Character\SamplePlayer.cpp" />
     <ClCompile Include="src\Collision\BoxCollision.cpp" />
     <ClCompile Include="src\Collision\CapsuleCollision.cpp" />
@@ -229,6 +230,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\Character\Monster.h" />
     <ClInclude Include="src\Character\MonsterBase.h" />
     <ClInclude Include="src\Character\Mutant.h" />
+    <ClInclude Include="src\Character\Receptionist.h" />
     <ClInclude Include="src\Character\SamplePlayer.h" />
     <ClInclude Include="src\Collision\BoxCollision.h" />
     <ClInclude Include="src\Collision\CapsuleCollision.h" />

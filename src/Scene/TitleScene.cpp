@@ -66,8 +66,9 @@ void TitleScene::Update()
 {
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);
-	// フィールドの地面モデルとキャラクターの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	
+	// フィールドとの当たり判定
+	HitField(); 
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
@@ -172,4 +173,35 @@ void TitleScene::Exit()
 
 	//　シャドーマップの削除
 	ExitShadowMap();
+}
+
+//------------------------------------------
+// フィールドとの当たり判定
+//------------------------------------------
+void TitleScene::HitField()
+{
+
+	// フィールドの地面モデルとキャラクターの当たり判定
+	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+
+	// 木のオブジェクトとプレイヤーの当たり判定
+	// なぜか２本だけ当たり判定がどうしない
+	for (int i = 0; i < field.TREE_MAX; i++)
+	{
+		// モンスターとプレイヤーの移動の当たり判定
+		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		{
+			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+		}
+	}
+
+	// プレイヤーとフィールドを囲ってる四角との当たり判定
+	for (int i = 0; i < field.AROUND_MAX; i++)
+	{
+		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			field.m_hit_around[i].m_box.hit_pos, field.m_hit_around[i].m_box.half_size))
+		{
+			player->MoveHitUpdate(&field.m_hit_around[i]);
+		}
+	}
 }

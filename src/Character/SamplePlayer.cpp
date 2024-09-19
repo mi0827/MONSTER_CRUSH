@@ -149,6 +149,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 
 	// アニメーションの再生
 	m_animation.Play_Animation(&m_model, m_combo_flag);
+
 	// あたり判定の更新処理
 	CDUpdate();
 

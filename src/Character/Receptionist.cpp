@@ -1,0 +1,83 @@
+#include "src/WinMain.h"
+#include "src/System/Vector3.h"
+#include "src/System/Vector2.h"
+#include "src/System/Transform.h"
+
+#include "src/Model/Model.h"
+#include "src/Animation/Animation.h"
+
+#include "src/Collision/CapsuleCollision.h"
+#include "src/Collision/BoxCollision.h"
+
+#include "src/Character/Receptionist.h"
+
+
+//---------------------------------------------------------------------------
+// コンストラクタ
+//---------------------------------------------------------------------------
+Receptionist::Receptionist()
+{
+}
+
+//---------------------------------------------------------------------------
+// デストラクタ
+//---------------------------------------------------------------------------
+Receptionist::~Receptionist()
+{
+}
+
+//---------------------------------------------------------------------------
+// 初期処理
+//---------------------------------------------------------------------------
+void Receptionist::Init()
+{
+	// 座標の初期座標
+	m_transform.pos.set(-20, 0,120);
+	// スケールの設定
+	m_transform.scale.set(0.1f, 0.1f, 0.1f);
+	// 向きの設定
+	m_transform.rot.set(0.0f, 0.0f, 0.0f);
+
+	// モデルの読み込み
+	m_model.LoadModel("Data/Model/Receptionist/receptionist.mv1");
+
+
+	// アニメーションの初期設定
+	// アニメーションの数を設定しておく
+	m_animation.Init_Animation(anim_max, idle);
+
+	// アニメーションの読み込み
+	// とりあえずの状態を設定しておく
+	// 後で変更予定
+	m_animation.Load_Animation("Data/Model/Receptionist/Animation/idle.mv1", idle,0,1.0f);
+	m_animation.Load_Animation("Data/Model/Receptionist/Animation/idle.mv1", idle2, 0, 1.0f);
+	// 最初はアイドルアニメーションをつけておく
+	m_animation.Init_Attach_Animation(&m_model, 0, true);
+
+}
+
+//---------------------------------------------------------------------------
+// 更新処理
+//---------------------------------------------------------------------------
+void Receptionist::Update()
+{
+	// アニメーションの再生
+	m_animation.Play_Animation(&m_model, true);
+
+}
+
+//---------------------------------------------------------------------------
+// 描画処理
+//---------------------------------------------------------------------------
+void Receptionist::Draw()
+{
+	// モデルの描画
+	m_model.DrawModel(&m_transform);
+}
+
+//---------------------------------------------------------------------------
+// コンストラクタ
+//---------------------------------------------------------------------------
+void Receptionist::Exit()
+{
+}

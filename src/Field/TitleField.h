@@ -130,9 +130,9 @@ public:
 	//!  周りの当たり判定
 	//! 周りを囲む当たり判定の数
 	static constexpr int AROUND_MAX = 4;
-	BoxCollision m_hit_around[4];
-	Vector3 m_hit_around_pos[4];
-	Vector3 m_hit_around_size[4];
+	BoxCollision m_hit_around[AROUND_MAX]; // 当たり判定の箱
+	Vector3 m_hit_around_pos[AROUND_MAX]; // 当たり判定の座標
+	Vector3 m_hit_around_size[AROUND_MAX]; // 当たり判定のサイズ
 
 	////フィールドモデルの入れ物
 	//Model m_field_model;

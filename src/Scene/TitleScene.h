@@ -17,6 +17,10 @@ public:
 	// 終了処理
 	void Exit()override;
 
+	//! @brief フィールドとキャラクターとの当たり判定
+	void HitField();
+
+
 public:
 	//int m_background_image = 0; // 背景画像用の変数
 	//Vector2 m_image_pos = {0.0f,0.0f};    // 画像用の描画座標

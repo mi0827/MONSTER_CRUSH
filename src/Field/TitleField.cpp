@@ -91,6 +91,7 @@ void TitleField::Draw()
 		//m_field_object[i].box_hit.Draw(255, 255);
 	}
 
+	// 壁の当たり判定の部分が見える（デバッグの時だけ）
 	for (int i = 0; i < AROUND_MAX; i++)
 	{
 		m_hit_around[i].Draw(255,255);
@@ -101,6 +102,11 @@ void TitleField::Draw()
 	//	m_hit_tree[i].Draw();
 	//}
 
+	// 木の当たり判定の描画
+	for (int i = 0; i < TREE_MAX; i++)
+	{
+		m_hit_tree[i].Draw();
+	}
 	
 }
 
@@ -117,7 +123,9 @@ void TitleField::Exit()
 //---------------------------------------------------------------------------
 void TitleField::TreeInit()
 {
+	//--------------------------------------------------------------------------
 	// モデルデータの読み込み
+	//--------------------------------------------------------------------------
 	m_field_object[tree1].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 	m_field_object[tree2].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 	m_field_object[tree3].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
@@ -146,7 +154,10 @@ void TitleField::TreeInit()
 	m_field_object[tree26].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 	m_field_object[tree27].model.LoadModel("Data/Field/object/tree/Stage_Obj001.mv1");
 
+
+	//--------------------------------------------------------------------------
 	// 座標設定
+	//--------------------------------------------------------------------------
 	// フィールドの周りの部分
 	m_field_object[tree1].transform.pos.set(0.0f, 40.0f, 0.0f); // 中央の一番大きい木
 
@@ -181,8 +192,9 @@ void TitleField::TreeInit()
 	m_field_object[tree26].transform.pos.set(-130.0f, 60.0f, 700.0f);
 
 
-
+	//--------------------------------------------------------------------------
 	// 向きの設定
+	//--------------------------------------------------------------------------
 	// フィールドの周りの部分
 	m_field_object[tree1].transform.rot.set(0.0f, 15.0f, 0.0f);
 
@@ -216,8 +228,9 @@ void TitleField::TreeInit()
 	m_field_object[tree26].transform.rot.set(0.0f, 17.0f, 0.0f);
 
 
-
+	//--------------------------------------------------------------------------
 	// サイズの設定
+	//--------------------------------------------------------------------------
 	// フィールドの周り部分
 	m_field_object[tree1].transform.scale.set(1.5f, 1.5f, 1.5f);
 
@@ -249,6 +262,41 @@ void TitleField::TreeInit()
 	m_field_object[tree24].transform.scale.set(0.1f, 0.1f, 0.1f);
 	m_field_object[tree25].transform.scale.set(0.1f, 0.1f, 0.1f);
 	m_field_object[tree26].transform.scale.set(0.3f, 0.2f, 0.3f);
+
+
+	//--------------------------------------------------------------------------
+	// 当たり判定の設定
+	//--------------------------------------------------------------------------
+	m_hit_tree[tree1  ].CreateCapsule(m_field_object[tree1].transform.pos, { 0.0f,50.0f,0.0f }, 100);
+	// 左側
+	m_hit_tree[tree2].CreateCapsule(m_field_object[tree2].transform.pos, { 0.0f,30.0f,0.0f }, 30);
+	m_hit_tree[tree3].CreateCapsule(m_field_object[tree3].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree4].CreateCapsule(m_field_object[tree4].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree5].CreateCapsule(m_field_object[tree5].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree6].CreateCapsule(m_field_object[tree6].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree7].CreateCapsule(m_field_object[tree7].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree8].CreateCapsule(m_field_object[tree8].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree9].CreateCapsule(m_field_object[tree9].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree10].CreateCapsule(m_field_object[tree10].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree11].CreateCapsule(m_field_object[tree11].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree12].CreateCapsule(m_field_object[tree12].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree13].CreateCapsule(m_field_object[tree13].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	// 右側
+	m_hit_tree[tree14].CreateCapsule(m_field_object[tree14].transform.pos, { 0.0f,30.0f,0.0f }, 30);
+	m_hit_tree[tree15].CreateCapsule(m_field_object[tree15].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree16].CreateCapsule(m_field_object[tree16].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree17].CreateCapsule(m_field_object[tree17].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree18].CreateCapsule(m_field_object[tree18].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree19].CreateCapsule(m_field_object[tree19].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree20].CreateCapsule(m_field_object[tree20].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree21].CreateCapsule(m_field_object[tree21].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree22].CreateCapsule(m_field_object[tree22].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree23].CreateCapsule(m_field_object[tree23].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree24].CreateCapsule(m_field_object[tree24].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree25].CreateCapsule(m_field_object[tree25].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree26].CreateCapsule(m_field_object[tree26].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree27].CreateCapsule(m_field_object[tree27].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	
 
 }
 

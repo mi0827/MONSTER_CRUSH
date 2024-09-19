@@ -61,7 +61,7 @@ private:
 	Camera camera;
 
 	// フィールドオブジェクト
-	TitleField field;
+	Field field;
 
 	// プレイヤーのオブジェクト
 	CharacterBase* player;

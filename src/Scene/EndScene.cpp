@@ -21,7 +21,8 @@
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
-#include "src/Field/TitleField.h"
+//#include "src/Field/TitleField.h"
+#include "src/Field/Field.h"
 
 
 #include "src/Sound/BGM.h"
@@ -150,7 +151,7 @@ void EndScene::Draw()
 	int default_font_size = GetFontSize();
 	// フォントサイズの設定
 	SetFontSize(80);
-	const char* name = "クエストエリア :: RENTER";
+	const char* name = "EDN :: RENTER";
 	// 描画幅の取得
 	float w = GetDrawStringWidth(name, -1);
 	// 文字列の高さの取得

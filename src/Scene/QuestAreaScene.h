@@ -56,4 +56,7 @@ private:
 
 	// プレイヤーのオブジェクト
 	CharacterBase* player;
+
+	// 受付嬢のオブジェクト
+	Receptionist receptionist;
 };
