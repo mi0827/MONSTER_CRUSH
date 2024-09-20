@@ -92,10 +92,10 @@ void TitleField::Draw()
 	}
 
 	// 壁の当たり判定の部分が見える（デバッグの時だけ）
-	for (int i = 0; i < AROUND_MAX; i++)
+	/*for (int i = 0; i < AROUND_MAX; i++)
 	{
 		m_hit_around[i].Draw(255,255);
-	}
+	}*/
 	//// 木の当たり判定の描画
 	//for (int i = 0; i < TREE_MAX; i++)
 	//{
@@ -103,10 +103,10 @@ void TitleField::Draw()
 	//}
 
 	// 木の当たり判定の描画
-	for (int i = 0; i < TREE_MAX; i++)
+	/*for (int i = 0; i < TREE_MAX; i++)
 	{
 		m_hit_tree[i].Draw();
-	}
+	}*/
 	
 }
 

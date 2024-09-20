@@ -194,9 +194,6 @@ void SamplePlayer::Draw()
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ (•`‰æ‚ðŒã‚É‚µ‚È‚¢‚Æ“–‚½‚è”»’è‚ª‚¿‚©‚¿‚©‚·‚é)
 	m_model.DrawModel(&m_transform);
 
-	
-
-
 
 
 	//m_move_hit_box.Draw(255, 255);

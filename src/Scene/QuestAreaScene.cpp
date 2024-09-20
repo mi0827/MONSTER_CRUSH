@@ -160,23 +160,23 @@ void QuestAreaScene::Draw()
 
 	
 
-	// 仮のフォントの描画
-	// 後で変更予定
-	// フォントのデフォルトサイズの保存
-	int default_font_size = GetFontSize();
-	// フォントサイズの設定
-	SetFontSize(80);
-	const char* name = "エストエリア :: RENTER";
-	// 描画幅の取得
-	float w = GetDrawStringWidth(name, -1);
-	// 文字列の高さの取得
-	float h = GetFontSize();
-	// 描画座標
-	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, 0 };
-	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	//// 仮のフォントの描画
+	//// 後で変更予定
+	//// フォントのデフォルトサイズの保存
+	//int default_font_size = GetFontSize();
+	//// フォントサイズの設定
+	//SetFontSize(80);
+	//const char* name = "エストエリア :: RENTER";
+	//// 描画幅の取得
+	//float w = GetDrawStringWidth(name, -1);
+	//// 文字列の高さの取得
+	//float h = GetFontSize();
+	//// 描画座標
+	//Vector2 draw_pos = { SCREEN_W / 2 - w / 2, 0 };
+	//DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
-	// フォントのサイズをデフォルトサイズに戻す
-	SetFontSize(default_font_size);
+	//// フォントのサイズをデフォルトサイズに戻す
+	//SetFontSize(default_font_size);
 
 
 	

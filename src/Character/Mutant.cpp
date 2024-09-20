@@ -189,9 +189,9 @@ void Mutant::Draw()
 {
 	//attack_hit_damage[m_now_attack].attack_hit.Draw();
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
-	m_body.Draw();
+	/*m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();
+	m_right_hand.Draw();*/
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ (•`‰æ‚ðŒã‚É‚µ‚È‚¢‚Æ“–‚½‚è”»’è‚ª‚¿‚©‚¿‚©‚·‚é)
 	m_model.DrawModel(&m_transform);
 }

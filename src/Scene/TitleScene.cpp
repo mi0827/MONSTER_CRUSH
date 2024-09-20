@@ -148,7 +148,7 @@ void TitleScene::Draw()
 	int default_font_size = GetFontSize();
 	// フォントサイズの設定
 	SetFontSize(80);
-	const char* name = "モンスタークラッシュ :: RENTER";
+	const char* name = "モンスタークラッシュ" /*:: RENTER*/;
 	// 描画幅の取得
 	float w = GetDrawStringWidth(name, -1);
 	// 文字列の高さの取得

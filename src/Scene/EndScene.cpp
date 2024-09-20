@@ -151,7 +151,7 @@ void EndScene::Draw()
 	int default_font_size = GetFontSize();
 	// フォントサイズの設定
 	SetFontSize(80);
-	const char* name = "EDN :: RENTER";
+	const char* name = "END :: RETURN";
 	// 描画幅の取得
 	float w = GetDrawStringWidth(name, -1);
 	// 文字列の高さの取得
@@ -163,7 +163,7 @@ void EndScene::Draw()
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
-
+	
 	
 
 }
