@@ -66,8 +66,7 @@ void EndScene::Update()
 
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);
-	// フィールドの地面モデルとキャラクターの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
@@ -82,6 +81,10 @@ void EndScene::Update()
 	{
 		m_scene_change_judge = false;
 	}
+
+
+	// フィールドとキャラクターのあたい判定
+	HitField();
 
 }
 
@@ -176,5 +179,45 @@ void EndScene::Exit()
 	//　シャドーマップの削除
 	ExitShadowMap();
 
+}
+
+//------------------------------------------
+// フィールドとキャラクターの当たり判定
+//------------------------------------------
+void EndScene::HitField()
+{
+	// フィールドの地面モデルとキャラクターの当たり判定
+	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+
+	// 木のオブジェクトとプレイヤーの当たり判定
+	for (int i = 0; i < field.TREE_MAX; i++)
+	{
+		// モンスターとプレイヤーの移動の当たり判定
+		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		{
+			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+		}
+	}
+
+	// フェンスとキャラクターの当たり判定
+	for (int i = 0; i < field.FENCE_MAX; i++)
+	{
+		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			field.m_hit_fence[i].m_box.hit_pos, field.m_hit_fence[i].m_box.half_size))
+		{
+			player->MoveHitUpdate(&field.m_hit_fence[i]);
+		}
+	}
+
+
+	// 石とキャラクターの当たり判定
+	for (int i = 0; i < field.STONE_MAX; i++)
+	{
+		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			field.m_hit_stone[i].m_box.hit_pos, field.m_hit_stone[i].m_box.half_size))
+		{
+			player->MoveHitUpdate(&field.m_hit_stone[i]);
+		}
+	}
 }
 

@@ -58,6 +58,9 @@ void TitleScene::Init()
 	// シャドーマップの設定
 	ShadowMapInit();
 
+	// AreaBOXの設定
+	SetAeraBoxSet();
+
 }
 
 //------------------------------------------
@@ -74,20 +77,24 @@ void TitleScene::Update()
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
 
-	// Xキーを押された時にシーンの変更をする（今だけの仮）
 
-#ifndef  IS_DEBUG
+	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
 	{
 		m_scene_change_judge = true;
 	}
-	else
-	{
-		m_scene_change_judge = false;
-	}
-#endif //  IS_DEBUG
-
 	
+
+
+	// この当たり判定に入ったら
+	if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+		m_area_box[next_scene].m_box.hit_pos, m_area_box[next_scene].m_box.half_size))
+	{
+
+		m_scene_change_judge = true;
+	}
+	
+
 
 }
 
@@ -146,6 +153,8 @@ void TitleScene::Draw()
 	UseShadowMapSet();
 
 
+	// かりの壁を描画
+	m_area_box[next_scene].Draw(255, 255);
 
 	//=============================================
 	// 仮でタイトルを描画
@@ -217,4 +226,21 @@ void TitleScene::HitField()
 			player->MoveHitUpdate(&field.m_hit_around[i]);
 		}
 	}
+}
+
+//------------------------------------------
+// エリアBOXの初期設定
+//------------------------------------------
+void TitleScene::SetAeraBoxSet()
+{
+	// サイズの設定
+	m_box_size.set(300.0f, 80.0f, 100.0f);
+
+
+	// 座標の設定
+	m_box_pos[next_scene].set(0.0f, 0.0f, 150);
+
+
+	// BOXの作成
+	m_area_box[next_scene].CreateBox(m_box_pos[next_scene], m_box_size);
 }

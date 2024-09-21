@@ -237,6 +237,15 @@ void GameScene::LightInit()
 //---------------------------------------------------------------------------
 void GameScene::HitField()
 {
+
+	// フィールドの地面モデルとキャラクターの当たり判定
+	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+
+	// モンスターと地面の当たり判定（ジャンプ処理科できる）
+	HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
+		&monster->m_jump_flag, monster->m_up_speed, monster->m_down_speed,
+		&field.m_field_model);
+
 	// 木のオブジェクトとプレイヤーの当たり判定
 	for (int i = 0; i < field.TREE_MAX; i++)
 	{
@@ -291,14 +300,7 @@ void GameScene::CharacterUpdate()
 	// モンスターの更新処理
 	monster->Update(&player->m_transform, player->m_hit_r);
 
-	// フィールドの地面モデルとキャラクターの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
 	
-	// モンスターと地面の当たり判定（ジャンプ処理科できる）
-	HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
-		&monster->m_jump_flag, monster->m_up_speed, monster->m_down_speed,
-		&field.m_field_model);
-
 
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))

@@ -6,17 +6,26 @@ class QuestAreaScene : public Scene_Base
 {
 	//int effeckt_h;
 public:
-	// 初期処理
+	// 話せるようになる範囲の半径
+	static constexpr float AREA_FIELD_R = 15.0f;
+
+	//! 初期処理
 	void Init()override;
 
-	// 更新処理
+	//! 更新処理
 	void Update()override;
 
-	// 描画処理
+	//! 描画処理
 	void Draw()override;
 
-	// 終了処理
+	//! 終了処理
 	void Exit()override;
+
+	//! フィールドとキャラクターの当たり判定
+	void HitField()override;
+
+	//! 話せるようになるエリアの設定
+	void InitArea();
 
 public:
 
@@ -43,20 +52,26 @@ private:
 		MOVIE, // 動画画面
 	};
 
-	// 画面切り替え用の変数
+	//! 画面切り替え用の変数
 	int m_title_scene = 0;
 
 	bool m_start_flag = false; // タイトル画面でボタンが押されたかどうかのフラグ
 
-	// カメラクラスのオブジェクト
+	//! カメラクラスのオブジェクト
 	Camera camera;
 
-	// フィールドオブジェクト
+	//! フィールドオブジェクト
 	TitleField field;
 
-	// プレイヤーのオブジェクト
+	//! プレイヤーのオブジェクト
 	CharacterBase* player;
 
-	// 受付嬢のオブジェクト
+	//! 受付嬢のオブジェクト
 	Receptionist receptionist;
+	//! エリア用のカプセル
+	CapsuleCollision m_area;
+	//! 話せるエリアに入ったか入っていないかのフラグ
+	bool m_area_hit = false;
+
+
 };

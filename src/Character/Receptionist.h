@@ -7,6 +7,9 @@ class Receptionist
 {
 public:
 
+	static constexpr float BDOY_R = 5.0f;
+
+
 	//! @brief コンストラクタ
 	Receptionist();
 	//! @brief デストラクタ
@@ -41,4 +44,8 @@ public:
 
 	//! アニメーションクラス
 	Animation m_animation;
+
+	//! カプセルの当たり判定の設定
+	CapsuleCollision m_hit_body;
+	
 };

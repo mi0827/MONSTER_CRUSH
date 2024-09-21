@@ -18,19 +18,14 @@ public:
 	void Exit()override;
 
 	//! @brief フィールドとキャラクターとの当たり判定
-	void HitField();
+	void HitField()override;
+
+	//! @brief エリアBOXの初期設定
+	void SetAeraBoxSet();
 
 
 public:
-	//int m_background_image = 0; // 背景画像用の変数
-	//Vector2 m_image_pos = {0.0f,0.0f};    // 画像用の描画座標
-	//int m_count_flame = 0; // フレームカウント用の変数 
-	//int m_count_time = 0;  // フレームから実際の割り出して入れる用の時間
-	//int m_movie = 0;       // 動画用の変数
-
-	//// フォントデータ用
-	//int m_GTA_font_data = 0; // GTAのフォントデータ用の変数
-	//LPCSTR m_GTA_font_path = 0;
+	
 
 	
 
@@ -59,7 +54,7 @@ private:
 	// 一定間隔で存在するエリアをまとめたもの
 	enum Area
 	{
-		nextscene, // 次のシーンに行くためのエリア
+		next_scene, // 次のシーンに行くためのエリア
 
 		max
 	};
@@ -81,4 +76,8 @@ private:
 
 	// エリア用のBOX
 	BoxCollision m_area_box[max];
+	// BOXの座標
+	Vector3 m_box_pos[max];
+	// BOXのサイズ（全部一緒）
+	Vector3 m_box_size;
 };

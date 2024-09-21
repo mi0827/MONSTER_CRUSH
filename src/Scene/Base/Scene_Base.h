@@ -26,6 +26,9 @@ public:
 	virtual void Draw() = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
+	//! @brief フィールドとの当たり判定
+	virtual void HitField() = 0;
+
 
 	//! @bom,se の音量を設定する用の関数
 	// void SetSoundSize(int bgm_volume, int se_volume);

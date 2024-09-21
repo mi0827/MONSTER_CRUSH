@@ -44,7 +44,7 @@ public:
 	void LightInit();
 	
 	//! @brief フィールドとキャラクターとの当たり判定
-	void HitField();
+	void HitField()override;
 	
 	//! @brief キャラクターの初期処理
 	void Character_Init();
