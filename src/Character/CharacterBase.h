@@ -28,7 +28,7 @@ public:
 	//! @brief キャラの壁擦り判定用の関数
 	//! @param キャラの座標
 	//! @param 当たり判定相手のボックスの情報
-	void MoveHitUpdate( BoxCollision* box);
+	void MoveHitUpdate(BoxCollision* box);
 
 	//! @brief 描画処理
 	virtual void Draw() = 0;
@@ -46,6 +46,15 @@ public:
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
+
+	//! @brief キャラクターの座標を設定する関数
+	//! @param 設定したい座標
+	void SetCharacterPos(Vector3 pos);
+
+	//! @brief キャラクターの向きを設定する関数
+	//! @param 設定したい向き
+	void SetCharacterRot(Vector3 rot);
+
 
 	//! @brief 当たり判定を行ってほしいタイミングをセットする関数
 	//! @param 当たり判定をとってほしいフレームのスタート
@@ -68,10 +77,10 @@ public:
 	//! @brief ベースクラスでの初期処理
 	//! @param 敵の移動の際に使う半径の設定
 	//! @param HPの最大量
-	void BaseInit(float r,int HP);
+	void BaseInit(float r, int HP);
 
 
-	
+
 
 	// 攻撃の時の当たり判定とダメージの構造体
 	// 各子クラスで定義する
@@ -132,7 +141,7 @@ public:
 	//! 移動
 	Move m_move;
 	//! 移動の際の当たり判定に使う
-	BoxCollision m_move_hit_box; 
+	BoxCollision m_move_hit_box;
 
 
 	//! モデルクラスのオブジェクト
@@ -178,8 +187,8 @@ public:
 
 	//! 敵との移動当たり判定に使う
 	float m_hit_r = 0.0f;
-	
-	
+
+
 	//! プレイヤーの現在行っている攻撃アニメーション番号を保存する
 	int m_now_attack = 0;
 	// HPの残量

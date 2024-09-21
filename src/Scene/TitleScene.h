@@ -32,6 +32,9 @@ public:
 	//int m_GTA_font_data = 0; // GTAのフォントデータ用の変数
 	//LPCSTR m_GTA_font_path = 0;
 
+	
+
+private:
 	enum Title_se
 	{
 		DECISION, // タイトル画面で指定のボタンを押された時
@@ -46,14 +49,21 @@ public:
 		BGM_MAX // BGMの最大数
 	};
 
-private:
-
 	// タイトル画面での切り替え用
 	enum Title_SCENES
 	{
 		TITLE, // タイトル画面
 		MOVIE, // 動画画面
 	};
+
+	// 一定間隔で存在するエリアをまとめたもの
+	enum Area
+	{
+		nextscene, // 次のシーンに行くためのエリア
+
+		max
+	};
+
 
 	// 画面切り替え用の変数
 	int m_title_scene = 0;
@@ -68,4 +78,7 @@ private:
 
 	// プレイヤーのオブジェクト
 	CharacterBase* player;
+
+	// エリア用のBOX
+	BoxCollision m_area_box[max];
 };

@@ -30,7 +30,9 @@ SamplePlayer::SamplePlayer()
 	m_player_mode = IDLE;
 
 	// プレイヤーの初期座標
-	m_transform.pos.set(100, 0, 100);
+	SetCharacterPos({100,0,100});
+	// 向きの設定
+	SetCharacterRot({ 0,180.0f,0 });
 	// モデルのスケールの設定
 	m_transform.scale.set(0.1f, 0.1, 0.1);
 	// 移動の際の当たり判定のサイズの設定

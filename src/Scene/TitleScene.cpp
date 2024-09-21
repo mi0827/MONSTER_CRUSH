@@ -53,6 +53,7 @@ void TitleScene::Init()
 
 	// プリえやーの初期設定 
 	player->Init();
+	player->SetCharacterPos({ 0,0,750 });
 
 	// シャドーマップの設定
 	ShadowMapInit();
@@ -144,6 +145,11 @@ void TitleScene::Draw()
 	}
 	UseShadowMapSet();
 
+
+
+	//=============================================
+	// 仮でタイトルを描画
+	//=============================================
 	// フォントのデフォルトサイズの保存
 	int default_font_size = GetFontSize();
 	// フォントサイズの設定
@@ -157,6 +163,13 @@ void TitleScene::Draw()
 	Vector2 draw_pos = {SCREEN_W / 2 - w/ 2, 0 };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
+
+	name = "Push : W";
+	w = GetDrawStringWidth(name, - 1);
+	h = GetFontSize();
+	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H - h };
+	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
