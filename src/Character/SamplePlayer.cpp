@@ -232,7 +232,7 @@ void SamplePlayer::CDUpdate()
 	SetHitDamage(m_right_hand, 20, (attack_punch_3));
 	SetHitDamage(m_right_feet, 20, (attack_kick_1));
 	SetHitDamage(m_left_feet, 20, (attack_kick_2));
-	SetHitDamage(m_right_hand, 40, (attack_kick_3));
+	SetHitDamage(m_right_feet, 40, (attack_kick_3));
 
 }
 
@@ -272,9 +272,12 @@ void SamplePlayer::Status_Bar_Draw()
 //-----------------------------------------------
 void SamplePlayer::SetHitTimeInit()
 {
-	SetHitTime(attack_frame[attack_punch_1].start_frame,attack_frame[attack_punch_1].end_frame, attack_punch_1);
-
-	
+	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
+	SetHitTime(attack_frame[attack_punch_2].start_frame, attack_frame[attack_punch_2].end_frame, attack_punch_2);
+	SetHitTime(attack_frame[attack_punch_3].start_frame, attack_frame[attack_punch_3].end_frame, attack_punch_3);
+	SetHitTime(attack_frame[attack_kick_1 ].start_frame, attack_frame[attack_kick_1 ].end_frame, attack_kick_1 );
+	SetHitTime(attack_frame[attack_kick_2 ].start_frame, attack_frame[attack_kick_2 ].end_frame, attack_kick_2 );
+	SetHitTime(attack_frame[attack_kick_3 ].start_frame, attack_frame[attack_kick_3 ].end_frame, attack_kick_3 );
 }
 
 
@@ -334,9 +337,7 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 
 }
 
-//-----------------------------------------------
-// èIóπèàóù
-//----------------------------------------------- 
+
 void SamplePlayer::Player_Mode(int mode)
 {
 	switch (mode)

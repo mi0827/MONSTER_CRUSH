@@ -270,6 +270,11 @@ void Mutant::Status_Bar_Draw()
 void Mutant::SetHitTimeInit()
 {
 	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
+	SetHitTime(attack_frame[attack_punch_2].start_frame, attack_frame[attack_punch_2].end_frame, attack_punch_2);
+	SetHitTime(attack_frame[attack_punch_3].start_frame, attack_frame[attack_punch_3].end_frame, attack_punch_3);
+	SetHitTime(attack_frame[attack_punch_4].start_frame, attack_frame[attack_punch_4].end_frame, attack_punch_4);
+	SetHitTime(attack_frame[attack_rolling].start_frame, attack_frame[attack_rolling].end_frame, attack_rolling);
+	SetHitTime(attack_frame[attack_jump].start_frame, attack_frame[attack_jump].end_frame, attack_jump);
 }
 
 //-----------------------------------------------
@@ -407,7 +412,8 @@ void Mutant::Attack_Jump()
 }
 
 //-----------------------------------------------
-// ジャンプ攻撃中の処理aaaaaaaaaaaw
+// ジャンプ攻撃中の処理
+//-----------------------------------------------
 void Mutant::Jump_Update()
 {
 	// モンスターのアニメーションがジャンプしそうに瞬間から着地アニメーションが始まるまでの間

@@ -68,6 +68,10 @@ public:
 		// 終わりのフレーム
 		float end_frame;
 	};
+
+	// 当たり判定を行ってほしいタイミングの設定
+	// まだまだ未完成
+	// 作品展までに完成させる
 	AttackFrame attack_frame[attack_max] =
 	{
 		// パンチ１
