@@ -45,6 +45,11 @@ public:
 	//! @brief シャドーマップの削除
 	void ExitShadowMap();
 
+	//! @brief スクリーン座標に文字を描画するための座標を設定する関数
+	//! @param 設定したい座標
+	//! @param 設定した座標からどれだけずらしたいかの値(デフォルトでずらさないように設定しておく)
+	VECTOR DrawStringWrold(Vector3 pos, Vector3 shift_pos = {0.0f,0.0f,0.0f});
+
 public:
 	const int FLAME_MAX = 60; // 一秒何フレームか
 

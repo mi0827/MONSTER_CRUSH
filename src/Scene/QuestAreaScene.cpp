@@ -52,6 +52,9 @@ void QuestAreaScene::Init()
 
 	// プレイヤーの初期設定 
 	player->Init();
+	// プレイヤーの座標の設定
+	player->SetCharacterPos({ 0.0f, 0.0f,250.0f });
+
 
 	// 受付嬢の初期設定
 	receptionist.Init();
@@ -102,8 +105,48 @@ void QuestAreaScene::Update()
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
 
+	// 文字列の描画のための設定
+	for (int i = 0; i < text_max; i++)
+	{
+		// 座標変換
+		VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_text[i].shift_pos);
+		// 描画座用に変換
+		m_text[i].draw_pos.VSet(pos);
 
-	
+		// 変換したスクリーン座標のZの値が0.0 ~ 1.0 なら描画していい
+		if (i == f_text)
+		{
+			// 描画したい文字列がF : 話すの場合
+			// 話していいエリアに入っていないと描画できないようにする
+			if (m_area_hit)
+			{
+				if (pos.z > 0.0f && pos.z < 1.0f)
+				{
+					m_text[i].draw_flag = true;
+				}
+				else
+				{
+					m_text[i].draw_flag = false;
+				}
+			}
+		
+		}
+		else
+		{
+			if (pos.z > 0.0f && pos.z < 1.0f)
+			{
+				m_text[i].draw_flag = true;
+			}
+			else
+			{
+				m_text[i].draw_flag = false;
+			}
+
+		}
+
+	}
+
+
 
 }
 
@@ -179,19 +222,26 @@ void QuestAreaScene::Draw()
 	// 後で変更予定
 	// フォントのデフォルトサイズの保存
 	int default_font_size = GetFontSize();
-	// フォントサイズの設定
-	SetFontSize(80);
-	const char* name = "F : 話す";
-	// 描画幅の取得
-	float w = GetDrawStringWidth(name, -1);
-	// 文字列の高さの取得
-	float h = GetFontSize();
-	// 描画座標
-	Vector2 draw_pos = { SCREEN_W / 2 - w / 2 + 200, SCREEN_H / 2 - h };
-	if (m_area_hit)
+
+	for (int i = 0; i < text_max; i++)
 	{
-		DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+		// フォントサイズの設定
+		SetFontSize(m_text[i].font_size);
+		if (m_text[i].draw_flag)
+		{
+			// 描画幅の取得
+			float w = GetDrawStringWidth(m_text[i].text, -1);
+			// 文字列の高さの取得
+			float h = GetFontSize();
+			// 描画座標
+			Vector2 draw_pos = { m_text[i].draw_pos.x - w / 2,  m_text[i].draw_pos.y - h };
+			// 文字列の描画
+			DrawString(draw_pos.x, draw_pos.y, m_text[i].text, GetColor(255, 128, 50));
+
+		}
+
 	}
+
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
