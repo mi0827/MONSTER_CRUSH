@@ -25,6 +25,13 @@ public:
 	//! @param カメラの向き
 	virtual void Update(Vector3* camera_rot) = 0;
 
+	//! @brief 生きてる時の更新処理
+	virtual void LiveUpdate(Vector3* camera_rot) = 0; 
+
+	//! @brief 死んだときの更新処理 
+	virtual void DieUpdate() = 0;
+
+
 	//! @brief キャラの壁擦り判定用の関数
 	//! @param キャラの座標
 	//! @param 当たり判定相手のボックスの情報
@@ -40,9 +47,9 @@ public:
 	virtual void CDUpdate() = 0;
 
 	//! @brief ステータスバーの設定用関数
-	virtual void Status_Bar_Init() = 0;
+	virtual void StatusBarInit() = 0;
 	//! @brief ステータスバーの描画関数
-	virtual void Status_Bar_Draw() = 0;
+	virtual void StatusBarDraw() = 0;
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
@@ -134,6 +141,19 @@ public:
 
 public:
 	//-----------------------------------------------
+	// 列挙体で管理
+	//-----------------------------------------------
+	//! プレイヤーの状態
+	enum Situation
+	{
+		alive, // 生きてるとき
+		die,   // 死んでる
+	};
+	//! 生きてるかを保存するための変数
+	// 最初は生きてる状態から始める
+	int m_life_and_death = alive;
+
+	//-----------------------------------------------
 	//! クラスのオブジェクトを定義
 	//-----------------------------------------------
 	//! 座標、向き、サイズ
@@ -160,11 +180,12 @@ public:
 	CapsuleCollision m_left_feet;    //!< 左足の当たり判定
 	CapsuleCollision m_right_feet;  //!< 右足の当たり判定
 
-
 	//! 壁擦り判定のためにいったん座標を保存しておく変数
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
 	//! 移動の際の当たり判定用のサイズ
 	Vector3 m_move_hit_size = { 5.0f ,5.0f,5.0f };
+
+
 	//-----------------------------------------------
 	// 変数の定義
 	//-----------------------------------------------
@@ -191,6 +212,7 @@ public:
 
 	//! プレイヤーの現在行っている攻撃アニメーション番号を保存する
 	int m_now_attack = 0;
-	// HPの残量
-	int m_hp_value;
+
+	//! HPの残量
+	int m_hp_value = 0;
 };

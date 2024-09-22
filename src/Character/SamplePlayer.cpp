@@ -30,7 +30,7 @@ SamplePlayer::SamplePlayer()
 	m_player_mode = IDLE;
 
 	// プレイヤーの初期座標
-	SetCharacterPos({100,0,100});
+	SetCharacterPos({ 100,0,100 });
 	// 向きの設定
 	SetCharacterRot({ 0,180.0f,0 });
 	// モデルのスケールの設定
@@ -73,7 +73,7 @@ void SamplePlayer::Init()
 	SetHitTimeInit();
 
 	// ステータスバーの設定
-	Status_Bar_Init();
+	StatusBarInit();
 }
 
 
@@ -84,6 +84,71 @@ void SamplePlayer::Update(Vector3* camera_rot)
 {
 	// HPの値が減ったかどうか
 	m_hp.Update(&m_hp_value);
+
+	// プレイヤーのHPが０より多いい時
+	if (m_hp_value > 0)
+	{
+		// 生きてる
+		m_life_and_death = alive;
+	}
+	else // それ以外の時
+	{
+
+		// 死んだ
+		m_life_and_death = die;
+		// プレイヤーの状態をにDIE変更
+		m_player_mode = DIE;
+		// アニメーションの切り替えフラグを上げる
+		m_animation.m_anim_change_flag = true;
+		// 死んだアニメーションをつける
+		if (m_animation.Change_Flag(m_idle_flag))
+		{
+			// アニメーションを停止に変更する
+			m_animation.Change_Animation(&m_model, die, true);
+		}
+	}
+
+	// 生きてるか死んでるかで処理を変える
+	switch (m_life_and_death)
+	{
+	case alive: // 生きてる時の処理
+
+		LiveUpdate(camera_rot);
+		break;
+
+	case die: // 死んだときの処理
+		DieUpdate();
+		break;
+
+	default:
+		break;
+	}
+
+
+	// アニメーションの再生
+	m_animation.Play_Animation(&m_model, m_combo_flag);
+
+	// あたり判定の更新処理
+	CDUpdate();
+
+	// フラグ管理用関数
+	Player_Mode(m_player_mode);
+
+	// 地面に埋まってしまった時のための処理
+	if (m_transform.pos.y <= 0)
+	{
+		m_transform.pos.y = 0;
+	}
+
+}
+
+
+//-----------------------------------------------
+// 生きているときの更新処理
+//-----------------------------------------------
+void SamplePlayer::LiveUpdate(Vector3* camera_rot)
+{
+
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理
@@ -124,6 +189,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 			m_idle_flag = true;
 			// アニメーション変更が行えるようにする
 			m_animation.m_anim_change_flag = true;
+			// プレイヤーの状態をIDLEに変更
 			m_player_mode = IDLE;
 		}
 
@@ -147,23 +213,20 @@ void SamplePlayer::Update(Vector3* camera_rot)
 		Attack_Update();
 		break;
 	}
+}
 
-
-	// アニメーションの再生
-	m_animation.Play_Animation(&m_model, m_combo_flag);
-
-	// あたり判定の更新処理
-	CDUpdate();
-
-	// フラグ管理用関数
-	Player_Mode(m_player_mode);
-
-	// 地面に埋まってしまった時のための処理
-	if (m_transform.pos.y <= 0)
+//-----------------------------------------------
+// 死んだ（負けた）時の更新処理
+//-----------------------------------------------
+void SamplePlayer::DieUpdate()
+{
+	// 死んだアニメーションが追わないように
+	// 一定のところまで進んだら
+	if (m_animation.m_contexts[0].play_time >= 260)
 	{
-		m_transform.pos.y = 0;
+		// 少し前に戻す
+		m_animation.m_contexts[0].play_time = 200;
 	}
-
 }
 
 
@@ -186,8 +249,8 @@ void SamplePlayer::Draw()
 			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 		}
 	}
-	
-	
+
+
 	//m_body.Draw();
 	//m_right_hand.Draw();
 	//m_left_hand.Draw();
@@ -242,10 +305,10 @@ void SamplePlayer::CDUpdate()
 //-----------------------------------------------
 // ステータスバーの設定用関数
 //-----------------------------------------------
-void SamplePlayer::Status_Bar_Init()
+void SamplePlayer::StatusBarInit()
 {
 	// HPの設定
-	m_hp.Set({ 50, 650 }, { 500,25 }, &m_hp_value, true);
+	m_hp.Set({ 50, SCREEN_H - 50 }, { 500,25 }, &m_hp_value, true);
 	m_hp.SetColor(50, 255, 50, &m_hp.m_color);
 	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
 	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
@@ -257,7 +320,7 @@ void SamplePlayer::Status_Bar_Init()
 //-----------------------------------------------
 // ステータスバー描画用関数
 //-----------------------------------------------
-void SamplePlayer::Status_Bar_Draw()
+void SamplePlayer::StatusBarDraw()
 {
 
 	m_hp.Update(&m_hp_value);
@@ -277,9 +340,9 @@ void SamplePlayer::SetHitTimeInit()
 	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
 	SetHitTime(attack_frame[attack_punch_2].start_frame, attack_frame[attack_punch_2].end_frame, attack_punch_2);
 	SetHitTime(attack_frame[attack_punch_3].start_frame, attack_frame[attack_punch_3].end_frame, attack_punch_3);
-	SetHitTime(attack_frame[attack_kick_1 ].start_frame, attack_frame[attack_kick_1 ].end_frame, attack_kick_1 );
-	SetHitTime(attack_frame[attack_kick_2 ].start_frame, attack_frame[attack_kick_2 ].end_frame, attack_kick_2 );
-	SetHitTime(attack_frame[attack_kick_3 ].start_frame, attack_frame[attack_kick_3 ].end_frame, attack_kick_3 );
+	SetHitTime(attack_frame[attack_kick_1].start_frame, attack_frame[attack_kick_1].end_frame, attack_kick_1);
+	SetHitTime(attack_frame[attack_kick_2].start_frame, attack_frame[attack_kick_2].end_frame, attack_kick_2);
+	SetHitTime(attack_frame[attack_kick_3].start_frame, attack_frame[attack_kick_3].end_frame, attack_kick_3);
 }
 
 
@@ -293,7 +356,8 @@ void SamplePlayer::Anima_Load_Init()
 	// アニメーションの読み込み
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Idle.mv1", idle, 1, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Run.mv1", run, 1, 1.0f);   //!< 走り
-	m_animation.Load_Animation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 2.0f);     //! ローリング
+	m_animation.Load_Animation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 2.0f);     //!< ローリング
+	m_animation.Load_Animation("Data/Model/Player/Animation/die.mv1", die, 1, 1.0f);            //!< 死んだとき
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_anim_1, 1, 1.0f);  //!< 攻撃１
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_anim_2, 1, 2.0f); //!< 攻撃２
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch3.mv1", attack_anim_3, 1, 2.0f); //!< 攻撃３
@@ -339,7 +403,10 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 
 }
 
-
+//-----------------------------------------------
+// フラグ管理用関数
+// この関数がないと色々なバグが出る
+//-----------------------------------------------
 void SamplePlayer::Player_Mode(int mode)
 {
 	switch (mode)
@@ -361,7 +428,11 @@ void SamplePlayer::Player_Mode(int mode)
 		m_run_flag = false;
 		m_attack_flag = true;
 		break;
-
+	case DIE:
+		m_idle_flag = false;
+		m_run_flag = false;
+		m_attack_flag = false;
+		break;
 	}
 }
 

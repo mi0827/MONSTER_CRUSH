@@ -125,16 +125,16 @@ void GameScene::Update()
 
 
 
-	// プレイヤーのHPが０になったら
-	if (player->m_hp_value <= 0)
-	{
-		m_scene_change_judge = true;
-	}
-	// モンスターのHPがゼロになったら
-	if (monster->m_hp_value <= 0)
-	{
-		m_scene_change_judge = true;
-	}
+	//// プレイヤーのHPが０になったら
+	//if (player->m_hp_value <= 0)
+	//{
+	//	m_scene_change_judge = true;
+	//}
+	//// モンスターのHPがゼロになったら
+	//if (monster->m_hp_value <= 0)
+	//{
+	//	m_scene_change_judge = true;
+	//}
 }
 
 //---------------------------------------------------------------------------
@@ -220,7 +220,7 @@ void GameScene::Exit()
 //---------------------------------------------------------------------------
 void GameScene::StatusDraw()
 {
-	player->Status_Bar_Draw();
+	player->StatusBarDraw();
 	monster->Status_Bar_Draw();
 
 }

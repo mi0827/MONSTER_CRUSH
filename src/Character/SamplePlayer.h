@@ -26,6 +26,7 @@ public:
 		idle, //!< 待機
 		run, //!< 走り
 		rolling, //!< ローリング
+		die,     //!< 倒された時
 		attack_anim_1,      //< 攻撃１
 		attack_anim_2,      //< 攻撃２
 		attack_anim_3,      //< 攻撃３
@@ -89,6 +90,7 @@ public:
 		RUN,       // 走り状態
 		ROLLING, // 回避
 		ATTACK,    // 攻撃
+		DIE        // 死亡
 	};
 
 
@@ -108,6 +110,14 @@ public:
 	//! @brief 更新処理
 	//! @param カメラの向き
 	void Update(Vector3* camera_rot) override;
+
+	//! @brief 生きてる時の更新処理
+	void LiveUpdate(Vector3* camera_rot) override;
+
+	//! @brief 死んだときの更新処理 
+	void DieUpdate() override;
+
+
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理
@@ -117,9 +127,9 @@ public:
 	void CDUpdate() override;
 
 	//! @brief ステータスバーの設定用関数
-	void Status_Bar_Init() override;
+	void StatusBarInit() override;
 	//! @brief ステータスバーの描画関数
-	void Status_Bar_Draw() override;
+	void StatusBarDraw() override;
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
 	void SetHitTimeInit() override;
