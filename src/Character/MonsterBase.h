@@ -25,7 +25,13 @@ public:
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 更新処理
-	virtual void Update(Transform* traget_pos, float traget_r) = 0;
+	virtual void Update(Transform* target_pos, float target_r) = 0;
+	//! @brief 生きてる時の更新処理
+	//! @param ターゲットの座標
+	//! @param ターゲットの半径
+	virtual void LiveUpdate(Transform* target_pos, float target_r) = 0;
+	//! @brief 死んだときの更新処理 
+	virtual void DieUpdate() = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
 
@@ -46,11 +52,16 @@ public:
 	virtual void SetHitTimeInit() = 0;
 
 
+	//! @brief モンスターの状態(フラグ)管理関数
+	//! @param モンスターの状態
+	virtual void MonsterMode(int mode) = 0;
+
+
 	//! @brief ベースクラスでの初期処理
 	//! @param モンスターのHPマックス
 	//! @param ジャンプの上昇スピード
 	//! @param ジャンプの下降スピード
-	void BaseInit(int hp_num ,float up_speed, float down_speed);
+	void BaseInit(int hp_num, float up_speed, float down_speed);
 
 	//! @brief モンスターの移動に関するターゲットの設定
 	//! @param ターゲットの座標
@@ -112,11 +123,26 @@ public:
 	//-----------------------------------------------
 	// 変数の宣言
 	//-----------------------------------------------
+
+	//===============
+	// 状態管理用フラグ
+	//=============== 
+	//-----------------------------------------------
+	// 列挙体で管理
+	//-----------------------------------------------
+	//! モンスターの状態
+	enum Situation
+	{
+		alive, // 生きてるとき
+		die,   // 死んでる
+	};
+	//! 生きてるかを保存するための変数
+	// 最初は生きてる状態から始める
+	int m_life_and_death = alive;
 	//! アイドル状態かのフラグ
 	bool m_idle_flag = false;
 	//! 走っていい以下のフラグ
 	bool m_run_flag = false;
-
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! プレイヤーのモードを管理する変数

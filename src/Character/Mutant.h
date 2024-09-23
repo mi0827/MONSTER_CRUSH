@@ -28,6 +28,7 @@ public:
 	{
 		idle, //!< 待機
 		run,  //!< 走り
+		die,   //!< 死亡
 		attack_1, //!< 攻撃１
 		attack_2, //!< 攻撃２
 		attack_3, //!< 攻撃３
@@ -41,7 +42,7 @@ public:
 	//! 攻撃アニメーションの一番最初
 	static constexpr int ATTACK_ANIM_START = attack_1;
 	//! 攻撃アニメーション最大値（jumpを抜いた分）
-	static constexpr int ATTACK_ANIM_MAX = jump - ATTACK_ANIM_START;
+	static constexpr int ATTACK_ANIM_MAX = rolling - ATTACK_ANIM_START;
 
 	//! 攻撃アクションの数
 	static constexpr int ATTACK_ACTION_MAX = anim_max - attack_1;
@@ -94,9 +95,10 @@ public:
 	//! モンスターの状態
 	enum MonsterMode
 	{
-		IDLE,      //!< 待機
-		RUN,       //!< 走り状態
+		IDLE,        //!< 待機
+		RUN,         //!< 走り状態
 		ATTACK,    //!< 攻撃
+		DIE,          //!< 死ぬ
 	};
 
 	enum Jump
@@ -126,7 +128,11 @@ public:
 	//! @brief 更新処理
 	//! @param 移動の時のターゲットの座標
 	//! @param ターゲットの半径
-	void Update(Transform* traget_pos, float target_r) override;
+	void Update(Transform* target_pos, float target_r) override;
+	//! @brief 生きてる時の更新処理
+	void LiveUpdate(Transform* target_pos, float target_r) override;
+	//! @brief 死んだときの更新処理 
+	void DieUpdate() override;
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理
@@ -144,6 +150,10 @@ public:
 	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
 	void SetHitTimeInit() override;
 
+
+	//! @brief モンスターの状態(フラグ)管理関数
+	//! @param モンスターの状態
+	void MonsterMode(int mode) override;
 
 
 	//! @brief アニメーション読み込み関数

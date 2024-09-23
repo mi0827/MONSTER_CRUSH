@@ -112,6 +112,7 @@ public:
 	void Update(Vector3* camera_rot) override;
 
 	//! @brief 生きてる時の更新処理
+	//! @param カメラの向き
 	void LiveUpdate(Vector3* camera_rot) override;
 
 	//! @brief 死んだときの更新処理 
@@ -140,9 +141,9 @@ public:
 	//! @brief プレイヤーの移動用関数
 	void Move_Update(Vector3* camera_rot);
 
-	//! @brief プレイヤーの状態管理関数
+	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
-	void Player_Mode(int mode);
+	void PlayerMode(int mode) override;
 
 	//! @brief 攻撃開始かそうでないかを判断する関数
 	void Attack_First();

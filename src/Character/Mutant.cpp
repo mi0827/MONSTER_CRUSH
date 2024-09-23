@@ -80,12 +80,79 @@ void Mutant::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Mutant::Update(Transform* traget_pos, float target_r)
+void Mutant::Update(Transform* target_pos, float target_r)
 {
-	clsDx();
+	//clsDx();
+	// HPの値が減ったかどうか
+	m_hp.Update(&m_hp_value);
+	
 
-	BaseSetTarget(traget_pos, target_r);
+	
+	switch (m_life_and_death)
+	{
 
+	case alive: // 生きいるとき
+		// 移動先のターゲットの設定
+		BaseSetTarget(target_pos, target_r);
+		LiveUpdate(target_pos,target_r);
+		// モンスターのHPがより多いい時
+		if (m_hp_value > 0)
+		{
+			// 生きてる
+			m_life_and_death = alive;
+		}
+		else // それ以外の時
+		{
+
+			// 死んだ
+			m_life_and_death = die;
+			// プレイヤーの状態をにDIE変更
+			m_monster_mode = DIE;
+			// すべてのフラグを下げる
+			m_idle_flag = false;
+			m_run_flag = false;
+			m_attack_flag = false;
+
+			// アニメーションの切り替えフラグを上げる
+			m_animation.m_anim_change_flag = true;
+			// 待機フラグを毎回リセット
+			m_idle_flag = true;
+			// 死んだアニメーションをつける
+			if (m_animation.Change_Flag(m_idle_flag))
+			{
+				// アニメーションを死んだのに変更する
+				m_animation.Change_Animation(&m_model, die, true);
+			}
+		}
+
+		break;
+
+	case die: // 死んだとき
+		DieUpdate();
+		break;
+
+	default:
+		break;
+	}
+	
+
+	// アニメーションの再生
+	m_animation.Play_Animation(&m_model, m_combo_flag);
+	// あたり判定の更新処理
+	CDUpdate();
+
+
+	// プレイヤーではこれがないとバグるが
+	// モンスターではこれがあるとバグる
+	// モンスターのほうがフラグ管理に失敗した
+	//MonsterMode(m_monster_mode);
+}
+
+//-----------------------------------------------
+// 生きているときの更新処理
+//-----------------------------------------------
+void Mutant::LiveUpdate(Transform* target_pos, float target_r)
+{
 	// 待機状態または走りの時だけｗ
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
@@ -168,6 +235,7 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 			{
 				// 移動フラグを立てる
 				m_run_flag = true;
+				//m_monster_mode = RUN;
 			}
 		}
 		// 攻撃用の関数
@@ -175,11 +243,21 @@ void Mutant::Update(Transform* traget_pos, float target_r)
 
 		break;
 	}
+}
 
-	// アニメーションの再生
-	m_animation.Play_Animation(&m_model, m_combo_flag);
-	// あたり判定の更新処理
-	CDUpdate();
+
+//-----------------------------------------------
+// 死んだときの更新処理
+//-----------------------------------------------
+void Mutant::DieUpdate()
+{
+	// 死んだアニメーションが追わないように
+	// 一定のところまで進んだら
+	if (m_animation.m_contexts[0].play_time >= 260)
+	{
+		// 少し前に戻す
+		m_animation.m_contexts[0].play_time = 200;
+	}
 }
 
 //-----------------------------------------------
@@ -222,10 +300,10 @@ void Mutant::CDUpdate()
 
 
 	// 攻撃時の当たり当たり判定の保存
-	SetHitDamage(m_left_hand, 50, (attack_1));
-	SetHitDamage(m_right_hand, 50, (attack_2));
-	SetHitDamage(m_right_hand, 50, (attack_3));
-	SetHitDamage(m_right_hand, 50, (attack_4));
+	SetHitDamage(m_left_hand, 50,   (attack_punch_1));
+	SetHitDamage(m_right_hand, 50, (attack_punch_2));
+	SetHitDamage(m_right_hand, 50, (attack_punch_3));
+	SetHitDamage(m_right_hand, 50, (attack_punch_4));
 	SetHitDamage(m_body, 50, (attack_rolling));
 	SetHitDamage(m_body, 50, (attack_jump));
 
@@ -254,8 +332,7 @@ void Mutant::Status_Bar_Init()
 //-----------------------------------------------
 void Mutant::Status_Bar_Draw()
 {
-	// HPの値が減ったかどうか
-	m_hp.Update(&m_hp_value);
+	
 	//===================
 	// UIの描画
 	//===================
@@ -277,6 +354,40 @@ void Mutant::SetHitTimeInit()
 	SetHitTime(attack_frame[attack_jump].start_frame, attack_frame[attack_jump].end_frame, attack_jump);
 }
 
+
+//-----------------------------------------------
+// フラグ管理用関数
+// この関数がないと色々なバグが出る
+//-----------------------------------------------
+void Mutant::MonsterMode(int mode)
+{
+	switch (mode)
+	{
+	case IDLE:
+		m_idle_flag = true;
+		m_run_flag = false;
+		m_attack_flag = false;
+		break;
+	case RUN:
+		m_idle_flag = false;
+		m_run_flag = true;
+		m_attack_flag = false;
+
+		break;
+	case ATTACK:
+
+		m_idle_flag = false;
+		m_run_flag = false;
+		m_attack_flag = true;
+		break;
+	case DIE:
+		m_idle_flag = false;
+		m_run_flag = false;
+		m_attack_flag = false;
+		break;
+	}
+}
+
 //-----------------------------------------------
 // アニメーションの初期処理
 //-----------------------------------------------
@@ -287,6 +398,7 @@ void Mutant::Anima_Load_Init()
 	// アニメーションの読み込み
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
 
 	// もっとモンスターっぽい攻撃を探してこい
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/Punch1.mv1", attack_1, 0, 1.0f); //!< 攻撃１

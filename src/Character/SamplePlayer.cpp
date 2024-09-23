@@ -85,28 +85,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 	// HPの値が減ったかどうか
 	m_hp.Update(&m_hp_value);
 
-	// プレイヤーのHPが０より多いい時
-	if (m_hp_value > 0)
-	{
-		// 生きてる
-		m_life_and_death = alive;
-	}
-	else // それ以外の時
-	{
-
-		// 死んだ
-		m_life_and_death = die;
-		// プレイヤーの状態をにDIE変更
-		m_player_mode = DIE;
-		// アニメーションの切り替えフラグを上げる
-		m_animation.m_anim_change_flag = true;
-		// 死んだアニメーションをつける
-		if (m_animation.Change_Flag(m_idle_flag))
-		{
-			// アニメーションを停止に変更する
-			m_animation.Change_Animation(&m_model, die, true);
-		}
-	}
+	
 
 	// 生きてるか死んでるかで処理を変える
 	switch (m_life_and_death)
@@ -114,6 +93,30 @@ void SamplePlayer::Update(Vector3* camera_rot)
 	case alive: // 生きてる時の処理
 
 		LiveUpdate(camera_rot);
+		// プレイヤーのHPが０より多いい時
+		if (m_hp_value > 0)
+		{
+			// 生きてる
+			m_life_and_death = alive;
+		}
+		else // それ以外の時
+		{
+
+			// 死んだ
+			m_life_and_death = die;
+			// プレイヤーの状態をにDIE変更
+			m_player_mode = DIE;
+			// アニメーションの切り替えフラグを上げる
+			m_animation.m_anim_change_flag = true;
+			m_idle_flag = true;
+			// 死んだアニメーションをつける
+			if (m_animation.Change_Flag(m_idle_flag))
+			{
+				// アニメーションを停止に変更する
+				m_animation.Change_Animation(&m_model, die, true);
+			}
+		}
+
 		break;
 
 	case die: // 死んだときの処理
@@ -132,7 +135,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 	CDUpdate();
 
 	// フラグ管理用関数
-	Player_Mode(m_player_mode);
+	PlayerMode(m_player_mode);
 
 	// 地面に埋まってしまった時のための処理
 	if (m_transform.pos.y <= 0)
@@ -291,10 +294,10 @@ void SamplePlayer::CDUpdate()
 	m_left_feet.CreateNodoCapsule(&m_model, 55, 57, 2.0f);
 
 
-	// 攻撃時の当たり当たり判定の保存
-	SetHitDamage(m_left_hand, 20, (attack_punch_1));
-	SetHitDamage(m_right_hand, 20, (attack_punch_2));
-	SetHitDamage(m_right_hand, 20, (attack_punch_3));
+	// 攻撃時の当たり当た判定の保存とダメージの設定
+	SetHitDamage(m_left_hand, 500, (attack_punch_1));
+	SetHitDamage(m_right_hand,500, (attack_punch_2));
+	SetHitDamage(m_right_hand, 500, (attack_punch_3));
 	SetHitDamage(m_right_feet, 20, (attack_kick_1));
 	SetHitDamage(m_left_feet, 20, (attack_kick_2));
 	SetHitDamage(m_right_feet, 40, (attack_kick_3));
@@ -407,7 +410,7 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 // フラグ管理用関数
 // この関数がないと色々なバグが出る
 //-----------------------------------------------
-void SamplePlayer::Player_Mode(int mode)
+void SamplePlayer::PlayerMode(int mode)
 {
 	switch (mode)
 	{
