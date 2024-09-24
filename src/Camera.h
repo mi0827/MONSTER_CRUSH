@@ -19,11 +19,30 @@ public:
 	// プレイヤーの情報を受け取る形にします
 	// 今回はプレイヤーのｎ後ろにカメラをお嫌いの出
 	// プレイヤーの座標と向きを受け取れるようにします
-	void Update(Vector3* player_pos); // 更新処理
-	void Hit_Object(Vector3* obj_pos, Vector3* obj_size); // カメラが壁に埋まらないようにする
-	void Draw_Set();                  // 描画処理の前にカメラ、画面のセット
-	void Draw();		              // 画処理
-	void Exit();		              // 終了処理
+	//! @brief 更新処理
+	//! @param 移したい目標の座標
+	void Update(Vector3* target_pos); 
+	//! @brief カメラが壁に埋まらないようにする
+	void Hit_Object(Vector3* obj_pos, Vector3* obj_size); 
+	//! @brief 描画処理の前にカメラ、画面のセット
+	void Draw_Set();             
+	//! @brief 描画処理
+	void Draw();		              
+	//! @brief 終了処理
+	void Exit();		  
+
+	//! @brief 移したい目標をまわるようにカメラの移動処理
+	//! @param 移したいターゲット
+	//! @param 振り向きたい向き(1 : 右, 2 : 左)
+	//! @param 移動させたい向き
+	void MoveCamera(Vector3* target_pos,int direction, float speed);
+
+	enum Direction
+	{
+		right , // 右
+		left,   // 左
+	};
+
 
 	//---------------
 	// 変数の定義

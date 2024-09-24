@@ -54,7 +54,8 @@ void QuestAreaScene::Init()
 	player->Init();
 	// ƒvƒŒƒCƒ„[‚ÌÀ•W‚ÌÝ’è
 	player->SetCharacterPos({ 0.0f, 0.0f,250.0f });
-
+	// ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ÌÝ’è
+	player->SetCharacterRot({ 0.0f,-180.0f,0.0f });
 
 	// Žó•tì‚Ì‰ŠúÝ’è
 	receptionist.Init();
@@ -120,25 +121,36 @@ void QuestAreaScene::Update()
 			// ˜b‚µ‚Ä‚¢‚¢ƒGƒŠƒA‚É“ü‚Á‚Ä‚¢‚È‚¢‚Æ•`‰æ‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
 			if (m_area_hit)
 			{
+				// ƒJƒƒ‰‚Ì‰æŠp“à‰Ò“­‚©‚É‚æ‚Á‚Ä•`‰æ‚µ‚È‚¢
+				// ‰æŠp“à
 				if (pos.z > 0.0f && pos.z < 1.0f)
 				{
+					// •`‰æ‚·‚é
 					m_text[i].draw_flag = true;
 				}
-				else
+				else // ‰æ–Ê‚ª‚¢
 				{
+					// •`‰æ‚µ‚È‚¢
 					m_text[i].draw_flag = false;
 				}
 			}
+			else // ”ÍˆÍ‚ª‚¢‚Å‚à•`‰æ‚Å‚«‚È‚¢
+			{
+				m_text[i].draw_flag = false;
+			}
 		
 		}
-		else
+		else // Žw’è‚ÌƒeƒLƒXƒgˆÈŠO‚Í
 		{
+			// ƒJƒƒ‰‚Ì‰æŠp“à‰Ò“­‚©‚É‚æ‚Á‚Ä•`‰æ‚µ‚È‚¢
 			if (pos.z > 0.0f && pos.z < 1.0f)
 			{
+				// •`‰æ‚·‚é
 				m_text[i].draw_flag = true;
 			}
 			else
 			{
+				// •`‰æ‚µ‚È‚¢
 				m_text[i].draw_flag = false;
 			}
 
@@ -215,7 +227,7 @@ void QuestAreaScene::Draw()
 
 
 	// ƒGƒŠƒA‚ð•`‰æi‰¼Œã‚ÅÁ‚·j
-	m_area.Draw();
+	// m_area.Draw();
 
 
 	// ‰¼‚ÌƒtƒHƒ“ƒg‚Ì•`‰æ

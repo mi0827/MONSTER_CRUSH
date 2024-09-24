@@ -154,7 +154,7 @@ void TitleScene::Draw()
 
 
 	// ‚©‚è‚Ì•Ç‚ð•`‰æ
-	m_area_box[next_scene].Draw(255, 255);
+	//m_area_box[next_scene].Draw(255, 255);
 
 	//=============================================
 	// ‰¼‚Åƒ^ƒCƒgƒ‹‚ð•`‰æ

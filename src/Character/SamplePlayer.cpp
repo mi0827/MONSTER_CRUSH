@@ -243,15 +243,15 @@ void SamplePlayer::Draw()
 	// ƒJƒvƒZƒ‹‚Ì•`‰æi‰¼jiŒã‚ÅÁ‚·j
 	//===================
 	// UŒ‚ƒtƒ‰ƒO‚ð‚ª—§‚Á‚Ä‚¢‚½‚ç
-	if (m_attack_flag)
-	{
-		// UŒ‚‚Ì“–‚½‚è”»’ès‚Á‚Ä‚¢‚¢‚Æ‚«‚¾‚¯
-		if (AttackHitGoodTiming(m_now_attack))
-		{
-			// “–‚½‚è”»’è‚ð•`‰æ
-			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-		}
-	}
+	//if (m_attack_flag)
+	//{
+	//	// UŒ‚‚Ì“–‚½‚è”»’ès‚Á‚Ä‚¢‚¢‚Æ‚«‚¾‚¯
+	//	if (AttackHitGoodTiming(m_now_attack))
+	//	{
+	//		// “–‚½‚è”»’è‚ð•`‰æ
+	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+	//	}
+	//}
 
 
 	//m_body.Draw();

@@ -55,11 +55,11 @@ void Camera::PlayField_Init()
 //---------------------------------------------------------------------------------
 //	更新処理
 //---------------------------------------------------------------------------------
-void Camera::Update(Vector3* player_pos)
+void Camera::Update(Vector3* target_pos)
 {
 	m_before_pos.set(m_pos); //< 移動前の座標の設定
 	// プレイヤーの後ろに付いて動く
-	m_look.set(player_pos->x, player_pos->y + 5.0f, player_pos->z);
+	m_look.set(target_pos->x, target_pos->y + 5.0f, target_pos->z);
 	// マウスの移動量
 	m_mouse_move_x = (float)GetMouseMoveX();
 	m_mouse_move_y = (float)GetMouseMoveY();
@@ -168,4 +168,41 @@ void Camera::Draw()
 //---------------------------------------------------------------------------------
 void Camera::Exit()
 {
+}
+
+//---------------------------------------------------------------------------------
+//	移したい目標をまわるようにカメラの移動処理
+//---------------------------------------------------------------------------------
+void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
+{
+	// プレイヤーの後ろに付いて動く
+	m_look.set(target_pos->x, target_pos->y + 5.0f, target_pos->z);
+	
+	if (direction == 0)
+	{
+		m_rot.y -= speed;
+	}
+	else // 左周り
+	{
+		m_rot.y += speed;
+	}
+	
+	// まずは回転前のベクトルを用意します
+	// カメラが見るプレイヤー方向のベクトルを作成します
+	VECTOR base_dir = VGet(0.0f, 0.0f, -CAMERA_LENGTH);
+
+	// 行列を用意します
+	// X軸回転行列
+	MATRIX mat_x = MGetRotX(TO_RADIAN(m_rot.x));
+	// Y軸回転行列
+	MATRIX mat_y = MGetRotY(TO_RADIAN(m_rot.y));
+
+	// X軸回転とY軸回転をさせたいので２つの行列を１個にまとめます
+	MATRIX mat = MMult(mat_x, mat_y);
+	// 元のベクトルをＸ軸回転とＹ軸回転させます
+	// 簡単に言ったら一定の距離の棒を作っている
+	VECTOR change_dir = VTransform(base_dir, mat);
+
+	// カメラの位置を見ている座標から一定の位置に再設定
+	m_pos = m_look + change_dir;
 }

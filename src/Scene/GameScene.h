@@ -8,22 +8,26 @@ public:
 
 	
 
-
+	//! @brief コンストラクタ
 	GameScene();
-	 ~GameScene();
+	//! @brief デストラクタ
+	~GameScene();
 
-	 //! ゲームシーンにだけ使う初期処理
-	 void GameSceneInit();
+	//! ゲームシーンにだけ使う初期処理
+	void GameSceneInit();
 
-	
-
-	 //! @brief 初期処理
+	//! @brief 初期処理
 	void Init()override;
 
 	//! @brief 更新処理
 	//! @param BGMの音量
 	//! @param SEの音量
 	void Update()override;
+
+	// バトルの更新処理
+	void GameUpdate();
+	// バトル場面が終わったときの処理
+	void EndUpdate();
 
 	//! @brief  描画処理
 	void Draw()override;
@@ -42,10 +46,10 @@ public:
 
 	// ライトの初期化
 	void LightInit();
-	
+
 	//! @brief フィールドとキャラクターとの当たり判定
 	void HitField()override;
-	
+
 	//! @brief キャラクターの初期処理
 	void Character_Init();
 
@@ -66,32 +70,26 @@ public:
 	//void Ready_Draw();
 	// エンドでの描画処理
 	//void End_Draw();
-
 	// 攻撃のあたり判定を行う関数
 	//void Attack_Hit(int player1, int player2);
 	// ガードの当たり判定
 	// void Block_Hit(int player1, int player2);
 	// キャラクターのステータス描画処理
 	// void Draw_Status();
-
 	// ゲームシーン
 	//enum play_scene
 	//{
 	//	Play_Tutorial, // チュートリアルシーン
 	//	Play_Main,     // ゲームメインシーン
 	//	Play_End,      // プレイENDシーン
-
 	//	Play_Max       // プレイシーンの最大
 	//};
-
 	// SE
 	//enum play_se
 	//{
 	//	READY, // チュートリアルの準備完了
-
 	//	SE_MAX // SEの最大数
 	//};
-
 	// BGM
 	//enum BGM
 	//{
@@ -108,7 +106,7 @@ public:
 
 	//! プレイヤーキャラ用のオブジェクト
 	CharacterBase* player;
-	
+
 	//! モンスター用のオブジェクト
 	MonsterBase* monster;
 
@@ -119,5 +117,37 @@ public:
 
 	// フィールドオブジェクト
 	Field field;
+
+	//=================
+	// カメラの回転に関しての変数
+	//! カメラの移動スピード
+	static constexpr float CAMERA_ROT_SPEED = 2.0f;
+	//! カメラの回転する方向
+	static constexpr int CAMERA_DIRECTIN_RIGHT = 0; // 右回転
+	static constexpr int CAMERA_DIRECTIN_FLET = 1;   // 左回転
+	// どちらが死んだかをわかりやすく管理
+	enum Ditection
+	{
+		player_die,   // プレイヤーが死んだとき
+		monster_die // モンスターが死んだとき
+	};
+	 // 誰が死んだかを保存するためのもの
+	int m_who_died; 
+	//=================
 	
+	//==========================
+	// バトルシーンかそうでないかに関しての変数
+	// どのシーンかをわかりやすく保存
+	enum WhatScene
+	{
+		battle, // バトル場面
+		result, // バトルが終わった後の場面
+	};
+	//! どのバトルシーンかを保存するためのもの
+	int m_what_scene = battle; //!< 最初はバトルシーンから始める(今後変更予定)
+	
+	//! 一秒あたりのフレームの数
+	static constexpr int ONE_SECOND_FLAME = 60;
+	int m_count_flame = 0; // フレームカウント用の変数 
+	int m_count_time = 0;  // フレームから実際の時間を割り出して入れる用の時間
 };

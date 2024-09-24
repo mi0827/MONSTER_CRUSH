@@ -77,7 +77,9 @@ void Receptionist::Draw()
 {
 	// モデルの描画
 	m_model.DrawModel(&m_transform);
-	m_hit_body.Draw();
+
+	// ボディーの当たり判定の描画
+	//m_hit_body.Draw();
 }
 
 //---------------------------------------------------------------------------

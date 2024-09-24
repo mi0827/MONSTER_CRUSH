@@ -105,36 +105,100 @@ void GameScene::Update()
 {
 	// キャラクターの更新処理
 	CharacterUpdate();
-	
+
 	// フィールドとの当たり判定
 	// 一旦当たり判定を切っておく
 	HitField();
 
-	// カメラの更新処理
-	camera.Update(&player->m_transform.pos);
+	// ゲームシーンの中でどの場面かによって処理を変える
+	switch (m_what_scene)
+	{
+	case battle: // バトルシーン
+		GameUpdate();
+		break;
+
+	case result: // バトルシーンの後
+		EndUpdate();
+		break;
+
+	}
+
 
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
 	{
 		m_scene_change_judge = true;
 	}
-	else
+	
+
+
+
+
+}
+
+//---------------------------------------------------------------------------
+// バトルシーンでの処理
+//---------------------------------------------------------------------------
+void GameScene::GameUpdate()
+{
+	// カメラの更新処理
+	camera.Update(&player->m_transform.pos);
+	// プレイヤーのHPが０になったら
+	if (player->m_hp_value <= 0)
 	{
-		m_scene_change_judge = false;
+		// プレイヤーの死亡を知らせる
+		m_who_died = player_die;
+		// バトルが終わったころを知らせる
+		m_what_scene = result;
+	}
+	// モンスターのHPがゼロになったら
+	if (monster->m_hp_value <= 0)
+	{
+		m_scene_change_judge = true;
+		// モンスターの死亡を知らせる
+		m_who_died = monster_die;
+		// バトルが終わったころを知らせる
+		m_what_scene = result;
+	}
+}
+
+//---------------------------------------------------------------------------
+// バトルが終わったときの処理
+//---------------------------------------------------------------------------
+void GameScene::EndUpdate()
+{
+	// フレームのカウントを増やす
+	m_count_flame++;
+	// フレームが指定の値まで増えたら
+	if (m_count_flame >= ONE_SECOND_FLAME)
+	{
+		// タイマーを進める
+		m_count_time++;
+		 // カウントをリセット
+		m_count_flame = 0;
+	}
+	// タイマーが一定時間たったら(５秒)
+	if (m_count_time > 5)
+	{
+		// 次のシーンに移動する
+		m_scene_change_judge = true;
+	}
+	// どちらのモンスターが死んだかによって処理を変える
+	switch (m_who_died)
+	{
+
+	case player_die: // プレイヤーが死んだとき
+		// 右回転
+		camera.MoveCamera(&player->m_transform.pos, CAMERA_DIRECTIN_RIGHT, CAMERA_ROT_SPEED);
+		break;
+
+	case monster_die: // モンスターが死んだとき
+		// 左回転
+		camera.MoveCamera(&player->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
+		break;
+
 	}
 
-
-
-	//// プレイヤーのHPが０になったら
-	//if (player->m_hp_value <= 0)
-	//{
-	//	m_scene_change_judge = true;
-	//}
-	//// モンスターのHPがゼロになったら
-	//if (monster->m_hp_value <= 0)
-	//{
-	//	m_scene_change_judge = true;
-	//}
 }
 
 //---------------------------------------------------------------------------
@@ -203,7 +267,7 @@ void GameScene::Draw()
 	// ステータスバーの描画
 	StatusDraw();
 
-	
+
 }
 
 //---------------------------------------------------------------------------
@@ -300,7 +364,7 @@ void GameScene::CharacterUpdate()
 	// モンスターの更新処理
 	monster->Update(&player->m_transform, player->m_hit_r);
 
-	
+
 
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))
@@ -333,7 +397,7 @@ void GameScene::AttackUpdate()
 				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 				Damage_Count(player->m_attack_hit_damage[player->m_now_attack]->attack_damage, 5, &monster->m_hp_value);
 			}
-			
+
 		}
 	}
 
