@@ -6,6 +6,13 @@ class EndScene : public Scene_Base
 {
 	//int effeckt_h;
 public:
+
+	//! コンストラクタ
+	EndScene();
+	//! デストラクタ
+	~EndScene();
+
+
 	// 初期処理
 	void Init()override;
 

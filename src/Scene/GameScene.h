@@ -6,7 +6,7 @@ class GameScene :public Scene_Base
 {
 public:
 
-	
+
 
 	//! @brief コンストラクタ
 	GameScene();
@@ -58,6 +58,9 @@ public:
 
 	//! @brief キャラクターの攻撃に関しての更新処理
 	void AttackUpdate();
+
+	//! @brief 勝敗が付いたらそれを知らせるメッセージを描画するための関数
+	void VDMessage();
 
 	// タイマーの更新処理
 	// @param 時間をカウントするためのもの
@@ -111,7 +114,6 @@ public:
 	MonsterBase* monster;
 
 	//! 攻撃アクションの当たり判定用のオブジェクト
-	// このクラスをただの関数でもよかったけど中にbool 型の変数が一つあるのでクラスにした
 	Attack player_attack_hit;
 	Attack monster_attack_hit;
 
@@ -128,13 +130,15 @@ public:
 	// どちらが死んだかをわかりやすく管理
 	enum Ditection
 	{
-		player_die,   // プレイヤーが死んだとき
-		monster_die // モンスターが死んだとき
+		player_die,     // プレイヤーが死んだとき , 勝ち
+		monster_die,  // モンスターが死んだとき , 負け
+
+		max,
 	};
-	 // 誰が死んだかを保存するためのもの
-	int m_who_died; 
-	//=================
-	
+	// 誰が死んだかを保存するためのもの
+	int m_who_died;
+
+
 	//==========================
 	// バトルシーンかそうでないかに関しての変数
 	// どのシーンかをわかりやすく保存
@@ -145,9 +149,30 @@ public:
 	};
 	//! どのバトルシーンかを保存するためのもの
 	int m_what_scene = battle; //!< 最初はバトルシーンから始める(今後変更予定)
-	
 	//! 一秒あたりのフレームの数
 	static constexpr int ONE_SECOND_FLAME = 60;
 	int m_count_flame = 0; // フレームカウント用の変数 
 	int m_count_time = 0;  // フレームから実際の時間を割り出して入れる用の時間
+
+
+	// バトルが終わってからどれくらいの時間で次のシーンに移動するかの時間
+	static constexpr int CHANGE_TIME = 5;
+
+	//================================
+	//  バトルが終わった後に描画するメッセージに関する変数
+	struct Message
+	{
+		//! メッセージを入れる変数
+		const char* message;
+	};
+	Message m_massage[max]
+	{
+		{"QUEST : FAILURE"}, // 失敗
+		{ "QUEST : CLEAR" } // クリア
+		
+	};
+	//! メッセージの描画座標
+	Vector2 m_massage_pos{ 0.0f,0.0f };
+
+
 };

@@ -129,10 +129,6 @@ void GameScene::Update()
 	{
 		m_scene_change_judge = true;
 	}
-	
-
-
-
 
 }
 
@@ -154,7 +150,6 @@ void GameScene::GameUpdate()
 	// モンスターのHPがゼロになったら
 	if (monster->m_hp_value <= 0)
 	{
-		m_scene_change_judge = true;
 		// モンスターの死亡を知らせる
 		m_who_died = monster_die;
 		// バトルが終わったころを知らせる
@@ -174,11 +169,11 @@ void GameScene::EndUpdate()
 	{
 		// タイマーを進める
 		m_count_time++;
-		 // カウントをリセット
+		// カウントをリセット
 		m_count_flame = 0;
 	}
 	// タイマーが一定時間たったら(５秒)
-	if (m_count_time > 5)
+	if (m_count_time > CHANGE_TIME)
 	{
 		// 次のシーンに移動する
 		m_scene_change_judge = true;
@@ -267,6 +262,13 @@ void GameScene::Draw()
 	// ステータスバーの描画
 	StatusDraw();
 
+	// リザルトの時だけ描画する
+	if (m_what_scene == result)
+	{
+		// バトル後のメッセージの描画
+		VDMessage();
+	}
+	
 
 }
 
@@ -401,6 +403,8 @@ void GameScene::AttackUpdate()
 		}
 	}
 
+
+
 	//モンスターの攻撃
 	if (monster->m_attack_flag)
 	{
@@ -414,4 +418,30 @@ void GameScene::AttackUpdate()
 			Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);
 		}
 	}
+}
+
+
+//---------------------------------------------------------------------------
+// キャラクタ―の攻撃に関する更新処理
+// Victory(勝利)
+// Defeat(敗北)
+//---------------------------------------------------------------------------
+void GameScene::VDMessage()
+{
+
+	// フォントサイズの設定
+	// フォントのデフォルトサイズの保存
+	int default_font_size = GetFontSize();
+	// フォントサイズの設定
+	SetFontSize(80);
+	// 描画幅の取得
+	float w = GetDrawStringWidth(m_massage[m_who_died].message, -1);
+	// 文字列の高さの取得
+	float h = GetFontSize();
+	// 描画座標
+	m_massage_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h };
+	DrawString(m_massage_pos.x, m_massage_pos.y, m_massage[m_who_died].message, GetColor(255, 128, 50));
+
+	// フォントのサイズをデフォルトサイズに戻す
+	SetFontSize(default_font_size);
 }

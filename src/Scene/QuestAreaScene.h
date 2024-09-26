@@ -6,6 +6,11 @@ class QuestAreaScene : public Scene_Base
 {
 	//int effeckt_h;
 public:
+	//! コンストラクタ
+	QuestAreaScene();
+	//! デストラクタ
+	~QuestAreaScene();
+
 	//!  話せるようになる範囲の半径
 	static constexpr float AREA_FIELD_R = 15.0f;
 
