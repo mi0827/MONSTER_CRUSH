@@ -15,6 +15,7 @@
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
+#include "src/Hit/HitStop.h"
 
 #include "src/System/UIBar.h"
 
@@ -35,6 +36,8 @@
 #include "src/Action/Attack.h"
 
 #include "src/Camera.h"
+
+
 
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/GameScene.h"
@@ -103,8 +106,13 @@ void GameScene::Init()
 //---------------------------------------------------------------------------
 void GameScene::Update()
 {
-	// キャラクターの更新処理
-	CharacterUpdate();
+	// ヒットストップが起こってほしいときいがい
+	if (hit_stop.Hit_Stop() == false)
+	{
+		// キャラクターの更新処理
+		CharacterUpdate();
+	}
+	
 
 	// フィールドとの当たり判定
 	// 一旦当たり判定を切っておく
@@ -398,6 +406,9 @@ void GameScene::AttackUpdate()
 			{
 				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 				Damage_Count(player->m_attack_hit_damage[player->m_now_attack]->attack_damage, 5, &monster->m_hp_value);
+			 
+				
+			
 			}
 
 		}
@@ -416,6 +427,9 @@ void GameScene::AttackUpdate()
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
 			Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);
+		
+			// ダメージが入ったタイミングでヒットストップのカウントをリセットする
+			hit_stop.Stop_Count_Reset();
 		}
 	}
 }

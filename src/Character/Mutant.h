@@ -90,7 +90,11 @@ public:
 	
 	};
 
-
+	// 各攻撃のダメージ
+	int m_attack_damage[attack_max]
+	{
+		10,20,20,20,20,20
+	};
 
 	//! モンスターの状態
 	enum MonsterMode

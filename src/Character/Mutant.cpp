@@ -267,9 +267,9 @@ void Mutant::Draw()
 {
 	//attack_hit_damage[m_now_attack].attack_hit.Draw();
 	// カプセルの描画(当たり判定)
-	/*m_body.Draw();
+	m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();*/
+	m_right_hand.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -300,12 +300,12 @@ void Mutant::CDUpdate()
 
 
 	// 攻撃時の当たり当たり判定の保存
-	SetHitDamage(m_left_hand, 50,   (attack_punch_1));
-	SetHitDamage(m_right_hand, 50, (attack_punch_2));
-	SetHitDamage(m_right_hand, 50, (attack_punch_3));
-	SetHitDamage(m_right_hand, 50, (attack_punch_4));
-	SetHitDamage(m_body, 50, (attack_rolling));
-	SetHitDamage(m_body, 50, (attack_jump));
+	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_2], (attack_punch_2));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_3], (attack_punch_3));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_4], (attack_punch_4));
+	SetHitDamage(m_body, m_attack_damage[attack_rolling], (attack_rolling));
+	SetHitDamage(m_body, m_attack_damage[attack_jump], (attack_jump));
 
 
 }
@@ -460,7 +460,10 @@ void Mutant::Attack_First()
 	}
 	// 攻撃モードにしておく
 	m_monster_mode = ATTACK;
-	m_animation.Change_Animation(&m_model, attack_1, false);
+	// 最初の攻撃もランダムに設定する
+	// 攻撃アニメーション以外を排除しておく
+	int attack = GetRand(attack_rolling) + ATTACK_ANIM_START;
+	m_animation.Change_Animation(&m_model, attack, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack_1;
 
@@ -541,14 +544,15 @@ void Mutant::Jump_Update()
 		// 降下スピードをリセット
 		m_down_speed = JUMP_DOWN_SPEED;
 
-
-		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
-		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
-		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
-
-
-		// ジャンプフラグを下げる
-		m_jump_flag = false; // 落ちる処理へ
+		// フラグが立っている時かつ地面につくアニメーションの時
+		if (m_jump_flag&& m_animation.m_contexts[0].play_time >= 140.0f)
+		{
+			// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
+			m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
+			m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
+			// ジャンプフラグを下げる
+			m_jump_flag = false; // 落ちる処理へ
+		}
 	}
 	//switch (jump_num)
 	//{

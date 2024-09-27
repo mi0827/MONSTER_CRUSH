@@ -13,6 +13,7 @@
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
+#include "src/Hit/HitStop.h"
 
 #include "src/System/Move.h"
 #include "src/System/TargetMove.h"

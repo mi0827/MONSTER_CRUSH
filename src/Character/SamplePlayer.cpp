@@ -254,11 +254,11 @@ void SamplePlayer::Draw()
 	//}
 
 
-	//m_body.Draw();
-	//m_right_hand.Draw();
-	//m_left_hand.Draw();
-	//m_right_feet.Draw();
-	//m_left_feet.Draw();
+	m_body.Draw();
+	m_right_hand.Draw();
+	m_left_hand.Draw();
+	m_right_feet.Draw();
+	m_left_feet.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 
@@ -285,22 +285,22 @@ void SamplePlayer::CDUpdate()
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	m_body.CreateNodoCapsule(&m_model, 6, 65, 3.5f);
 	// 右手のあたり判定
-	m_right_hand.CreateNodoCapsule(&m_model, 33, 34, 2.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 32, 46, 2.5f);
 	// 左手の当たり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 9, 10, 2.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 8, 22, 2.5f);
 	// 右足の当たり判定
-	m_right_feet.CreateNodoCapsule(&m_model, 60, 62, 2.0f);
+	m_right_feet.CreateNodoCapsule(&m_model, 60, 64, 2.5f);
 	// 左足の当たり判定
-	m_left_feet.CreateNodoCapsule(&m_model, 55, 57, 2.0f);
+	m_left_feet.CreateNodoCapsule(&m_model, 55, 59, 2.5f);
 
 
 	// 攻撃時の当たり当た判定の保存とダメージの設定
-	SetHitDamage(m_left_hand, 500, (attack_punch_1));
-	SetHitDamage(m_right_hand,500, (attack_punch_2));
-	SetHitDamage(m_right_hand, 500, (attack_punch_3));
-	SetHitDamage(m_right_feet, 20, (attack_kick_1));
-	SetHitDamage(m_left_feet, 20, (attack_kick_2));
-	SetHitDamage(m_right_feet, 40, (attack_kick_3));
+	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_2], (attack_punch_2));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_3], (attack_punch_3));
+	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_1], (attack_kick_1));
+	SetHitDamage(m_left_feet, m_attack_damage[attack_kick_2], (attack_kick_2));
+	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_3], (attack_kick_3));
 
 }
 
