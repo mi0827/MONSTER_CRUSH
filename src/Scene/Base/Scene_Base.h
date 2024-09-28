@@ -50,10 +50,17 @@ public:
 	//! @param 設定した座標からどれだけずらしたいかの値(デフォルトでずらさないように設定しておく)
 	VECTOR DrawStringWrold(Vector3 pos, Vector3 shift_pos = {0.0f,0.0f,0.0f});
 
-public:
-	const int FLAME_MAX = 60; // 一秒何フレームか
+	//! @brief 次に行いたいシーンをセットする関数
+	void SetNextScene(int next_scene);
 
-	bool m_scene_change_judge = false;  // シーンの切り替えを行っていいか (trueになったらシーンの切り替え可能)
+
+
+public:
+	//! 一秒何フレームかの変換用定数
+	const int FLAME_MAX = 60; 
+
+	//! シーンの切り替えを行っていいかフラグ (trueになったらシーンの切り替え可能)
+	bool m_scene_change_judge = false;  
 
 	//! プレイヤー用のシャドーマップ用変数
 	int m_player_shadowMap_handle = 0;
@@ -70,4 +77,22 @@ public:
 	int m_player_num = 0;
 	//! どのモンスターを使うかの番号を保存する
 	int m_monster_num = 0;
+
+
+
+	// すべてのシーン番号
+	enum Scene
+	{
+		Title,
+		QuestArea,
+		Battle,
+		End
+	};
+	
+
+	//! 現在のシーン
+	int m_now_scene;
+	//! 次に行いたいシーン
+	int m_next_scene;
+
 };

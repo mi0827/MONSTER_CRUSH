@@ -117,7 +117,7 @@ void GameUpdate()
 {
 	switch (scene_num)
 	{
-	case Titele: // タイトルシーン
+	case scene->Title: // タイトルシーン
 
 		scene->Update();
 		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
@@ -129,7 +129,7 @@ void GameUpdate()
 		}
 		break;
 
-	case QuestArea: // クエスト受注エリア
+	case scene->QuestArea: // クエスト受注エリア
 		scene->Update();
 		if (scene->m_scene_change_judge) {                              // シーンの切り替えの許可が下りれば
 			scene->Exit();                                            // dekete前に終了処理を回す
@@ -140,7 +140,7 @@ void GameUpdate()
 		}
 		break;
 
-	case Play:  // プレイシーン
+	case scene->Battle:  // プレイシーン(バトルシーン)
 		scene->Update();
 		if (scene->m_scene_change_judge) {                              // シーンの切り替えの許可が下りれば
 			scene->Exit();                                            // dekete前に終了処理を回す
@@ -150,7 +150,7 @@ void GameUpdate()
 			scene->Init();                                           // 次のシーンの初期処理もここで済ます
 		}
 		break;
-	case End:  // エンドシーン
+	case scene->End:  // エンドシーン
 		scene->Update();
 		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
 			scene->Exit();                                           // dekete前に終了処理を回す
