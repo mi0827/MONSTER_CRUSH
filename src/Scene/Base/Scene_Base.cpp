@@ -94,7 +94,8 @@ VECTOR Scene_Base::DrawStringWrold(Vector3 pos, Vector3 shift_pos)
 
 void Scene_Base::SetNextScene(int next_scene)
 {
+	// 次に行いたいシーンの保存
+	m_next_scene = next_scene;
 	// 次に行いたいシーンを現在のシーンに入れ替える
 	m_now_scene = next_scene; 
-
 }

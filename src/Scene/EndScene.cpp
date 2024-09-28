@@ -68,6 +68,9 @@ void EndScene::Init()
 
 	// シャドーマップの設定
 	ShadowMapInit();
+
+	// 現在のシーンの設定(エンドシーン)
+	m_now_scene = End;
 }
 
 
@@ -85,9 +88,25 @@ void EndScene::Update()
 	camera.Update(&player->m_transform.pos);
 
 
-	// Xキーを押された時にシーンの変更をする（今だけの仮）
+	// エンターを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
 	{
+		// 次に行ってほしいシーンの設定をする
+		SetNextScene(Title);
+		// 次のシーンに移動するためのフラグを立てる
+		m_scene_change_judge = true;
+	}
+	else
+	{
+		m_scene_change_judge = false;
+	}
+
+	// エンターを押された時にシーンの変更をする（今だけの仮）
+	if (PushHitKey(KEY_INPUT_RETURN)&& CheckHitKey(KEY_INPUT_LSHIFT))
+	{
+		// 次に行ってほしいシーンの設定をする
+		SetNextScene(QuestArea);
+		// 次のシーンに移動するためのフラグを立てる
 		m_scene_change_judge = true;
 	}
 	else

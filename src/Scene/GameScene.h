@@ -170,7 +170,7 @@ public:
 	};
 	Message m_massage[max]
 	{
-		{"QUEST : FAILURE"}, // é∏îs
+		{ "QUEST : FAILED"}, // é∏îs
 		{ "QUEST : CLEAR" } // ÉNÉäÉA
 		
 	};

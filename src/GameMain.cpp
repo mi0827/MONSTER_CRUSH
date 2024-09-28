@@ -65,17 +65,17 @@ int light_handle;
 
 //! ライトの座標用変数
 
-int scene_num = 0; // 今どのシーン名のを見る用の変数
-// 各シーンでの使い分けをするためのシーンの列挙隊
-enum Scene
-{
-	Titele, // タイトル
-	QuestArea, // クエスト受注シーン
-	Play,  // メインのプレイシーン
-	End,   // エンド
-
-	Scene_Max // シーンの最大数
-};
+//int scene_num = 0; // 今どのシーン名のを見る用の変数
+//// 各シーンでの使い分けをするためのシーンの列挙隊
+//enum Scene
+//{
+//	Titele, // タイトル
+//	QuestArea, // クエスト受注シーン
+//	Play,  // メインのプレイシーン
+//	End,   // エンド
+//
+//	Scene_Max // シーンの最大数
+//};
 
 
 //-------------------------------------------------------------
@@ -115,49 +115,78 @@ void GameInit()
 //-------------------------------------------------------------
 void GameUpdate()
 {
-	switch (scene_num)
+	switch (scene->m_now_scene)
 	{
 	case scene->Title: // タイトルシーン
 
 		scene->Update();
-		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
-			scene->Exit();                                           // dekete前に終了処理を回す
-			Scene_Change_Judge(scene_num, QuestArea);                     // シーンの切り替え
-			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
-			scene = new QuestAreaScene;                                   // 次のシーンをnewしておく
-			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		// シーンの変更フラグが立っていれば
+		if (scene->m_scene_change_judge) {  
+		    // 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
+			if (scene->m_next_scene == scene->QuestArea)
+			{
+				scene->Exit();              // delete前に終了処理を回す
+				delete scene;               // 現在のシーンの削除
+				scene = new QuestAreaScene; // 次のシーンをnewしておく
+				scene->Init();              // 次のシーンの初期処理もここで済ます
+			}
+			
 		}
 		break;
 
 	case scene->QuestArea: // クエスト受注エリア
 		scene->Update();
-		if (scene->m_scene_change_judge) {                              // シーンの切り替えの許可が下りれば
-			scene->Exit();                                            // dekete前に終了処理を回す
-			Scene_Change_Judge(scene_num, Play);  // シーンの切り替え	                                                        
-			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
-			scene = new GameScene;                                    // 次のシーンをnewしておく
-			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		// シーンの変更フラグが立っていれば
+		if (scene->m_scene_change_judge)          
+		{
+			// 次に行ってほしいシーンがバトルシーンだったら
+			if (scene->m_next_scene == scene->Battle)
+			{
+				scene->Exit();         // delete前に終了処理を回す
+				delete scene;          // 現在のシーンの削除
+				scene = new GameScene; // 次のシーンをnewしておく
+				scene->Init();         // 次のシーンの初期処理もここで済ます
+			}
 		}
 		break;
 
 	case scene->Battle:  // プレイシーン(バトルシーン)
 		scene->Update();
-		if (scene->m_scene_change_judge) {                              // シーンの切り替えの許可が下りれば
-			scene->Exit();                                            // dekete前に終了処理を回す
-			Scene_Change_Judge(scene_num, End);  // シーンの切り替え	                                                        
-			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
-			scene = new EndScene;                                    // 次のシーンをnewしておく
-			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		// シーンの変更フラグが立っていれば
+		if (scene->m_scene_change_judge)         
+		{
+			// 次に行ってほしいシーンがエンドシーンだったら
+			if (scene->m_next_scene == scene->End)
+			{
+				scene->Exit();        // delete前に終了処理を回す
+				delete scene;         // 現在のシーンの削除
+				scene = new EndScene; // 次のシーンをnewしておく
+				scene->Init();        // 次のシーンの初期処理もここで済ます
+			}
 		}
 		break;
+
 	case scene->End:  // エンドシーン
 		scene->Update();
-		if (scene->m_scene_change_judge) {                             // シーンの切り替えの許可が下りれば
-			scene->Exit();                                           // dekete前に終了処理を回す
-			Scene_Change_Judge(scene_num, Titele);                   // シーンの切り替え
-			delete scene;                                            // シーンの切り替えの前にタイトルシーンを初期化
-			scene = new TitleScene;                                 // 次のシーンをnewしておく
-			scene->Init();                                           // 次のシーンの初期処理もここで済ます
+		// シーンの変更フラグが立っていれば
+		if (scene->m_scene_change_judge)                           
+		{
+			// 次に行ってほしいシーンがタイトルシーンだったら
+			if (scene->m_next_scene == scene->Title)
+			{
+				scene->Exit();             // delete前に終了処理を回す
+				delete scene;              // 現在のシーンの削除
+				scene = new TitleScene;    // 次のシーンをnewしておく
+				scene->Init();             // 次のシーンの初期処理もここで済ます
+			}
+			// 次に行ってほしいシーンがクエスト受注シーンだったら　
+			if (scene->m_next_scene == scene->QuestArea)
+			{
+				scene->Exit();              // delete前に終了処理を回す
+				delete scene;               // 現在のシーンの削除
+				scene = new QuestAreaScene; // 次のシーンをnewしておく
+				scene->Init();              // 次のシーンの初期処理もここで済ます
+			}
 		}
 		break;
 	}
@@ -194,7 +223,9 @@ void GameExit()
 
 	// シーンの終了処理
 	scene->Exit();
-
+     
+	// シーンベースクラスの削除
+	delete scene;
 	// ライトの削除
 	//DeleteLightHandle(light_handle);
 

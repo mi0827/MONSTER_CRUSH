@@ -78,6 +78,9 @@ void QuestAreaScene::Init()
 	InitArea();
 	// シャドーマップの設定
 	ShadowMapInit();
+	// 現在のシーンの設定(クエスト受注シーン)
+	m_now_scene = QuestArea;
+
 }
 
 
@@ -107,6 +110,8 @@ void QuestAreaScene::Update()
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_F))
 		{
+			// 次に行ってほしいシーンに移動(バトルシーン)
+			SetNextScene(Battle);
 			m_scene_change_judge = true;
 		}
 		// 話せるエリアに入ったからフラグを上げる

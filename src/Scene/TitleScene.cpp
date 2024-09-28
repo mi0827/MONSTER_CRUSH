@@ -61,6 +61,8 @@ void TitleScene::Init()
 	// AreaBOXの設定
 	SetAeraBoxSet();
 
+	// 現在のシーンの設定(タイトルシーン)
+	m_now_scene = Title;
 }
 
 //------------------------------------------
@@ -81,6 +83,9 @@ void TitleScene::Update()
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
 	{
+		// 次に行ってほしいシーンに移動
+		SetNextScene(QuestArea);
+		// シーン変更フラグを立てる
 		m_scene_change_judge = true;
 	}
 	
@@ -90,7 +95,9 @@ void TitleScene::Update()
 	if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
 		m_area_box[next_scene].m_box.hit_pos, m_area_box[next_scene].m_box.half_size))
 	{
-
+		// 次に行ってほしいシーンに移動
+		SetNextScene(QuestArea);
+		// シーン変更フラグを立てる
 		m_scene_change_judge = true;
 	}
 	

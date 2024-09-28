@@ -48,19 +48,20 @@ public:
 	//! @brief スクリーン座標に文字を描画するための座標を設定する関数
 	//! @param 設定したい座標
 	//! @param 設定した座標からどれだけずらしたいかの値(デフォルトでずらさないように設定しておく)
-	VECTOR DrawStringWrold(Vector3 pos, Vector3 shift_pos = {0.0f,0.0f,0.0f});
+	VECTOR DrawStringWrold(Vector3 pos, Vector3 shift_pos = { 0.0f,0.0f,0.0f });
 
 	//! @brief 次に行いたいシーンをセットする関数
+	//! @param 次に行いたいシーン番号
 	void SetNextScene(int next_scene);
 
 
 
 public:
 	//! 一秒何フレームかの変換用定数
-	const int FLAME_MAX = 60; 
+	const int FLAME_MAX = 60;
 
 	//! シーンの切り替えを行っていいかフラグ (trueになったらシーンの切り替え可能)
-	bool m_scene_change_judge = false;  
+	bool m_scene_change_judge = false;
 
 	//! プレイヤー用のシャドーマップ用変数
 	int m_player_shadowMap_handle = 0;
@@ -88,11 +89,11 @@ public:
 		Battle,
 		End
 	};
-	
+
 
 	//! 現在のシーン
-	int m_now_scene;
+	int m_now_scene = Title;
 	//! 次に行いたいシーン
-	int m_next_scene;
+	int m_next_scene = -1;
 
 };

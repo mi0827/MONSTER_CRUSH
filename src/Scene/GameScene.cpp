@@ -98,7 +98,8 @@ void GameScene::Init()
 
 	// シャドーマップの設定
 	ShadowMapInit();
-
+	// 現在のシーンの設定(バトルシーン)
+	m_now_scene = Battle;
 }
 
 //---------------------------------------------------------------------------
@@ -135,6 +136,9 @@ void GameScene::Update()
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
 	{
+		// 次に行ってほしいシーンの設定をする
+		SetNextScene(End);
+
 		m_scene_change_judge = true;
 	}
 
@@ -183,7 +187,9 @@ void GameScene::EndUpdate()
 	// タイマーが一定時間たったら(５秒)
 	if (m_count_time > CHANGE_TIME)
 	{
-		// 次のシーンに移動する
+		// 次に行ってほしいシーンの設定をする
+		SetNextScene(End);
+		// 次のシーンに移動するためのフラグを立てる
 		m_scene_change_judge = true;
 	}
 	// どちらのモンスターが死んだかによって処理を変える
