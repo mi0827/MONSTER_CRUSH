@@ -7,17 +7,7 @@
 class SamplePlayer :public CharacterBase
 {
 public:
-	//-----------------------------------------------
-	// 定数の宣言
-	//-----------------------------------------------
-	static constexpr float PLAYER_MOVE_SPEED = 2.0f;       //! プレイヤーの移動スピード
-	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
-	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
-	static constexpr int HP_MAX = 100;                               //! HPの最大値
-	static constexpr float PLAYER_HIT_R = 1.5;                         //! プレイヤーの円の当たり半径の半径
-	//----------------------------------------------- 
-	// 列挙体の宣言
-	//-----------------------------------------------
+
 public:
 	
 public:
@@ -72,19 +62,25 @@ public:
 	void PlayerMode(int mode) override;
 
 	//! @brief 攻撃開始かそうでないかを判断する関数
-	void Attack_First();
+	void AttackFirst();
 
 	//! @brief 攻撃用の関数
-	void Attack_Update();
+	void AttackUpdate();
 
 	//! @brief ローリングセット用の関数
-	void Set_Rolling();
+	void SetRolling();
 
 	//! @brief ローリングアクション用の関数（回避）
-	void Action_Rolling();
+	void ActionRolling();
 
 	//! @brief コンボ関数
-	void Combo_Update();
+	void ComboUpdate();
+
+	//! @brief 攻撃を受けたかをチェックするための関数
+	void CheckHitDamage();
+
+	//! @brief 攻撃を受けて時の処理
+	void HitDamageUpdate();
 
 public:
 	//! アニメーションの種類用の列挙体
@@ -94,6 +90,7 @@ public:
 		idle, //!< 待機
 		run, //!< 走り
 		rolling, //!< ローリング
+		hit_damage, //!< ダメージを受けた時
 		die,     //!< 倒された時
 		attack_anim_1,      //< 攻撃１
 		attack_anim_2,      //< 攻撃２
@@ -156,19 +153,6 @@ public:
 	};
 
 
-
-	//! プレイヤーの状態
-	enum PlayerMode
-	{
-		IDLE,      // 待機
-		RUN,       // 走り状態
-		ROLLING, // 回避
-		ATTACK,    // 攻撃
-		DIE        // 死亡
-	};
-
-
-
 	//------------------------------------------
 	// コンボ関連
 	//------------------------------------------
@@ -196,7 +180,17 @@ public:
 	// ステータス
 	//=================
 
-	// 防御力(とりあえず20)
-	static constexpr int M_DEFENSE = 20;
-
+	
+	//-----------------------------------------------
+// 定数の宣言
+//-----------------------------------------------
+	static constexpr float PLAYER_MOVE_SPEED = 2.0f;       //! プレイヤーの移動スピード
+	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
+	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
+	static constexpr float PLAYER_HIT_R = 1.5;                   //! プレイヤーの円の当たり半径の半径
+	static constexpr int HP_MAX = 100;                               //! HPの最大値
+	static constexpr int M_DEFENSE = 20;                           //! 防御力
+	//----------------------------------------------- 
+	// 列挙体の宣言
+	//-----------------------------------------------
 };

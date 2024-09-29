@@ -404,17 +404,16 @@ void GameScene::AttackUpdate()
 		// 詳しくは関数の中に書く
 
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
-		// 当たり判定がうまく一定ないのはこの関数の中身のせい
-		if (player_attack_hit.HitAttack(monster->m_body, player->m_attack_hit_damage[player->m_now_attack]->attack_hit, player->m_animation) == true)
+		int num = player->m_now_attack;
+		CharacterBase::Attack_Hit_Damage* ptr = player->m_attack_hit_damage[num];
+		if (player_attack_hit.HitAttack(monster->m_body, ptr->attack_hit, player->m_animation) == true)
 		{
 			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 			if (player->AttackHitGoodTiming(player->m_now_attack))
 			{
+			
 				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 				Damage_Count(player->m_attack_hit_damage[player->m_now_attack]->attack_damage, 5, &monster->m_hp_value);
-			 
-				
-			
 			}
 
 		}
@@ -430,6 +429,12 @@ void GameScene::AttackUpdate()
 		MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
 		if (monster_attack_hit.HitAttack(player->m_body, ptr->attack_hit, monster->m_animation) == true)
 		{
+			// プレイヤーの攻撃受けたフラグが下がっているとき
+			if (player->m_damage_flag == false)
+			{
+				// プレイヤーの攻撃受けたフラグを上げる
+				player->m_damage_flag = true;
+			}
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
 			Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);

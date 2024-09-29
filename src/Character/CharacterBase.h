@@ -30,11 +30,6 @@ public:
 	//! @brief 死んだときの更新処理 
 	virtual void DieUpdate() = 0;
 
-	//! @brief キャラの壁擦り判定用の関数
-	//! @param キャラの座標
-	//! @param 当たり判定相手のボックスの情報
-	void MoveHitUpdate(BoxCollision* box);
-
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 
@@ -52,10 +47,17 @@ public:
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
 
+
+
 	//! @brief プレイヤーの状態(フラグ)管理関数
     //! @param プレイヤーの状態
 	virtual void PlayerMode(int mode) = 0;
 
+
+	//! @brief キャラの壁擦り判定用の関数
+	//! @param キャラの座標
+	//! @param 当たり判定相手のボックスの情報
+	void MoveHitUpdate(BoxCollision* box);
 
 	//! @brief キャラクターの座標を設定する関数
 	//! @param 設定したい座標
@@ -198,6 +200,16 @@ public:
 	//! 生きてるかを保存するための変数
 	// 最初は生きてる状態から始める
 	int m_life_and_death = alive;
+	//! プレイヤーの状態
+	enum PlayerMode
+	{
+		IDLE,      // 待機
+		RUN,       // 走り状態
+		ROLLING, // 回避
+		ATTACK,    // 攻撃
+		HIT_DAMAGE, // 攻撃を受けた
+		DIE        // 死亡
+	};
 	//! アイドル状態かのフラグ
 	bool m_idle_flag = false;
 	//! 走っていい以下のフラグ
@@ -206,6 +218,12 @@ public:
 	bool m_rolling_flag = false;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
+	//! 攻撃を受けた時のフラグ
+	bool m_damage_flag = false;
+	//! 攻撃を受けた時のアニメーションを設定するための変数
+	//! なんかいもダメージを受けた時のアニメーションセットに入ってほしくないので作った
+	//! 本来はもっといい方法があると思う見つけたらそちらに変更
+	bool m_damage_anim_flag = false;
 	//! プレイヤーのモードを管理する変数
 	int m_player_mode = 0;
 	//! 今のアニメーション番号を保存する用の変数

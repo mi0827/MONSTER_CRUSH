@@ -82,16 +82,18 @@ void SamplePlayer::Init()
 //-----------------------------------------------
 void SamplePlayer::Update(Vector3* camera_rot)
 {
+
 	// HPの値が減ったかどうか
 	m_hp.Update(&m_hp_value);
 
-	
+
 
 	// 生きてるか死んでるかで処理を変える
 	switch (m_life_and_death)
 	{
 	case alive: // 生きてる時の処理
 
+		// 生きてる時の更新処理
 		LiveUpdate(camera_rot);
 		// プレイヤーのHPが０より多いい時
 		if (m_hp_value > 0)
@@ -101,16 +103,15 @@ void SamplePlayer::Update(Vector3* camera_rot)
 		}
 		else // それ以外の時
 		{
-
 			// 死んだ
 			m_life_and_death = die;
 			// プレイヤーの状態をにDIE変更
 			m_player_mode = DIE;
 			// アニメーションの切り替えフラグを上げる
 			m_animation.m_anim_change_flag = true;
-			m_idle_flag = true;
+
 			// 死んだアニメーションをつける
-			if (m_animation.Change_Flag(m_idle_flag))
+			if (m_animation.Change_Flag(true))
 			{
 				// アニメーションを停止に変更する
 				m_animation.Change_Animation(&m_model, die, true);
@@ -152,6 +153,8 @@ void SamplePlayer::Update(Vector3* camera_rot)
 void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 {
 
+	// プレイヤーが攻撃を受けたかのチェック
+	CheckHitDamage();
 
 	// 待機状態または走りの時だけｗ
 	// 移動処理
@@ -164,13 +167,15 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 
 	}
 	// ローリングの切り替え
-	Set_Rolling();
+	SetRolling();
 	switch (m_player_mode)
 	{
-	case IDLE:
+	case IDLE: // アイドルの時
 		if (m_idle_flag)
 		{
 			//Player_Mode(IDLE);
+			m_idle_flag = true;
+			
 			// アニメーション変更が可能な時に
 			if (m_animation.Change_Flag(m_idle_flag))
 			{
@@ -180,9 +185,9 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 			}
 		}
 		// 最初の攻撃を判断する
-		Attack_First();
+		AttackFirst();
 		break;
-	case RUN:
+	case RUN: // 移動中 
 		// 待機フラグを毎回リセット
 		m_idle_flag = false;
 		// run_flagfフラグがさっがたら
@@ -197,13 +202,13 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 		}
 
 		// 最初の攻撃を判断する
-		Attack_First();
+		AttackFirst();
 
 		break;
-	case ROLLING:
-		Action_Rolling();
+	case ROLLING: // ローリングアクションをしている時
+		ActionRolling();
 		break;
-	case ATTACK:
+	case ATTACK: // 攻撃を繰り出している時
 
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
@@ -213,7 +218,11 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 			m_player_mode = IDLE;
 		}
 		// 攻撃用の関数
-		Attack_Update();
+		AttackUpdate();
+		break;
+
+	case HIT_DAMAGE: // ダメージを受けた時
+		HitDamageUpdate();
 		break;
 	}
 }
@@ -360,6 +369,7 @@ void SamplePlayer::Anima_Load_Init()
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Idle.mv1", idle, 1, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Player/Animation/Player_Run.mv1", run, 1, 1.0f);   //!< 走り
 	m_animation.Load_Animation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 2.0f);     //!< ローリング
+	m_animation.Load_Animation("Data/Model/player/Animation/hit_damage.mv1", hit_damage, 1, 1.0f); //!< ダメージを食らった時
 	m_animation.Load_Animation("Data/Model/Player/Animation/die.mv1", die, 1, 1.0f);            //!< 死んだとき
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_anim_1, 1, 1.0f);  //!< 攻撃１
 	m_animation.Load_Animation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_anim_2, 1, 2.0f); //!< 攻撃２
@@ -431,10 +441,17 @@ void SamplePlayer::PlayerMode(int mode)
 		m_run_flag = false;
 		m_attack_flag = true;
 		break;
+	case HIT_DAMAGE:
+		m_idle_flag = false;
+		m_run_flag = false;
+		m_attack_flag = false;
+		m_damage_flag = true;
+		break;
 	case DIE:
 		m_idle_flag = false;
 		m_run_flag = false;
 		m_attack_flag = false;
+		m_damage_flag = false;
 		break;
 	}
 }
@@ -442,7 +459,7 @@ void SamplePlayer::PlayerMode(int mode)
 //-----------------------------------------------
 // 最初の攻撃を判断する
 //-----------------------------------------------
-void SamplePlayer::Attack_First()
+void SamplePlayer::AttackFirst()
 {
 	// 指定のマウスボタンが押されたら
 	if (PushMouseInput(MOUSE_INPUT_LEFT) /*& MOUSE_INPUT_LEFT*/)
@@ -500,20 +517,20 @@ void SamplePlayer::Attack_First()
 //-----------------------------------------------
 // 攻撃に関する更新処理
 //-----------------------------------------------
-void SamplePlayer::Attack_Update()
+void SamplePlayer::AttackUpdate()
 {
 	// コンボをしていいフラグがったている時だけ
 	if (m_stop_combo_flag)
 	{
 		// コンボ関数を呼ぶ
-		Combo_Update();
+		ComboUpdate();
 	}
 }
 
 //-----------------------------------------------
 // ローリングアクション用のキーが押されたかの判断用関数
 //-----------------------------------------------
-void SamplePlayer::Set_Rolling()
+void SamplePlayer::SetRolling()
 {
 	// if (m_player_mode != ROLLING) {}
 	// 指定のキーが押された時
@@ -527,7 +544,7 @@ void SamplePlayer::Set_Rolling()
 //-----------------------------------------------
 // ローリングアクション関する更新処理
 //-----------------------------------------------
-void SamplePlayer::Action_Rolling()
+void SamplePlayer::ActionRolling()
 {
 	// ローリングアニメーションのセット
 	// ローリングフラグが上がっていないとき
@@ -559,7 +576,7 @@ void SamplePlayer::Action_Rolling()
 //-----------------------------------------------
 // コンボの判断をする関数
 //-----------------------------------------------
-void SamplePlayer::Combo_Update()
+void SamplePlayer::ComboUpdate()
 {
 	// コンボ可能か判断用関数
 	// 指定のキー操作がされた場合
@@ -619,4 +636,53 @@ void SamplePlayer::Combo_Update()
 
 	}
 
+}
+
+//-----------------------------------------------
+// 攻撃を受けたかをチェックするための関数
+//-----------------------------------------------
+void SamplePlayer::CheckHitDamage()
+{
+	// ダメージを食らったフラグが立っていたら
+	if (m_damage_flag)
+	{
+		// プレイヤーの状態をダメージを受けた状態にする
+		m_player_mode = HIT_DAMAGE;
+		// アニメーションの切り替えフラグを上げる
+		m_animation.m_anim_change_flag = true;
+	}
+}
+
+//-----------------------------------------------
+// 攻撃を受けた時の処理
+//-----------------------------------------------
+void SamplePlayer::HitDamageUpdate()
+{
+	// 攻撃を受けた時かつ攻撃を受けた時のアニメーションが付いてないとき(フラグが下がってるとき)
+	if (m_damage_flag && m_damage_anim_flag == false)
+	{
+		// 攻撃を受けた時のアニメーションが付いたのでフラグを上げる
+		m_damage_anim_flag = true;
+		// ダメージアニメーションをつける
+		if (m_animation.Change_Flag(m_damage_anim_flag))
+		{
+			// アニメーションを停止に変更する
+			m_animation.Change_Animation(&m_model, hit_damage, true);
+
+		}
+	}
+
+	// ダメージを食らったアニメーションが終わりにかかったら
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 5)
+	{
+		// 一旦ここでフラグを下げておく
+		m_damage_flag = false;
+		// 攻撃を受けた時のアニメーションが終わるのでフラグを下げる
+		m_damage_anim_flag = false;
+		// プレイヤーのモードをIDLE状態にする
+		m_player_mode = IDLE;
+		// アイドル状態にしたいのでアイドルフラグを立てる
+		m_idle_flag = true;
+		m_animation.m_anim_change_flag = true;
+	}
 }
