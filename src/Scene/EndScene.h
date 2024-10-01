@@ -53,12 +53,32 @@ public:
 	};
 
 private:
-
-	// タイトル画面での切り替え用
-	enum Title_SCENES
+	//! 描画したいテキストを番号で管理
+	enum Text
 	{
-		TITLE, // タイトル画面
-		MOVIE, // 動画画面
+		// end_text,             // エンドシーンというのがわかりやすくする
+		return_title,          // タイトルシーンに移動する
+		return_qusetarea, // クエスト選択エリアに移動
+
+		text_max
+	};
+
+	//! 文字列を描画するための構造体
+	struct TextState
+	{
+		//! フォントサイズ
+		int font_size;
+		//! 文字列を保存するためのもの
+		const char* text;
+		//! 描画したい座標
+		Vector2 draw_pos;
+
+	};
+	//! 描画したい文字列の数分作成
+	TextState m_text[text_max]
+	{
+		{30,"LeftShift + Enter : クエスト受付エリアに移動", {350, 100}},
+		{30,"Enter : タイトルに移動", {370, 100}}
 	};
 
 	// 画面切り替え用の変数

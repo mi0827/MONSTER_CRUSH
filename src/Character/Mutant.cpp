@@ -401,12 +401,12 @@ void Mutant::Anima_Load_Init()
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< Ž€–S
 
 	// ‚à‚Á‚Æƒ‚ƒ“ƒXƒ^[‚Á‚Û‚¢UŒ‚‚ð’T‚µ‚Ä‚±‚¢
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Punch1.mv1", attack_1, 0, 1.0f); //!< UŒ‚‚P
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Punch2.mv1", attack_2, 0, 1.0f); //!< UŒ‚‚Q
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Punch3.mv1", attack_3, 0, 1.0f); //!< UŒ‚‚R
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Punch4.mv1", attack_4, 0, 1.0f); //!< UŒ‚‚S
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Rolling.mv1", rolling, 0, 1.0f); //!< ƒ[ƒŠƒ“ƒO
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/jump.mv1", jump, 0, 1.0f); //!< ƒWƒƒƒ“ƒv
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1, 0, 1.0f); //!< UŒ‚‚P
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch2.mv1", attack_2, 0, 1.0f); //!< UŒ‚‚Q
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch3.mv1", attack_3, 0, 1.0f); //!< UŒ‚‚R
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch4.mv1", attack_4, 0, 1.0f); //!< UŒ‚‚S
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling, 0, 1.0f); //!< ƒ[ƒŠƒ“ƒO
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/jump.mv1", jump, 0, 1.0f); //!< ƒWƒƒƒ“ƒv
 	// Å‰‚ÍƒfƒtƒHƒ‹ƒgƒAƒjƒ[ƒVƒ‡ƒ“‚ð‚Â‚¯‚Ä‚¨‚­
 	m_animation.Init_Attach_Animation(&m_model, idle, true);
 }

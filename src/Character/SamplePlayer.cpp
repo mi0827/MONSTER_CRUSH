@@ -160,28 +160,37 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true)
 	{
-		if (m_rolling_flag == false)
+		// ローリング処理中以外 かつ 敵からのダメージを食らったフラグが立ってなかったら
+		if (m_rolling_flag == false && m_damage_flag == false)
 		{
 			Move_Update(camera_rot);
 		}
 
 	}
-	// ローリングの切り替え
-	SetRolling();
+
+	// ダメージを食らったフラグが立っていなかったら
+	if (m_damage_flag == false)
+	{
+		// ローリングの切り替え
+		SetRolling();
+	}
+
+
+	// キャラクターの状態によって行動を変える
 	switch (m_player_mode)
 	{
 	case IDLE: // アイドルの時
 		if (m_idle_flag)
 		{
 			//Player_Mode(IDLE);
+			// アイドル状態なのでアイドルフラグを立てる
 			m_idle_flag = true;
-			
+
 			// アニメーション変更が可能な時に
 			if (m_animation.Change_Flag(m_idle_flag))
 			{
 				// アニメーションを停止に変更する
 				m_animation.Change_Animation(&m_model, idle, true);
-
 			}
 		}
 		// 最初の攻撃を判断する
@@ -207,6 +216,7 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 		break;
 	case ROLLING: // ローリングアクションをしている時
 		ActionRolling();
+
 		break;
 	case ATTACK: // 攻撃を繰り出している時
 
@@ -562,7 +572,8 @@ void SamplePlayer::ActionRolling()
 	m_transform.pos.x += PLAYER_ROLLING_SPEED * sinf(TO_RADIAN(m_transform.rot.y));
 
 	// ローリングアニメーションが終わったら(終わりだとうまく入らなかったから終わる少し前にした)
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 5)
+	// またはダメージを食らったフラグが上がったいたら
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10 || m_damage_flag )
 	{
 		// アニメーションのチェンジフラグを上げる
 		m_animation.m_anim_change_flag = true;
@@ -673,16 +684,17 @@ void SamplePlayer::HitDamageUpdate()
 	}
 
 	// ダメージを食らったアニメーションが終わりにかかったら
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 5)
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10)
 	{
-		// 一旦ここでフラグを下げておく
-		m_damage_flag = false;
+		// 一旦ここでダメージ受けたフラグを下げておく
+    	m_damage_flag = false;
 		// 攻撃を受けた時のアニメーションが終わるのでフラグを下げる
 		m_damage_anim_flag = false;
 		// プレイヤーのモードをIDLE状態にする
 		m_player_mode = IDLE;
 		// アイドル状態にしたいのでアイドルフラグを立てる
 		m_idle_flag = true;
+		// アニメーション変更フラグも立てておく
 		m_animation.m_anim_change_flag = true;
 	}
 }

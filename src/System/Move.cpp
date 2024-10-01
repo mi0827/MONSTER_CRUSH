@@ -60,43 +60,43 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	}
 
 	// WASDキーでプレイヤーの移動
-	
-	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W)) // 斜め右上への移動
+	// 右上移動
+	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W)) 
 	{
 		Move_Diagonally_Up_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
-	else
-    if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W)) // 斜め左上への移動
+	else //左上移動
+    if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W)) 
     {
 		Move_Diagonally_Up_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
     }
-	else
-	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S)) // 斜め右下への移動
+	else // 右下移動
+	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S)) 
 	{
 		Move_Oblique_Lower_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
-	else
-	if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S)) // 斜め左下への移動
+	else // 左下移動
+	if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S)) 
 	{
 		Move_Oblique_Lower_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
-	else
-	if (CheckHitKey(KEY_INPUT_W)) // 上移動
+	else // 上移動
+	if (CheckHitKey(KEY_INPUT_W))
 	{
 		Move_Front(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
-	else 
-	if (CheckHitKey(KEY_INPUT_S)) // 下移動
+	else // 下移動
+	if (CheckHitKey(KEY_INPUT_S))
 	{
 		Move_Dhindo(m_check_move, camera_rot, player_rot, player_pos,mov_speed);
 	}
-	else
-	if (CheckHitKey(KEY_INPUT_A)) // 左移動
+	else // 左移動
+	if (CheckHitKey(KEY_INPUT_A)) 
 	{
 		Move_Left(m_check_move, camera_rot, player_rot, player_pos,mov_speed);
 	}
-	else
-	if (CheckHitKey(KEY_INPUT_D)) // 右移動
+	else // 右移動
+	if (CheckHitKey(KEY_INPUT_D)) 
 	{
 		Move_Right(m_check_move, camera_rot, player_rot, player_pos,mov_speed);
 	}

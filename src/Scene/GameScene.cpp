@@ -197,13 +197,15 @@ void GameScene::EndUpdate()
 	{
 
 	case player_die: // プレイヤーが死んだとき
+		// プレイヤーを中心に
 		// 右回転
 		camera.MoveCamera(&player->m_transform.pos, CAMERA_DIRECTIN_RIGHT, CAMERA_ROT_SPEED);
 		break;
 
 	case monster_die: // モンスターが死んだとき
+	    // モンスターを中心に
 		// 左回転
-		camera.MoveCamera(&player->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
+		camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 		break;
 
 	}

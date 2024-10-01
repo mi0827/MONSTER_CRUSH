@@ -274,12 +274,8 @@ void QuestAreaScene::Draw()
 
 	}
 
-
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
-
-
-
 }
 
 //------------------------------------------
