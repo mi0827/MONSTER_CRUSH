@@ -24,9 +24,12 @@ public:
 	//! @param SEの音量
 	void Update()override;
 
-	// バトルの更新処理
+	//! @brief モンスターの登場演出
+	void EntryUpdate();
+
+	//! @brief バトルの更新処理
 	void GameUpdate();
-	// バトル場面が終わったときの処理
+	//! @brief バトル場面が終わったときの処理
 	void EndUpdate();
 
 	//! @brief  描画処理
@@ -62,46 +65,7 @@ public:
 	//! @brief 勝敗が付いたらそれを知らせるメッセージを描画するための関数
 	void VDMessage();
 
-	// タイマーの更新処理
-	// @param 時間をカウントするためのもの
-	//void Time_Update(int& time_count);
-	// タイマーの描画
-	//void Time_Draw();
-	// チュートリアルでの描画処理
-	// void Tutorial_Draw();
-	// 準備完了を描画させるだけの関数
-	//void Ready_Draw();
-	// エンドでの描画処理
-	//void End_Draw();
-	// 攻撃のあたり判定を行う関数
-	//void Attack_Hit(int player1, int player2);
-	// ガードの当たり判定
-	// void Block_Hit(int player1, int player2);
-	// キャラクターのステータス描画処理
-	// void Draw_Status();
-	// ゲームシーン
-	//enum play_scene
-	//{
-	//	Play_Tutorial, // チュートリアルシーン
-	//	Play_Main,     // ゲームメインシーン
-	//	Play_End,      // プレイENDシーン
-	//	Play_Max       // プレイシーンの最大
-	//};
-	// SE
-	//enum play_se
-	//{
-	//	READY, // チュートリアルの準備完了
-	//	SE_MAX // SEの最大数
-	//};
-	// BGM
-	//enum BGM
-	//{
-	//	TUTORIAL_BGM,  // チュートリアルのBGM
-	//	BATTLE_1_BGM,  // プレイメインのBGM１
-	//	BATTLE_2_BGM,  // プレイメインのBGM２
-	//	BATTLE_3_BGM,  // プレイメインのBGM３
-	//	BGM_MAX        // BGMの最大数
-	//};
+	
 public:
 
 	//! カメラクラスのオブジェクト
@@ -147,11 +111,13 @@ public:
 	// どのシーンかをわかりやすく保存
 	enum WhatScene
 	{
+		entry, // 登場演出(モンスター)
 		battle, // バトル場面
+		power_up, // パワーアップ(モンスター)
 		result, // バトルが終わった後の場面
 	};
 	//! どのバトルシーンかを保存するためのもの
-	int m_what_scene = battle; //!< 最初はバトルシーンから始める(今後変更予定)
+	int m_what_scene = entry; //!< 最初はバトルシーンから始める(今後変更予定)
 	//! 一秒あたりのフレームの数
 	static constexpr int ONE_SECOND_FLAME = 60;
 	int m_count_flame = 0; // フレームカウント用の変数 

@@ -29,12 +29,7 @@ SamplePlayer::SamplePlayer()
 	// 最初はアイドル状態にしておく
 	m_player_mode = IDLE;
 
-	// プレイヤーの初期座標
-	SetCharacterPos({ 100,0,100 });
-	// 向きの設定
-	SetCharacterRot({ 0,180.0f,0 });
-	// モデルのスケールの設定
-	m_transform.scale.set(0.1f, 0.1, 0.1);
+	
 	// 移動の際の当たり判定のサイズの設定
 	m_move_hit_size = { 3.0f,5.0f,3.0f };
 }
@@ -58,8 +53,14 @@ void SamplePlayer::Init()
 
 	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit(PLAYER_HIT_R, HP_MAX);
+
 	// プレイヤーの初期座標
-	m_transform.pos.set(100, 0, 100);
+	SetCharacterPos({ 170,0,170 });
+	// 向きの設定
+	SetCharacterRot({ 0,180.0f,0 });
+	// モデルのスケールの設定
+	m_transform.scale.set(0.1f, 0.1, 0.1);
+
 
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Player/Player.mv1");
@@ -152,20 +153,18 @@ void SamplePlayer::Update(Vector3* camera_rot)
 //-----------------------------------------------
 void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 {
-
 	// プレイヤーが攻撃を受けたかのチェック
 	CheckHitDamage();
 
-	// 待機状態または走りの時だけｗ
-	// 移動処理
+	// 待機状態または走りの時だけ
 	if (m_idle_flag == true || m_run_flag == true)
 	{
 		// ローリング処理中以外 かつ 敵からのダメージを食らったフラグが立ってなかったら
 		if (m_rolling_flag == false && m_damage_flag == false)
 		{
+			// 移動処理
 			Move_Update(camera_rot);
 		}
-
 	}
 
 	// ダメージを食らったフラグが立っていなかったら
@@ -271,14 +270,13 @@ void SamplePlayer::Draw()
 	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 	//	}
 	//}
-
-
-	m_body.Draw();
+	/*m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
 	m_right_feet.Draw();
-	m_left_feet.Draw();
+	m_left_feet.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
+
 	m_model.DrawModel(&m_transform);
 
 

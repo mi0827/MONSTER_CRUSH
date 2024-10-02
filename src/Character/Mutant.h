@@ -8,6 +8,80 @@
 class Mutant :public MonsterBase
 {
 public:
+	
+public:
+
+	//=========================================================================
+	// 関数の宣言
+	//=========================================================================
+	//! @brief コンストラクタ
+	Mutant();
+	//! @brief デストラクタ
+	~Mutant();
+
+	//! 継承先からの関数のオーバーライド
+	//! @brief 初期処理
+	void Init()override;
+	//! @brief 更新処理
+	//! @param 移動の時のターゲットの座標
+	//! @param ターゲットの半径
+	void Update(Transform* target_pos, float target_r) override;
+	//! @brief 生きてる時の更新処理
+	void LiveUpdate(Transform* target_pos, float target_r) override;
+	//! @brief 死んだときの更新処理 
+	void DieUpdate() override;
+	//! @brief 描画処理
+	void Draw() override;
+	//! @brief 終了処理
+	void Exit() override;
+
+	//! @brief 登場演出用の更新処理
+    void EntryUpdate() override;
+
+	//! @brief HPが一定まで減ったときのレベルアップ処理
+	void ReinforceUpdate() override;
+
+	//! @brief あたり判定の更新処理
+	void CDUpdate() override;
+
+	//! @brief ステータスバーの設定用関数
+	void Status_Bar_Init() override;
+	//! @brief ステータスバーの描画関数
+	void Status_Bar_Draw() override;
+
+	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
+	void SetHitTimeInit() override;
+
+
+	//! @brief モンスターの状態(フラグ)管理関数
+	//! @param モンスターの状態
+	void MonsterMode(int mode) override;
+
+
+	//! @brief アニメーション読み込み関数
+	void Anima_Load_Init();
+
+	//! @brief プレイヤーの移動用関数
+	void Move_Update();
+
+	//! @brief 攻撃開始かそうでないかを判断する関数
+	void Attack_First();
+
+	//! @brief 攻撃用の関数
+	void Attack_Update();
+
+	//! @brief ジャンプ攻撃用の関数
+	void Attack_Jump();
+
+	//! @brief ジャンプ攻撃の更新処理
+	void Jump_Update();
+
+	//! @brief コンボ関数
+	void Combo_Update();
+
+	//! @drief 行いたいアニメーションをランダムで選ぶための関数
+	int Set_Rand_Attack();
+
 	//=========================================================================
 	// 定数の宣言
 	//=========================================================================
@@ -21,7 +95,6 @@ public:
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
-public:
 	//! アニメーションの種類用の列挙体
 	//! @detail 攻撃アニメーションはコンボの続けたい順番に設定する
 	enum Animation_Max
@@ -29,6 +102,9 @@ public:
 		idle, //!< 待機
 		run,  //!< 走り
 		die,   //!< 死亡
+		shout, //!< 叫び
+		hit_damage, //!< 攻撃を受けた時
+
 		attack_1, //!< 攻撃１
 		attack_2, //!< 攻撃２
 		attack_3, //!< 攻撃３
@@ -116,94 +192,9 @@ public:
 	};
 	//! ジャンプの状態を保存する変数
 	int jump_num = 0;
-public:
-
-	//=========================================================================
-	// 関数の宣言
-	//=========================================================================
-	//! @brief コンストラクタ
-	Mutant();
-	//! @brief デストラクタ
-	~Mutant();
-
-	//! 継承先からの関数のオーバーライド
-	//! @brief 初期処理
-	void Init()override;
-	//! @brief 更新処理
-	//! @param 移動の時のターゲットの座標
-	//! @param ターゲットの半径
-	void Update(Transform* target_pos, float target_r) override;
-	//! @brief 生きてる時の更新処理
-	void LiveUpdate(Transform* target_pos, float target_r) override;
-	//! @brief 死んだときの更新処理 
-	void DieUpdate() override;
-	//! @brief 描画処理
-	void Draw() override;
-	//! @brief 終了処理
-	void Exit() override;
-
-
-	//! @brief あたり判定の更新処理
-	void CDUpdate() override;
-
-	//! @brief ステータスバーの設定用関数
-	void Status_Bar_Init() override;
-	//! @brief ステータスバーの描画関数
-	void Status_Bar_Draw() override;
-
-	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
-	void SetHitTimeInit() override;
-
-
-	//! @brief モンスターの状態(フラグ)管理関数
-	//! @param モンスターの状態
-	void MonsterMode(int mode) override;
-
-
-	//! @brief アニメーション読み込み関数
-	void Anima_Load_Init();
-
-	//! @brief プレイヤーの移動用関数
-	void Move_Update();
-
-	//! @brief 攻撃開始かそうでないかを判断する関数
-	void Attack_First();
-
-	//! @brief 攻撃用の関数
-	void Attack_Update();
-
-	//! @brief ジャンプ攻撃用の関数
-	void Attack_Jump();
-
-	//! @brief ジャンプ攻撃の更新処理
-	void Jump_Update();
-
-	//! @brief コンボ関数
-	void Combo_Update();
-
-	//! @drief 行いたいアニメーションをランダムで選ぶための関数
-	int Set_Rand_Attack();
-
 
 public:
-	//-----------------------------------------------
-	// クラスのオブジェクトの宣言
-	//-----------------------------------------------
-
-	////! モデルクラスのオブジェクト
-	//Model m_model;
-	////! アニメーションクラスのオブジェクト
-	//Animation m_animation;
-	////! コンボクラス
-	//Combo m_combo;
-	////! カプセルコリジョン
-	////=================
-	//// 当たり判定
-	////=================
-	//CapsuleCollision m_left_hand; //!< 左手のあたり判定
-	//CapsuleCollision m_right_hand; //!< 右手の当たり判定
-	//CapsuleCollision m_body;       //!< 本体のあたり判定
-
+	
 	//==================================
 	// 攻撃時の当たり判定とダメージの設定当たり判定
 	//==================================

@@ -15,9 +15,6 @@ public:
 	//! デストラクタ
 	~MonsterBase();
 
-
-
-
 	//! 純粋仮想関数
 	//! @brief 初期処理
 	//! //! @param 移動の際のターゲット座標
@@ -30,6 +27,14 @@ public:
 	//! @param ターゲットの座標
 	//! @param ターゲットの半径
 	virtual void LiveUpdate(Transform* target_pos, float target_r) = 0;
+
+	//! @brief 登場演出用の更新処理
+	virtual void EntryUpdate() = 0;
+
+	//! @brief HPが一定まで減ったときのレベルアップ処理
+	virtual void ReinforceUpdate() = 0;
+
+
 	//! @brief 死んだときの更新処理 
 	virtual void DieUpdate() = 0;
 	//! @brief 終了処理
@@ -55,6 +60,9 @@ public:
 	//! @brief モンスターの状態(フラグ)管理関数
 	//! @param モンスターの状態
 	virtual void MonsterMode(int mode) = 0;
+
+	
+	
 
 
 	//! @brief ベースクラスでの初期処理

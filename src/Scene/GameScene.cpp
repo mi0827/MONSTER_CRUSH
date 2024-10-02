@@ -100,6 +100,9 @@ void GameScene::Init()
 	ShadowMapInit();
 	// 現在のシーンの設定(バトルシーン)
 	m_now_scene = Battle;
+
+	// カメラの設定
+	camera.SetCamera(camera.CAMERA_HEIGHT_MONSTER, camera.CAMERA_LENGTH);
 }
 
 //---------------------------------------------------------------------------
@@ -107,13 +110,6 @@ void GameScene::Init()
 //---------------------------------------------------------------------------
 void GameScene::Update()
 {
-	// ヒットストップが起こってほしいときいがい
-	if (hit_stop.Hit_Stop() == false)
-	{
-		// キャラクターの更新処理
-		CharacterUpdate();
-	}
-	
 
 	// フィールドとの当たり判定
 	// 一旦当たり判定を切っておく
@@ -122,10 +118,14 @@ void GameScene::Update()
 	// ゲームシーンの中でどの場面かによって処理を変える
 	switch (m_what_scene)
 	{
+	case entry:
+		EntryUpdate();
+		break;
 	case battle: // バトルシーン
 		GameUpdate();
 		break;
-
+	case power_up: // モンスターのパワーアップ演出
+		break;
 	case result: // バトルシーンの後
 		EndUpdate();
 		break;
@@ -145,10 +145,46 @@ void GameScene::Update()
 }
 
 //---------------------------------------------------------------------------
+// モンスターの登場演出
+//---------------------------------------------------------------------------
+void GameScene::EntryUpdate()
+{
+	// カメラの更新処理
+	camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
+	monster->EntryUpdate();
+
+	// フレームのカウントを増やす
+	m_count_flame++;
+	// フレームが指定の値まで増えたら
+	if (m_count_flame >= ONE_SECOND_FLAME)
+	{
+		// タイマーを進める
+		m_count_time++;
+		// カウントをリセット
+		m_count_flame = 0;
+	}
+	// タイマーが一定時間たったら(５秒)
+	if (m_count_time > CHANGE_TIME)
+	{
+		// バトルをスターとする
+		m_what_scene = battle;
+	}
+
+
+}
+
+//---------------------------------------------------------------------------
 // バトルシーンでの処理
 //---------------------------------------------------------------------------
 void GameScene::GameUpdate()
 {
+	// ヒットストップが起こってほしいときいがい
+	if (hit_stop.Hit_Stop() == false)
+	{
+		// キャラクターの更新処理
+		CharacterUpdate();
+	}
+
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
 	// プレイヤーのHPが０になったら

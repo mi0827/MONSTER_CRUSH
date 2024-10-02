@@ -6,14 +6,7 @@
 #include "Camera.h"
 
 
-constexpr float CAMERA_LENGTH = 50.0f;          // プレイヤーからカメラまでの距離
-// カメラの回転スピード
-constexpr float MOUSE_CAMERA_ROT_SPEED = 0.2f;  // マウス用
-constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
-constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
-constexpr float LOWER_ANGLE = -5.0f;            // カメラの下アングルの最低（地面に埋まらない程度）
-constexpr float BOX_SIZE = 4.0f;                   // ボックスのサイズ
-constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
+
 
 //---------------------------------------
 // コンストラクタ(初期化)
@@ -35,6 +28,10 @@ Camera::Camera()
 	// 今は使えてない
 	m_hit_box_size.set(BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1);
 	m_before_pos.set(m_pos); //< 移動前の座標の設定
+
+	// カメラの見る位置と距離の設定
+	SetCamera();
+
 }
 
 // 初期処理
@@ -59,7 +56,7 @@ void Camera::Update(Vector3* target_pos)
 {
 	m_before_pos.set(m_pos); //< 移動前の座標の設定
 	// プレイヤーの後ろに付いて動く
-	m_look.set(target_pos->x, target_pos->y + 5.0f, target_pos->z);
+	m_look.set(target_pos->x, target_pos->y + m_look_height, target_pos->z);
 	// マウスの移動量
 	m_mouse_move_x = (float)GetMouseMoveX();
 	m_mouse_move_y = (float)GetMouseMoveY();
@@ -104,7 +101,7 @@ void Camera::Update(Vector3* target_pos)
 
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
-	VECTOR base_dir = VGet(0.0f, 0.0f, -CAMERA_LENGTH);
+	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);
 
 	// 行列を用意します
 	// X軸回転行列
@@ -171,12 +168,24 @@ void Camera::Exit()
 }
 
 //---------------------------------------------------------------------------------
+//	終了処理
+//---------------------------------------------------------------------------------
+void Camera::SetCamera(float height, float length)
+{
+	// カメラの見るY座標のプラス分の設定
+	m_look_height = height;
+	// カメラから目標までの距離の設定
+	m_length = length;
+}
+
+
+//---------------------------------------------------------------------------------
 //	移したい目標をまわるようにカメラの移動処理
 //---------------------------------------------------------------------------------
 void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 {
 	// プレイヤーの後ろに付いて動く
-	m_look.set(target_pos->x, target_pos->y + 5.0f, target_pos->z);
+	m_look.set(target_pos->x, target_pos->y + m_look_height, target_pos->z);
 	
 	if (direction == 0)
 	{
@@ -189,7 +198,7 @@ void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 	
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
-	VECTOR base_dir = VGet(0.0f, 0.0f, -CAMERA_LENGTH);
+	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);
 
 	// 行列を用意します
 	// X軸回転行列

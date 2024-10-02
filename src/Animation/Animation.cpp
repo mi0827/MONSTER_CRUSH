@@ -269,8 +269,10 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 		}
 	}
 
+	
 	// ブレンド率の変更
 	Change_Blend();
+
 	// 二つ付いているときとそうでないときで処理を変える
 	if (m_attached)
 	{

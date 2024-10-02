@@ -31,6 +31,11 @@ public:
 	//! @brief 終了処理
 	void Exit();		  
 
+	//! @brief カメラの高さ距離などを設定する関数
+	//! @param カメラの見る座標の高さの(デフォルトでプレイヤー時の値を入れておく)
+	//! @param カメラから目標までの距離(デフォルトでプレイヤー時の値を入れておく)
+	void SetCamera(float height = CAMERA_HEIGHT_PLAYER ,float length = CAMERA_LENGTH);
+
 	//! @brief 移したい目標をまわるようにカメラの移動処理
 	//! @param 移したいターゲット
 	//! @param 振り向きたい向き(1 : 右, 2 : 左)
@@ -43,32 +48,52 @@ public:
 		left,   // 左
 	};
 
+	// カメラと移す標的との距離
+	static constexpr float CAMERA_LENGTH = 50.0f;          // プレイヤー
+	static constexpr float CAMERA_MONSER_LENGTH = 100.0f; // モンスター
+	// カメラが移すしたいものからy座標分変化させる値
+	static constexpr float CAMERA_HEIGHT_PLAYER = 5.0f; // プレイヤー
+	static constexpr float CAMERA_HEIGHT_MONSTER = 20.0f;
+
+	// カメラの回転スピード
+	static constexpr float MOUSE_CAMERA_ROT_SPEED = 0.2f;  // マウス用
+	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
+
+	static constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
+	static constexpr float LOWER_ANGLE = 0.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
+	static constexpr float BOX_SIZE = 4.0f;                     // ボックスのサイズ
+	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
+
 
 	//---------------
 	// 変数の定義
 	//---------------
 public:
-	// カメラが見る座標
+	//! 移したいターゲットとの距離
+	float m_length = 0;
+
+	//! カメラが見る座標
 	Vector3 m_look;
-	// カメラの座標
+	float m_look_height = 0; // カメラが見る座標のY座標のプラス分用の変数
+	//! カメラの座標
 	Vector3 m_pos;
-	// カメラの向き
+	//! カメラの向き
 	Vector3 m_rot;
 public:
 	//--------------------
-	// 画面分割用の変数
+	//! 画面分割用の変数
 	int m_screen_field = 0;   // 描画する画面を入れる画像用変数
 	Vector2 m_field_pos = { 0.0f, 0.0f };  // 描画する座標
 	Vector2 m_field_size = { 0.0f, 0.0f, }; // 描画するサイズ
 
 private:
-	// マウスの移動量用の変数
-	float m_mouse_move_x = 0.0f; // X座標の移動量
-	float m_mouse_move_y = 0.0f; // Y座標の移動量
-	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };   // 毎フレーム移動前の座標をいれる用の変数
-	Vector3 m_hit_box_size = { 0.0f,0.0f,0.0f }; // 壁との当たり判定用の変数
+	//! マウスの移動量用の変数
+	float m_mouse_move_x = 0.0f; //! X座標の移動量
+	float m_mouse_move_y = 0.0f; //! Y座標の移動量
+	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };   //! 毎フレーム移動前の座標をいれる用の変数
+	Vector3 m_hit_box_size = { 0.0f,0.0f,0.0f }; //! 壁との当たり判定用の変数
 public:
-	int pad_no = 0;				// 何番のパッドを使っているのか
+	int pad_no = 0;				//! 何番のパッドを使っているのか
 	void SetPadNo(int no)
 	{
 		pad_no = no;

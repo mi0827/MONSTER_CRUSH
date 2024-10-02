@@ -27,6 +27,10 @@ public:
 	//! @brief 生きてる時の更新処理
 	//! @param カメラの向き
 	virtual void LiveUpdate(Vector3* camera_rot) = 0; 
+
+
+	
+
 	//! @brief 死んだときの更新処理 
 	virtual void DieUpdate() = 0;
 

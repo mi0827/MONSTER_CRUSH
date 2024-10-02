@@ -37,7 +37,7 @@ Mutant::Mutant()
 	m_monster_mode = IDLE;
 
 	// 初期座標の設定
-	m_transform.pos.set(50.0f, 0.0f, 50.0f);
+	m_transform.pos.set(100.0f, 0.0f, 100.0f);
 	// モデルのスケールの設定
 	m_transform.scale.set(0.2f, 0.2f, 0.2f);
 }
@@ -75,6 +75,9 @@ void Mutant::Init()
 	SetHitTimeInit();
 	// モンスターのステータスの初期設定
 	BaseInit(HP_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
+	// アニメーションつけるのフラグを上げておく
+	m_animation.m_anim_change_flag = true;
+
 }
 
 //-----------------------------------------------
@@ -247,7 +250,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 
 //-----------------------------------------------
-// 死んだときの更新処理
+// 死んだときの更新処理(ゲームシーンで直接呼ぶ)
 //-----------------------------------------------
 void Mutant::DieUpdate()
 {
@@ -258,6 +261,8 @@ void Mutant::DieUpdate()
 		// 少し前に戻す
 		m_animation.m_contexts[0].play_time = 200;
 	}
+
+	
 }
 
 //-----------------------------------------------
@@ -267,9 +272,9 @@ void Mutant::Draw()
 {
 	//attack_hit_damage[m_now_attack].attack_hit.Draw();
 	// カプセルの描画(当たり判定)
-	m_body.Draw();
+	/*m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();
+	m_right_hand.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
@@ -279,6 +284,36 @@ void Mutant::Draw()
 //-----------------------------------------------
 void Mutant::Exit()
 {
+}
+
+//-----------------------------------------------
+// 登場演出用の更新処理
+//-----------------------------------------------
+void Mutant::EntryUpdate()
+{
+	// ここですること
+	// 登場シーンにあった叫びのアニメーションをつける
+
+	// 登場アニメーションのセット(ループさせない)
+	if (m_animation.Change_Flag(true))
+	{
+		m_animation.Change_Animation(&m_model, shout, true);
+	}
+
+	// アニメーションの再生
+	m_animation.Play_Animation(&m_model, m_combo_flag);
+}
+
+//-----------------------------------------------
+// HPが一定まで減ったときのレベルアップ処理
+//-----------------------------------------------
+void Mutant::ReinforceUpdate()
+{
+	// HPが半分になったら
+	// ダメ―ジを食らったアニメーメーションをつけて
+	// そのあとに叫ぶアニメーションをつける
+	// その後で攻撃を増やしたりダメージ量を増やした入りエフェクトを派手にしたり変化を加える
+
 }
 
 //-----------------------------------------------
@@ -399,6 +434,8 @@ void Mutant::Anima_Load_Init()
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
+	m_animation.Load_Animation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage, 0, 1.0f); //!< ダメージを受けた時
 
 	// もっとモンスターっぽい攻撃を探してこい
 	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
@@ -554,41 +591,7 @@ void Mutant::Jump_Update()
 			m_jump_flag = false; // 落ちる処理へ
 		}
 	}
-	//switch (jump_num)
-	//{
-	//case STANDBY: // 待機
-	//	// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
-
-		//	
-		//	break;
-		//case GOUP:        // 上がる
-		//	m_transform.pos.y += 5;
-		//	// 一定の高さまで上がったら
-		//	if (m_transform.pos.y >= JUMP_HEIGHT)
-		//	{
-		//		// 上がるのを止めて移動の処理へ
-		//		m_transform.pos.y = JUMP_HEIGHT;
-		//		jump_num = MOVE;
-		//	}
-		//	break;
-
-		//case MOVE:        // 座標移動
-		//	// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径より少し小さいくらいずらしたとこ
-		//	m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius + 5;
-		//	m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius + 5;
-
-		//	jump_num = STANDBY; // 落ちるタイミングを合わせるためにいったん待機へ
-		//	break;
-
-		//case DROPDOWN:   // 落ちる
-		//	m_transform.pos.y -= 5;
-		//	// 図面についたら落ちるのをやめる
-		//	if (m_transform.pos.y <= 0)
-		//	{
-		//		m_transform.pos.y = 0;
-		//	}
-		//	break;
-		//}
+	
 
 }
 
