@@ -77,8 +77,8 @@ private:
 	//! 描画したい文字列の数分作成
 	TextState m_text[text_max]
 	{
-		{30,"LeftShift + Enter : クエスト受付エリアに移動", {350, 100}},
-		{30,"Enter : タイトルに移動", {370, 100}}
+		{30,"LeftShift + Enter : クエスト受付エリアに移動", {385, 100}},
+		{30,"RightShift + Enter : タイトルに移動", {300, 100}}
 	};
 
 	// 画面切り替え用の変数

@@ -89,30 +89,30 @@ void EndScene::Update()
 
 
 	// エンターを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_RETURN))
+	if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_RSHIFT))
 	{
 		// 次に行ってほしいシーンの設定をする
 		SetNextScene(Title);
 		// 次のシーンに移動するためのフラグを立てる
 		m_scene_change_judge = true;
 	}
-	else
+	/*else
 	{
 		m_scene_change_judge = false;
-	}
+	}*/
 
 	// エンターを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_RETURN)&& CheckHitKey(KEY_INPUT_LSHIFT))
+	if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_LSHIFT))
 	{
 		// 次に行ってほしいシーンの設定をする
 		SetNextScene(QuestArea);
 		// 次のシーンに移動するためのフラグを立てる
 		m_scene_change_judge = true;
 	}
-	else
+	/*else
 	{
 		m_scene_change_judge = false;
-	}
+	}*/
 
 
 	// フィールドとキャラクターのあたい判定

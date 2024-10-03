@@ -97,12 +97,12 @@ void TargetMove::Set_Direction()
 		Vector3 start = m_line_start + Vector3(0.0f, 0.1f, 0.0f);
 		Vector3 goal = m_line_goal + Vector3(0.0f, 0.1f, 0.0f);
 		// 開始座標とゴール座標を結んで線の描画
-		DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
+		//DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
 
 		// 開始座標の場所とくろいたま
-		DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		//DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 		// ゴール座標の黄色い玉
-		DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
+		//DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
 	}
 }
 

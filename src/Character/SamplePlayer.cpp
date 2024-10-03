@@ -413,7 +413,8 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 	}
 
 	// アニメーション変更が可能な時に
-	if (m_animation.Change_Flag(m_run_flag)) {
+	if (m_animation.Change_Flag(m_run_flag)) 
+	{
 		// 走りアニメーションに変更
 		m_animation.Change_Animation(&m_model, run, true);
 		// アニメーションが変わったから
