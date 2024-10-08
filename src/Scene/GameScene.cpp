@@ -186,7 +186,7 @@ void GameScene::GameUpdate()
 	}
 
 	// カメラの更新処理
-	camera.Update(&player->m_transform.pos);
+	camera.TargetCamera(&player->m_transform, &monster->m_transform.pos);
 	// プレイヤーのHPが０になったら
 	if (player->m_hp_value <= 0)
 	{

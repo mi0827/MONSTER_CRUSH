@@ -110,6 +110,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//InputPadInit();
 	GameInit();
 
+	// マウスの表示状態の設定
+	SetMouseDispFlag(FALSE);
+	
+
 	// ４：メインループ
 	while (TRUE) {
 		//// DXライブラリのカメラとEffekseerのカメラを同期する。
@@ -130,13 +134,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			else				KeyFrame[i] = 0; // 何も押されてなっかたらカウントを0にする
 		}
 
+	
 		// 上の二つのコメントと同様のことをしている
 		if (CheckMouseInput(MOUSE_INPUT_LEFT))	MouseLeftFrame++;
 		else									MouseLeftFrame = 0;
 		// 上と同様
 		if (CheckMouseInput(MOUSE_INPUT_RIGHT))	MouseRightFrame++;
 		else									MouseRightFrame = 0;
-
+		
 		NowMouseX = GetMouseX();
 		NowMouseY = GetMouseY();
 
@@ -153,12 +158,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		BeforeMouseX = NowMouseX;
 		BeforeMouseY = NowMouseY;
 
-
+		//	マウス座標を設定する（画面の真ん中に固定する）
+		SetMousePoint(SCREEN_W/ 2, SCREEN_H / 2);
+	
+		// マウスの座標を画面の中心にする
+	//SetMousePoint(SCREEN_W / 2, SCREEN_H / 2);
+		
 		// １２：描画が完了したものを画面に映します
 		ScreenFlip();
 
 		// これがあるとフレームレートが固定できる
-	    while (GetNowCount() - Time < 17) {}
+		while (GetNowCount() - Time < 17) {}
 
 		// ５：赤いXボタンを押したらループを抜ける（ウィンドウを閉じたら）
 		if (ProcessMessage())
@@ -187,6 +197,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 //---------------------------------------------------------------------------------
 //	キーが押された瞬間を取得する
+//---------------------------------------------------------------------------------
 bool PushHitKey(int key)
 {
 	if (KeyFrame[key] == 1)
@@ -198,6 +209,7 @@ bool PushHitKey(int key)
 
 //---------------------------------------------------------------------------------
 //	マウスが押されているかを取得する
+//---------------------------------------------------------------------------------
 bool CheckMouseInput(int button)
 {
 	if (GetMouseInput() & button)
@@ -209,6 +221,7 @@ bool CheckMouseInput(int button)
 
 //---------------------------------------------------------------------------------
 //	マウスが押された瞬間を取得する
+//---------------------------------------------------------------------------------
 bool PushMouseInput(int button)
 {
 	if (button & MOUSE_INPUT_LEFT)
@@ -230,7 +243,8 @@ bool PushMouseInput(int button)
 }
 
 //---------------------------------------------------------------------------------
-//	マウスの座標を取得する
+//	マウスのX座標を取得する
+//---------------------------------------------------------------------------------
 int GetMouseX() // X座標
 {
 	int mouse_x;
@@ -238,6 +252,10 @@ int GetMouseX() // X座標
 	GetMousePoint(&mouse_x, &mouse_y);
 	return mouse_x;
 }
+
+//---------------------------------------------------------------------------------
+//	マウスのX座標を取得する
+//---------------------------------------------------------------------------------
 int GetMouseY() // Y座標
 {
 	int mouse_x;
@@ -245,19 +263,50 @@ int GetMouseY() // Y座標
 	GetMousePoint(&mouse_x, &mouse_y);
 	return mouse_y;
 }
+
 //---------------------------------------------------------------------------------
-//	マウスの移動量を取得する
+//	マウスのX座標の移動量を取得する
+//---------------------------------------------------------------------------------
 int GetMouseMoveX()
 {
 	return NowMouseX - BeforeMouseX;
 }
+
+//---------------------------------------------------------------------------------
+//	マウスのX座標の移動量を取得する
+//---------------------------------------------------------------------------------
 int GetMouseMoveY()
 {
 	return NowMouseY - BeforeMouseY;
 }
 
 //---------------------------------------------------------------------------------
+//	固定されたマウスのX座標の移動量を取得する
+//---------------------------------------------------------------------------------
+int GetFixedMouseMoveX()
+{
+	int move_x;
+	// 画面の中心ｘ座標
+	int fixed_x = SCREEN_W / 2;
+	move_x = GetMouseX() - fixed_x;
+	return move_x;
+}
+
+//---------------------------------------------------------------------------------
+//	固定されたマウスのY座標の移動量を取得する
+//---------------------------------------------------------------------------------
+int GetFixedMouseMoveY()
+{
+	int move_y;
+	// 画面の中心ｘ座標
+	int fixed_y = SCREEN_H / 2;
+	move_y = GetMouseY() - fixed_y;
+	return move_y;
+}
+
+//---------------------------------------------------------------------------------
 //	度をラジアンに変換する関数
+//---------------------------------------------------------------------------------
 float TO_RADIAN(float degree)
 {
 	return degree * 3.14159265f / 180.0f;
@@ -265,6 +314,7 @@ float TO_RADIAN(float degree)
 
 //---------------------------------------------------------------------------------
 //	ラジアンを度に変換する関数
+//---------------------------------------------------------------------------------
 float TO_DEGREE(float radian)
 {
 	return radian * 180.0f / 3.14159265f;

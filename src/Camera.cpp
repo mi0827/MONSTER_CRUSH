@@ -6,6 +6,11 @@
 #include "Camera.h"
 
 
+//	この座標にマウスを固定しようと思います
+#define FIXED_X		(SCREEN_W/2)	//	Ｘ座標
+#define FIXED_Y		(SCREEN_H/2)	//	Ｙ座標
+
+
 
 
 //---------------------------------------
@@ -54,17 +59,10 @@ void Camera::PlayField_Init()
 //---------------------------------------------------------------------------------
 void Camera::Update(Vector3* target_pos)
 {
-	m_before_pos.set(m_pos); //< 移動前の座標の設定
+	//m_before_pos.set(m_pos); //< 移動前の座標の設定
 	// プレイヤーの後ろに付いて動く
 	m_look.set(target_pos->x, target_pos->y + m_look_height, target_pos->z);
-	// マウスの移動量
-	m_mouse_move_x = (float)GetMouseMoveX();
-	m_mouse_move_y = (float)GetMouseMoveY();
 
-	// カメラの向きを変える
-	// （２Dのマウスの移動量をそのまま角度に渡すと大きいので少し小さくしています）
-	m_rot.x += m_mouse_move_y * MOUSE_CAMERA_ROT_SPEED;
-	m_rot.y += m_mouse_move_x * MOUSE_CAMERA_ROT_SPEED;
 
 	// カメラが地面に埋まらないようにしている
 	if (m_rot.x <= LOWER_ANGLE) 
@@ -78,26 +76,42 @@ void Camera::Update(Vector3* target_pos)
 		m_rot.x = UP_ANGLE_MAX;
 	}
 
+	//==========================================
+	// ゲームパッド用の処理
+	//==========================================
 	//	ゲームパッドの右スティックの値を使って向き変数（ m_rot ）の値を変更
 	// 左ステックでプレイヤーの向きや座標の更新
 	// ゲームパッドの情報を取得（XINPUT の情報）
-	XINPUT_STATE input;
-	// ゲームパッドの情報を丸ごと取得
-	GetJoypadXInputState(pad_no, &input);
-	// 移動用ベクトル用変数
-	Vector3 rot;
-	// 左スティックの値を設定
-	rot.y = input.ThumbRX;
-	rot.x = input.ThumbRY;
-	// -32768 ～ 32767 を-1.0f　～　1.0fにします
-	rot /= 32768.0f;
-	// この移動用ベクトルの大きさがある程度大きい時だけ移動させようと思います
-	if (rot.GetLength() > 0.5f)
-	{
-		m_rot.y += rot.y * PAD_CAMERA_ROT_SPEED;
-		m_rot.x -= rot.x * PAD_CAMERA_ROT_SPEED;
-		// m_rot += rot * PAD_CAMERA_ROT_SPEED;  // その移動ベクトル分座標移動
-	}
+	//XINPUT_STATE input;
+	//// ゲームパッドの情報を丸ごと取得
+	//GetJoypadXInputState(pad_no, &input);
+	//// 移動用ベクトル用変数
+	//Vector3 rot;
+	//// 左スティックの値を設定
+	//rot.y = input.ThumbRX;
+	//rot.x = input.ThumbRY;
+	//// -32768 ～ 32767 を-1.0f　～　1.0fにします
+	//rot /= 32768.0f;
+	//// この移動用ベクトルの大きさがある程度大きい時だけ移動させようと思います
+	//if (rot.GetLength() > 0.5f)
+	//{
+	//	m_rot.y += rot.y * PAD_CAMERA_ROT_SPEED;
+	//	m_rot.x -= rot.x * PAD_CAMERA_ROT_SPEED;
+	//	// m_rot += rot * PAD_CAMERA_ROT_SPEED;  // その移動ベクトル分座標移動
+	//}
+
+	//	マウスの移動量
+	Vector2 move;
+
+	//	固定されたマウスのから移動用をゲット
+	move.x = GetFixedMouseMoveX();
+	move.y = GetFixedMouseMoveY();
+
+	// 回転はそのままだと大きすぎるので小さく
+	//移動量を小さくします
+	move *= MOUSE_CAMERA_ROT_SPEED;
+	m_rot.y += move.x;
+	m_rot.x += move.y;
 
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
@@ -119,6 +133,86 @@ void Camera::Update(Vector3* target_pos)
 	m_pos = m_look + change_dir;
 }
 
+//---------------------------------------------------------------------------------
+//	ターゲットカメラの更新処理
+//---------------------------------------------------------------------------------
+void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
+{
+	// 見たいターゲットの設定（今回は奥のターゲットを見る）
+	m_look.set(target1->pos.x, target1->pos.y + m_look_height, target1->pos.z);
+
+	// 手前のターゲットも見たいので
+	m_look_2.set(target_pos2->x, target_pos2->y, target_pos2->z);
+
+	Vector3 start;
+	start.set(m_pos);
+	Vector3 goal;
+	goal.set(0.0f, 0.0f, 0.0f);
+	Vector3 m_cross;
+	m_cross.set(0.0f, 0.0f, 0.0f);
+
+	// 基準のベクトル作成
+    // ｚの値をいじると振り向きのがたがたがましになる
+	Vector3 base(0.0f, 0.0f, 50.0f);
+	// 線の本体の向きに合わせたいので回転行列を作成
+	MATRIX mat = MGetRotY(TO_RADIAN(m_rot.y));
+	// 上で作成した基準のベクトルを行列で変換
+	Vector3 change = GetVector3VTransform(base, mat);
+	// ゴール座標は開始座標から変更したベクトル文先のとこ
+	goal = start + change;
+	// スタート座標とゴール座標が確定したので開始座標かそれぞれのベクトルを作成
+	// 線の開始座標からゴール座標へのベクトル
+	Vector3 line_dir = goal - start;
+	line_dir.y = 0;
+	// 線の開始座標からプレイヤー座標へのベクトル
+	Vector3 target_dir = *target_pos2 - start;
+	target_dir.y = 0;
+	// 外積を使った判断をしたいので上で作った２つのベクトルの外積を求めます
+	m_cross = GetVector3Cross(line_dir, target_dir);
+	// 上で作成したラインを見えるようにする
+	{
+		// そのままの座標だと線が地面に埋まってしまうのですこしあげています
+		Vector3 start = start + Vector3(0.0f, 1.0f, 0.0f);
+		Vector3 goal =goal + Vector3(0.0f, 1.0f, 0.0f);
+		// 開始座標とゴール座標を結んで線の描画
+		DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
+
+		// 開始座標の場所とくろいたま
+		DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		// ゴール座標の黄色い玉
+		DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
+	}
+
+	// 一定の範囲に入ったら振り向きをやめる
+	if (m_cross.y > 500) {
+		// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
+		m_rot.y += 05;
+	}
+	else
+		if (m_cross.y < -500)
+		{
+			// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
+			m_rot.y -= 5;
+		}
+	// まずは回転前のベクトルを用意します
+   // カメラが見るプレイヤー方向のベクトルを作成します
+	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);
+
+	// 行列を用意します
+	// X軸回転行列
+//	MATRIX mat_x = MGetRotX(TO_RADIAN(target1->rot.y));
+	// Y軸回転行列
+	MATRIX mat_y = MGetRotY(TO_RADIAN(m_rot.y));
+
+	// X軸回転とY軸回転をさせたいので２つの行列を１個にまとめます
+//	MATRIX mat = MMult(mat_x, mat_y);
+	// 元のベクトルをＸ軸回転とＹ軸回転させます
+	// 簡単に言ったら一定の距離の棒を作っている
+	VECTOR change_dir = VTransform(base_dir, mat_y);
+
+	// カメラの位置を見ている座標から一定の位置に再設定
+	m_pos = m_look + change_dir;
+}
 
 //---------------------------------------------------------------------------------
 // カメラが壁に埋まらないようにする(うまくいかない)

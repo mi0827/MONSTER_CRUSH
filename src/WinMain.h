@@ -34,8 +34,12 @@ bool PushMouseInput(int button = MOUSE_INPUT_LEFT | MOUSE_INPUT_RIGHT);
 int GetMouseX(); // X座標
 int GetMouseY(); // Y座標
 // マウスの移動量を取得
-int GetMouseMoveX(); // 
-int GetMouseMoveY(); // 
+int GetMouseMoveX(); // X座標
+int GetMouseMoveY(); // Y座標
+// 固定されたマウスの移動量を取得
+int GetFixedMouseMoveX();// X座標
+int GetFixedMouseMoveY();// Y座標
+
 // 度をラジアンに変換する関数
 float TO_RADIAN(float degree);
 // ラジアンを度に変換する関数

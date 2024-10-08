@@ -21,30 +21,36 @@ public:
 	// プレイヤーの座標と向きを受け取れるようにします
 	//! @brief 更新処理
 	//! @param 移したい目標の座標
-	void Update(Vector3* target_pos); 
+	void Update(Vector3* target_pos);
+
+	//! @brief ターゲットカメラの更新処理
+	//! @param カメラの手毎側にいるターゲットの座標と向き
+	//! @param カメラの奥側にいるターゲットの座標
+	void TargetCamera(Transform* target1, Vector3* target_pos2);
+
 	//! @brief カメラが壁に埋まらないようにする
-	void Hit_Object(Vector3* obj_pos, Vector3* obj_size); 
+	void Hit_Object(Vector3* obj_pos, Vector3* obj_size);
 	//! @brief 描画処理の前にカメラ、画面のセット
-	void Draw_Set();             
+	void Draw_Set();
 	//! @brief 描画処理
-	void Draw();		              
+	void Draw();
 	//! @brief 終了処理
-	void Exit();		  
+	void Exit();
 
 	//! @brief カメラの高さ距離などを設定する関数
 	//! @param カメラの見る座標の高さの(デフォルトでプレイヤー時の値を入れておく)
 	//! @param カメラから目標までの距離(デフォルトでプレイヤー時の値を入れておく)
-	void SetCamera(float height = CAMERA_HEIGHT_PLAYER ,float length = CAMERA_LENGTH);
+	void SetCamera(float height = CAMERA_HEIGHT_PLAYER, float length = CAMERA_LENGTH);
 
 	//! @brief 移したい目標をまわるようにカメラの移動処理
 	//! @param 移したいターゲット
 	//! @param 振り向きたい向き(1 : 右, 2 : 左)
 	//! @param 移動させたい向き
-	void MoveCamera(Vector3* target_pos,int direction, float speed);
+	void MoveCamera(Vector3* target_pos, int direction, float speed);
 
 	enum Direction
 	{
-		right , // 右
+		right, // 右
 		left,   // 左
 	};
 
@@ -74,6 +80,7 @@ public:
 
 	//! カメラが見る座標
 	Vector3 m_look;
+	Vector3 m_look_2{ 0.0f,0.0f,0.0f };
 	float m_look_height = 0; // カメラが見る座標のY座標のプラス分用の変数
 	//! カメラの座標
 	Vector3 m_pos;
@@ -100,5 +107,5 @@ public:
 	}
 
 
-	
+
 };
