@@ -206,6 +206,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\System\Random.cpp" />
     <ClCompile Include="src\System\Spotlight.cpp" />
     <ClCompile Include="src\System\TargetMove.cpp" />
     <ClCompile Include="src\System\Transform.cpp">
@@ -264,6 +265,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="src\System\Random.h" />
     <ClInclude Include="src\System\Spotlight.h" />
     <ClInclude Include="src\System\TargetMove.h" />
     <ClInclude Include="src\System\Transform.h" />

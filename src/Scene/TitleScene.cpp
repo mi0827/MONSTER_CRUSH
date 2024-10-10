@@ -1,4 +1,5 @@
 #include "src/WinMain.h"
+#include "src/System/Random.h"
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
@@ -78,7 +79,8 @@ void TitleScene::Update()
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
-
+	
+	
 
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))

@@ -48,6 +48,15 @@ public:
 	//! @param 移動させたい向き
 	void MoveCamera(Vector3* target_pos, int direction, float speed);
 
+	//! @brief カメラシェイクを行う(最終的に揺れが弱まる)関数
+	//! @param カメラの振動するパワー
+	//! @param どれくらいの時間揺れて欲しいか
+	void CameraShakeLimited(float power, float time);
+
+	//! @breif カメラシェイクを行う(一生揺れる)関数
+	//! @param カメラの振動するパワー
+	//void CameraShakeInfinite(float power);
+
 	enum Direction
 	{
 		right, // 右
@@ -63,13 +72,17 @@ public:
 
 	// カメラの回転スピード
 	static constexpr float MOUSE_CAMERA_ROT_SPEED = 0.2f;  // マウス用
-	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
+	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;      // パッド用
 
 	static constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
 	static constexpr float LOWER_ANGLE = 0.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
 	static constexpr float BOX_SIZE = 4.0f;                     // ボックスのサイズ
 	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
 
+	// ターゲットカメラの振り向き速度
+	static constexpr float TARGET_ROT_SPEED = 2.5f;
+	// ターゲットカメラの振り向き可能範囲
+	static constexpr float RANGE = 1000;
 
 	//---------------
 	// 変数の定義
@@ -99,6 +112,15 @@ private:
 	float m_mouse_move_y = 0.0f; //! Y座標の移動量
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };   //! 毎フレーム移動前の座標をいれる用の変数
 	Vector3 m_hit_box_size = { 0.0f,0.0f,0.0f }; //! 壁との当たり判定用の変数
+
+
+	//！カメラシェイクでの振動の強さ
+	float m_power = 0;
+	//! カメラシェイクでどれだけの座標をずらすか
+	Vector3 m_shake_pos;
+	// どれだけ揺れていてほしいのか
+	float m_shake_time = 0;
+
 public:
 	int pad_no = 0;				//! 何番のパッドを使っているのか
 	void SetPadNo(int no)

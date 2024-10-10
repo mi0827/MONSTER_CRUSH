@@ -1,4 +1,5 @@
 #include "WinMain.h"
+#include "src/System/Random.h"
 #include "System/Vector3.h"
 #include "System/Vector2.h"
 #include "src/System/Spotlight.h"
@@ -184,15 +185,15 @@ void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
 	}
 
 	// 一定の範囲に入ったら振り向きをやめる
-	if (m_cross.y > 500) {
+	if (m_cross.y > RANGE) {
 		// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
-		m_rot.y += 05;
+		m_rot.y += TARGET_ROT_SPEED;
 	}
 	else
-		if (m_cross.y < -500)
+		if (m_cross.y < -RANGE)
 		{
 			// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
-			m_rot.y -= 5;
+			m_rot.y -= TARGET_ROT_SPEED;
 		}
 	// まずは回転前のベクトルを用意します
    // カメラが見るプレイヤー方向のベクトルを作成します
@@ -309,3 +310,36 @@ void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 	// カメラの位置を見ている座標から一定の位置に再設定
 	m_pos = m_look + change_dir;
 }
+
+void Camera::CameraShakeLimited(float power, float time)
+{
+	// 振動のパワーが0の時
+	if (m_power == 0.0f)
+	{
+		// 振動パワーを設定
+		m_power = power;
+		m_shake_time = power / time;
+	}
+	
+	// 揺れの強さを徐々に弱くする
+	m_power -= m_shake_time;
+	// 0より下回らないようにする
+	m_power = max(0.0f, m_power);
+
+	// 揺れがあるとき
+	if (m_power > 0.0f)
+	{
+		// 揺らす
+		m_shake_pos.x = GetRandomF(-m_power, m_power);
+		m_shake_pos.y = GetRandomF(-m_power, m_power);
+		m_shake_pos.z = GetRandomF(-m_power, m_power);
+	} 
+	else 
+	{
+		// そうじゃないときは揺れなし
+		m_shake_pos.clear();
+	}
+	// ずれを含めた座標
+	m_pos += m_shake_pos;
+	
+}	

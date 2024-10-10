@@ -1,4 +1,5 @@
 #include "src/WinMain.h"
+#include "src/System/Random.h"
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 
@@ -118,7 +119,8 @@ void GameScene::Update()
 	// ゲームシーンの中でどの場面かによって処理を変える
 	switch (m_what_scene)
 	{
-	case entry:
+	case entry: // モンスターの登場演出
+		
 		EntryUpdate();
 		break;
 	case battle: // バトルシーン
@@ -152,6 +154,8 @@ void GameScene::EntryUpdate()
 	// カメラの更新処理
 	camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 	monster->EntryUpdate();
+	// カメラシェイクを行う
+	camera.CameraShakeLimited(2.0f, (float)CHANGE_TIME);
 
 	// フレームのカウントを増やす
 	m_count_flame++;

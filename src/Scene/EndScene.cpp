@@ -1,4 +1,5 @@
 #include "src/WinMain.h"
+#include "src/System/Random.h"
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
