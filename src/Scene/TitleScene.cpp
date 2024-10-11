@@ -73,14 +73,15 @@ void TitleScene::Update()
 {
 	// プレイヤーの更新処理
 	player->Update(&camera.m_rot);
-	
+
 	// フィールドとの当たり判定
-	HitField(); 
+	HitField();
 
 	// カメラの更新処理
 	camera.Update(&player->m_transform.pos);
-	
-	
+
+
+
 
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
@@ -90,7 +91,7 @@ void TitleScene::Update()
 		// シーン変更フラグを立てる
 		m_scene_change_judge = true;
 	}
-	
+
 
 
 	// この当たり判定に入ったら
@@ -102,7 +103,7 @@ void TitleScene::Update()
 		// シーン変更フラグを立てる
 		m_scene_change_judge = true;
 	}
-	
+
 
 
 }
@@ -178,16 +179,16 @@ void TitleScene::Draw()
 	// 文字列の高さの取得
 	float h = GetFontSize();
 	// 描画座標
-	Vector2 draw_pos = {SCREEN_W / 2 - w/ 2, 0 };
+	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, 0 };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
 
 	name = "Push : W";
-	w = GetDrawStringWidth(name, - 1);
+	w = GetDrawStringWidth(name, -1);
 	h = GetFontSize();
 	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H - h };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
-	
+
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
