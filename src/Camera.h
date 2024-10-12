@@ -16,6 +16,8 @@ public:
 
 	void PlayField_Init(); // プレイ画面の初期設定
 
+	
+
 	// プレイヤーの情報を受け取る形にします
 	// 今回はプレイヤーのｎ後ろにカメラをお嫌いの出
 	// プレイヤーの座標と向きを受け取れるようにします
@@ -57,6 +59,16 @@ public:
 	//! @param カメラの振動するパワー
 	//void CameraShakeInfinite(float power);
 
+
+
+	//! @brief カメラの向きの設定
+	//! @param 設定したい向き
+	void SetCameraRot(Vector3 rot);
+
+	//! @brief カメラの向き取得する関数
+	Vector3 GetCameraRot();
+
+
 	enum Direction
 	{
 		right, // 右
@@ -65,14 +77,14 @@ public:
 
 	// カメラと移す標的との距離
 	static constexpr float CAMERA_LENGTH = 50.0f;          // プレイヤー
-	static constexpr float CAMERA_MONSER_LENGTH = 100.0f; // モンスター
+	static constexpr float CAMERA_MONSER_LENGTH = 100.0f;  // モンスター
 	// カメラが移すしたいものからy座標分変化させる値
-	static constexpr float CAMERA_HEIGHT_PLAYER = 5.0f; // プレイヤー
-	static constexpr float CAMERA_HEIGHT_MONSTER = 20.0f;
+	static constexpr float CAMERA_HEIGHT_PLAYER = 5.0f;    // プレイヤー
+	static constexpr float CAMERA_HEIGHT_MONSTER = 20.0f;  // モンスター
 
 	// カメラの回転スピード
 	static constexpr float MOUSE_CAMERA_ROT_SPEED = 0.2f;  // マウス用
-	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;      // パッド用
+	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
 
 	static constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
 	static constexpr float LOWER_ANGLE = 0.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
@@ -82,7 +94,7 @@ public:
 	// ターゲットカメラの振り向き速度
 	static constexpr float TARGET_ROT_SPEED = 2.5f;
 	// ターゲットカメラの振り向き可能範囲
-	static constexpr float RANGE = 1000;
+	static constexpr float RANGE = 200;
 
 	//---------------
 	// 変数の定義
@@ -95,10 +107,13 @@ public:
 	Vector3 m_look;
 	Vector3 m_look_2{ 0.0f,0.0f,0.0f };
 	float m_look_height = 0; // カメラが見る座標のY座標のプラス分用の変数
+
+private:
 	//! カメラの座標
 	Vector3 m_pos;
 	//! カメラの向き
 	Vector3 m_rot;
+
 public:
 	//--------------------
 	//! 画面分割用の変数

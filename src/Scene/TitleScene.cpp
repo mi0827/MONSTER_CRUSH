@@ -55,6 +55,10 @@ void TitleScene::Init()
 	// プリえやーの初期設定 
 	player->Init();
 	player->SetCharacterPos({ 0,0,750 });
+	player->SetCharacterRot({ 0.0f,180.0f,0.0f });
+	
+	// カメラの向きの設定
+	camera.SetCameraRot(player->m_transform.rot);
 
 	// シャドーマップの設定
 	ShadowMapInit();
@@ -71,8 +75,11 @@ void TitleScene::Init()
 //------------------------------------------
 void TitleScene::Update()
 {
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
+
 	// プレイヤーの更新処理
-	player->Update(&camera.m_rot);
+	player->Update(&m_camera_rot);
 
 	// フィールドとの当たり判定
 	HitField();

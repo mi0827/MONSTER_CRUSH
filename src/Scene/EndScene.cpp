@@ -80,9 +80,11 @@ void EndScene::Init()
 //------------------------------------------
 void EndScene::Update()
 {
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
 
 	// プレイヤーの更新処理
-	player->Update(&camera.m_rot);
+	player->Update(&m_camera_rot);
 	
 
 	// カメラの更新処理

@@ -214,6 +214,7 @@ public:
 		HIT_DAMAGE, // 攻撃を受けた
 		DIE        // 死亡
 	};
+
 	//! アイドル状態かのフラグ
 	bool m_idle_flag = false;
 	//! 走っていい以下のフラグ

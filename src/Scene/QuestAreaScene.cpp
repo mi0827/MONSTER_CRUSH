@@ -73,6 +73,9 @@ void QuestAreaScene::Init()
 	// プレイヤーの向きの設定
 	player->SetCharacterRot({ 0.0f,-180.0f,0.0f });
 
+	// カメラの向きの設定
+	camera.SetCameraRot(player->m_transform.rot);
+
 	// 受付嬢の初期設定
 	receptionist.Init();
 	// 受付嬢と話せるエリアの設定
@@ -91,8 +94,12 @@ void QuestAreaScene::Init()
 void QuestAreaScene::Update()
 {
 
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
+
 	// プレイヤーの更新処理
-	player->Update(&camera.m_rot);
+	player->Update(&m_camera_rot);
+
 	// 受付嬢のの更新処理
 	receptionist.Update();
 

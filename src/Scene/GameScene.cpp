@@ -172,6 +172,10 @@ void GameScene::EntryUpdate()
 	{
 		// バトルをスターとする
 		m_what_scene = battle;
+		// タイマーをリセットする
+		m_count_time = 0;
+		// バトルのためにカメラの向きの設定
+		camera.SetCameraRot(player->m_transform.rot);
 	}
 
 
@@ -231,9 +235,11 @@ void GameScene::EndUpdate()
 		SetNextScene(End);
 		// 次のシーンに移動するためのフラグを立てる
 		m_scene_change_judge = true;
+		// タイマーをリセットする
+		m_count_time = 0;
 	}
 	// どちらのモンスターが死んだかによって処理を変える
-	switch (m_who_died)
+	switch (m_who_died) 
 	{
 
 	case player_die: // プレイヤーが死んだとき
@@ -416,8 +422,11 @@ void GameScene::Character_Init()
 //---------------------------------------------------------------------------
 void GameScene::CharacterUpdate()
 {
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
+
 	// プレイヤーの更新処理
-	player->Update(&camera.m_rot);
+	player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
 	monster->Update(&player->m_transform, player->m_hit_r);
