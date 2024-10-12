@@ -78,12 +78,17 @@ int light_handle;
 //	Scene_Max // シーンの最大数
 //};
 
+int gazou;
 
 //-------------------------------------------------------------
 // 初期処理
 //-------------------------------------------------------------
 void GameInit()
 {
+
+	gazou = LoadGraph("Data/Monsuta 2024_10_12 16_49_23.png");
+
+
 	// とりあえず今はタイトルシーンをつけておく
 	scene = new TitleScene;
 
@@ -122,8 +127,8 @@ void GameUpdate()
 
 		scene->Update();
 		// シーンの変更フラグが立っていれば
-		if (scene->m_scene_change_judge) {  
-		    // 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
+		if (scene->m_scene_change_judge) {
+			// 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
 			if (scene->m_next_scene == scene->QuestArea)
 			{
 				scene->Exit();              // delete前に終了処理を回す
@@ -131,14 +136,14 @@ void GameUpdate()
 				scene = new QuestAreaScene; // 次のシーンをnewしておく
 				scene->Init();              // 次のシーンの初期処理もここで済ます
 			}
-			
+
 		}
 		break;
 
 	case scene->QuestArea: // クエスト受注エリア
 		scene->Update();
 		// シーンの変更フラグが立っていれば
-		if (scene->m_scene_change_judge)          
+		if (scene->m_scene_change_judge)
 		{
 			// 次に行ってほしいシーンがバトルシーンだったら
 			if (scene->m_next_scene == scene->Battle)
@@ -154,7 +159,7 @@ void GameUpdate()
 	case scene->Battle:  // プレイシーン(バトルシーン)
 		scene->Update();
 		// シーンの変更フラグが立っていれば
-		if (scene->m_scene_change_judge)         
+		if (scene->m_scene_change_judge)
 		{
 			// 次に行ってほしいシーンがエンドシーンだったら
 			if (scene->m_next_scene == scene->End)
@@ -170,7 +175,7 @@ void GameUpdate()
 	case scene->End:  // エンドシーン
 		scene->Update();
 		// シーンの変更フラグが立っていれば
-		if (scene->m_scene_change_judge)                           
+		if (scene->m_scene_change_judge)
 		{
 			// 次に行ってほしいシーンがタイトルシーンだったら
 			if (scene->m_next_scene == scene->Title)
@@ -192,9 +197,11 @@ void GameUpdate()
 		break;
 	}
 
+
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);
 }
+
 
 //-------------------------------------------------------------
 // 描画処理
@@ -202,9 +209,34 @@ void GameUpdate()
 void GameDraw()
 {
 
-	// シーンの描画処理
+
 	scene->Draw();
 
+	// シーンの描画処理
+	// フェードアウト処理
+	//static int idx = 0;
+	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, idx);
+	////DrawGraph(0, 0, gazou, FALSE);
+	//DrawBox(0, 0, SCREEN_W, SCREEN_H, 0, TRUE);
+	//SetDrawBright(255 - idx, 255 - idx, 255 - idx);
+	////ScreenFlip();
+
+	////if (fadeOut && idx < 255) {
+	//	idx++;
+	//}
+	//for (int i = 0; i < 255; i++)
+	//{
+	//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, i);
+	//	DrawGraph(0, 0, gazou, FALSE);
+	//	// 描画輝度をセット
+	//	SetDrawBright(255-i, 255 - i, 255 - i);
+
+	//	ScreenFlip();
+	//	if (CheckHitKey(KEY_INPUT_ESCAPE))
+	//	{
+	//		break;
+	//	}
+	//}
 
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
@@ -212,6 +244,7 @@ void GameDraw()
 	//SetUseVertexShader(vertex_shader);
 	////	ピクセルシェーダーのセット
 	//SetUsePixelShader(pixel_shader);
+
 
 }
 
@@ -224,7 +257,7 @@ void GameExit()
 
 	// シーンの終了処理
 	scene->Exit();
-     
+
 	// シーンベースクラスの削除
 	delete scene;
 	// ライトの削除

@@ -48,3 +48,5 @@ float TO_DEGREE(float radian);
 #include "src/System/Vector3.h"
 void DrawCircle3D_XZ(Vector3 center, float radius, int color, bool fill = false);
 
+const int BLACK = 0x000000;
+

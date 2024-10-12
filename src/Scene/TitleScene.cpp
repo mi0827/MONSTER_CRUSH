@@ -56,7 +56,7 @@ void TitleScene::Init()
 	player->Init();
 	player->SetCharacterPos({ 0,0,750 });
 	player->SetCharacterRot({ 0.0f,180.0f,0.0f });
-	
+
 	// ƒJƒƒ‰‚ÌŒü‚«‚ÌÝ’è
 	camera.SetCameraRot(player->m_transform.rot);
 
@@ -169,7 +169,7 @@ void TitleScene::Draw()
 	}
 	UseShadowMapSet();
 
-
+	
 	// ‚©‚è‚Ì•Ç‚ð•`‰æ
 	//m_area_box[next_scene].Draw(255, 255);
 

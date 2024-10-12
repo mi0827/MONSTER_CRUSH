@@ -161,8 +161,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//	マウス座標を設定する（画面の真ん中に固定する）
 		SetMousePoint(SCREEN_W/ 2, SCREEN_H / 2);
 	
-		// マウスの座標を画面の中心にする
-	//SetMousePoint(SCREEN_W / 2, SCREEN_H / 2);
+	
 		
 		// １２：描画が完了したものを画面に映します
 		ScreenFlip();
