@@ -80,44 +80,40 @@ void EndScene::Init()
 //------------------------------------------
 void EndScene::Update()
 {
-	// カメラの向きを取得する
-	m_camera_rot = camera.GetCameraRot();
-
-	// プレイヤーの更新処理
-	player->Update(&m_camera_rot);
 	
-
-	// カメラの更新処理
-	camera.Update(&player->m_transform.pos);
-
 	
-
-
-	// エンターを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_RSHIFT))
+	
+	switch (m_turn)
 	{
-		// 次に行ってほしいシーンの設定をする
-		SetNextScene(Title);
-		// 次のシーンに移動するためのフラグを立てる
-		m_scene_change_judge = true;
+	case Main:
+		// カメラの向きを取得する
+		m_camera_rot = camera.GetCameraRot();
+		// プレイヤーの更新処理
+		player->Update(&m_camera_rot);
+		// カメラの更新処理
+		camera.Update(&player->m_transform.pos);
+
+		// エンターを押された時にシーンの変更をする（今だけの仮）
+		if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_RSHIFT))
+		{
+			// 次の移動先のシーンをタイトルシーン設定
+			m_change_scene = Title;
+			m_turn = FadeOut;
+		}
+
+		// エンターを押された時にシーンの変更をする（今だけの仮）
+		if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_LSHIFT))
+		{
+			// 次の移動先のシーンをクエスト受付エリアに設定
+			m_change_scene = QuestArea;
+			m_turn = FadeOut;
+		}
+		break;
+	case FadeOut:
+		// フェードアウトの処理
+		FadeOutSceneChange(m_change_scene);
+		break;
 	}
-	/*else
-	{
-		m_scene_change_judge = false;
-	}*/
-
-	// エンターを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_LSHIFT))
-	{
-		// 次に行ってほしいシーンの設定をする
-		SetNextScene(QuestArea);
-		// 次のシーンに移動するためのフラグを立てる
-		m_scene_change_judge = true;
-	}
-	/*else
-	{
-		m_scene_change_judge = false;
-	}*/
 
 
 	// フィールドとキャラクターのあたい判定
@@ -218,7 +214,8 @@ void EndScene::Draw()
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
 	
-	
+	// フェードの描画
+	FadeDraw();
 
 }
 

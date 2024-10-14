@@ -93,98 +93,117 @@ void QuestAreaScene::Init()
 //------------------------------------------
 void QuestAreaScene::Update()
 {
-
-	// カメラの向きを取得する
-	m_camera_rot = camera.GetCameraRot();
-
-	// プレイヤーの更新処理
-	player->Update(&m_camera_rot);
-
-	// 受付嬢のの更新処理
-	receptionist.Update();
-
-	// 受付嬢とプレイヤーの移動の当たり判定
-	if (CheckCapsuleHit(receptionist.m_hit_body, player->m_body))
+	switch (m_turn)
 	{
-		player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &receptionist.m_hit_body);
-	}
-	// フィールドとキャラクターの当たり判定
-	HitField();
+	/*case FadeIn:
+		FadeInUpdate();
+		break;*/
+	case Main:
+		// カメラの向きを取得する
+		m_camera_rot = camera.GetCameraRot();
 
+		// プレイヤーの更新処理
+		player->Update(&m_camera_rot);
 
-	// プレイヤーが受付嬢と話せる範囲に入ったかの確認
-	if (CheckCapsuleHit(m_area, player->m_body))
-	{
-		// Xキーを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_F))
+		// 受付嬢のの更新処理
+		receptionist.Update();
+
+		// 受付嬢とプレイヤーの移動の当たり判定
+		if (CheckCapsuleHit(receptionist.m_hit_body, player->m_body))
 		{
-			// 次に行ってほしいシーンに移動(バトルシーン)
-			SetNextScene(Battle);
-			m_scene_change_judge = true;
+			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &receptionist.m_hit_body);
 		}
-		// 話せるエリアに入ったからフラグを上げる
-		m_area_hit = true;
-	}
-	else
-	{
-		// 範囲外にいるときはフラグを下げる
-		m_area_hit = false;
-	}
+		// フィールドとキャラクターの当たり判定
+		HitField();
 
-	// カメラの更新処理
-	camera.Update(&player->m_transform.pos);
 
-	// 文字列の描画のための設定
-	for (int i = 0; i < text_max; i++)
-	{
-		// 座標変換
-		VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_text[i].shift_pos);
-		// 描画座用に変換
-		m_text[i].draw_pos.VSet(pos);
-
-		// 変換したスクリーン座標のZの値が0.0 ~ 1.0 なら描画していい
-		if (i == f_text)
+		// プレイヤーが受付嬢と話せる範囲に入ったかの確認
+		if (CheckCapsuleHit(m_area, player->m_body))
 		{
-			// 描画したい文字列がF : 話すの場合
-			// 話していいエリアに入っていないと描画できないようにする
-			if (m_area_hit)
+			// Xキーを押された時にシーンの変更をする（今だけの仮）
+			if (PushHitKey(KEY_INPUT_F))
+			{
+				//// 次に行ってほしいシーンに移動(バトルシーン)
+				//SetNextScene(Battle);
+				//m_scene_change_judge = true;
+				// フェード嘔吐のターンに変更
+				m_turn = FadeOut;
+			}
+			// 話せるエリアに入ったからフラグを上げる
+			m_area_hit = true;
+		}
+		else
+		{
+			// 範囲外にいるときはフラグを下げる
+			m_area_hit = false;
+		}
+
+		// カメラの更新処理
+		camera.Update(&player->m_transform.pos);
+
+		// 文字列の描画のための設定
+		for (int i = 0; i < text_max; i++)
+		{
+			// 座標変換
+			VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_text[i].shift_pos);
+			// 描画座用に変換
+			m_text[i].draw_pos.VSet(pos);
+
+			// 変換したスクリーン座標のZの値が0.0 ~ 1.0 なら描画していい
+			if (i == f_text)
+			{
+				// 描画したい文字列がF : 話すの場合
+				// 話していいエリアに入っていないと描画できないようにする
+				if (m_area_hit)
+				{
+					// カメラの画角内稼働かによって描画しない
+					// 画角内
+					if (pos.z > 0.0f && pos.z < 1.0f)
+					{
+						// 描画する
+						m_text[i].draw_flag = true;
+					}
+					else // 画面がい
+					{
+						// 描画しない
+						m_text[i].draw_flag = false;
+					}
+				}
+				else // 範囲がいでも描画できない
+				{
+					m_text[i].draw_flag = false;
+				}
+
+			}
+			else // 指定のテキスト以外は
 			{
 				// カメラの画角内稼働かによって描画しない
-				// 画角内
 				if (pos.z > 0.0f && pos.z < 1.0f)
 				{
 					// 描画する
 					m_text[i].draw_flag = true;
 				}
-				else // 画面がい
+				else
 				{
 					// 描画しない
 					m_text[i].draw_flag = false;
 				}
 			}
-			else // 範囲がいでも描画できない
-			{
-				m_text[i].draw_flag = false;
-			}
-		
 		}
-		else // 指定のテキスト以外は
 		{
-			// カメラの画角内稼働かによって描画しない
-			if (pos.z > 0.0f && pos.z < 1.0f)
-			{
-				// 描画する
-				m_text[i].draw_flag = true;
-			}
-			else
-			{
-				// 描画しない
-				m_text[i].draw_flag = false;
-			}
-
+			
 		}
-
+		break;
+	case FadeOut:
+		// フェードアウトの処理
+		FadeOutSceneChange(Battle);
+		break;
 	}
+
+
+
+
+
 
 
 
@@ -284,6 +303,9 @@ void QuestAreaScene::Draw()
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
+
+	// フェードの描画処理
+	FadeDraw();
 }
 
 //------------------------------------------

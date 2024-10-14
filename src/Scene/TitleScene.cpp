@@ -75,44 +75,44 @@ void TitleScene::Init()
 //------------------------------------------
 void TitleScene::Update()
 {
-	// カメラの向きを取得する
-	m_camera_rot = camera.GetCameraRot();
-
-	// プレイヤーの更新処理
-	player->Update(&m_camera_rot);
-
-	// フィールドとの当たり判定
-	HitField();
-
-	// カメラの更新処理
-	camera.Update(&player->m_transform.pos);
-
-
-
-
-	// Xキーを押された時にシーンの変更をする（今だけの仮）
-	if (PushHitKey(KEY_INPUT_RETURN))
+	switch (m_turn)
 	{
-		// 次に行ってほしいシーンに移動
-		SetNextScene(QuestArea);
-		// シーン変更フラグを立てる
-		m_scene_change_judge = true;
+	case Main:
+		// カメラの向きを取得する
+		m_camera_rot = camera.GetCameraRot();
+
+		// プレイヤーの更新処理
+		player->Update(&m_camera_rot);
+
+		// フィールドとの当たり判定
+		HitField();
+
+		// カメラの更新処理
+		camera.Update(&player->m_transform.pos);
+
+		// Xキーを押された時にシーンの変更をする（今だけの仮）
+		if (PushHitKey(KEY_INPUT_RETURN))
+		{
+			// 次に行ってほしいシーンに移動
+			SetNextScene(QuestArea);
+			// シーン変更フラグを立てる
+			m_scene_change_judge = true;
+		}
+
+		// この当たり判定に入ったら
+		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			m_area_box[next_scene].m_box.hit_pos, m_area_box[next_scene].m_box.half_size))
+		{
+			// フェード嘔吐のターンに変更
+			m_turn = FadeOut;
+		}
+		break;
+	case FadeOut:
+		// フェードアウトの処理
+		FadeOutSceneChange(QuestArea);
+		break;
 	}
-
-
-
-	// この当たり判定に入ったら
-	if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-		m_area_box[next_scene].m_box.hit_pos, m_area_box[next_scene].m_box.half_size))
-	{
-		// 次に行ってほしいシーンに移動
-		SetNextScene(QuestArea);
-		// シーン変更フラグを立てる
-		m_scene_change_judge = true;
-	}
-
-
-
+	
 }
 
 //------------------------------------------
@@ -199,9 +199,9 @@ void TitleScene::Draw()
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
-
-
-
+	
+	// フェードの描画処理
+	FadeDraw();
 }
 
 //------------------------------------------

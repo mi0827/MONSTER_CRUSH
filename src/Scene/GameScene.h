@@ -125,7 +125,7 @@ public:
 
 
 	// バトルが終わってからどれくらいの時間で次のシーンに移動するかの時間
-	static constexpr int CHANGE_TIME = 5;
+	static constexpr int CHANGE_TIME = 3;
 
 	//================================
 	//  バトルが終わった後に描画するメッセージに関する変数

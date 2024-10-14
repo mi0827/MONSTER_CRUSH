@@ -131,7 +131,6 @@ void GameScene::Update()
 	case result: // バトルシーンの後
 		EndUpdate();
 		break;
-
 	}
 
 
@@ -231,17 +230,22 @@ void GameScene::EndUpdate()
 	// タイマーが一定時間たったら(５秒)
 	if (m_count_time > CHANGE_TIME)
 	{
-		// 次に行ってほしいシーンの設定をする
-		SetNextScene(End);
-		// 次のシーンに移動するためのフラグを立てる
-		m_scene_change_judge = true;
+		m_turn = FadeOut;
 		// タイマーをリセットする
 		m_count_time = 0;
+
 	}
+	// キャラクターの更新処理
+	CharacterUpdate();
+	if (m_turn == FadeOut)
+	{
+		FadeOutSceneChange(End);
+	}
+	
+
 	// どちらのモンスターが死んだかによって処理を変える
 	switch (m_who_died) 
 	{
-
 	case player_die: // プレイヤーが死んだとき
 		// プレイヤーを中心に
 		// 右回転
@@ -280,11 +284,7 @@ void GameScene::Draw()
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
-		// シャドウマップへキャラクターモデルの描画
-		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		//MV1DrawModel(ground); // モデルの描画
+		
 		field.Draw();
 		// モンスターの描画
 		monster->Draw();
@@ -331,7 +331,8 @@ void GameScene::Draw()
 		VDMessage();
 	}
 	
-
+	// フェードの描画処理
+	FadeDraw();
 }
 
 //---------------------------------------------------------------------------

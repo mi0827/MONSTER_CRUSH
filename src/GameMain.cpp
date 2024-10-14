@@ -209,34 +209,10 @@ void GameUpdate()
 void GameDraw()
 {
 
-
+	// シーンの描画処理
 	scene->Draw();
 
-	// シーンの描画処理
-	// フェードアウト処理
-	//static int idx = 0;
-	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, idx);
-	////DrawGraph(0, 0, gazou, FALSE);
-	//DrawBox(0, 0, SCREEN_W, SCREEN_H, 0, TRUE);
-	//SetDrawBright(255 - idx, 255 - idx, 255 - idx);
-	////ScreenFlip();
-
-	////if (fadeOut && idx < 255) {
-	//	idx++;
-	//}
-	//for (int i = 0; i < 255; i++)
-	//{
-	//	SetDrawBlendMode(DX_BLENDMODE_ALPHA, i);
-	//	DrawGraph(0, 0, gazou, FALSE);
-	//	// 描画輝度をセット
-	//	SetDrawBright(255-i, 255 - i, 255 - i);
-
-	//	ScreenFlip();
-	//	if (CheckHitKey(KEY_INPUT_ESCAPE))
-	//	{
-	//		break;
-	//	}
-	//}
+	
 
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);

@@ -29,7 +29,6 @@ public:
 	//! @brief フィールドとの当たり判定
 	virtual void HitField() = 0;
 
-
 	//! @bom,se の音量を設定する用の関数
 	// void SetSoundSize(int bgm_volume, int se_volume);
 
@@ -54,6 +53,15 @@ public:
 	//! @param 次に行いたいシーン番号
 	void SetNextScene(int next_scene);
 
+
+	//! @brief フェードアウト処理関数
+	void FadeOutUpdate();
+	//! @brief フェードアウトからのシーンチェンジ用関数
+	void FadeOutSceneChange(int next_scene);
+	//! @brief フェードイン処理
+	void FadeInUpdate();
+	//! @brief フェードアウトを描画する処理
+	void FadeDraw();
 
 
 public:
@@ -91,11 +99,28 @@ public:
 		Battle,
 		End
 	};
-
-
 	//! 現在のシーン
 	int m_now_scene = Title;
 	//! 次に行いたいシーン
 	int m_next_scene = -1;
+	//! 各シーンで行われる順番
+	enum SceneTurn
+	{
+		//FadeIn,
+		Main,
+		FadeOut
+	};
+	//! 現在のターン
+	int m_turn = Main;
+	
 
+private:
+	//! シーンでのフレームカウント
+	int m_frame_count = 0;
+	//! フェードアウト・インタイムカウント
+	int m_fade_time = 0;
+	//! フェードアウト・インの割合
+	int m_fade_ratio = 0;
+	//! どのくらいの値変化するのかの値
+	int m_fade_value = 0;
 };

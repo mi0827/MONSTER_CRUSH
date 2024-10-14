@@ -47,8 +47,8 @@ void Scene_Base::ShadowMapInit()
 void Scene_Base::SetPlayerShadowMapArea(Vector3 player_pos)
 {
 	// シャドーマップに描画する範囲の設定
-    // 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
-    // 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
+	// 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
+	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
 	SetShadowMapDrawArea(m_player_shadowMap_handle,
 		VGet(player_pos.x - 200.0f, -0.1f, player_pos.z - 200.0f),
 		VGet(player_pos.x + 200.0f, +1500.0f, player_pos.z + 200.0f));
@@ -84,7 +84,7 @@ VECTOR Scene_Base::DrawStringWrold(Vector3 pos, Vector3 shift_pos)
 	// ずらしたい分ずらす
 	wpos.x += shift_pos.x;
 	wpos.y += shift_pos.y;
-	
+
 
 	// この座標（wpos）を関数に渡してスクリーン座標（２D画面座標 : pos2d）を取得
 	VECTOR pos2d = ConvWorldPosToScreenPos(wpos);
@@ -92,10 +92,113 @@ VECTOR Scene_Base::DrawStringWrold(Vector3 pos, Vector3 shift_pos)
 	return pos2d;
 }
 
+// --------------------------------------------------------------------------
+// 次に行いたいシーンをセットする関数
+// --------------------------------------------------------------------------
 void Scene_Base::SetNextScene(int next_scene)
 {
 	// 次に行いたいシーンの保存
 	m_next_scene = next_scene;
 	// 次に行いたいシーンを現在のシーンに入れ替える
-	m_now_scene = next_scene; 
+	m_now_scene = next_scene;
+}
+
+// --------------------------------------------------------------------------
+// フェードアウトするための処理
+// --------------------------------------------------------------------------
+void Scene_Base::FadeOutUpdate()
+{
+
+	// フレームカウントが指定の値以上になったら
+	if (m_frame_count >= FLAME_MAX)
+	{
+		// カウントをリセット
+		m_frame_count = 0;
+		// フェードアウトの次はフェードインのターンになる
+		m_turn = Main;
+	}
+
+	// フレームカウントをf増やす
+	m_frame_count++;
+	
+	// 一秒でどれだけの値変化するかの割合を出す
+	 m_fade_ratio = 255 / FLAME_MAX;
+	// 減る値の量を出す
+	m_fade_value = m_fade_ratio * m_frame_count;
+}
+
+
+// --------------------------------------------------------------------------
+// フェードアウトした後にシーンの切り替えをするための処理
+// --------------------------------------------------------------------------
+void Scene_Base::FadeOutSceneChange(int next_scene)
+{
+	// フェードアウト関数の中でカウントされたカウントか
+	// 指定の値以上になったらシーンの変える
+	if (m_frame_count >= FLAME_MAX)
+	{
+		// 次に行いたいシーンの設定
+		SetNextScene(next_scene);
+		// シーン変更フラグを立てる
+		m_scene_change_judge = true;
+	}
+	// フェードアウト処理
+	FadeOutUpdate();
+}
+
+// --------------------------------------------------------------------------
+// フェードインするための処理
+// --------------------------------------------------------------------------
+void Scene_Base::FadeInUpdate()
+{
+	// フレームカウントが指定の値以上になったら
+	if (m_frame_count >= FLAME_MAX)
+	{
+		// カウントをリセット
+		m_frame_count = 0;
+		// フェードインの後はメインのターンになる
+		m_turn = Main;
+	}
+
+	// フレームカウントをf増やす
+	m_frame_count++;
+
+	// 一秒でどれだけの値変化するかの割合を出す
+	m_fade_ratio = 255 / FLAME_MAX;
+	// 減る値の量を出す
+	m_fade_value = m_fade_ratio * m_frame_count;
+}
+
+// --------------------------------------------------------------------------
+// フェードの描画処理
+// --------------------------------------------------------------------------
+void Scene_Base::FadeDraw()
+{
+	switch (m_turn)
+	{
+	    //case FadeIn:
+		// 透明度の変更
+		//SetDrawBlendMode(DX_BLENDMODE_ALPHA,  255 - m_fade_value);
+		//// 黒い壁のの描画
+		//DrawBox(0, 0, SCREEN_W, SCREEN_H, 0, TRUE);
+		//// 暗さの変更
+		////SetDrawBright( m_fade_value,  m_fade_value,  m_fade_value);
+		//break;
+	case Main:
+		// 透明度の変更
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+		// 暗さの変更
+		SetDrawBright(255, 255 , 255 );
+		break;
+
+	case FadeOut:
+		// 透明度の変更
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA,  m_fade_value);
+		// 黒い壁のの描画
+		DrawBox(0, 0, SCREEN_W, SCREEN_H, 0, TRUE);
+		// 暗さの変更
+		SetDrawBright(255 - m_fade_value, 255 - m_fade_value, 255 - m_fade_value);
+		break;
+	}
+
 }

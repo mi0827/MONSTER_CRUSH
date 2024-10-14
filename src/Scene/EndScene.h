@@ -94,4 +94,8 @@ private:
 
 	// プレイヤーのオブジェクト
 	CharacterBase* player;
+
+private:
+	//! シーン変更でどちらのシーンに移動するかを保存する
+	int m_change_scene = 0;
 };
