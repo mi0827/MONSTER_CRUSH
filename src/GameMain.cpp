@@ -44,10 +44,16 @@
 #include "src/Scene/GameScene.h"
 #include "src/Scene/EndScene.h"
 
+#include "src/Sound/BGM.h"
+#include "src/Sound/BGM.h"
+#include "src/System/Option.h"
+
 #include "GameMain.h"
 
 // 各シーンのオブジェクト
 Scene_Base* scene;
+
+Option option;
 
 
 // ライトとシャドーマップの設定はゲームメインで行う
@@ -85,6 +91,8 @@ int gazou;
 //-------------------------------------------------------------
 void GameInit()
 {
+
+	option.Init();
 
 	gazou = LoadGraph("Data/Monsuta 2024_10_12 16_49_23.png");
 
@@ -197,7 +205,7 @@ void GameUpdate()
 		break;
 	}
 
-
+	option.Update();
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);
 }
@@ -212,8 +220,8 @@ void GameDraw()
 	// シーンの描画処理
 	scene->Draw();
 
-	
 
+	option.Draw();
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
 	////	頂点シェーダーのセット
