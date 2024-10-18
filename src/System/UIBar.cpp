@@ -99,7 +99,6 @@ void UIBra::Update(int* value)
 //-----------------------------------------------
 void UIBra::Draw()
 {
-
 	// バックバーの描画
 	DrawBox(m_back_pos1.x, m_back_pos1.y, m_back_pos2.x, m_back_pos2.y, m_back_color, TRUE);
 

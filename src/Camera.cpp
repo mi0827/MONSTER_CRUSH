@@ -343,7 +343,6 @@ void Camera::CameraShakeLimited(float power, float time)
 	}
 	// ‚¸‚ê‚ğŠÜ‚ß‚½À•W
 	m_pos += m_shake_pos;
-	
 }	
 
 

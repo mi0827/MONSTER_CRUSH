@@ -13,7 +13,7 @@ public:
 	//! @brief バーの初期化
 	//! @param バーの座標
 	//! @param バーのサイズ
-	//! @param 設定したい数値
+	//! @param 設定したい数値(最大値)
 	//! @param 枠を作成するかどうか
 	void Set(Vector2 pos, Vector2 size, int* value, bool line);
 
@@ -21,7 +21,7 @@ public:
 	//! @param 赤の値
 	//! @param 緑の値
 	//! @param 青の値
-	//! @param UIBraクラスの各カラー変数のどれかを入れる
+	//! @param UIBraクラスの各カラー変数のどれかを入れる(どの色を変えか変数を入れる)
 	void SetColor(int red,int green, int blue, int* color);
 	
 	//! @brief 名前の設定関数
