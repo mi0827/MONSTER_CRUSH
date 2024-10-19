@@ -64,65 +64,32 @@ void Option::Update()
 	// オプションメニューが開いているとき
 	if (m_option_flag)
 	{
+		// どのメニューを操作するかの選択
+		MenuSelect();
 		m_menu_count++; // カウントを増やす
-		// 左右のボタンで変更したい方を選択
-		// ０：BGM
-		// １：SE
-		// 左ボタン
-		if (IsPadOn(PAD_ID::PAD_D_DOWN, PAD_NO::PAD_NO1) || IsPadOn(PAD_ID::PAD_D_DOWN, PAD_NO::PAD_NO2))
+		// 選択されたメニューバーの値を増やす
+		if (PushHitKey(KEY_INPUT_RIGHT))
 		{
-			m_select -= 1;
-			if (m_select < 0)
+			// 十分割できる用に値を設定して値に足す
+			option_menu[m_selection_menu].m_value += VOLUME_CONSTANT_VALUE;
+			if (option_menu[m_selection_menu].m_value >= VOLUME_MAX)
 			{
-				m_select = 1;
+				// 最大の値を超えないようにする
+				option_menu[m_selection_menu].m_value = VOLUME_MAX;
 			}
 		}
-		// 右ボタン
-		if (IsPadOn(PAD_ID::PAD_D_RIGHT, PAD_NO::PAD_NO1) || IsPadOn(PAD_ID::PAD_D_RIGHT, PAD_NO::PAD_NO2))
+		// 選択されたメニューバーの値を減らす
+		if (PushHitKey(KEY_INPUT_LEFT))
 		{
-			m_select += 1;
-			if (m_select >= 2)
+			// 十分割できる用に値を設定して値に足す
+			option_menu[m_selection_menu].m_value -= VOLUME_CONSTANT_VALUE;
+			if (option_menu[m_selection_menu].m_value <= VOLUME_LEAST)
 			{
-				m_select = 0;
-			}
-		}
-		if (m_select == 0) {
-			// BGMの音量を下げる
-			// 下ボタン
-			if (IsPadOn(PAD_ID::PAD_D_LEFT, PAD_NO::PAD_NO1) || IsPadOn(PAD_ID::PAD_D_LEFT, PAD_NO::PAD_NO2))
-			{
-				m_bgm_Volume -= 10;
-			}
-			// BGMの音量を上げる
-			// 上ボタン
-			if (IsPadOn(PAD_ID::PAD_D_UP, PAD_NO::PAD_NO1) || IsPadOn(PAD_ID::PAD_D_UP, PAD_NO::PAD_NO2))
-			{
-				m_bgm_Volume += 10;
-			}
-		}
-		else {
-			// SEの音量を下げる
-			// 下ボタン
-			if (IsPadOn(PAD_ID::PAD_D_LEFT, PAD_NO::PAD_NO1) || IsPadOn(PAD_ID::PAD_D_LEFT, PAD_NO::PAD_NO2))
-			{
-				m_bgm_Volume -= 10;
-			}
-			// SEの音量を上げる
-			// 上ボタン
-			if (IsPadOn(PAD_ID::PAD_D_UP, PAD_NO::PAD_NO1) || IsPadOn(PAD_ID::PAD_D_UP, PAD_NO::PAD_NO2))
-			{
-				m_se_Volume += 10;
+				// 最小の値を超えないようにする
+				option_menu[m_selection_menu].m_value = VOLUME_LEAST;
 			}
 		}
 	}
-	//// BGMの最低の値で止める
-	//if (m_bgm_Volume <= Volume_LEAST) { m_bgm_Volume = Volume_LEAST; }
-	//// BGMの最大値で止める
-	//if (m_bgm_Volume >= Volume_MAX) { m_bgm_Volume = Volume_MAX; }
-	//// SEの最低の値で止める
-	//if (m_se_Volume <= Volume_LEAST) { m_se_Volume = Volume_LEAST; }
-	//// SEの最大値で止める
-	//if (m_se_Volume >= Volume_MAX) { m_se_Volume = Volume_MAX; }
 
 	// カウントが一定以上になったら
 	if (m_menu_count >= MENU_COUNT)
@@ -137,7 +104,6 @@ void Option::Update()
 			m_menu_count = 0;
 		}
 	}
-
 	// バーの更新処理
 	for (int i = 0; i < MENU_MAX; i++)
 	{
@@ -145,11 +111,15 @@ void Option::Update()
 	}
 }
 
+//----------------------------------------------
+// オプションの設定
+//----------------------------------------------
 void Option::SetOptionMenu()
 {
 	// 各バーの設定
 	for (int i = 0; i < MENU_MAX; i++)
 	{
+		// 各バーの作成
 		m_bra[i].Set(option_menu[i].m_pos, m_bra_size, &option_menu[i].m_value, true);
 
 		// 名前の設定
@@ -167,6 +137,47 @@ void Option::SetOptionMenu()
 	}
 
 
+
+}
+
+//----------------------------------------------
+// どのメニューを操作するかの選択処理
+//----------------------------------------------
+void Option::MenuSelect()
+{
+	// 上キーを押された時
+	if (PushHitKey(KEY_INPUT_UP))
+	{
+		m_selection_menu--;
+		// 一定以上上に行くと下に移動する
+		if (m_selection_menu < BGM)
+		{
+			m_selection_menu = MOUSE;
+		}
+	}
+	if (PushHitKey(KEY_INPUT_DOWN))
+	{
+		m_selection_menu++;
+		// 一定以上下に行くと上に移動する
+		if (m_selection_menu > MOUSE)
+		{
+			m_selection_menu = BGM;
+		}
+	}
+	// 選択しているメニューだけ外枠の色を変える
+	for (int i = 0; i < MENU_MAX; i++)
+	{
+		if (i == m_selection_menu)
+		{
+			// 外枠の色
+			m_bra[m_selection_menu].SetColor(0, 0, 0, &m_bra[m_selection_menu].m_line_color);
+		}
+		else
+		{
+			// 外枠の色
+			m_bra[i].SetColor(255, 255, 255, &m_bra[i].m_line_color);
+		}
+	}
 
 }
 
