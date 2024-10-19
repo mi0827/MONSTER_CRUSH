@@ -33,7 +33,7 @@ public:
 	// 引数
 	// １：ボリュームの大きさ
 	// ２：SEの数
-	void SE_ChangeVolume(int se_volume,int size);
+	void SE_ChangeVolume(int se_volume/*,int size*/);
 
 	// SEが再生中かを返す関数
 	// 引数
@@ -48,6 +48,8 @@ public:
 	void SE_Delete();
 	
 public:
-
-	int* m_se_container; // SEの入れ物用の配列
+	// SEの入れ物用の配列
+	int* m_se_container; 
+	// SEの数を保存する
+	int m_se_size;
 };

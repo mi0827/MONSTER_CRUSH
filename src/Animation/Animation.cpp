@@ -142,7 +142,7 @@ void Animation::Attach_Animation(Model* model, int anim_num, bool loop)
 		model->m_model,
 		m_contexts[0].animation_attach_index
 	);
-
+	m_contexts[0].m_blend_ratio =0;
 	// ƒ‹[ƒv‚·‚é‚©‚Ç‚¤‚©
 	m_contexts[0].is_loop = loop;
 

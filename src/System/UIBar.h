@@ -62,6 +62,10 @@ private:
 	Vector2 m_line_pos2{ 0,0 };
 	//! バーのラインも引く時用の大きさ
 	Vector2 m_line_size{0,0};
+	//! ラインが見やすくなるように少し太めにする
+	static constexpr float LINE_SIZE_X = 5.0f;
+	static constexpr float LINE_SIZE_Y = 5.0f;
+
 	//! 外枠のラインを引くかひかないかを判断する変数
 	bool m_line_judgment = false;
 

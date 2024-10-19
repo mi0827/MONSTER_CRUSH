@@ -17,6 +17,7 @@ void BGM::BGM_ContainerNew(int size)
 {
 	// BGM分の配列の確保
 	m_bgm_container = new int[size];
+	m_bgm_size = size;
 }
 
 //---------------------------------------------------------------------------
@@ -40,10 +41,10 @@ void BGM::Play_BGM(int type, bool loop, int No)
 //---------------------------------------------------------------------------
 //  BGMのボリューム変更用関数
 //---------------------------------------------------------------------------
-void BGM::BGM_ChangeVolume(int bgm_volume, int size)
+void BGM::BGM_ChangeVolume(int bgm_volume)
 {
 	// BGMの数分ボリュームを変更する
-	for (int i = 0; i < size; ++i) 
+	for (int i = 0; i < m_bgm_size; ++i)
 	{
 		ChangeVolumeSoundMem(bgm_volume, m_bgm_container[i]);
 	}

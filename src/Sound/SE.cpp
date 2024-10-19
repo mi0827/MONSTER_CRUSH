@@ -16,6 +16,7 @@ void SE::SE_ContainerNew(int size)
 {
 	// SE分の配列の確保
 	m_se_container = new int[size];
+	m_se_size = size;
 }
 
 //---------------------------------------------------------------------------
@@ -39,10 +40,10 @@ void SE::Play_SE(int No, int type, bool loop)
 //---------------------------------------------------------------------------
 //  SEのボリューム変更用関数
 //---------------------------------------------------------------------------
-void SE::SE_ChangeVolume(int se_volume, int size)
+void SE::SE_ChangeVolume(int se_volume/*, int size*/)
 {
 	// SEの数分ボリュームを変更する
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < m_se_size; i++) {
 		ChangeVolumeSoundMem(se_volume,m_se_container[i]);
 	}
 }

@@ -32,7 +32,7 @@ public:
 	// 引数
 	// １：ボリュームの大きさ
 	// ２：BGMの数
-	void BGM_ChangeVolume(int bgm_volume, int size);
+	void BGM_ChangeVolume(int bgm_volume/*, int size*/);
 
 	// BGMを止める
 	// 引数
@@ -49,5 +49,9 @@ public:
 	// BGMのデリート（配列の解放）
 	void BGM_Delete();
 public:
-	int* m_bgm_container = 0; // BGMの入れ物用変数
+	//! BGMの入れ物用変数
+	int* m_bgm_container = 0; 
+
+	//! BGM数を保存
+	int m_bgm_size;
 };

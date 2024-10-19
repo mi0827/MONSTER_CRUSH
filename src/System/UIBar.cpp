@@ -36,10 +36,14 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 	// 外枠のラインを引く場合
 	if (m_line_judgment)
 	{
+		/*m_line_size.x = m_size.x + LINE_SIZE_X;
+		m_line_size.y = m_size.y + LINE_SIZE_Y;*/
 		// 外枠のラインの設定
-		m_line_pos1 = m_pos1;
-		m_line_size = m_size;
-		m_line_pos2 = m_pos2;
+		m_line_pos1.x = m_pos1.x - LINE_SIZE_X;
+		m_line_pos1.y = m_pos1.y - LINE_SIZE_Y;
+
+		m_line_pos2.x = m_pos2.x + LINE_SIZE_X;
+		m_line_pos2.y = m_pos2.y + LINE_SIZE_Y;
 		SetColor(255, 255, 255, &m_line_color);
 	}
 	// 各カラーの設定
@@ -99,6 +103,12 @@ void UIBra::Update(int* value)
 //-----------------------------------------------
 void UIBra::Draw()
 {
+	// 外枠のラインを引く場合
+	if (m_line_judgment)
+	{
+		DrawBox(m_line_pos1.x, m_line_pos1.y, m_line_pos2.x, m_line_pos2.y, m_line_color, TRUE);
+	}
+
 	// バックバーの描画
 	DrawBox(m_back_pos1.x, m_back_pos1.y, m_back_pos2.x, m_back_pos2.y, m_back_color, TRUE);
 
@@ -116,10 +126,6 @@ void UIBra::Draw()
 		SetFontSize(font_size);
 	}
 
-	// 外枠のラインを引く場合
-	if (m_line_judgment)
-	{
-		DrawBox(m_line_pos1.x, m_line_pos1.y, m_line_pos2.x, m_line_pos2.y, m_line_color, FALSE);
-	}
+	
 
 }

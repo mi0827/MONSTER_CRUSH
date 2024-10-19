@@ -131,13 +131,10 @@ void Option::SetOptionMenu()
 		// バーのバックの色
 		m_bra[i].SetColor(128, 128, 0, &m_bra[i].m_back_color);
 		// 外枠の色
-		m_bra[i].SetColor(255, 255, 255, &m_bra[i].m_line_color);
+		m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_line_color);
 		// 文字の色
 		m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_character_color);
 	}
-
-
-
 }
 
 //----------------------------------------------
@@ -170,12 +167,12 @@ void Option::MenuSelect()
 		if (i == m_selection_menu)
 		{
 			// 外枠の色
-			m_bra[m_selection_menu].SetColor(0, 0, 0, &m_bra[m_selection_menu].m_line_color);
+			m_bra[m_selection_menu].SetColor(255, 255, 255, &m_bra[m_selection_menu].m_line_color);
 		}
 		else
 		{
 			// 外枠の色
-			m_bra[i].SetColor(255, 255, 255, &m_bra[i].m_line_color);
+			m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_line_color);
 		}
 	}
 
@@ -192,39 +189,7 @@ void Option::Draw()
 	if (m_option_flag)
 	{
 		DrawExtendGraphF(m_option_box_pos.x, m_option_box_pos.y, m_option_box_pos.x + BOX_SIZE_X, m_option_box_pos.y + BOX_SIZE_Y, m_image_box, TRUE);  // オプションメニューの背景
-		//	// BGMバーの描画 
-		//	DrawBox(    (int)m_bgm_box_pos.x, (int)m_bgm_box_pos.y, (int)(m_bgm_box_pos.x + BAR_SIZE), (int)(m_bgm_box_pos.y - m_bgm_Volume), GetColor(0, 0, 0), true);
-		//	DrawLineBox((int)m_bgm_box_pos.x, (int)m_bgm_box_pos.y, (int)(m_bgm_box_pos.x + BAR_SIZE), (int)(m_bgm_box_pos.y - m_bgm_Volume), GetColor(255, 255, 255));
-
-		//	const char* bgm = "BGM";
-		//	Vector2 bgm_pos; // 文字列の座標
-		//	bgm_pos.x = (float)GetDrawStringWidth(bgm, -1);
-		//	bgm_pos.y = (float)GetFontSize();
-		//	DrawFormatStringF((m_bgm_box_pos.x + BAR_SIZE / 2 - bgm_pos.x / 2), m_bgm_box_pos.y, GetColor(0, 0, 0), bgm);// 文字列の描画
-
-		//	// SEバーの描画
-		//	DrawBox(    (int)m_se_box_pos.x, (int)m_se_box_pos.y, (int)(m_se_box_pos.x + BAR_SIZE), (int)(m_se_box_pos.y - m_se_Volume), GetColor(0, 0, 0), true);
-		//	DrawLineBox((int)m_se_box_pos.x, (int)m_se_box_pos.y, (int)(m_se_box_pos.x + BAR_SIZE), (int)(m_se_box_pos.y - m_se_Volume), GetColor(255, 255, 255));
-		//	const char* se = "SE";
-		//	Vector2 se_pos; // 文字列の座標
-		//	se_pos.x = (float)GetDrawStringWidth(se, -1);
-		//	se_pos.y = (float)GetFontSize();
-		//	DrawFormatStringF((m_se_box_pos.x + BAR_SIZE / 2 - se_pos.x / 2), m_se_box_pos.y, GetColor(0, 0, 0), se); // 文字列の描画
-		//
-		//
-		//	// どちらのバーを選んでいるかわかりやすくするためのもの
-		//	if (m_select == 0) 
-		//	{
-		//		// BGM側
-		//		DrawLineBox((int)m_bgm_box_pos.x, (int)m_bgm_box_pos.y, (int)(m_bgm_box_pos.x + BAR_SIZE), (int)(m_bgm_box_pos.y - m_bgm_Volume), GetColor(255, 255, 0));
-		//		DrawFormatStringF(m_bgm_box_pos.x + BAR_SIZE / 2 - bgm_pos.x / 2 - 2, m_bgm_box_pos.y - 2, GetColor(255, 255, 0), bgm);
-		//	}
-		//	else
-		//	{
-		//		// SE側
-		//		DrawLineBox((int)m_se_box_pos.x, (int)m_se_box_pos.y, (int)(m_se_box_pos.x + BAR_SIZE), (int)(m_se_box_pos.y - m_se_Volume), GetColor(225, 255, 0));
-		//		DrawFormatStringF(m_se_box_pos.x + BAR_SIZE / 2 - se_pos.x / 2 -2, m_se_box_pos.y-2, GetColor(255, 255, 0), se);
-		//	}
+		
 
 		// デフォルトの文字の大きさを保存しておく
 		int original_font_size = GetFontSize();

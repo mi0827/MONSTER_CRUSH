@@ -29,6 +29,10 @@ public:
 	//! @brief フィールドとの当たり判定
 	virtual void HitField() = 0;
 
+	//! @brief オプションメニューでもらってきた値を反映する関数
+	//virtual void OptionValuesReflec() = 0;
+
+
 	//! @bom,se の音量を設定する用の関数
 	// void SetSoundSize(int bgm_volume, int se_volume);
 
