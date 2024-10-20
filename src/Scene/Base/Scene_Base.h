@@ -30,7 +30,10 @@ public:
 	virtual void HitField() = 0;
 
 	//! @brief オプションメニューでもらってきた値を反映する関数
-	//virtual void OptionValuesReflec() = 0;
+	//! @param BGMの音量
+	//! @param SEの音量
+	//! @param マウス感度
+	virtual void OptionValuesReflect(int bgm, int se, int mouse) = 0;
 
 
 	//! @bom,se の音量を設定する用の関数

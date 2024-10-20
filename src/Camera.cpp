@@ -23,7 +23,7 @@ Camera::Camera()
 	m_pos.set(0.0f, 0.0f, -20.0f);
 	//! カメラの向きは全部０度で開始
 	m_rot.set(0.0f, 0.0f, 0.0f);
-	
+
 	//! カメラが見る座標
 	m_look.set(0.0f, 0.0f, 0.0f); // すべて０．０ｆで初期化
 
@@ -68,13 +68,13 @@ void Camera::Update(Vector3* target_pos)
 
 
 	// カメラが地面に埋まらないようにしている
-	if (m_rot.x <= LOWER_ANGLE) 
+	if (m_rot.x <= LOWER_ANGLE)
 	{
 		m_rot.x = LOWER_ANGLE;
 	}
 
 	// カメラが真上にいかないようにしている
-	if (m_rot.x >= UP_ANGLE_MAX) 
+	if (m_rot.x >= UP_ANGLE_MAX)
 	{
 		m_rot.x = UP_ANGLE_MAX;
 	}
@@ -112,7 +112,7 @@ void Camera::Update(Vector3* target_pos)
 
 	// 回転はそのままだと大きすぎるので小さく
 	//移動量を小さくします
-	move *= MOUSE_CAMERA_ROT_SPEED;
+	move *= m_camera_mouse_sensi;
 	m_rot.y += move.x;
 	m_rot.x += move.y;
 
@@ -155,7 +155,7 @@ void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
 	m_cross.set(0.0f, 0.0f, 0.0f);
 
 	// 基準のベクトル作成
-    // ｚの値をいじると振り向きのがたがたがましになる
+	// ｚの値をいじると振り向きのがたがたがましになる
 	Vector3 base(0.0f, 0.0f, 50.0f);
 	// 線の本体の向きに合わせたいので回転行列を作成
 	MATRIX mat = MGetRotY(TO_RADIAN(m_rot.y));
@@ -176,7 +176,7 @@ void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
 	{
 		// そのままの座標だと線が地面に埋まってしまうのですこしあげています
 		Vector3 start = start + Vector3(0.0f, 1.0f, 0.0f);
-		Vector3 goal =goal + Vector3(0.0f, 1.0f, 0.0f);
+		Vector3 goal = goal + Vector3(0.0f, 1.0f, 0.0f);
 		// 開始座標とゴール座標を結んで線の描画
 		DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
 
@@ -222,7 +222,7 @@ void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
 //---------------------------------------------------------------------------------
 void Camera::Hit_Object(Vector3* obj_pos, Vector3* obj_size)
 {
-	if (m_before_pos.x + m_hit_box_size.x >= obj_pos->x - obj_size->x && m_before_pos.x - m_hit_box_size.x <= obj_pos->x + obj_size->x) 
+	if (m_before_pos.x + m_hit_box_size.x >= obj_pos->x - obj_size->x && m_before_pos.x - m_hit_box_size.x <= obj_pos->x + obj_size->x)
 	{
 		m_pos.z = m_before_pos.z;
 		m_pos.x = m_before_pos.x;
@@ -248,13 +248,13 @@ void Camera::Draw_Set()
 //---------------------------------------------------------------------------------
 void Camera::Draw()
 {
-	
+
 	//	カメラの設定
 	SetCameraNearFar(0.1f, 3000.0f);
 	SetupCamera_Perspective(TO_RADIAN(45.0f));
 	// カメラ座標と見る座標を渡してカメラの設定
 	SetCameraPositionAndTarget_UpVecY(m_pos.VGet(), m_look.VGet());
-	
+
 }
 
 //---------------------------------------------------------------------------------
@@ -262,6 +262,15 @@ void Camera::Draw()
 //---------------------------------------------------------------------------------
 void Camera::Exit()
 {
+}
+
+//---------------------------------------------------------------------------------
+//	カメラ移動の際のマウスの感度を設定
+//---------------------------------------------------------------------------------
+void Camera::SetCameraSensi(float mouse_sensi)
+{
+	// マウス感度にふさわしい値に修正してから保存する
+	m_camera_mouse_sensi = mouse_sensi * MOUSE_SENSI_CORRECT;
 }
 
 //---------------------------------------------------------------------------------
@@ -283,7 +292,7 @@ void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 {
 	// プレイヤーの後ろに付いて動く
 	m_look.set(target_pos->x, target_pos->y + m_look_height, target_pos->z);
-	
+
 	if (direction == 0)
 	{
 		m_rot.y -= speed;
@@ -292,7 +301,7 @@ void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 	{
 		m_rot.y += speed;
 	}
-	
+
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
 	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);
@@ -322,7 +331,7 @@ void Camera::CameraShakeLimited(float power, float time)
 		m_power = power;
 		m_shake_time = power / time;
 	}
-	
+
 	// 揺れの強さを徐々に弱くする
 	m_power -= m_shake_time;
 	// 0より下回らないようにする
@@ -335,15 +344,15 @@ void Camera::CameraShakeLimited(float power, float time)
 		m_shake_pos.x = GetRandomF(-m_power, m_power);
 		m_shake_pos.y = GetRandomF(-m_power, m_power);
 		m_shake_pos.z = GetRandomF(-m_power, m_power);
-	} 
-	else 
+	}
+	else
 	{
 		// そうじゃないときは揺れなし
 		m_shake_pos.clear();
 	}
 	// ずれを含めた座標
 	m_pos += m_shake_pos;
-}	
+}
 
 
 //---------------------------------------------------------------------------------

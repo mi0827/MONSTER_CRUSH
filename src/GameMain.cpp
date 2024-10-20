@@ -211,6 +211,9 @@ void GameUpdate()
 	}
 	
 	option.Update();
+	scene->OptionValuesReflect(option.option_menu[option.BGM].m_value,
+		option.option_menu[option.SE].m_value,
+		option.option_menu[option.MOUSE].m_value);
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);
 }

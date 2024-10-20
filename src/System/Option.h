@@ -22,11 +22,17 @@ public:
 	//! @brief メニューセレクト
 	void MenuSelect();
 
+	//! @brief メニュー画面が開いているときの更新処理
+	void OpenMenuUpdate();
+
 private:
 	// 範囲
 	static constexpr int VOLUME_MAX = 250;  // 最大
-	static constexpr int VOLUME_LEAST = 0; // 最小
+	static constexpr int VOLUME_MIN = 0; // 最小
 	static constexpr int VOLUME_CONSTANT_VALUE = 25; // VOLUMEが１で変化する値
+	static constexpr int MOUSE_SENSI_MAX = 50; // マウス感度の最大値
+	static constexpr int MOUSE_SENSI_MIN = 5; // マウス感度の最低値
+	static constexpr int MOUSE_SENSI_VALUE = 5; // マウス感度が一つ変わると変わる値
 	// メニューボタンが押されてから閉じるまでにかかる最低時間
 	static constexpr int MENU_COUNT = 10;
 
@@ -51,7 +57,6 @@ public:
 	int m_mouse_sensi = 0; // マウス感度
 	bool m_option_flag = false;    // オプションメニューを開くためのもの
 
-private:
 
 	// オプションメニュー種類
 	enum Menu
@@ -63,6 +68,7 @@ private:
 
 		MAX
 	};
+
 	// 操作説明をはぶいたメニューの最大数
 	static constexpr int MENU_MAX = MOUSE + 1;
 
@@ -90,7 +96,7 @@ private:
 		//! SE用
 		{{ BRA_X_STRAT , m_option_box_pos.y + BRA_Y_DIVISION * 2}, VOLUME_MAX, "SE"},
 		//! マウス感度用
-		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  VOLUME_MAX, "マウス感度"}
+		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  MOUSE_SENSI_MAX , "マウス感度"}
 
 	};
 

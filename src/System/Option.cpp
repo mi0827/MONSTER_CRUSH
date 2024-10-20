@@ -24,8 +24,8 @@ Option::Option()
 	//m_bgm_box_pos.set(SCREEN_W / 2 - BAR_SPACE_X, SCREEN_H / 2 + BAR_Y);
 	//m_se_box_pos.set(SCREEN_W / 2 + BAR_SPACE_X - BAR_SIZE, SCREEN_H / 2 + BAR_Y);
 	m_option_flag = false; // 最初はオプションメニューは閉じている
-	m_bgm_Volume = 10;
-	m_se_Volume = 10;
+	m_bgm_Volume = 5;
+	m_se_Volume = 5;
 	m_select = 0; // BGMからスタート
 }
 
@@ -64,31 +64,7 @@ void Option::Update()
 	// オプションメニューが開いているとき
 	if (m_option_flag)
 	{
-		// どのメニューを操作するかの選択
-		MenuSelect();
-		m_menu_count++; // カウントを増やす
-		// 選択されたメニューバーの値を増やす
-		if (PushHitKey(KEY_INPUT_RIGHT))
-		{
-			// 十分割できる用に値を設定して値に足す
-			option_menu[m_selection_menu].m_value += VOLUME_CONSTANT_VALUE;
-			if (option_menu[m_selection_menu].m_value >= VOLUME_MAX)
-			{
-				// 最大の値を超えないようにする
-				option_menu[m_selection_menu].m_value = VOLUME_MAX;
-			}
-		}
-		// 選択されたメニューバーの値を減らす
-		if (PushHitKey(KEY_INPUT_LEFT))
-		{
-			// 十分割できる用に値を設定して値に足す
-			option_menu[m_selection_menu].m_value -= VOLUME_CONSTANT_VALUE;
-			if (option_menu[m_selection_menu].m_value <= VOLUME_LEAST)
-			{
-				// 最小の値を超えないようにする
-				option_menu[m_selection_menu].m_value = VOLUME_LEAST;
-			}
-		}
+		OpenMenuUpdate();
 	}
 
 	// カウントが一定以上になったら
@@ -176,6 +152,64 @@ void Option::MenuSelect()
 		}
 	}
 
+}
+
+//----------------------------------------------
+// オプションが開いているときの更新処理
+//----------------------------------------------
+void Option::OpenMenuUpdate()
+{
+	// どのメニューを操作するかの選択
+	MenuSelect();
+	m_menu_count++; // カウントを増やす
+	// 選択されたメニューバーの値を増やす
+	if (PushHitKey(KEY_INPUT_RIGHT))
+	{
+		// 十分割できる用に値を設定して値に足す
+		// マウスの変更でけ少し別
+		if (m_selection_menu == MOUSE)
+		{
+			option_menu[m_selection_menu].m_value += MOUSE_SENSI_VALUE;
+			if (option_menu[m_selection_menu].m_value >= MOUSE_SENSI_MAX)
+			{
+				// 最大の値を超えないようにする
+				option_menu[m_selection_menu].m_value = MOUSE_SENSI_MAX;
+			}
+		}
+		else
+		{
+			option_menu[m_selection_menu].m_value += VOLUME_CONSTANT_VALUE;
+			if (option_menu[m_selection_menu].m_value >= VOLUME_MAX)
+			{
+				// 最大の値を超えないようにする
+				option_menu[m_selection_menu].m_value = VOLUME_MAX;
+			}
+		}
+	}
+	// 選択されたメニューバーの値を減らす
+	if (PushHitKey(KEY_INPUT_LEFT))
+	{
+		if (m_selection_menu == MOUSE)
+		{
+			option_menu[m_selection_menu].m_value -= MOUSE_SENSI_VALUE;
+			if (option_menu[m_selection_menu].m_value <= MOUSE_SENSI_MIN)
+			{
+				// 最小の値を超えないようにする
+				option_menu[m_selection_menu].m_value = MOUSE_SENSI_MIN;
+			}
+		}
+		else
+		{
+			// 十分割できる用に値を設定して値に足す
+			option_menu[m_selection_menu].m_value -= VOLUME_CONSTANT_VALUE;
+			if (option_menu[m_selection_menu].m_value <= VOLUME_MIN)
+			{
+				// 最小の値を超えないようにする
+				option_menu[m_selection_menu].m_value = VOLUME_MIN;
+			}
+		}
+	
+	}
 }
 
 //----------------------------------------------

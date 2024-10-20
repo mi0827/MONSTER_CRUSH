@@ -270,3 +270,10 @@ void EndScene::HitField()
 	}
 }
 
+//------------------------------------------
+// オプションメニューでもらってきた値を反映する関数
+//------------------------------------------
+void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
+{
+}
+

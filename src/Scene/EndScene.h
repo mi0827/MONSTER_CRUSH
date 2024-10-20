@@ -13,20 +13,27 @@ public:
 	~EndScene();
 
 
-	// 初期処理
+	//! @brief 初期処理
 	void Init()override;
 
-	// 更新処理
+	//! @brief 更新処理
 	void Update()override;
 
-	// 描画処理
+	//! @brief 描画処理
 	void Draw()override;
 
-	// 終了処理
+	//! @brief 終了処理
 	void Exit()override;
 
-	// フィールドとキャラクターとの当たり判定
+	//! @brief フィールドとキャラクターとの当たり判定
 	void HitField()override;
+
+	//! @brief オプションメニューでもらってきた値を反映する関数
+	//! //! @param BGMの音量
+	//! @param SEの音量
+	//! @param マウス感度
+	void OptionValuesReflect(int bgm, int se, int mouse)override;
+
 public:
 	//int m_background_image = 0; // 背景画像用の変数
 	//Vector2 m_image_pos = {0.0f,0.0f};    // 画像用の描画座標

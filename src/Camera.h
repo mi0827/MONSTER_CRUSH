@@ -16,7 +16,7 @@ public:
 
 	void PlayField_Init(); // プレイ画面の初期設定
 
-	
+
 
 	// プレイヤーの情報を受け取る形にします
 	// 今回はプレイヤーのｎ後ろにカメラをお嫌いの出
@@ -38,6 +38,9 @@ public:
 	void Draw();
 	//! @brief 終了処理
 	void Exit();
+
+	//! @brief カメラ移動の際のマウスの感度を設定
+	void SetCameraSensi(float mouse_sensi);
 
 	//! @brief カメラの高さ距離などを設定する関数
 	//! @param カメラの見る座標の高さの(デフォルトでプレイヤー時の値を入れておく)
@@ -83,7 +86,7 @@ public:
 	static constexpr float CAMERA_HEIGHT_MONSTER = 20.0f;  // モンスター
 
 	// カメラの回転スピード
-	static constexpr float MOUSE_CAMERA_ROT_SPEED = 0.2f;  // マウス用
+	static constexpr float MOUSE_SENSI_CORRECT = 0.01f;  // マウス用
 	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
 
 	static constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
@@ -127,6 +130,9 @@ private:
 	float m_mouse_move_y = 0.0f; //! Y座標の移動量
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };   //! 毎フレーム移動前の座標をいれる用の変数
 	Vector3 m_hit_box_size = { 0.0f,0.0f,0.0f }; //! 壁との当たり判定用の変数
+
+	//! マウスの感度
+	float m_camera_mouse_sensi = 0;
 
 
 	//！カメラシェイクでの振動の強さ

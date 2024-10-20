@@ -246,6 +246,16 @@ void TitleScene::HitField()
 }
 
 //------------------------------------------
+// オプションメニューでもらってきた値を反映する関数
+//------------------------------------------
+void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
+{
+	// カメラの感度設定
+	camera.SetCameraSensi(mouse);
+
+}
+
+//------------------------------------------
 // エリアBOXの初期設定
 //------------------------------------------
 void TitleScene::SetAeraBoxSet()

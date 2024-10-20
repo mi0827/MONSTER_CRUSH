@@ -29,6 +29,12 @@ public:
 	//! @brief フィールドとキャラクターの当たり判定
 	void HitField()override;
 
+	//! @brief オプションメニューでもらってきた値を反映する関数
+	//! //! @param BGMの音量
+	//! @param SEの音量
+	//! @param マウス感度
+	void OptionValuesReflect(int bgm, int se, int mouse)override;
+
 	//! @brief 話せるようになるエリアの設定
 	void InitArea();
 
