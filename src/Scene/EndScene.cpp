@@ -91,7 +91,7 @@ void EndScene::Update()
 		// プレイヤーの更新処理
 		player->Update(&m_camera_rot);
 		// カメラの更新処理
-		camera.Update(&player->m_transform.pos);
+		camera.MouseCamera(&player->m_transform.pos);
 
 		// エンターを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_RSHIFT))
@@ -275,5 +275,7 @@ void EndScene::HitField()
 //------------------------------------------
 void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
+	// カメラの感度設定
+	camera.SetCameraSensi(mouse);
 }
 

@@ -88,7 +88,7 @@ void TitleScene::Update()
 		HitField();
 
 		// カメラの更新処理
-		camera.Update(&player->m_transform.pos);
+		camera.MouseCamera(&player->m_transform.pos);
 
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_RETURN))

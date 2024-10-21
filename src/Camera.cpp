@@ -60,7 +60,7 @@ void Camera::PlayField_Init()
 //---------------------------------------------------------------------------------
 //	更新処理
 //---------------------------------------------------------------------------------
-void Camera::Update(Vector3* target_pos)
+void Camera::MouseCamera(Vector3* target_pos)
 {
 	//m_before_pos.set(m_pos); //< 移動前の座標の設定
 	// プレイヤーの後ろに付いて動く
@@ -139,10 +139,10 @@ void Camera::Update(Vector3* target_pos)
 //---------------------------------------------------------------------------------
 //	ターゲットカメラの更新処理
 //---------------------------------------------------------------------------------
-void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
+void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 {
 	// 見たいターゲットの設定（今回は奥のターゲットを見る）
-	m_look.set(target1->pos.x, target1->pos.y + m_look_height, target1->pos.z);
+	m_look.set(target_pos1->x, target_pos1->y + m_look_height, target_pos1->z);
 
 	// 手前のターゲットも見たいので
 	m_look_2.set(target_pos2->x, target_pos2->y, target_pos2->z);
@@ -215,6 +215,21 @@ void Camera::TargetCamera(Transform* target1, Vector3* target_pos2)
 
 	// カメラの位置を見ている座標から一定の位置に再設定
 	m_pos = m_look + change_dir;
+}
+
+//---------------------------------------------------------------------------------
+// カメラが壁に埋まらないようにする(うまくいかない)
+//---------------------------------------------------------------------------------
+void Camera::UseCameraUpdate(bool change_camera,Vector3* target_pos1, Vector3* target_pos2)
+{
+	if (change_camera)
+	{
+		MouseCamera(target_pos1);
+	}
+	else
+	{
+		TargetCamera(target_pos1, target_pos2);
+	}
 }
 
 //---------------------------------------------------------------------------------

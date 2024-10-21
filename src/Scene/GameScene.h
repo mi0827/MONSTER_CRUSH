@@ -94,8 +94,12 @@ public:
 	HitStop hit_stop;
 	
 	//=================
-	// カメラの回転に関しての変数
+	// カメラに関しての変数
 	//! カメラの移動スピード
+	
+	//! ターゲットカメラを使用するかマウスでカメラを操作するかの判断用変数
+	bool m_camera_change = true;
+
 	static constexpr float CAMERA_ROT_SPEED = 2.0f;
 	//! カメラの回転する方向
 	static constexpr int CAMERA_DIRECTIN_RIGHT = 0; // 右回転

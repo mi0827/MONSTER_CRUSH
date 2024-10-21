@@ -98,7 +98,7 @@ void Animation::Init_Attach_Animation(Model* model, int anim_num, bool loop)
 		);
 
 		if (i == 0) {
-			m_contexts[0].m_blend_ratio = 0.0f;
+			m_contexts[0].m_blend_ratio = 1.0f;
 		}
 		else
 		{
@@ -174,19 +174,19 @@ void Animation::Change_Blend()
 	bool blend_flag1 = false;
 	bool blend_flag2 = false;
 	// 次のアニメーションのブレンド率を上げる
-	m_contexts[0].m_blend_ratio += 0.2f;
+	m_contexts[0].m_blend_ratio += BLEND_VALUE;
 	// 上限の設定
-	if (m_contexts[0].m_blend_ratio >= 1.0f)
+	if (m_contexts[0].m_blend_ratio >= BLEND_VALUE_MAX)
 	{
-	m_contexts[0].m_blend_ratio = 1.0f;
+	m_contexts[0].m_blend_ratio = BLEND_VALUE_MAX;
 		blend_flag1 = true;
 	}
 	// もともとのアニメーションのブレンド率を下げる
-	m_contexts[1].m_blend_ratio -= 0.2f;
+	m_contexts[1].m_blend_ratio -= BLEND_VALUE;
 	// 下限の設定
-	if (m_contexts[1].m_blend_ratio <= 0)
+	if (m_contexts[1].m_blend_ratio <= BLEND_VALUE_MIN)
 	{
-		m_contexts[1].m_blend_ratio = 0.0f;
+		m_contexts[1].m_blend_ratio = BLEND_VALUE_MIN;
 		blend_flag2 = true;
 	
 	}

@@ -139,7 +139,7 @@ void QuestAreaScene::Update()
 		}
 
 		// カメラの更新処理
-		camera.Update(&player->m_transform.pos);
+		camera.MouseCamera(&player->m_transform.pos);
 
 		// 文字列の描画のための設定
 		for (int i = 0; i < text_max; i++)
@@ -358,6 +358,8 @@ void QuestAreaScene::HitField()
 //------------------------------------------
 void QuestAreaScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
+	// カメラの感度設定
+	camera.SetCameraSensi(mouse);
 }
 
 //------------------------------------------

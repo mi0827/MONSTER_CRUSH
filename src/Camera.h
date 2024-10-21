@@ -23,12 +23,18 @@ public:
 	// プレイヤーの座標と向きを受け取れるようにします
 	//! @brief 更新処理
 	//! @param 移したい目標の座標
-	void Update(Vector3* target_pos);
+	void MouseCamera(Vector3* target_pos);
 
 	//! @brief ターゲットカメラの更新処理
-	//! @param カメラの手毎側にいるターゲットの座標と向き
+	//! @param カメラの手毎側にいるターゲットの座標
 	//! @param カメラの奥側にいるターゲットの座標
-	void TargetCamera(Transform* target1, Vector3* target_pos2);
+	void TargetCamera(Vector3* target_pos1, Vector3* target_pos2);
+
+	//! @brief どちらのカメラを使用するかの変更をか用の関数
+	//! @param どちらのカメラを使うか true : マウスカメラ、false : ターゲットカメラ
+	//! @param カメラの手毎側にいるターゲットの座標
+	//! @param カメラの奥側にいるターゲットの座標
+	void UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2);
 
 	//! @brief カメラが壁に埋まらないようにする
 	void Hit_Object(Vector3* obj_pos, Vector3* obj_size);

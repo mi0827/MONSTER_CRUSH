@@ -120,7 +120,7 @@ void GameScene::Update()
 	switch (m_what_scene)
 	{
 	case entry: // モンスターの登場演出
-		
+
 		EntryUpdate();
 		break;
 	case battle: // バトルシーン
@@ -192,8 +192,21 @@ void GameScene::GameUpdate()
 		CharacterUpdate();
 	}
 
+	// Tキーを押されたらカメラを変更する
+	if (PushHitKey(KEY_INPUT_T))
+	{
+		if (m_camera_change)
+		{
+			m_camera_change = false;
+		}
+		else
+		{
+			m_camera_change = true;
+		}
+	}
+
 	// カメラの更新処理
-	camera.TargetCamera(&player->m_transform, &monster->m_transform.pos);
+	camera.UseCameraUpdate(m_camera_change, &player->m_transform.pos, &monster->m_transform.pos);
 	// プレイヤーのHPが０になったら
 	if (player->m_hp_value <= 0)
 	{
@@ -241,10 +254,10 @@ void GameScene::EndUpdate()
 	{
 		FadeOutSceneChange(End);
 	}
-	
+
 
 	// どちらのモンスターが死んだかによって処理を変える
-	switch (m_who_died) 
+	switch (m_who_died)
 	{
 	case player_die: // プレイヤーが死んだとき
 		// プレイヤーを中心に
@@ -253,7 +266,7 @@ void GameScene::EndUpdate()
 		break;
 
 	case monster_die: // モンスターが死んだとき
-	    // モンスターを中心に
+		// モンスターを中心に
 		// 左回転
 		camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 		break;
@@ -284,7 +297,7 @@ void GameScene::Draw()
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
-		
+
 		field.Draw();
 		// モンスターの描画
 		monster->Draw();
@@ -330,7 +343,7 @@ void GameScene::Draw()
 		// バトル後のメッセージの描画
 		VDMessage();
 	}
-	
+
 	// フェードの描画処理
 	FadeDraw();
 }
@@ -412,6 +425,8 @@ void GameScene::HitField()
 //------------------------------------------
 void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
+	// カメラの感度設定
+	camera.SetCameraSensi(mouse);
 }
 
 //---------------------------------------------------------------------------
@@ -470,7 +485,7 @@ void GameScene::AttackUpdate()
 			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 			if (player->AttackHitGoodTiming(player->m_now_attack))
 			{
-			
+
 				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 				Damage_Count(player->m_attack_hit_damage[player->m_now_attack]->attack_damage, 5, &monster->m_hp_value);
 			}
@@ -497,7 +512,7 @@ void GameScene::AttackUpdate()
 			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
 			Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);
-		
+
 			// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 			hit_stop.Stop_Count_Reset();
 		}

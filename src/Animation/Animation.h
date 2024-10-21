@@ -9,8 +9,15 @@
 
 class Animation
 {
+private:
+	//! ブレンド率が一フレームで変化する分
+	static constexpr float BLEND_VALUE = 1.0f / 5.0f;
+	//! ブレンド率の最大値
+	static constexpr float BLEND_VALUE_MAX = 1.0f;
+	//! ブレンド率の最低値
+	static constexpr float BLEND_VALUE_MIN = 0.0f;
 public:
-	
+
 	//!@brief コンストラクタ
 	Animation();
 	//!@brief デストラクタ
@@ -43,7 +50,7 @@ public:
 	//! 構造体はアニメーションブレンドのため2系統を持つ
 	//! [0]現在のアニメーション
 	//! [1]前のアニメーション
-	Information m_contexts[2];          
+	Information m_contexts[2];
 
 
 	//=========================================================================
@@ -111,27 +118,27 @@ public:
 	void Loop_Animation();
 
 	//! @briefループさせない場合
-    //! @param ベースのモデル
+	//! @param ベースのモデル
 	void Not_Loop(Model* model);
 
 private:
 	//! アニメーションの最大数
-	int m_anim_max = 0;         
+	int m_anim_max = 0;
 	//! デフォルトでセットしたアニメーション番号用の変数
-	int m_default_anim = -1;     
+	int m_default_anim = -1;
 	//! 二つアニメーションが付いているかどうか
-	bool m_attached = false;    
+	bool m_attached = false;
 	//! デタッチ済みかどうかを調べる
-	bool m_detach_flag = false; 
+	bool m_detach_flag = false;
 	//! どのアニメーションが入っているかを保存するもの
 	int m_anim_num = -1;
 
-	public:
+public:
 	//! アニメーションの切り替えを行っていいかのフラグ
 	//! フラグの上げは書くキャラクラスで行う
 	//! フラグの下げはアニメーション変更関数で下げる
 	//! このフラグをを上げるタイミングが大事
-	bool m_anim_change_flag = true; 
+	bool m_anim_change_flag = true;
 
 	bool m_playing_anim = false;
 };
