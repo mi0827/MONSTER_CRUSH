@@ -209,6 +209,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClCompile Include="src\System\Random.cpp" />
     <ClCompile Include="src\System\Spotlight.cpp" />
     <ClCompile Include="src\System\TargetMove.cpp" />
+    <ClCompile Include="src\System\Text.cpp" />
     <ClCompile Include="src\System\Transform.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\OCA SPG\sample\Sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\OCA SPG\sample\Sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -268,6 +269,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\System\Random.h" />
     <ClInclude Include="src\System\Spotlight.h" />
     <ClInclude Include="src\System\TargetMove.h" />
+    <ClInclude Include="src\System\Text.h" />
     <ClInclude Include="src\System\Transform.h" />
     <ClInclude Include="src\System\UIBar.h" />
     <ClInclude Include="src\System\Vector2.h" />
