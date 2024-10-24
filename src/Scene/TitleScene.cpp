@@ -172,7 +172,10 @@ void TitleScene::Draw()
 	
 	// かりの壁を描画
 	//m_area_box[next_scene].Draw(255, 255);
-
+	for (int i = 0; i < Area_Max; i++)
+	{
+		m_area_box[i].Draw(255, 255);
+	}
 	//=============================================
 	// 仮でタイトルを描画
 	//=============================================
@@ -263,11 +266,12 @@ void TitleScene::SetAeraBoxSet()
 	// サイズの設定
 	m_box_size.set(300.0f, 80.0f, 100.0f);
 
-
-	// 座標の設定
-	m_box_pos[next_scene].set(0.0f, 0.0f, 150);
-
-
 	// BOXの作成
-	m_area_box[next_scene].CreateBox(m_box_pos[next_scene], m_box_size);
+	for (int i = 0; i < Area_Max; i++)
+	{
+		m_area_box[i].CreateBox(m_box_pos[i], m_box_size);
+	}
+	
+	//// 座標の設定
+	//m_box_pos[next_scene].set(0.0f, 0.0f, 150);	
 }

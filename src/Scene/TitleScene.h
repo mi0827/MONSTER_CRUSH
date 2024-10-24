@@ -57,14 +57,22 @@ private:
 		MOVIE, // 動画画面
 	};
 
-	// 一定間隔で存在するエリアをまとめたもの
+	// 一定間隔で存在するエリアをまとめたもの（このエリアでテキストの進行も進める）
 	enum Area
 	{
+
+		story1, // ストーリー１
+		story2, // ストーリー２
+		story3, // ストーリー３
+		story4, // ストーリー４
+		story5, // ストーリー５
+		story6,
 		next_scene, // 次のシーンに行くためのエリア
 
-		max
+		Area_Max
 	};
 
+	// 
 
 	// 画面切り替え用の変数
 	int m_title_scene = 0;
@@ -81,9 +89,18 @@ private:
 	CharacterBase* player;
 
 	// エリア用のBOX
-	BoxCollision m_area_box[max];
+	BoxCollision m_area_box[Area_Max];
 	// BOXの座標
-	Vector3 m_box_pos[max];
+	Vector3 m_box_pos[Area_Max]
+	{
+		{0.0f, 50.0f, 750},
+		{0.0f, 50.0f, 650},
+		{0.0f, 30.0f, 550},
+		{0.0f, 30.0f, 450},
+		{0.0f, 0.0f, 350},
+		{0.0f, 0.0f, 250},
+		{0.0f, 0.0f, 150},
+	};
 	// BOXのサイズ（全部一緒）
 	Vector3 m_box_size;
 };
