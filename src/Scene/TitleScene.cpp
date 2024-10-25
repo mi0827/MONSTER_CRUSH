@@ -30,6 +30,8 @@
 
 #include "src/Camera.h"
 
+#include "src/System/Text.h"
+
 #include "Base/Scene_Base.h"
 #include "TitleScene.h"
 
@@ -68,6 +70,11 @@ void TitleScene::Init()
 
 	// 現在のシーンの設定(タイトルシーン)
 	m_now_scene = Title;
+
+
+
+	// タイトルで使うテキストデータの読み込み
+	m_text.LoadText("Data/Text/TiteleStory.txt", STORY_NUM_MAX);
 }
 
 //------------------------------------------
@@ -199,6 +206,7 @@ void TitleScene::Draw()
 	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H - h };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
+	m_text.TextDraw(0, { 100,100 });
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);

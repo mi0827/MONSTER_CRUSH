@@ -72,7 +72,8 @@ private:
 		Area_Max
 	};
 
-	// 
+	// ストーリーの数
+	static constexpr int STORY_NUM_MAX = next_scene;
 
 	// 画面切り替え用の変数
 	int m_title_scene = 0;
@@ -103,4 +104,7 @@ private:
 	};
 	// BOXのサイズ（全部一緒）
 	Vector3 m_box_size;
+
+	// テキストオブジェクト
+	Text m_text;
 };

@@ -38,6 +38,8 @@
 
 #include "src/Camera.h"
 
+#include "src/System/Text.h"
+
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/TitleScene.h"
 #include "src/Scene/QuestAreaScene.h"
@@ -209,7 +211,7 @@ void GameUpdate()
 		}
 
 	}
-	
+
 	option.Update();
 	scene->OptionValuesReflect(option.option_menu[option.BGM].m_value,
 		option.option_menu[option.SE].m_value,

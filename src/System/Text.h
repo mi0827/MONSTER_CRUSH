@@ -21,13 +21,15 @@ public:
 	//! @brief テキストの描画
 	//! @param 描画したいテキストの行番号
 	//! @param 描画したい座標
-	void DrawText(int line_num, Vector2 draw_pos);
+	void TextDraw(int line_num, Vector2 draw_pos);
 
 	void Exit();
 
 public:
+	// 文字列を保存する配列の最大数
+	static constexpr int CHAE_MAX = 256;
 	// テキストファイルから文字列を読み取ったものを保存するもの
-	char m_text[][256];
+	char **m_text;
 
 };
 
