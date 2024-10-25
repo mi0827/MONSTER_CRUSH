@@ -206,7 +206,7 @@ void TitleScene::Draw()
 	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H - h };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
-	m_text.TextDraw(0, { 100,100 });
+	m_text.TextDraw(1, { 100,100 });
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
