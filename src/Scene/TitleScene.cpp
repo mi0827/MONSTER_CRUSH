@@ -107,12 +107,26 @@ void TitleScene::Update()
 		}
 
 		// この当たり判定に入ったら
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			m_area_box[next_scene].m_box.hit_pos, m_area_box[next_scene].m_box.half_size))
+		for (int i = 0; i < Area_Max; i++)
 		{
-			// フェード嘔吐のターンに変更
-			m_turn = FadeOut;
+			if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+				m_area_box[i].m_box.hit_pos, m_area_box[i].m_box.half_size))
+			{
+				
+				// 当たり判定
+				if (i == next_scene)
+				{
+					// フェード嘔吐のターンに変更
+					m_turn = FadeOut;
+				}
+				else
+				{
+					// 当たり判定があったエリアに応じて表示するテキストを変更する
+					m_text_num = i;
+				}
+			}
 		}
+		
 		break;
 	case FadeOut:
 		// フェードアウトの処理
@@ -179,10 +193,10 @@ void TitleScene::Draw()
 	
 	// かりの壁を描画
 	//m_area_box[next_scene].Draw(255, 255);
-	for (int i = 0; i < Area_Max; i++)
+	/*for (int i = 0; i < Area_Max; i++)
 	{
 		m_area_box[i].Draw(255, 255);
-	}
+	}*/
 	//=============================================
 	// 仮でタイトルを描画
 	//=============================================
@@ -206,7 +220,8 @@ void TitleScene::Draw()
 	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H - h };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
-	m_text.TextDraw(1, { 100,100 });
+	// テキストファイルからのストーリーの描画
+	m_text.TextDraw(m_text_num, { 100,100 });
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);

@@ -66,7 +66,6 @@ private:
 		story3, // ストーリー３
 		story4, // ストーリー４
 		story5, // ストーリー５
-		story6,
 		next_scene, // 次のシーンに行くためのエリア
 
 		Area_Max
@@ -100,11 +99,13 @@ private:
 		{0.0f, 30.0f, 450},
 		{0.0f, 0.0f, 350},
 		{0.0f, 0.0f, 250},
-		{0.0f, 0.0f, 150},
+		/*{0.0f, 0.0f, 150},*/
 	};
 	// BOXのサイズ（全部一緒）
 	Vector3 m_box_size;
 
 	// テキストオブジェクト
 	Text m_text;
+	// どのテキストファイルを開くか
+	int m_text_num = 0;
 };

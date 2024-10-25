@@ -38,6 +38,8 @@
 
 #include "src/Camera.h"
 
+#include <fstream>
+#include <string>
 #include "src/System/Text.h"
 
 #include "src/Scene/Base/Scene_Base.h"
@@ -51,7 +53,7 @@
 #include "src/System/Option.h"
 
 #include "GameMain.h"
-
+using namespace std;
 // 各シーンのオブジェクト
 Scene_Base* scene;
 

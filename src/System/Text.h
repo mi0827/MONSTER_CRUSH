@@ -9,7 +9,7 @@ public:
 	//! @brief デストラクタ
 	~Text();
 
-	void Init();
+	//void Init();
 
 	//! @brief テキストファイルから文字列の読み込み処理
 	//! @param ファイルのパス
@@ -23,13 +23,14 @@ public:
 	//! @param 描画したい座標
 	void TextDraw(int line_num, Vector2 draw_pos);
 
-	void Exit();
+	//void Exit();
 
 public:
 	// 文字列を保存する配列の最大数
 	static constexpr int CHAE_MAX = 256;
 	// テキストファイルから文字列を読み取ったものを保存するもの
-	char **m_text;
-
+	//char **m_text;
+	// 文字列を入れる
+	std::vector<std::string> lines;
 };
 
