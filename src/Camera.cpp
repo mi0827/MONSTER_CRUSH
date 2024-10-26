@@ -116,6 +116,7 @@ void Camera::MouseCamera(Vector3* target_pos)
 	m_rot.y += move.x;
 	m_rot.x += move.y;
 
+
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
 	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);

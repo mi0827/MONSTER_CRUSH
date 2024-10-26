@@ -102,7 +102,7 @@ void Animation::Init_Attach_Animation(Model* model, int anim_num, bool loop)
 		}
 		else
 		{
-			m_contexts[1].m_blend_ratio = 1.0f;
+			m_contexts[1].m_blend_ratio = 0.0f;
 		}
 
 		// ループするかどうか
@@ -142,7 +142,8 @@ void Animation::Attach_Animation(Model* model, int anim_num, bool loop)
 		model->m_model,
 		m_contexts[0].animation_attach_index
 	);
-	m_contexts[0].m_blend_ratio =0;
+	// ブレンド率をゼロからスタートする
+	m_contexts[0].m_blend_ratio = 0.2;
 	// ループするかどうか
 	m_contexts[0].is_loop = loop;
 
@@ -178,7 +179,7 @@ void Animation::Change_Blend()
 	// 上限の設定
 	if (m_contexts[0].m_blend_ratio >= BLEND_VALUE_MAX)
 	{
-	m_contexts[0].m_blend_ratio = BLEND_VALUE_MAX;
+		m_contexts[0].m_blend_ratio = BLEND_VALUE_MAX;
 		blend_flag1 = true;
 	}
 	// もともとのアニメーションのブレンド率を下げる
@@ -188,7 +189,7 @@ void Animation::Change_Blend()
 	{
 		m_contexts[1].m_blend_ratio = BLEND_VALUE_MIN;
 		blend_flag2 = true;
-	
+
 	}
 
 	// ブレンドフラグが両方立っていたら
@@ -279,7 +280,7 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 		}
 	}
 
-	
+
 	// ブレンド率の変更
 	Change_Blend();
 

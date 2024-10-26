@@ -112,7 +112,7 @@ void TitleScene::Update()
 			if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
 				m_area_box[i].m_box.hit_pos, m_area_box[i].m_box.half_size))
 			{
-				
+
 				// 当たり判定
 				if (i == next_scene)
 				{
@@ -126,14 +126,14 @@ void TitleScene::Update()
 				}
 			}
 		}
-		
+
 		break;
 	case FadeOut:
 		// フェードアウトの処理
 		FadeOutSceneChange(QuestArea);
 		break;
 	}
-	
+
 }
 
 //------------------------------------------
@@ -190,7 +190,7 @@ void TitleScene::Draw()
 	}
 	UseShadowMapSet();
 
-	
+
 	// かりの壁を描画
 	//m_area_box[next_scene].Draw(255, 255);
 	/*for (int i = 0; i < Area_Max; i++)
@@ -222,10 +222,12 @@ void TitleScene::Draw()
 
 	// テキストファイルからのストーリーの描画
 	m_text.TextDraw(m_text_num, { 100,100 });
+	// printf("rot.x : % f \n rot.y : % f \n rot.z : % f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);")
+	DrawFormatStringF(0,0,  GetColor(0, 0, 0), "rot.x : %f  rot.y : %f \n rot.z : %f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
-	
+
 	// フェードの描画処理
 	FadeDraw();
 }
@@ -294,7 +296,7 @@ void TitleScene::SetAeraBoxSet()
 	{
 		m_area_box[i].CreateBox(m_box_pos[i], m_box_size);
 	}
-	
+
 	//// 座標の設定
 	//m_box_pos[next_scene].set(0.0f, 0.0f, 150);	
 }
