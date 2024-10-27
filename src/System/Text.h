@@ -28,9 +28,14 @@ public:
 public:
 	// 文字列を保存する配列の最大数
 	static constexpr int CHAE_MAX = 256;
+	// 文字列の背景の大きさ
+	static constexpr int BACK_SIZE = 1000;
+
 	// テキストファイルから文字列を読み取ったものを保存するもの
 	//char **m_text;
 	// 文字列を入れる
 	std::vector<std::string> lines;
+
+
 };
 
