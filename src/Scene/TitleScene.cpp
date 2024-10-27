@@ -222,8 +222,10 @@ void TitleScene::Draw()
 
 	// テキストファイルからのストーリーの描画
 	m_text.TextDraw(m_text_num, { 100,100 });
+
+	// カメラの向きを描画
 	// printf("rot.x : % f \n rot.y : % f \n rot.z : % f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);")
-	DrawFormatStringF(0,0,  GetColor(0, 0, 0), "rot.x : %f  rot.y : %f \n rot.z : %f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);
+	//DrawFormatStringF(0,0,  GetColor(0, 0, 0), "rot.x : %f  rot.y : %f \n rot.z : %f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
