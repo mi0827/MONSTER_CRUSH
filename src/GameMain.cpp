@@ -214,7 +214,9 @@ void GameUpdate()
 
 	}
 
+	// オプションメニューの更新処理
 	option.Update();
+	// オプションで変更された値を反映　　
 	scene->OptionValuesReflect(option.option_menu[option.BGM].m_value,
 		option.option_menu[option.SE].m_value,
 		option.option_menu[option.MOUSE].m_value);

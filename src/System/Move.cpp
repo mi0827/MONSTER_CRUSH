@@ -225,7 +225,8 @@ void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 	player_rot->y = camera_rot->y + 90;
 	// “®‚¢‚Ä‚¢‚¢
 	*m_check_move = true;
-	// Œü‚¢‚Ä‚¢‚é•ûŒü‚ÉÀ•WˆÚ“®		
+	// Œü‚¢‚Ä‚¢‚é•ûŒü‚ÉÀ•WˆÚ“®	
+	Vector3 move;
 	player_pos->x += *mov_speed * sinf(TO_RADIAN(player_rot->y));
 	player_pos->z += *mov_speed * cosf(TO_RADIAN(player_rot->y));
 }
