@@ -30,7 +30,8 @@ public:
 	static constexpr int CHAE_MAX = 256;
 	// 文字列の背景の大きさ
 	static constexpr int BACK_SIZE = 1000;
-
+	// 半分のサイズ
+	static constexpr int BACK_HALF_SIZE = BACK_SIZE / 2;
 	// テキストファイルから文字列を読み取ったものを保存するもの
 	//char **m_text;
 	// 文字列を入れる

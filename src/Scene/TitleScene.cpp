@@ -214,14 +214,16 @@ void TitleScene::Draw()
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
 
-	name = "Push : W";
-	w = GetDrawStringWidth(name, -1);
+	/*name = "Push : W";
+	w = GetDrawStringWidth(name, -1);*/
 	h = GetFontSize();
-	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H - h };
-	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
-
+	draw_pos = { SCREEN_W / 2 - m_text.BACK_HALF_SIZE,SCREEN_H - h - 100 };
 	// テキストファイルからのストーリーの描画
-	m_text.TextDraw(m_text_num, { 100,100 });
+	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y });
+	
+	//DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+
+	
 
 	// カメラの向きを描画
 	// printf("rot.x : % f \n rot.y : % f \n rot.z : % f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);")
