@@ -108,10 +108,8 @@ void GameInit()
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
 
 	scene->Init();
+	
 
-	// デフォルトのライトは平行光源のまま少し暗めにします
-	//SetLightDifColor(GetColorF(0.2f, 0.2f, 0.2f, 1.0f));
-	//SetLightEnable(FALSE);
 
 	// デフォルトカラーをもらってくる
 	COLOR_F color = GetLightDifColor();
@@ -236,6 +234,9 @@ void GameDraw()
 
 
 	option.Draw();
+
+
+	scene->BaseDraw(scene->m_now_scene, { 0,100 });
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
 	////	頂点シェーダーのセット

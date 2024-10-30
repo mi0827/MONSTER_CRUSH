@@ -108,4 +108,7 @@ private:
 	Text m_text;
 	// どのテキストファイルを開くか
 	int m_text_num = 0;
+
+	// 何番のエリアと当たり判定があったかを保存する
+	int hit_area = 0;
 };

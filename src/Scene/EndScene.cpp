@@ -31,6 +31,8 @@
 
 #include "src/Camera.h"
 
+
+#include "src/System/Text.h"
 #include "Base/Scene_Base.h"
 #include "EndScene.h"
 

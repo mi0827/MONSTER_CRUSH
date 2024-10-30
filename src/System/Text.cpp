@@ -14,7 +14,8 @@ Text::Text()
 
 Text::~Text()
 {
-	//delete[] m_text;
+	// 最後に開放しておく
+	lines.clear();
 }
 
 //---------------------------------------------------------------------------
@@ -22,13 +23,6 @@ Text::~Text()
 //---------------------------------------------------------------------------
 void Text::LoadText(const char file_path[256], const int line_max)
 {
-
-	////m_text = new char* [line_max];
-	//for (int i = 0; i < line_max; i++)
-	//{
-	//	m_text[i] = new char[256];
-	//}
-
 
 	// テキストファイルの読み込み
 	// ファイルのデータを入れるもの
@@ -50,35 +44,17 @@ void Text::LoadText(const char file_path[256], const int line_max)
 		// ファイルを閉じる
 		file.close();
 	}
-
-
-
-	//FILE** fp = 0;
-	//fopen_s(fp, file_path, "r");
-	//if (fp)
-	//{
-	//	// 行数分繰り返す
-	//	for (int i = 0; i < line_max; i++)
-	//	{
-	//		fgets(m_text[i], 256, *fp);
-	//	}
-
-
-	//	// ファイルを閉じる
-	//	fclose(*fp);
-	//} 
-
 }
 
 //---------------------------------------------------------------------------
 // 描画処理
 //---------------------------------------------------------------------------
-void Text::TextDraw(int line_num, Vector2 draw_pos)
+void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 {
 	// フォントサイズをとって文字列の背景バーの大きさを決める
 	int font_size = GetFontSize();
 	Vector2 box_size;
-	box_size.set(draw_pos.x + BACK_SIZE, draw_pos.y + font_size);
+	box_size.set(draw_pos.x + back_size, draw_pos.y + font_size);
 	// 文字の後ろのところを半透明にする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 	// 文字の後ろを描画

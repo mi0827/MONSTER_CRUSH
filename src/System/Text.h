@@ -21,7 +21,7 @@ public:
 	//! @brief テキストの描画
 	//! @param 描画したいテキストの行番号
 	//! @param 描画したい座標
-	void TextDraw(int line_num, Vector2 draw_pos);
+	void TextDraw(int line_num, Vector2 draw_pos, int back_size);
 
 	//void Exit();
 
@@ -29,14 +29,13 @@ public:
 	// 文字列を保存する配列の最大数
 	static constexpr int CHAE_MAX = 256;
 	// 文字列の背景の大きさ
-	static constexpr int BACK_SIZE = 1000;
+	static constexpr int TITLE_BACK_SIZE = 1000; //タイトルストーリー 
+	static constexpr int OPTION_BACK_SIZE = 500; // オプションメニュー
 	// 半分のサイズ
-	static constexpr int BACK_HALF_SIZE = BACK_SIZE / 2;
+	static constexpr int  TITLE_BACK_HALF_SIZE = TITLE_BACK_SIZE / 2; //タイトルバージョン 
+	static constexpr int OPTION_BACK_HALF_SIZE = OPTION_BACK_SIZE / 2; // オプションメニュー
 	// テキストファイルから文字列を読み取ったものを保存するもの
-	//char **m_text;
 	// 文字列を入れる
 	std::vector<std::string> lines;
-
-
 };
 

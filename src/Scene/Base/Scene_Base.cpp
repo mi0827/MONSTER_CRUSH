@@ -1,6 +1,18 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
+#include "src/System/Vector2.h"
+
+#include "src/System/Text.h"
+
 #include "Scene_Base.h"
+
+Scene_Base::Scene_Base()
+{
+}
+
+Scene_Base::~Scene_Base()
+{
+}
 
 // --------------------------------------------------------------------------
 // どのキャラクターを使うかの設定
@@ -10,6 +22,38 @@ void Scene_Base::SetCharacter(int player_num, int monster_num)
 	// キャラクター番号の保存
 	m_player_num = player_num;
 	m_monster_num = monster_num;
+}
+
+// --------------------------------------------------------------------------
+// 全シーンで使う物の初期化
+//---------------------------------------------------------------------------
+void Scene_Base::BaseInit()
+{
+	m_text.LoadText("Data/Text/Option.txt", TEXT_MAX);
+}
+
+// --------------------------------------------------------------------------
+// 全シーンで使うものの描画
+//---------------------------------------------------------------------------
+void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
+{
+	// 現在のフォントサイズをゲット
+	int default_size = GetFontSize();
+	// あたらたなフォントサイズをせてい
+	SetFontSize(40);
+	float h = GetFontSize();
+	// 描画する座標を設定
+	Vector2 draw_pos = { draw_pos_.x,draw_pos_.y };
+	// テキストの描画
+	m_text.TextDraw(0, draw_pos, m_text.OPTION_BACK_SIZE);
+	// 指定のシーンでだけ描画内容を増やす
+	if (scene_num == Battle)
+	{
+		draw_pos = { draw_pos_.x,draw_pos_.y + h };
+		m_text.TextDraw(1, draw_pos, m_text.OPTION_BACK_SIZE);
+	}
+	// フォントサイズをリセット
+	SetFontSize(default_size);
 }
 
 // --------------------------------------------------------------------------
@@ -120,9 +164,9 @@ void Scene_Base::FadeOutUpdate()
 
 	// フレームカウントをf増やす
 	m_frame_count++;
-	
+
 	// 一秒でどれだけの値変化するかの割合を出す
-	 m_fade_ratio = 255 / FLAME_MAX;
+	m_fade_ratio = 255 / FLAME_MAX;
 	// 減る値の量を出す
 	m_fade_value = m_fade_ratio * m_frame_count;
 }
@@ -174,9 +218,10 @@ void Scene_Base::FadeInUpdate()
 // --------------------------------------------------------------------------
 void Scene_Base::FadeDraw()
 {
+	// フェードアウトはうまくいっているがフェードインがうまくいっていないのちに時間があれば再挑戦してみる
 	switch (m_turn)
 	{
-	    //case FadeIn:
+		//case FadeIn:
 		// 透明度の変更
 		//SetDrawBlendMode(DX_BLENDMODE_ALPHA,  255 - m_fade_value);
 		//// 黒い壁のの描画
@@ -188,12 +233,12 @@ void Scene_Base::FadeDraw()
 		// 透明度の変更
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 		// 暗さの変更
-		SetDrawBright(255, 255 , 255 );
+		SetDrawBright(255, 255, 255);
 		break;
 
 	case FadeOut:
 		// 透明度の変更
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA,  m_fade_value);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fade_value);
 		// 黒い壁のの描画
 		DrawBox(0, 0, SCREEN_W, SCREEN_H, 0, TRUE);
 		// 暗さの変更

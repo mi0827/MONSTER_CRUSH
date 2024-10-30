@@ -42,8 +42,8 @@
 //------------------------------------------
 void TitleScene::Init()
 {
-
-
+	// ベースクラスで初期化しておきたいものの初期化
+	BaseInit();
 	// フィールドの初期化
 	field.Init();
 
@@ -74,7 +74,7 @@ void TitleScene::Init()
 
 
 	// タイトルで使うテキストデータの読み込み
-	m_text.LoadText("Data/Text/TiteleStory.txt", STORY_NUM_MAX);
+	m_text.LoadText("Data/Text/TitleStory.txt", STORY_NUM_MAX);
 }
 
 //------------------------------------------
@@ -82,6 +82,7 @@ void TitleScene::Init()
 //------------------------------------------
 void TitleScene::Update()
 {
+
 	switch (m_turn)
 	{
 	case Main:
@@ -106,24 +107,32 @@ void TitleScene::Update()
 			m_scene_change_judge = true;
 		}
 
+
 		// この当たり判定に入ったら
 		for (int i = 0; i < Area_Max; i++)
 		{
 			if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
 				m_area_box[i].m_box.hit_pos, m_area_box[i].m_box.half_size))
 			{
+				// 当たり判定がヒットしたエリアよりさかのぼってもストーリーをさかのぼらせないための処理
+				// 新しくヒットエリアが前回ヒットしたエリア以上だったら
+				if (i >= hit_area)
+				{
+					// ヒットしたエリアを保存
+					hit_area = i;
+					// 当たり判定
+					if (i == next_scene)
+					{
+						// フェード嘔吐のターンに変更
+						m_turn = FadeOut;
+					}
+					else
+					{
+						// 当たり判定があったエリアに応じて表示するテキストを変更する
+						m_text_num = i;
+					}
+				}
 
-				// 当たり判定
-				if (i == next_scene)
-				{
-					// フェード嘔吐のターンに変更
-					m_turn = FadeOut;
-				}
-				else
-				{
-					// 当たり判定があったエリアに応じて表示するテキストを変更する
-					m_text_num = i;
-				}
 			}
 		}
 
@@ -217,17 +226,11 @@ void TitleScene::Draw()
 	/*name = "Push : W";
 	w = GetDrawStringWidth(name, -1);*/
 	h = GetFontSize();
-	draw_pos = { SCREEN_W / 2 - m_text.BACK_HALF_SIZE,SCREEN_H - h - 100 };
+	draw_pos = { SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE,SCREEN_H - h - 100 };
 	// テキストファイルからのストーリーの描画
-	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y });
-	
-	//DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 
-	
 
-	// カメラの向きを描画
-	// printf("rot.x : % f \n rot.y : % f \n rot.z : % f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);")
-	//DrawFormatStringF(0,0,  GetColor(0, 0, 0), "rot.x : %f  rot.y : %f \n rot.z : %f \n", m_camera_rot.x, m_camera_rot.y, m_camera_rot.z);
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);

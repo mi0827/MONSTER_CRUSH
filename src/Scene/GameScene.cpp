@@ -38,7 +38,7 @@
 
 #include "src/Camera.h"
 
-
+#include "src/System/Text.h"
 
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/GameScene.h"
@@ -85,6 +85,8 @@ void GameScene::GameSceneInit()
 //---------------------------------------------------------------------------
 void GameScene::Init()
 {
+	// ベースクラスで初期化しておきたいものの初期化
+	BaseInit();
 
 	GameSceneInit();
 

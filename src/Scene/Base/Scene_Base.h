@@ -11,14 +11,26 @@ public:
 	static constexpr int MUTANT = 0;           // ミュータントの番号
 	static constexpr int MONSTER = 1;         // モンスターの番号
 
+	//! @brief コンストラクタ
+	Scene_Base();
+	//! @brief デストラクタ
+	~Scene_Base();
+
 	//! @brief どのキャラクターを使うかを設定する関数
 	//! @param どのプレイヤーを使うかの番号
 	//! @param どのモンスターを使うかの番号
 	void SetCharacter(int player_num = 0, int monster_num = 0);
 
+	//! @brief 全シーンで使う物の初期化
+	void BaseInit();
+	// @brief 全シーンで使うものの描画
+	// @param シーン番号
+	// @param 描画座標
+	void BaseDraw(int scene_num, Vector2 draw_pos);
+
 	//! @brief 初期処理
 	virtual void Init() = 0;
-	//! @brief
+	//! @brief 更新処理
 	//! @param BGMのボリューム
 	//! @param SEのボリューム
 	virtual void Update() = 0;
@@ -95,7 +107,7 @@ public:
 	int m_monster_num = 0;
 
 	//! カメラの向きを保存する用の変数
-	Vector3 m_camera_rot{0.0f,0.0f,0.0f};
+	Vector3 m_camera_rot{ 0.0f,0.0f,0.0f };
 
 
 	// すべてのシーン番号
@@ -119,7 +131,11 @@ public:
 	};
 	//! 現在のターン
 	int m_turn = Main;
-	
+
+	// すべてのシーンで使うテキスト
+	Text m_text;
+	// テキストの数
+	static constexpr int TEXT_MAX = 2;
 
 private:
 	//! シーンでのフレームカウント

@@ -31,6 +31,8 @@
 
 #include "src/Camera.h"
 
+#include "src/System/Text.h"
+
 #include "Base/Scene_Base.h"
 #include "QuestAreaScene.h"
 
@@ -56,6 +58,9 @@ QuestAreaScene::~QuestAreaScene()
 //------------------------------------------
 void QuestAreaScene::Init()
 {
+	// ベースクラスで初期化しておきたいものの初期化
+	BaseInit();
+
 	// フィールドの初期化
 	field.Init();
 
