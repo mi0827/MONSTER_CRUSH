@@ -132,7 +132,6 @@ void TitleScene::Update()
 						m_text_num = i;
 					}
 				}
-
 			}
 		}
 

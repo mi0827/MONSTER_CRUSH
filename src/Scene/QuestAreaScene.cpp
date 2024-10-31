@@ -64,7 +64,6 @@ void QuestAreaScene::Init()
 	// フィールドの初期化
 	field.Init();
 
-
 	// カメラの初期設定
 	camera.PlayField_Init();
 
@@ -89,6 +88,10 @@ void QuestAreaScene::Init()
 	ShadowMapInit();
 	// 現在のシーンの設定(クエスト受注シーン)
 	m_now_scene = QuestArea;
+
+	// テキストの読み込み
+	m_quest_text.LoadText("Data/Text/Quest.txt",quest_max);
+	m_quest_area_text.LoadText("Data/Text/QuestAreaStory.txt", story_max);
 
 }
 
@@ -286,7 +289,8 @@ void QuestAreaScene::Draw()
 	// 後で変更予定
 	// フォントのデフォルトサイズの保存
 	int default_font_size = GetFontSize();
-
+	// 文字列の高さの取得
+	float h = GetFontSize();
 	for (int i = 0; i < text_max; i++)
 	{
 		// フォントサイズの設定
@@ -295,8 +299,7 @@ void QuestAreaScene::Draw()
 		{
 			// 描画幅の取得
 			float w = GetDrawStringWidth(m_text[i].text, -1);
-			// 文字列の高さの取得
-			float h = GetFontSize();
+			
 			// 描画座標
 			Vector2 draw_pos = { m_text[i].draw_pos.x - w / 2,  m_text[i].draw_pos.y - h };
 			// 文字列の描画
@@ -306,6 +309,11 @@ void QuestAreaScene::Draw()
 
 	}
 
+	// テキストを描画
+	SetFontSize(30);
+	Vector2 text_draw_pos;
+	text_draw_pos.set(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE, SCREEN_H - h - 100);
+	m_quest_area_text.TextDraw(0, { text_draw_pos.x, text_draw_pos.y }, m_quest_area_text.TITLE_BACK_SIZE);
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
 

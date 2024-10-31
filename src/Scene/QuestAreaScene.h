@@ -61,6 +61,27 @@ private:
 	//! 話せるエリアに入ったか入っていないかのフラグ
 	bool m_area_hit = false;
 
+	//! @brief クエストメニューテキスト
+	Text m_quest_text;
+	//! @brief クエストエリアでのテキスト
+	Text m_quest_area_text;
+
+	//　エリアでのテキストの数
+	enum StoryText
+	{
+		story1,
+		story2,
+		story_max
+	};
+	
+	// クエストテキストの数
+	enum QuestText
+	{
+		quest1,
+		quest2,
+		quest_max
+	};
+
 	//! 描画するテキストの番号として管理
 	enum Text
 	{
