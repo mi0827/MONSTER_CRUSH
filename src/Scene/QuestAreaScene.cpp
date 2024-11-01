@@ -90,7 +90,7 @@ void QuestAreaScene::Init()
 	m_now_scene = QuestArea;
 
 	// テキストの読み込み
-	m_quest_text.LoadText("Data/Text/Quest.txt",quest_max);
+	m_quest_text.LoadText("Data/Text/Quest.txt", quest_max);
 	m_quest_area_text.LoadText("Data/Text/QuestAreaStory.txt", story_max);
 
 }
@@ -103,9 +103,9 @@ void QuestAreaScene::Update()
 {
 	switch (m_turn)
 	{
-	/*case FadeIn:
-		FadeInUpdate();
-		break;*/
+		/*case FadeIn:
+			FadeInUpdate();
+			break;*/
 	case Main:
 		// カメラの向きを取得する
 		m_camera_rot = camera.GetCameraRot();
@@ -199,7 +199,7 @@ void QuestAreaScene::Update()
 			}
 		}
 		{
-			
+
 		}
 		break;
 	case FadeOut:
@@ -299,7 +299,7 @@ void QuestAreaScene::Draw()
 		{
 			// 描画幅の取得
 			float w = GetDrawStringWidth(m_text[i].text, -1);
-			
+
 			// 描画座標
 			Vector2 draw_pos = { m_text[i].draw_pos.x - w / 2,  m_text[i].draw_pos.y - h };
 			// 文字列の描画
@@ -308,12 +308,24 @@ void QuestAreaScene::Draw()
 		}
 
 	}
+	
+
+
+
+
 
 	// テキストを描画
-	SetFontSize(30);
+	SetFontSize(40);
+	h = GetFontSize();
 	Vector2 text_draw_pos;
-	text_draw_pos.set(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE, SCREEN_H - h - 100);
-	m_quest_area_text.TextDraw(0, { text_draw_pos.x, text_draw_pos.y }, m_quest_area_text.TITLE_BACK_SIZE);
+	text_draw_pos.set(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE, SCREEN_H - 100);
+	for (int i = 0; i < story_max; i++)
+	{
+		m_quest_area_text.TextDraw(i, { text_draw_pos.x, (text_draw_pos.y + h * i) }, m_quest_area_text.TITLE_BACK_SIZE);
+	} 
+
+
+
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
 
