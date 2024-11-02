@@ -178,6 +178,8 @@ public:
 	CapsuleCollision m_left_feet;    //!< 左足の当たり判定
 	CapsuleCollision m_right_feet;  //!< 右足の当たり判定
 
+	CapsuleCollision m_hit;        //!< 剣のヒットを試すためのもの
+
 	//! 壁擦り判定のためにいったん座標を保存しておく変数
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
 	//! 移動の際の当たり判定用のサイズ

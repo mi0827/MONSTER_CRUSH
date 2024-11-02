@@ -60,33 +60,31 @@ public:
 	};
 
 private:
-	//! 描画したいテキストを番号で管理
-	enum Text
-	{
-		// end_text,             // エンドシーンというのがわかりやすくする
-		return_title,          // タイトルシーンに移動する
-		return_qusetarea, // クエスト選択エリアに移動
+	////! 描画したいテキストを番号で管理
+	//enum Text
+	//{
+	//	// end_text,             // エンドシーンというのがわかりやすくする
+	//	return_title,          // タイトルシーンに移動する
+	//	return_qusetarea, // クエスト選択エリアに移動
 
+	//	text_max
+	//};
+
+
+	// テキストオブジェクト
+	Text m_text;
+	
+	// エンドシーンで描画するテキストの数
+	enum EndText
+	{
+		text1,
+		text2,
+		text3,
+		text4,
 		text_max
 	};
 
-	//! 文字列を描画するための構造体
-	struct TextState
-	{
-		//! フォントサイズ
-		int font_size;
-		//! 文字列を保存するためのもの
-		const char* text;
-		//! 描画したい座標
-		Vector2 draw_pos;
 
-	};
-	//! 描画したい文字列の数分作成
-	TextState m_text[text_max]
-	{
-		{30,"LeftShift + Enter : クエスト受付エリアに移動", {385, 100}},
-		{30,"RightShift + Enter : タイトルに移動", {300, 100}}
-	};
 
 	// 画面切り替え用の変数
 	int m_title_scene = 0;

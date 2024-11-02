@@ -44,6 +44,15 @@ void CapsuleCollision::CreateCapsule(Vector3 pos,Vector3 pos2, float radius)
 	SetSize(pos2, radius);
 }
 
+void CapsuleCollision::CreateCapuselCoordinatePos(Vector3 pos, Vector3 pos2, float radius)
+{
+	// 座標の保存
+	m_capsule.pos1 = pos;
+	// 
+	m_capsule.pos2 = pos2;
+}
+
+
 //-----------------------------------------------
 // カプセルのもう一つの座標をノードからもらってくる
 //-----------------------------------------------

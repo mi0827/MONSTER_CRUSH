@@ -308,23 +308,17 @@ void QuestAreaScene::Draw()
 		}
 
 	}
-	
-
-
-
 
 
 	// テキストを描画
 	SetFontSize(40);
 	h = GetFontSize();
 	Vector2 text_draw_pos;
-	text_draw_pos.set(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE, SCREEN_H - 100);
+	text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - h * story_max - m_quest_area_text.CREVICE_SIZE));
 	for (int i = 0; i < story_max; i++)
 	{
 		m_quest_area_text.TextDraw(i, { text_draw_pos.x, (text_draw_pos.y + h * i) }, m_quest_area_text.TITLE_BACK_SIZE);
 	} 
-
-
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);

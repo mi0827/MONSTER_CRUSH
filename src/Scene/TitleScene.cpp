@@ -225,7 +225,7 @@ void TitleScene::Draw()
 	/*name = "Push : W";
 	w = GetDrawStringWidth(name, -1);*/
 	h = GetFontSize();
-	draw_pos = { SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE,SCREEN_H - h - 50 };
+	draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE )};
 	// テキストファイルからのストーリーの描画
 	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 

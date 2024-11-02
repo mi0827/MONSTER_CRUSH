@@ -22,11 +22,18 @@ public:
 	//! @param 半径の大きさ
 	void CreateNodoCapsule(Model* model, int node_index , int node_index2, float radius = 1);
 
-	//! @brief カプセルを作る関数
+	//! @brief カプセルを作る関数（座標と大きさのと半径を指定する）
 	//! @param セットしたい座標(Vector3)
-	//! @param セットしたい座標２(Vector3)
+	//! @param 大きさ(Vector3)
 	//! @param セットしたい半径
 	void CreateCapsule(Vector3 pos, Vector3 pos2, float radius=1);
+
+	//! @brief カプセルを作る関数（座標二つと半径を指定する）
+	//! @param 座標１
+	//! @param 座標２
+	//! @param セットしたい半径
+	void CreateCapuselCoordinatePos(Vector3 pos, Vector3 pos2, float radius = 1);
+
 
 	//! @brief カプセルのもう一つの座標をモデルのノードからもたってくる
 	//! @param モデルの情報

@@ -56,6 +56,9 @@ EndScene::~EndScene()
 //------------------------------------------
 void EndScene::Init()
 {
+	// ベースクラスで初期化しておきたいものの初期化
+	BaseInit();
+
 	// フィールドの初期化
 	field.Init();
 
@@ -74,6 +77,12 @@ void EndScene::Init()
 
 	// 現在のシーンの設定(エンドシーン)
 	m_now_scene = End;
+
+
+	// エンドシーンで使う用のテキストの読み込み
+	m_text.LoadText("Data/Text/End.txt", text_max);
+
+
 }
 
 
@@ -82,9 +91,9 @@ void EndScene::Init()
 //------------------------------------------
 void EndScene::Update()
 {
-	
-	
-	
+
+
+
 	switch (m_turn)
 	{
 	case Main:
@@ -184,38 +193,25 @@ void EndScene::Draw()
 	}
 	UseShadowMapSet();
 
-	
+
 	// フォントのデフォルトサイズの保存
 	int default_font_size = GetFontSize();
-	//// フォントサイズの設定
-	//SetFontSize(80);
-	//const char* name = "END :: RETURN";
-	//// 描画幅の取得
-	//float w = GetDrawStringWidth(name, -1);
-	//// 文字列の高さの取得
-	//float h = GetFontSize();
-	//// 描画座標
-	//Vector2 draw_pos = { SCREEN_W / 2 - w / 2, 0 };
-	//DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	// フォントサイズの設定
+	SetFontSize(60);
+
+	// 文字列の高さの取得
+	float h = GetFontSize();
+	// 描画座標
+	Vector2 draw_pos = { (SCREEN_W / 2 - m_text.END_BACK_HALF_SIZE),(SCREEN_H - h * text_max - m_text.CREVICE_SIZE) };
 
 	for (int i = 0; i < text_max; i++)
 	{
-		// フォントサイズの設定
-		SetFontSize(m_text[i].font_size);
-		
-			// 描画幅の取得
-			float w = GetDrawStringWidth(m_text[i].text, -1);
-			// 文字列の高さの取得
-			float h = GetFontSize();
-			// 描画座標
-			Vector2 draw_pos = { m_text[i].draw_pos.x -w / 2 ,  m_text[i].draw_pos.y - h/2 + i * h};
-			// 文字列の描画
-			DrawString(draw_pos.x, draw_pos.y, m_text[i].text, GetColor(255, 128, 50));
+		m_text.TextDraw(i, { draw_pos.x,draw_pos.y + h * i }, m_text.END_BACK_SIZE);
 	}
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
-	
+
 	// フェードの描画
 	FadeDraw();
 

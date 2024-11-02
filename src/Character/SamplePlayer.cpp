@@ -275,6 +275,7 @@ void SamplePlayer::Draw()
 	m_left_hand.Draw();
 	m_right_feet.Draw();
 	m_left_feet.Draw();*/
+	m_hit.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 
 	m_model.DrawModel(&m_transform);
@@ -310,6 +311,19 @@ void SamplePlayer::CDUpdate()
 	// 左足の当たり判定
 	m_left_feet.CreateNodoCapsule(&m_model, 55, 59, 2.5f);
 
+	// カプセルの座標１
+	Vector3 top_pos;
+	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 5,
+		m_transform.pos.y + 5,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 5);
+
+	// カプセルの座標２
+	Vector3 under_pos;
+	under_pos.set(10,2,10/*m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 5,
+		m_transform.pos.y + 5,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 5*/);
+
+	m_hit.CreateCapsule(top_pos,under_pos, 10);
 
 	// 攻撃時の当たり当た判定の保存とダメージの設定
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
