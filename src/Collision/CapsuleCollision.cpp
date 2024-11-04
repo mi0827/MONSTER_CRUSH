@@ -36,20 +36,26 @@ void CapsuleCollision::CreateNodoCapsule(Model* model, int nodo_index, int node_
 //-----------------------------------------------
 // カプセルをつける
 //-----------------------------------------------
-void CapsuleCollision::CreateCapsule(Vector3 pos,Vector3 pos2, float radius)
+void CapsuleCollision::CreateCapsule(Vector3 pos,Vector3 size, float radius)
 {
 	// 座標の保存
 	m_capsule.pos1 = pos;
 	// サイズの設定
-	SetSize(pos2, radius);
+	SetSize(size, radius);
 }
 
-void CapsuleCollision::CreateCapuselCoordinatePos(Vector3 pos, Vector3 pos2, float radius)
+//-----------------------------------------------
+// カプセルをつける
+//-----------------------------------------------
+void CapsuleCollision::CreateCapsuleCoordinatePos(Vector3 pos, Vector3 pos2, float radius)
 {
 	// 座標の保存
 	m_capsule.pos1 = pos;
-	// 
+	// 座標２の保存
 	m_capsule.pos2 = pos2;
+	// カプセルの半径の設定
+	m_capsule.radius = radius;
+
 }
 
 

@@ -29,7 +29,7 @@ SamplePlayer::SamplePlayer()
 	// 最初はアイドル状態にしておく
 	m_player_mode = IDLE;
 
-	
+
 	// 移動の際の当たり判定のサイズの設定
 	m_move_hit_size = { 3.0f,5.0f,3.0f };
 }
@@ -153,8 +153,13 @@ void SamplePlayer::Update(Vector3* camera_rot)
 //-----------------------------------------------
 void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 {
+	// ローリングは無敵なのでローリングの間に攻撃を受けない
 	// プレイヤーが攻撃を受けたかのチェック
-	CheckHitDamage();
+	if (!m_rolling_flag)
+	{
+		CheckHitDamage();
+	}
+
 
 	// 待機状態または走りの時だけ
 	if (m_idle_flag == true || m_run_flag == true)
@@ -311,20 +316,22 @@ void SamplePlayer::CDUpdate()
 	// 左足の当たり判定
 	m_left_feet.CreateNodoCapsule(&m_model, 55, 59, 2.5f);
 
-	// カプセルの座標１
-	Vector3 top_pos;
-	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 5,
-		m_transform.pos.y + 5,
-		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 5);
+	// 剣の当たり判定を調べるために作ったもの
+	{
+		// カプセルの座標１
+		Vector3 top_pos;
+		top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 10,
+			m_transform.pos.y + 5,
+			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 10);
 
-	// カプセルの座標２
-	Vector3 under_pos;
-	under_pos.set(10,2,10/*m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 5,
-		m_transform.pos.y + 5,
-		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 5*/);
+		// カプセルの座標２
+		Vector3 under_pos;
+		under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 5,
+			m_transform.pos.y + 5,
+			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 5);
 
-	m_hit.CreateCapsule(top_pos,under_pos, 10);
-
+		m_hit.CreateCapsuleCoordinatePos(top_pos, under_pos, 5);
+	}
 	// 攻撃時の当たり当た判定の保存とダメージの設定
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
 	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_2], (attack_punch_2));
@@ -332,7 +339,6 @@ void SamplePlayer::CDUpdate()
 	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_1], (attack_kick_1));
 	SetHitDamage(m_left_feet, m_attack_damage[attack_kick_2], (attack_kick_2));
 	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_3], (attack_kick_3));
-
 }
 
 
@@ -427,7 +433,7 @@ void SamplePlayer::Move_Update(Vector3* camera_rot)
 	}
 
 	// アニメーション変更が可能な時に
-	if (m_animation.Change_Flag(m_run_flag)) 
+	if (m_animation.Change_Flag(m_run_flag))
 	{
 		// 走りアニメーションに変更
 		m_animation.Change_Animation(&m_model, run, true);
@@ -586,7 +592,7 @@ void SamplePlayer::ActionRolling()
 
 	// ローリングアニメーションが終わったら(終わりだとうまく入らなかったから終わる少し前にした)
 	// またはダメージを食らったフラグが上がったいたら
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10 || m_damage_flag )
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10 || m_damage_flag)
 	{
 		// アニメーションのチェンジフラグを上げる
 		m_animation.m_anim_change_flag = true;
@@ -700,7 +706,7 @@ void SamplePlayer::HitDamageUpdate()
 	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10)
 	{
 		// 一旦ここでダメージ受けたフラグを下げておく
-    	m_damage_flag = false;
+		m_damage_flag = false;
 		// 攻撃を受けた時のアニメーションが終わるのでフラグを下げる
 		m_damage_anim_flag = false;
 		// プレイヤーのモードをIDLE状態にする
