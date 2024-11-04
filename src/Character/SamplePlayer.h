@@ -73,6 +73,9 @@ public:
 	//! @brief ローリングアクション用の関数（回避）
 	void ActionRolling();
 
+	//! @brief カウンターアクション
+	void CounterAction();
+
 	//! @brief コンボ関数
 	void ComboUpdate();
 

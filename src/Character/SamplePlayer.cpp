@@ -154,8 +154,9 @@ void SamplePlayer::Update(Vector3* camera_rot)
 void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 {
 	// ローリングは無敵なのでローリングの間に攻撃を受けない
+	// プレイヤーのモードがカウンターでないとき
 	// プレイヤーが攻撃を受けたかのチェック
-	if (!m_rolling_flag)
+	if (!m_rolling_flag || m_player_mode != COUNTER)
 	{
 		CheckHitDamage();
 	}
@@ -222,6 +223,11 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 		ActionRolling();
 
 		break;
+	case COUNTER:
+		CounterAction();
+
+		break;
+
 	case ATTACK: // 攻撃を繰り出している時
 
 		// コンボフラグが立っていなくて
@@ -503,9 +509,10 @@ void SamplePlayer::AttackFirst()
 		}
 		// 攻撃モードにしておく
 		m_player_mode = ATTACK;
-		m_animation.Change_Animation(&m_model, attack_anim_1, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = attack_anim_1;
+		m_animation.Change_Animation(&m_model, m_now_attack_anim, false);
+		
 
 		// 現在の攻撃番号を保存する
 		m_now_attack = m_now_attack_anim - ATTACK_ANIM_STAR;
@@ -528,9 +535,11 @@ void SamplePlayer::AttackFirst()
 		}
 		// 攻撃モードにしておく
 		m_player_mode = ATTACK;
-		m_animation.Change_Animation(&m_model, attack_kick_anim_1, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = attack_kick_anim_1;
+
+		m_animation.Change_Animation(&m_model, m_now_attack_anim, false);
+		
 
 		// 現在の攻撃番号を保存する
 		m_now_attack = m_now_attack_anim - ATTACK_ANIM_STAR;
@@ -598,9 +607,34 @@ void SamplePlayer::ActionRolling()
 		m_animation.m_anim_change_flag = true;
 		// ローリングフラグを下げる
 		m_rolling_flag = false;
-		// 一旦アクションモードをIDLEにしておく
-		m_player_mode = IDLE;
+		if (m_damage_flag)
+		{
+			m_player_mode = COUNTER;
+		}
+		else
+		{
+			// 一旦アクションモードをIDLEにしておく
+			m_player_mode = COUNTER;
+		}
+		
+		
 	}
+}
+
+//-----------------------------------------------
+// カウンターアクション
+//-----------------------------------------------
+void SamplePlayer::CounterAction()
+{
+	// 攻撃モードにしておく
+	m_player_mode = ATTACK;
+	// 攻撃アニメーション番号の保存
+	m_now_attack_anim = attack_kick_anim_3;
+	m_animation.Change_Animation(&m_model, m_now_attack_anim, false);
+	
+
+	// 現在の攻撃番号を保存する
+	m_now_attack = m_now_attack_anim - ATTACK_ANIM_STAR;
 }
 
 //-----------------------------------------------

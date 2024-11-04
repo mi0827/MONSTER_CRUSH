@@ -502,7 +502,7 @@ void Mutant::Attack_First()
 	int attack = GetRand(attack_rolling) + ATTACK_ANIM_START;
 	m_animation.Change_Animation(&m_model, attack, false);
 	// 攻撃アニメーション番号の保存
-	m_now_attack_anim = attack_1;
+	m_now_attack_anim = attack;
 
 	// 現在の攻撃番号を保存する
 	m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
@@ -670,5 +670,6 @@ int Mutant::Set_Rand_Attack()
 	}
 
 	// 次に行ってほしい攻撃アニメーションを返す
-	return next_anim;
+	// 今はプレイヤーのカウンターがうまくいっているかを見るために固定にしている
+	return attack_4;
 }
