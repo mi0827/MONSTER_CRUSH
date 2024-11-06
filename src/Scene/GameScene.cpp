@@ -351,6 +351,7 @@ void GameScene::Draw()
 	// フェードの描画処理
 	FadeDraw();
 
+	// デバッグ用のフラグを描画するためのもの
 	int font_size = GetFontSize();
 	SetFontSize(50);
 	static constexpr int color =255;
@@ -360,6 +361,10 @@ void GameScene::Draw()
 	DrawFormatString(16, 400,  color, "Attack : %d",player->m_attack_flag);
 	DrawFormatString(16, 450, color, "Damage : %d",player->m_damage_flag);
 	DrawFormatString(16, 500,  color, "Counter : %d",player->m_counter_flag);
+	DrawStringF(1500, 250, "monster_flag", color, 0);
+	DrawFormatString(1500, 300, color, "Idle : %d", monster->m_idle_flag);
+	DrawFormatString(1500, 350, color, "Run : %d", monster->m_run_flag);
+	DrawFormatString(1500,400, color, "Attack : %d", monster->m_attack_flag);
 	/*DrawStringF(16, 550, "Run : ", color, player->m_run_flag);*/
 	SetFontSize(font_size);
 }
@@ -519,18 +524,22 @@ void GameScene::AttackUpdate()
 		MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
 		if (monster_attack_hit.HitAttack(player->m_body, ptr->attack_hit, monster->m_animation) == true)
 		{
-			// プレイヤーの攻撃受けたフラグが下がっているとき
-			if (player->m_damage_flag == false)
+			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
+			if (player->AttackHitGoodTiming(monster->m_now_attack))
 			{
-				// プレイヤーの攻撃受けたフラグを上げる
-				player->m_damage_flag = true;
-			}
-			// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-			// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-			Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);
+				// プレイヤーの攻撃受けたフラグが下がっているとき
+				if (player->m_damage_flag == false)
+				{
+					// プレイヤーの攻撃受けたフラグを上げる
+					player->m_damage_flag = true;
+				}
+				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
+				// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
+				Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);
 
-			// ダメージが入ったタイミングでヒットストップのカウントをリセットする
-			hit_stop.Stop_Count_Reset();
+				// ダメージが入ったタイミングでヒットストップのカウントをリセットする
+				hit_stop.Stop_Count_Reset();
+			}
 		}
 	}
 }

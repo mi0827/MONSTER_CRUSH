@@ -147,12 +147,16 @@ public:
 	//! 生きてるかを保存するための変数
 	// 最初は生きてる状態から始める
 	int m_life_and_death = alive;
+
+	//! モンスターのに使用するフラグ
 	//! アイドル状態かのフラグ
 	bool m_idle_flag = false;
 	//! 走っていい以下のフラグ
 	bool m_run_flag = false;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
+
+
 	//! プレイヤーのモードを管理する変数
 	int m_monster_mode = 0;
 	//! 今のアニメーション番号を保存する用の変数
