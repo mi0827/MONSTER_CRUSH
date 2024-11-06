@@ -108,7 +108,7 @@ void GameInit()
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
 
 	scene->Init();
-	
+
 
 
 	// デフォルトカラーをもらってくる
@@ -237,6 +237,9 @@ void GameDraw()
 
 
 	scene->BaseDraw(scene->m_now_scene, { 0,100 });
+
+
+
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
 	////	頂点シェーダーのセット

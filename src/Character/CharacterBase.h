@@ -26,10 +26,10 @@ public:
 	virtual void Update(Vector3* camera_rot) = 0;
 	//! @brief 生きてる時の更新処理
 	//! @param カメラの向き
-	virtual void LiveUpdate(Vector3* camera_rot) = 0; 
+	virtual void LiveUpdate(Vector3* camera_rot) = 0;
 
 
-	
+
 
 	//! @brief 死んだときの更新処理 
 	virtual void DieUpdate() = 0;
@@ -54,7 +54,7 @@ public:
 
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
-    //! @param プレイヤーの状態
+	//! @param プレイヤーの状態
 	virtual void PlayerMode(int mode) = 0;
 
 
@@ -149,7 +149,7 @@ public:
 	}
 
 public:
-	
+
 
 	//-----------------------------------------------
 	//! クラスのオブジェクトを定義
@@ -189,7 +189,7 @@ public:
 	//-----------------------------------------------
 	// 変数の定義
 	//-----------------------------------------------
-	
+
 
 	//===============
 	// 状態管理用フラグ
@@ -228,6 +228,9 @@ public:
 	bool m_attack_flag = false;
 	//! 攻撃を受けた時のフラグ
 	bool m_damage_flag = false;
+	//! 回避後のカウンター攻撃用のフラグ
+	bool m_counter_flag = false;
+
 	//! 攻撃を受けた時のアニメーションを設定するための変数
 	//! なんかいもダメージを受けた時のアニメーションセットに入ってほしくないので作った
 	//! 本来はもっといい方法があると思う見つけたらそちらに変更

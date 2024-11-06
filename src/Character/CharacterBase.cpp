@@ -85,7 +85,7 @@ bool CharacterBase::AttackHitGoodTiming(int attack_num)
 	int end_time = m_attack_hit_damage[attack_num]->end_time;
 	// アニメーションの現在のフレーム
 	int play_anim_time = m_animation.m_contexts[0].play_time;
-	// strattime以上　かつ　endtime以下の時
+	// starttime以上　かつ　endtime以下の時
 	if (start_time <= play_anim_time &&  play_anim_time <= end_time )
 	{
 		return true;

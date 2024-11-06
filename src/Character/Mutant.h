@@ -199,7 +199,7 @@ public:
 	// 攻撃時の当たり判定とダメージの設定当たり判定
 	//==================================
 	// このカプセルの当たり判定を保存することがうまくできない
-	Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION_MAX];
+	///Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION_MAX];
 
 	//=================
 	// バー型のUI

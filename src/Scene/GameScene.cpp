@@ -322,18 +322,20 @@ void GameScene::Draw()
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_player_shadowMap_handle);
 	{
+	
 		player->Draw();
-
 		// ヒーローの描画処理
 		//hero.Draw();
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
+		
 		// シャドウマップへキャラクターモデルの描画
 		field.Draw();
 		// モンスターの描画
 		monster->Draw();
 	}
+	
 	UseShadowMapSet();
 
 	// ステータスバーの描画
@@ -348,6 +350,18 @@ void GameScene::Draw()
 
 	// フェードの描画処理
 	FadeDraw();
+
+	int font_size = GetFontSize();
+	SetFontSize(50);
+	static constexpr int color =255;
+	DrawStringF(16, 250, "player_flag", color,0);
+	DrawFormatString(16, 300,  color, "Idle : %d", player->m_idle_flag);
+	DrawFormatString(16, 350,  color, "Rolling : %d",player->m_rolling_flag);
+	DrawFormatString(16, 400,  color, "Attack : %d",player->m_attack_flag);
+	DrawFormatString(16, 450, color, "Damage : %d",player->m_damage_flag);
+	DrawFormatString(16, 500,  color, "Counter : %d",player->m_counter_flag);
+	/*DrawStringF(16, 550, "Run : ", color, player->m_run_flag);*/
+	SetFontSize(font_size);
 }
 
 //---------------------------------------------------------------------------

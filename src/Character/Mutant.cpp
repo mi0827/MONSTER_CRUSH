@@ -65,7 +65,7 @@ void Mutant::Init()
 	// アニメーションの初期設定
 	Anima_Load_Init();
 
-	// 攻撃アニメーションの数分のあたり判定んお入れ物を確保する
+	// 攻撃アニメーションの数分のあたり判定用の入れ物を確保する
 	NEW_Set_Attack_Hit_Damage(ATTACK_ACTION_MAX);
 
 	// ステータスバーの設定
@@ -88,16 +88,16 @@ void Mutant::Update(Transform* target_pos, float target_r)
 	//clsDx();
 	// HPの値が減ったかどうか
 	m_hp.Update(&m_hp_value);
-	
 
-	
+
+
 	switch (m_life_and_death)
 	{
 
 	case alive: // 生きいるとき
 		// 移動先のターゲットの設定
 		BaseSetTarget(target_pos, target_r);
-		LiveUpdate(target_pos,target_r);
+		LiveUpdate(target_pos, target_r);
 		// モンスターのHPがより多いい時
 		if (m_hp_value > 0)
 		{
@@ -137,7 +137,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 	default:
 		break;
 	}
-	
+
 
 	// アニメーションの再生
 	m_animation.Play_Animation(&m_model, m_combo_flag);
@@ -262,7 +262,7 @@ void Mutant::DieUpdate()
 		m_animation.m_contexts[0].play_time = 200;
 	}
 
-	
+
 }
 
 //-----------------------------------------------
@@ -270,7 +270,16 @@ void Mutant::DieUpdate()
 //-----------------------------------------------
 void Mutant::Draw()
 {
-	//attack_hit_damage[m_now_attack].attack_hit.Draw();
+	if (m_attack_flag)
+	{
+		if (AttackHitGoodTiming(m_now_attack))
+		{
+			//m_right_hand.Draw();
+			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+		}
+
+	}
+
 	// カプセルの描画(当たり判定)
 	/*m_body.Draw();
 	m_left_hand.Draw();
@@ -367,7 +376,7 @@ void Mutant::Status_Bar_Init()
 //-----------------------------------------------
 void Mutant::Status_Bar_Draw()
 {
-	
+
 	//===================
 	// UIの描画
 	//===================
@@ -582,7 +591,7 @@ void Mutant::Jump_Update()
 		m_down_speed = JUMP_DOWN_SPEED;
 
 		// フラグが立っている時かつ地面につくアニメーションの時
-		if (m_jump_flag&& m_animation.m_contexts[0].play_time >= 140.0f)
+		if (m_jump_flag && m_animation.m_contexts[0].play_time >= 140.0f)
 		{
 			// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
 			m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
@@ -591,7 +600,7 @@ void Mutant::Jump_Update()
 			m_jump_flag = false; // 落ちる処理へ
 		}
 	}
-	
+
 
 }
 
@@ -671,5 +680,5 @@ int Mutant::Set_Rand_Attack()
 
 	// 次に行ってほしい攻撃アニメーションを返す
 	// 今はプレイヤーのカウンターがうまくいっているかを見るために固定にしている
-	return attack_4;
+	return next_anim;
 }

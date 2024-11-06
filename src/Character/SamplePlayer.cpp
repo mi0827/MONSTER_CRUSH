@@ -166,7 +166,7 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 	if (m_idle_flag == true || m_run_flag == true)
 	{
 		// ローリング処理中以外 かつ 敵からのダメージを食らったフラグが立ってなかったら
-		if (m_rolling_flag == false && m_damage_flag == false)
+		if (m_rolling_flag == false && m_damage_flag == false && m_counter_flag== false)
 		{
 			// 移動処理
 			Move_Update(camera_rot);
@@ -174,7 +174,7 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 	}
 
 	// ダメージを食らったフラグが立っていなかったら
-	if (m_damage_flag == false)
+	if (m_damage_flag == false && !m_counter_flag )
 	{
 		// ローリングの切り替え
 		SetRolling();
@@ -232,11 +232,21 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 
 		// コンボフラグが立っていなくて
 		// 攻撃アニメーションの再生が終わっていたら
-		// 待機モードにしておく
 		if (m_combo_flag == false && m_animation.m_contexts[0].is_playing == false)
 		{
+			// 待機モードにしておく
 			m_player_mode = IDLE;
 		}
+		// カウンター攻撃が行われている場合
+		// こうすることによってカウンター攻撃ちゅに回避ができなくなる
+		if (m_counter_flag && m_animation.m_contexts[0].is_playing == false)
+		{
+			// カウンターフラグを下す
+			m_counter_flag = false;
+			// 待機モードにしておく
+			m_player_mode = IDLE;
+		}
+
 		// 攻撃用の関数
 		AttackUpdate();
 		break;
@@ -272,15 +282,15 @@ void SamplePlayer::Draw()
 	// カプセルの描画（仮）（後で消す）
 	//===================
 	// 攻撃フラグをが立っていたら
-	//if (m_attack_flag)
-	//{
-	//	// 攻撃の当たり判定行っていいときだけ
-	//	if (AttackHitGoodTiming(m_now_attack))
-	//	{
-	//		// 当たり判定を描画
-	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-	//	}
-	//}
+	if (m_attack_flag)
+	{
+		// 攻撃の当たり判定行っていいときだけ
+		if (AttackHitGoodTiming(m_now_attack))
+		{
+			// 当たり判定を描画
+			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+		}
+	}
 	/*m_body.Draw();
 	m_right_hand.Draw();
 	m_left_hand.Draw();
@@ -463,30 +473,38 @@ void SamplePlayer::PlayerMode(int mode)
 		m_idle_flag = true;
 		m_run_flag = false;
 		m_attack_flag = false;
+		m_rolling_flag = false;
 		break;
 	case RUN:
 		m_idle_flag = false;
 		m_run_flag = true;
 		m_attack_flag = false;
-
+		m_rolling_flag = false;
 		break;
 	case ATTACK:
 
 		m_idle_flag = false;
 		m_run_flag = false;
+		m_rolling_flag = false;
 		m_attack_flag = true;
+		break;
+	case ROLLING:
+		m_idle_flag = false;
 		break;
 	case HIT_DAMAGE:
 		m_idle_flag = false;
 		m_run_flag = false;
 		m_attack_flag = false;
+		m_rolling_flag = false;
 		m_damage_flag = true;
+
 		break;
 	case DIE:
 		m_idle_flag = false;
 		m_run_flag = false;
 		m_attack_flag = false;
 		m_damage_flag = false;
+		m_rolling_flag = false;
 		break;
 	}
 }
@@ -594,6 +612,12 @@ void SamplePlayer::ActionRolling()
 		m_rolling_flag = true;
 	}
 
+	// ローリング中に攻撃ボタンを押したらカウンター攻撃に派生する
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushMouseInput(MOUSE_INPUT_RIGHT))
+	{
+		m_counter_flag = true;
+	}
+
 	// ローリング中の移動処理
 	// 向いている方向に PLAYER_ROLLING_SPEED 分移動する
 	m_transform.pos.z += PLAYER_ROLLING_SPEED * cosf(TO_RADIAN(m_transform.rot.y));
@@ -601,20 +625,20 @@ void SamplePlayer::ActionRolling()
 
 	// ローリングアニメーションが終わったら(終わりだとうまく入らなかったから終わる少し前にした)
 	// またはダメージを食らったフラグが上がったいたら
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10 || m_damage_flag)
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10 )
 	{
 		// アニメーションのチェンジフラグを上げる
 		m_animation.m_anim_change_flag = true;
 		// ローリングフラグを下げる
 		m_rolling_flag = false;
-		if (m_damage_flag)
+  		if (m_counter_flag)
 		{
 			m_player_mode = COUNTER;
 		}
 		else
 		{
 			// 一旦アクションモードをIDLEにしておく
-			m_player_mode = COUNTER;
+			m_player_mode = IDLE;
 		}
 		
 		
@@ -626,6 +650,7 @@ void SamplePlayer::ActionRolling()
 //-----------------------------------------------
 void SamplePlayer::CounterAction()
 {
+	
 	// 攻撃モードにしておく
 	m_player_mode = ATTACK;
 	// 攻撃アニメーション番号の保存
