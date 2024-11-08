@@ -194,8 +194,7 @@ void EndScene::Draw()
 	UseShadowMapSet();
 
 
-	// フォントのデフォルトサイズの保存
-	int default_font_size = GetFontSize();
+	
 	// フォントサイズの設定
 	SetFontSize(60);
 
@@ -209,8 +208,6 @@ void EndScene::Draw()
 		m_text.TextDraw(i, { draw_pos.x,draw_pos.y + h * i }, m_text.END_BACK_SIZE);
 	}
 
-	// フォントのサイズをデフォルトサイズに戻す
-	SetFontSize(default_font_size);
 
 	// フェードの描画
 	FadeDraw();

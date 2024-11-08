@@ -208,8 +208,7 @@ void TitleScene::Draw()
 	//=============================================
 	// 仮でタイトルを描画
 	//=============================================
-	// フォントのデフォルトサイズの保存
-	int default_font_size = GetFontSize();
+	
 	// フォントサイズの設定
 	SetFontSize(80);
 	const char* name = "モンスタークラッシュ" /*:: RENTER*/;
@@ -224,15 +223,14 @@ void TitleScene::Draw()
 
 	/*name = "Push : W";
 	w = GetDrawStringWidth(name, -1);*/
-	h = GetFontSize();
+	//h = GetFontSize();
 	draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE )};
 	// テキストファイルからのストーリーの描画
 	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 
 
 
-	// フォントのサイズをデフォルトサイズに戻す
-	SetFontSize(default_font_size);
+	
 
 	// フェードの描画処理
 	FadeDraw();

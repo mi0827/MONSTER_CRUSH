@@ -285,16 +285,19 @@ void QuestAreaScene::Draw()
 	// m_area.Draw();
 
 
-	// 仮のフォントの描画
-	// 後で変更予定
-	// フォントのデフォルトサイズの保存
-	int default_font_size = GetFontSize();
+	
+
+	//int a = CreateFontToHandle("MS:明朝",40,10,10);
+		// フォントサイズの設定
+	SetFontSize(FONT_SIZE);
+
 	// 文字列の高さの取得
 	float h = GetFontSize();
+
+
 	for (int i = 0; i < text_max; i++)
 	{
-		// フォントサイズの設定
-		SetFontSize(m_text[i].font_size);
+		
 		if (m_text[i].draw_flag)
 		{
 			// 描画幅の取得
@@ -320,8 +323,7 @@ void QuestAreaScene::Draw()
 		m_quest_area_text.TextDraw(i, { text_draw_pos.x, (text_draw_pos.y + h * i) }, m_quest_area_text.TITLE_BACK_SIZE);
 	} 
 
-	// フォントのサイズをデフォルトサイズに戻す
-	SetFontSize(default_font_size);
+	
 
 	// フェードの描画処理
 	FadeDraw();

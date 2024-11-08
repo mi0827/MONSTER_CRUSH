@@ -351,22 +351,23 @@ void GameScene::Draw()
 	// フェードの描画処理
 	FadeDraw();
 
-	// デバッグ用のフラグを描画するためのもの
-	int font_size = GetFontSize();
-	SetFontSize(50);
+	
+	//SetFontSize(50);
 	static constexpr int color =255;
 	DrawStringF(16, 250, "player_flag", color,0);
 	DrawFormatString(16, 300,  color, "Idle : %d", player->m_idle_flag);
-	DrawFormatString(16, 350,  color, "Rolling : %d",player->m_rolling_flag);
+	DrawFormatString(16, 350, color, "Run : %d", player->m_run_flag);
 	DrawFormatString(16, 400,  color, "Attack : %d",player->m_attack_flag);
 	DrawFormatString(16, 450, color, "Damage : %d",player->m_damage_flag);
-	DrawFormatString(16, 500,  color, "Counter : %d",player->m_counter_flag);
+	DrawFormatString(16, 500, color, "Rolling : %d", player->m_rolling_flag);
+	DrawFormatString(16, 550,  color, "Counter : %d",player->m_counter_flag);
+
 	DrawStringF(1500, 250, "monster_flag", color, 0);
 	DrawFormatString(1500, 300, color, "Idle : %d", monster->m_idle_flag);
 	DrawFormatString(1500, 350, color, "Run : %d", monster->m_run_flag);
 	DrawFormatString(1500,400, color, "Attack : %d", monster->m_attack_flag);
-	/*DrawStringF(16, 550, "Run : ", color, player->m_run_flag);*/
-	SetFontSize(font_size);
+	
+	
 }
 
 //---------------------------------------------------------------------------

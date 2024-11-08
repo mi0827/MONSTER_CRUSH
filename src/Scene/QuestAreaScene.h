@@ -94,8 +94,8 @@ private:
 	//! 文字列スクリーン座標に描画するための構造体
 	struct TextState
 	{
-		//! フォントサイズ
-		int font_size;
+		////! フォントサイズ
+		//int font_size;
 		//! 文字列を保存するためのもの
 		const char* text;
 		//! 描画したい座標
@@ -108,8 +108,9 @@ private:
 	// 描画したい文字列の数分作成
 	TextState m_text[text_max]
 	{
-		{	50,"F : 話す", {0.0f,0.0f,0.0f},{-8.0f,10.0f,0.0f},false},
-		{	100," ! ", {0.0f,0.0f,0.0f},{0.0f,20.0f,0.0f},false},
+		{	/*100,*/"F : 話す", {0.0f,0.0f,0.0f},{-8.0f,10.0f,0.0f},false},
+		{	/*100,*/" ! ", {0.0f,0.0f,0.0f},{0.0f,20.0f,0.0f},false},
 	};
+	static constexpr int FONT_SIZE = 100;
 
 };

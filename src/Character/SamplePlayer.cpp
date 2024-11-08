@@ -474,12 +474,14 @@ void SamplePlayer::PlayerMode(int mode)
 		m_run_flag = false;
 		m_attack_flag = false;
 		m_rolling_flag = false;
+		m_counter_flag = false;
 		break;
 	case RUN:
 		m_idle_flag = false;
 		m_run_flag = true;
 		m_attack_flag = false;
 		m_rolling_flag = false;
+		m_counter_flag = false;
 		break;
 	case ATTACK:
 
@@ -487,6 +489,7 @@ void SamplePlayer::PlayerMode(int mode)
 		m_run_flag = false;
 		m_rolling_flag = false;
 		m_attack_flag = true;
+		m_counter_flag = false;
 		break;
 	case ROLLING:
 		m_idle_flag = false;

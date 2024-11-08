@@ -90,11 +90,16 @@ int light_handle;
 
 int gazou;
 
+int font_size;
+
 //-------------------------------------------------------------
 // 初期処理
 //-------------------------------------------------------------
 void GameInit()
 {
+
+	// フォントサイズのデフォルトをもらっておく
+	font_size = GetFontSize();
 
 	option.Init();
 
@@ -253,6 +258,9 @@ void GameDraw()
 // 終了処理
 void GameExit()
 {
+
+	// ゲームが終わるときに直す
+	SetFontSize(font_size);
 	////	シェーダーファイルの終了処理
 	//DeleteShader(vertex_shader);
 	//DeleteShader(pixel_shader);
