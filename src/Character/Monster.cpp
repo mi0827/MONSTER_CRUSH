@@ -95,10 +95,10 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		{
 			//Player_Mode(IDLE);
 			// アニメーション変更が可能な時に
-			if (m_animation.Change_Flag(m_idle_flag))
+			if (m_animation.ChangeFlag(m_idle_flag))
 			{
 				// アニメーションを停止に変更する
-				m_animation.Change_Animation(&m_model, idle, true);
+				m_animation.ChangeAnimation(&m_model, idle, true);
 			}
 
 			// 移動が止まっていたら
@@ -174,7 +174,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 	}
 
 	// アニメーションの再生
-	m_animation.Play_Animation(&m_model, m_combo_flag);
+	m_animation.PlayAnimation(&m_model, m_combo_flag);
 	// あたり判定の更新処理
 	CDUpdate();
 }
@@ -253,18 +253,18 @@ void Monster::Status_Bar_Draw()
 void Monster::Anima_Load_Init()
 {
 	// アニメーションの初期設定
-	m_animation.Init_Animation(anim_max, idle);
+	m_animation.InitAnimation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.Load_Animation("Data/Model/Monster/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
-	m_animation.Load_Animation("Data/Model/Monster/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
 
 	// もっとモンスターっぽい攻撃を探してこい
 
-	m_animation.Load_Animation("Data/Model/Monster/Animation/Punch_1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
-	m_animation.Load_Animation("Data/Model/Monster/Animation/rolling.mv1", rolling, 0, 1.0f); //!< ローリング
-	m_animation.Load_Animation("Data/Model/Monster/Animation/jump.mv1", jump, 0, 1.0f); //!< ジャンプ
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Punch_1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/rolling.mv1", rolling, 0, 1.0f); //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/jump.mv1", jump, 0, 1.0f); //!< ジャンプ
 	// 最初はデフォルトアニメーションをつけておく
-	m_animation.Init_Attach_Animation(&m_model, idle, true);
+	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
 
 //-----------------------------------------------
@@ -291,9 +291,9 @@ void Monster::Move_Update()
 	}
 
 	// アニメーション変更が可能な時に
-	if (m_animation.Change_Flag(m_run_flag)) {
+	if (m_animation.ChangeFlag(m_run_flag)) {
 		// 走りアニメーションに変更
-		m_animation.Change_Animation(&m_model, run, true);
+		m_animation.ChangeAnimation(&m_model, run, true);
 		// アニメーションが変わったから
 		// プレイヤーモードの切り替えをする
 		m_monster_mode = RUN;
@@ -316,7 +316,7 @@ void Monster::Attack_First()
 	}
 	// 攻撃モードにしておく
 	m_monster_mode = ATTACK;
-	m_animation.Change_Animation(&m_model, attack_1, false);
+	m_animation.ChangeAnimation(&m_model, attack_1, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack_1;
 	// 現在の攻撃番号を保存する
@@ -361,7 +361,7 @@ void Monster::Attack_Jump()
 		// 攻撃モードにしておく
 		m_monster_mode = ATTACK;
 
-		m_animation.Change_Animation(&m_model, jump, false);
+		m_animation.ChangeAnimation(&m_model, jump, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = jump;
 		m_stop_combo_flag = true;
@@ -463,7 +463,7 @@ void Monster::Combo_Update()
 		m_next_anim = Set_Rand_Attack();
 
 		// コンボ用のアニメーションをつける
-		m_animation.Action_Change_Animation(&m_model, m_next_anim, false, &m_combo_flag);
+		m_animation.ActionComboChangeAnimation(&m_model, m_next_anim, false, &m_combo_flag);
 
 		if (!m_combo_flag)
 		{

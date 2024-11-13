@@ -121,10 +121,10 @@ void Mutant::Update(Transform* target_pos, float target_r)
 			// 待機フラグを毎回リセット
 			m_idle_flag = true;
 			// 死んだアニメーションをつける
-			if (m_animation.Change_Flag(m_idle_flag))
+			if (m_animation.ChangeFlag(m_idle_flag))
 			{
 				// アニメーションを死んだのに変更する
-				m_animation.Change_Animation(&m_model, die, true);
+				m_animation.ChangeAnimation(&m_model, die, true);
 			}
 		}
 
@@ -140,7 +140,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 
 
 	// アニメーションの再生
-	m_animation.Play_Animation(&m_model, m_combo_flag);
+	m_animation.PlayAnimation(&m_model, m_combo_flag);
 	// あたり判定の更新処理
 	CDUpdate();
 
@@ -173,10 +173,10 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			//Player_Mode(IDLE);
 			// アニメーション変更が可能な時に
-			if (m_animation.Change_Flag(m_idle_flag))
+			if (m_animation.ChangeFlag(m_idle_flag))
 			{
 				// アニメーションを停止に変更する
-				m_animation.Change_Animation(&m_model, idle, true);
+				m_animation.ChangeAnimation(&m_model, idle, true);
 			}
 
 			// 移動が止まっていたら
@@ -304,13 +304,13 @@ void Mutant::EntryUpdate()
 	// 登場シーンにあった叫びのアニメーションをつける
 
 	// 登場アニメーションのセット(ループさせない)
-	if (m_animation.Change_Flag(true))
+	if (m_animation.ChangeFlag(true))
 	{
-		m_animation.Change_Animation(&m_model, shout, true);
+		m_animation.ChangeAnimation(&m_model, shout, true);
 	}
 
 	// アニメーションの再生
-	m_animation.Play_Animation(&m_model, m_combo_flag);
+	m_animation.PlayAnimation(&m_model, m_combo_flag);
 }
 
 //-----------------------------------------------
@@ -438,23 +438,23 @@ void Mutant::MonsterMode(int mode)
 void Mutant::Anima_Load_Init()
 {
 	// アニメーションの初期設定
-	m_animation.Init_Animation(anim_max, idle);
+	m_animation.InitAnimation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage, 0, 1.0f); //!< ダメージを受けた時
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage, 0, 1.0f); //!< ダメージを受けた時
 
 	// もっとモンスターっぽい攻撃を探してこい
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch2.mv1", attack_2, 0, 1.0f); //!< 攻撃２
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch3.mv1", attack_3, 0, 1.0f); //!< 攻撃３
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Punch4.mv1", attack_4, 0, 1.0f); //!< 攻撃４
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling, 0, 1.0f); //!< ローリング
-	m_animation.Load_Animation("Data/Model/Mutant/Animation/Attack/jump.mv1", jump, 0, 1.0f); //!< ジャンプ
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch2.mv1", attack_2, 0, 1.0f); //!< 攻撃２
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch3.mv1", attack_3, 0, 1.0f); //!< 攻撃３
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch4.mv1", attack_4, 0, 1.0f); //!< 攻撃４
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling, 0, 1.0f); //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/jump.mv1", jump, 0, 1.0f); //!< ジャンプ
 	// 最初はデフォルトアニメーションをつけておく
-	m_animation.Init_Attach_Animation(&m_model, idle, true);
+	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
 
 //-----------------------------------------------
@@ -481,9 +481,9 @@ void Mutant::Move_Update()
 	}
 
 	// アニメーション変更が可能な時に
-	if (m_animation.Change_Flag(m_run_flag)) {
+	if (m_animation.ChangeFlag(m_run_flag)) {
 		// 走りアニメーションに変更
-		m_animation.Change_Animation(&m_model, run, true);
+		m_animation.ChangeAnimation(&m_model, run, true);
 		// アニメーションが変わったから
 		// プレイヤーモードの切り替えをする
 		m_monster_mode = RUN;
@@ -509,7 +509,7 @@ void Mutant::Attack_First()
 	// 最初の攻撃もランダムに設定する
 	// 攻撃アニメーション以外を排除しておく
 	int attack = GetRand(attack_rolling) + ATTACK_ANIM_START;
-	m_animation.Change_Animation(&m_model, attack, false);
+	m_animation.ChangeAnimation(&m_model, attack, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack;
 
@@ -555,7 +555,7 @@ void Mutant::Attack_Jump()
 		// 攻撃モードにしておく
 		m_monster_mode = ATTACK;
 
-		m_animation.Change_Animation(&m_model, jump, false);
+		m_animation.ChangeAnimation(&m_model, jump, false);
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = jump;
 		// 現在の攻撃番号を保存する
@@ -642,7 +642,7 @@ void Mutant::Combo_Update()
 		m_next_anim = Set_Rand_Attack();
 
 		// コンボ用のアニメーションをつける
-		m_animation.Action_Change_Animation(&m_model, m_next_anim, false, &m_combo_flag);
+		m_animation.ActionComboChangeAnimation(&m_model, m_next_anim, false, &m_combo_flag);
 
 		if (!m_combo_flag)
 		{

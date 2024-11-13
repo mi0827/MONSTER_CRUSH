@@ -66,7 +66,7 @@ void GameScene::GameSceneInit()
 	// キャラクターの設定
 	if (m_player_num == SAMPLEPLAYER)
 	{
-		player = new SamplePlayer;
+		player = new Hero;
 	}
 	if (m_monster_num == MUTANT)
 	{

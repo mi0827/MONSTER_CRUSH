@@ -19,6 +19,7 @@
 #include "src/System/Move.h"
 #include "src/Character/CharacterBase.h"
 #include "src/Character/SamplePlayer.h"
+#include "src/Character/Hero.h"
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
@@ -52,7 +53,7 @@ void TitleScene::Init()
 	camera.PlayField_Init();
 
 	// プレイヤーの設定
-	player = new SamplePlayer;
+	player = new Hero;
 
 	// プリえやーの初期設定 
 	player->Init();
@@ -208,7 +209,7 @@ void TitleScene::Draw()
 	//=============================================
 	// 仮でタイトルを描画
 	//=============================================
-	
+
 	// フォントサイズの設定
 	SetFontSize(80);
 	const char* name = "モンスタークラッシュ" /*:: RENTER*/;
@@ -224,13 +225,16 @@ void TitleScene::Draw()
 	/*name = "Push : W";
 	w = GetDrawStringWidth(name, -1);*/
 	//h = GetFontSize();
-	draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE )};
+	draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
 	// テキストファイルからのストーリーの描画
 	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 
 
-
-	
+	DrawFormatString(16, 300, GetColor(255, 255, 255), "now_anim : %d", player->m_now_attack_anim);
+	DrawFormatString(16, 400, GetColor(255, 255, 255), "combo_count : %d", player->m_combo_count);
+	DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %d", player->m_now_attack);
+	DrawFormatString(16, 600, GetColor(255, 255, 255), "aaa: %d", player->aaa);
+	DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", player->bbb);
 
 	// フェードの描画処理
 	FadeDraw();

@@ -59,47 +59,47 @@ public:
 
 	//! @brief アニメーションの情報の初期化関数
 	//! @param どちらの構造体を初期化するかの番号
-	void Information_Init(int num);
+	void InformationInit(int num);
 
 	//! @brief アニメーションの初期設定
 	//! @param アニメーションの数
 	//! @param デフォルト設定したいアニメーションの番号
 	//! @detail デフォルトアニメーションのセット、アニメーションの入れ物の確保
-	void Init_Animation(int anim_max, int default_anim);
+	void InitAnimation(int anim_max, int default_anim);
 
 	//! @brief読み込み用関数
 	//! @param ファイルのパス
 	//! @param アニメーション番号
-	void Load_Animation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed);
+	void LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed);
 
 	//! @briefアニメーションをセットする関数
 	//! @param ベースのモデル
 	//! @param アッタチしたいモデル番号
 	//! @param ループ再生させるかどうか
-	void Init_Attach_Animation(Model* model, int anim_num, bool loop);
+	void InitAttachAnimation(Model* model, int anim_num, bool loop);
 
 	//! @briefアニメーションをセットする関数
 	//! @param ベースのモデル
 	//! @param アッタチしたいモデル番号
 	//! @param ループ再生させるかどうか
-	void Attach_Animation(Model* model, int anim_num, bool loop);
+	void AttachAnimation(Model* model, int anim_num, bool loop);
 
 	//! @briefついているアニメーションを取り外すようの関数
 	//! @param ベースのモデル
 	//! @param デタッチしたいモデル番号
-	void Detach_Animation(Model* model);
+	void DetachAnimation(Model* model);
 
 	//! @brief ブレンド率の変更関数
-	void Change_Blend();
+	void ChangeBlend();
 
 	//! @brief アニメーションの変更を行っていい以下を判断する関数
-	bool Change_Flag(bool flag1);
+	bool ChangeFlag(bool flag1);
 
 	//! @briefアニメーションの切り替え用関数
 	//! @param ベースのモデル
 	//! @param 次にセットしたいアニメーション番号
 	//! @param アニメーションをループさせるかどうか
-	void Change_Animation(Model* model, int anim_num, bool loop);
+	void ChangeAnimation(Model* model, int anim_num, bool loop);
 
 	//! @brief アニメーションの切り替え用関数
 	//! @param ベースのモデル
@@ -107,19 +107,19 @@ public:
 	//! @param アニメーションをループさせるかどう
 	//! @param コンボフラグ
 	//! @detail アニメーションが終わるタイミングで切り替えるでChange_Animationを呼びたい時用の関数
-	void Action_Change_Animation(Model* model, int anim_num, bool loop, bool* combo_flag);
+	void ActionComboChangeAnimation(Model* model, int anim_num, bool loop, bool* combo_flag);
 
 	//! @briefアニメーションの再生
 	//! @param ベースのモデル
 	//! @param コンボフラグ
-	void Play_Animation(Model* model, bool combo_flag);
+	void PlayAnimation(Model* model, bool combo_flag);
 
 	//! @briefアニメーションをループさせる
-	void Loop_Animation();
+	void LoopAnimation();
 
 	//! @briefループさせない場合
 	//! @param ベースのモデル
-	void Not_Loop(Model* model);
+	void NotLoop(Model* model);
 
 private:
 	//! アニメーションの最大数

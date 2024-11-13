@@ -28,7 +28,10 @@ public:
 	//! @param カメラの向き
 	virtual void LiveUpdate(Vector3* camera_rot) = 0;
 
-
+	//! @brief ベースクラスでの初期処理
+	//! @param 敵の移動の際に使う半径の設定
+	//! @param HPの最大量
+	void BaseInit(float r, int HP);
 
 
 	//! @brief 死んだときの更新処理 
@@ -45,18 +48,27 @@ public:
 
 	//! @brief ステータスバーの設定用関数
 	virtual void StatusBarInit() = 0;
+
 	//! @brief ステータスバーの描画関数
 	virtual void StatusBarDraw() = 0;
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
 
+	//! @brief アニメーションを読み込みをまとめる関数
+	virtual void AnimLoadInit() = 0;
 
+	
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
 	virtual void PlayerMode(int mode) = 0;
 
+	//! @brief プレイヤーの移動用関数
+	//! @param Runアニメーションの保存されているアニメーション番号
+	//! @param プレイヤーの移動スピード
+	//! @param カメラの向き
+	void MoveAction(int run_anim_no, const float move_speed,Vector3* camera_rot);
 
 	//! @brief キャラの壁擦り判定用の関数
 	//! @param キャラの座標
@@ -71,6 +83,18 @@ public:
 	//! @param 設定したい向き
 	void SetCharacterRot(Vector3 rot);
 
+	//! @brief 攻撃に関する情報をセットするための関数
+	//! @param 攻撃アニメーションが始まるアニメーション番号
+	//! @param 最初に攻撃したいアニメーション番号1
+	//! @param 最初に攻撃したいアニメーション番号2
+	//! @param コンボ攻撃の最大コンボ数
+	void SetAttackInfo(const int attack_start_anim, int attack_1, int attack_2, const int combo_max);
+
+	//! @brief 最初の攻撃を行うための関数
+	void AttackFirst();
+
+	//! @brief 攻撃の更新処理
+	void AttackUpdate();
 
 	//! @brief 当たり判定を行ってほしいタイミングをセットする関数
 	//! @param 当たり判定をとってほしいフレームのスタート
@@ -88,14 +112,27 @@ public:
 	//! @param 攻撃番号
 	void SetHitDamage(CapsuleCollision attack_hit, int attack_damage, int attack_num);
 
+	//! @brief ローリングアクションを開始されるための関数
+	void RollingActionStart();
 
+	//! @brief ローリングアクションの更新処理
+	//! @param ローリングが保存されているアニメーション番号
+	//! @param ローリング時の移動スピード
+	void RollingActionUpdate(int rolling_anim_no,const int rolling_speed);
 
-	//! @brief ベースクラスでの初期処理
-	//! @param 敵の移動の際に使う半径の設定
-	//! @param HPの最大量
-	void BaseInit(float r, int HP);
+	//! @brief カウンターアクション
+	//! @param カウンターアニメーションが保存されている番号
+	void CounterAction(int counter_anim_no);
 
+	//! @brief コンボアクションの更新処理
+	void ComboActionUpdate();
 
+	//! @brief 攻撃を受けたかをチェックするための関数
+	void CheckHitDamage();
+
+	//! @biref 攻撃を受けて時のアニメーション処理
+	//! @param ダメージを受けたアニメーションが保存されている番号
+	void HitDamageUpdate(int hit_damage_anim);
 
 
 	// 攻撃の時の当たり判定とダメージの構造体
@@ -116,7 +153,7 @@ public:
 	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
 	//! @brief 攻撃時の当たり判定を設定する用の関数
 	//! @param 攻撃アニメーションの最大数
-	void  NEW_Set_Attack_Hit_Damage(int attack_anim_max);
+	void  NEWSetAttackHitDamage(int attack_anim_max);
 
 	//! @brief ベースクラスでの更新処理
 	//! @param １：移動中かそうでないかのフラグ
@@ -178,7 +215,6 @@ public:
 	CapsuleCollision m_left_feet;    //!< 左足の当たり判定
 	CapsuleCollision m_right_feet;  //!< 右足の当たり判定
 
-	CapsuleCollision m_hit;        //!< 剣のヒットを試すためのもの
 
 	//! 壁擦り判定のためにいったん座標を保存しておく変数
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
@@ -237,14 +273,46 @@ public:
 	bool m_damage_anim_flag = false;
 	//! プレイヤーのモードを管理する変数
 	int m_player_mode = 0;
+
+	//------------------------------------------
+	// アニメーション、攻撃関連
+	//------------------------------------------
 	//! 今のアニメーション番号を保存する用の変数
 	int m_now_attack_anim = 0;
+	//! 攻撃アニメーションの始まりを保存する変数
+	int m_ATTAK_START_ANIM_NO;
+	//! 初めにしたい攻撃のアニメーション番号を保存する変数
+	int m_first_attack_anim_1;
+	int m_first_attack_anim_2;
 
+	// 調査
+	int aaa = 0;
+	int bbb = 0;
+
+
+	//! コンボの最大コンボ数用の変数
+	int m_COMBO_MAX;
+	//! コンボが何回続いているかのカウント
+	int m_combo_count = 0;
+protected:
+	//------------------------------------------
+	// コンボ関連
+	//------------------------------------------
+	//! コンボ用フラグ
+	bool m_combo_flag = false;
+	//! コンボの際マウスのどちらを押されたか
+	int m_mouse_flag = 0; // MOUSE_INPUT_RIGHT : 右ボタン、MOUSE_INPUT_LEFT : 左ボタン 
+	
+	//! 次のアニメーション番号を保存
+	int m_next_anim = -1;
+	//! コンボをやめてほしい時のフラグ
+	bool m_stop_combo_flag = false;
 
 
 	//!  ゲームパッド用移動用ベクトル用変数
 	Vector3 m_mov = { 0.0f,0.0f,0.0f };
 
+public:
 	//! 敵との移動当たり判定に使う
 	float m_hit_r = 0.0f;
 

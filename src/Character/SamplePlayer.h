@@ -8,10 +8,6 @@ class SamplePlayer :public CharacterBase
 {
 public:
 
-public:
-	
-public:
-
 	//-----------------------------------------------
 	// 関数の宣言
 	//-----------------------------------------------
@@ -52,38 +48,18 @@ public:
 	void SetHitTimeInit() override;
 
 	//! @brief アニメーション読み込み関数
-	void Anima_Load_Init();
+	//! 攻撃アニメーションの始まるアニメーション番号
+	void AnimLoadInit() override;
 
 	//! @brief プレイヤーの移動用関数
-	void Move_Update(Vector3* camera_rot);
+	//! (ランアニメーションの番号をを引数で渡す)
+	//void MoveAction(Vector3* camera_rot) override;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
 	void PlayerMode(int mode) override;
 
-	//! @brief 攻撃開始かそうでないかを判断する関数
-	void AttackFirst();
 
-	//! @brief 攻撃用の関数
-	void AttackUpdate();
-
-	//! @brief ローリングセット用の関数
-	void SetRolling();
-
-	//! @brief ローリングアクション用の関数（回避）
-	void ActionRolling();
-
-	//! @brief カウンターアクション
-	void CounterAction();
-
-	//! @brief コンボ関数
-	void ComboUpdate();
-
-	//! @brief 攻撃を受けたかをチェックするための関数
-	void CheckHitDamage();
-
-	//! @brief 攻撃を受けて時の処理
-	void HitDamageUpdate();
 
 public:
 	//! アニメーションの種類用の列挙体
@@ -107,7 +83,11 @@ public:
 
 	static constexpr int ATTACK_ANIM_STAR = attack_anim_1;                     //! アニメーションの攻撃系以外のアニメーションの数
 	static constexpr int ATTACK_ACTION = anim_max - ATTACK_ANIM_STAR; //! 攻撃アニメーションの最大数
-
+	//------------------------------------------
+	// コンボ関連
+	//------------------------------------------
+	// コンボの最大数
+	static constexpr int COMBO_MAX = 3;
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
@@ -156,21 +136,8 @@ public:
 	};
 
 
-	//------------------------------------------
-	// コンボ関連
-	//------------------------------------------
-	// コンボの最大数
-	static constexpr int COMBO_MAX = 3;
-	//! コンボ用フラグ
-	bool m_combo_flag = false;
-	// コンボの際マウスのどちらを押されたか
-	int m_mouse_flag = 0; // MOUSE_INPUT_RIGHT : 右ボタン、MOUSE_INPUT_LEFT : 左ボタン 
-	// コンボが何回続いているかのカウント
-	int m_combo_count = 0;
-	// 次のアニメーション番号を保存
-	int m_next_anim = -1;
-	// コンボをやめてほしい時のフラグ
-	bool m_stop_combo_flag = false;
+	
+	
 
 public:
 
@@ -183,16 +150,16 @@ public:
 	// ステータス
 	//=================
 
-	
+
 	//-----------------------------------------------
-// 定数の宣言
-//-----------------------------------------------
+	// 定数の宣言
+    //-----------------------------------------------
 	static constexpr float PLAYER_MOVE_SPEED = 2.0f;       //! プレイヤーの移動スピード
-	static constexpr float PLAYER_R = 5.0f;                         //! プレイヤーの回転スピード
-	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
-	static constexpr float PLAYER_HIT_R = 1.5;                   //! プレイヤーの円の当たり半径の半径
-	static constexpr int HP_MAX = 100;                               //! HPの最大値
-	static constexpr int M_DEFENSE = 20;                           //! 防御力
+	static constexpr float PLAYER_R = 5.0f;                //! プレイヤーの回転スピード
+	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;    //! プレイヤーのローリングスピード 
+	static constexpr float PLAYER_HIT_R = 1.5;             //! プレイヤーの円の当たり半径の半径
+	static constexpr int HP_MAX = 100;                     //! HPの最大値
+	static constexpr int M_DEFENSE = 20;                   //! 防御力
 	//----------------------------------------------- 
 	// 列挙体の宣言
 	//-----------------------------------------------

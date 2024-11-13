@@ -19,6 +19,7 @@
 #include "src/System/Move.h"
 #include "src/Character/CharacterBase.h"
 #include "src/Character/SamplePlayer.h"
+#include "src/Character/Hero.h"
 #include "src/Character/Receptionist.h"
 
 #include "src/Field/FieldBase.h"
@@ -68,7 +69,7 @@ void QuestAreaScene::Init()
 	camera.PlayField_Init();
 
 	// プレイヤーの設定
-	player = new SamplePlayer;
+	player = new Hero;
 
 	// プレイヤーの初期設定 
 	player->Init();

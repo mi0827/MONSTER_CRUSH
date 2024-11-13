@@ -26,7 +26,7 @@ Animation::~Animation()
 //-----------------------------------------------
 // アニメーションの情報の初期化関数
 //-----------------------------------------------
-void Animation::Information_Init(int num)
+void Animation::InformationInit(int num)
 {
 	//アニメーションの情報をすべて初期化しておく
 	m_contexts[num].is_playing = false;
@@ -41,7 +41,7 @@ void Animation::Information_Init(int num)
 //-----------------------------------------------
 // アニメーションの初期設定
 //-----------------------------------------------
-void Animation::Init_Animation(int anim_max, int default_anim)
+void Animation::InitAnimation(int anim_max, int default_anim)
 {
 	// デフォルトアニメーションの設定
 	m_default_anim = default_anim;
@@ -56,7 +56,7 @@ void Animation::Init_Animation(int anim_max, int default_anim)
 //-----------------------------------------------
 // 読み込み
 //-----------------------------------------------
-void Animation::Load_Animation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed)
+void Animation::LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed)
 {
 	// 読み込み
 	anim_handle[anim_no]->handle = MV1LoadModel(file_path);
@@ -69,11 +69,11 @@ void Animation::Load_Animation(const char file_path[256], int anim_no, int anim_
 //-----------------------------------------------
 // 最初の初期化の時だけ同じアニメーションをセットする
 //-----------------------------------------------
-void Animation::Init_Attach_Animation(Model* model, int anim_num, bool loop)
+void Animation::InitAttachAnimation(Model* model, int anim_num, bool loop)
 {
 	for (int i = 0; i < 2; i++) {
 		// 入れ物を初期化しておく
-		Information_Init(i);
+		InformationInit(i);
 
 		// アニメションのセット
 		m_contexts[i].animation_attach_index = MV1AttachAnim
@@ -116,10 +116,10 @@ void Animation::Init_Attach_Animation(Model* model, int anim_num, bool loop)
 //-----------------------------------------------
 // アニメーションのセット
 //-----------------------------------------------
-void Animation::Attach_Animation(Model* model, int anim_num, bool loop)
+void Animation::AttachAnimation(Model* model, int anim_num, bool loop)
 {
 	// 入れ物を初期化しておく
-	Information_Init(0);
+	InformationInit(0);
 
 	// アニメションのセット
 	m_contexts[0].animation_attach_index = MV1AttachAnim
@@ -155,14 +155,14 @@ void Animation::Attach_Animation(Model* model, int anim_num, bool loop)
 }
 
 // アニメーションの取り外し
-void Animation::Detach_Animation(Model* model)
+void Animation::DetachAnimation(Model* model)
 {
 	// アニメーションをの取り外し
 	m_contexts[1].animation_attach_index = MV1DetachAnim
 	(model->m_model,
 		m_contexts[1].animation_attach_index);
 	// 取り外したアニメーションの情報をすべて初期化しておく
-	Information_Init(1);
+	InformationInit(1);
 	// デタッチされたからフラグを下げる
 	m_detach_flag = false;
 }
@@ -170,7 +170,7 @@ void Animation::Detach_Animation(Model* model)
 //-----------------------------------------------
 // ブレンド率の変更をする関数
 //-----------------------------------------------
-void Animation::Change_Blend()
+void Animation::ChangeBlend()
 {
 	bool blend_flag1 = false;
 	bool blend_flag2 = false;
@@ -203,7 +203,7 @@ void Animation::Change_Blend()
 //-----------------------------------------------
 // アニメーションの変更をしていいかを判断する関数
 //-----------------------------------------------
-bool Animation::Change_Flag(bool flag1)
+bool Animation::ChangeFlag(bool flag1)
 {
 	// キャラクターの各フラグと
 	// アニメーション変更フラグが両方上がっていたら
@@ -223,12 +223,12 @@ bool Animation::Change_Flag(bool flag1)
 //-----------------------------------------------
 // アニメーション切り替え用関数
 //-----------------------------------------------
-void Animation::Change_Animation(Model* model, int anim_num, bool loop)
+void Animation::ChangeAnimation(Model* model, int anim_num, bool loop)
 {
 	// アニメーション変更フラグを下げる
 	m_anim_change_flag = false;
 	// アニメーションを入れ替える前にもともとついていアニメーションを取り外す
-	Detach_Animation(model);
+	DetachAnimation(model);
 	// 中にはいている情報を入れ替える
 	m_contexts[1] = m_contexts[0];
 	// 二つ付入れているからフラグを上げる
@@ -236,27 +236,35 @@ void Animation::Change_Animation(Model* model, int anim_num, bool loop)
 	// 二つ目のアニメーションが付いているから
 	m_detach_flag = true;
 	// 次に行いたいアニメーションをつける
-	Attach_Animation(model, anim_num, loop);
+	AttachAnimation(model, anim_num, loop);
 }
 
 //-----------------------------------------------
 // アニメーション切り替え用関数（アニメーションが終わるタイミングで切り替える）
 //-----------------------------------------------
-void Animation::Action_Change_Animation(Model* model, int anim_num, bool loop, bool* combo_flag)
+void Animation::ActionComboChangeAnimation(Model* model, int anim_num, bool loop, bool* combo_flag)
 {
 	// アニメーションが最後のフレームに差し掛かったら
-	if (m_contexts[0].animation_total_time <= m_contexts[0].play_time)
+	if (combo_flag)
 	{
-		Change_Animation(model, anim_num, loop);
-		// 次のアニメーションがついたからコンボフラグを下す
-		*combo_flag = false;
+		if (m_contexts[0].animation_total_time <= m_contexts[0].play_time)
+		{
+			/*if (anim_num== 7)
+			{
+				Change_Animation(model, anim_num, loop);
+			}*/
+			ChangeAnimation(model, anim_num, loop);
+			// 次のアニメーションがついたからコンボフラグを下す
+			*combo_flag = false;
+		}
 	}
+	
 }
 
 //-----------------------------------------------
 // アニメーションを再生させるための関数
 //-----------------------------------------------
-void Animation::Play_Animation(Model* model, bool combo_flag)
+void Animation::PlayAnimation(Model* model, bool combo_flag)
 {
 	m_playing_anim = true;
 	// アニメーションを再生中にしておく
@@ -270,19 +278,19 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 
 	if (m_contexts[0].is_loop)
 	{
-		Loop_Animation();
+		LoopAnimation();
 	}
 	else // ループしない場合
 	{
 		if (combo_flag == false)
 		{
-			Not_Loop(model);
+			NotLoop(model);
 		}
 	}
 
 
 	// ブレンド率の変更
-	Change_Blend();
+	ChangeBlend();
 
 	// 二つ付いているときとそうでないときで処理を変える
 	if (m_attached)
@@ -310,7 +318,7 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 		{
 			// デタッチされてなっかたら
 			// デタッチする
-			Detach_Animation(model);
+			DetachAnimation(model);
 		}
 		// アニメーションの再生
 		MV1SetAttachAnimTime
@@ -325,7 +333,7 @@ void Animation::Play_Animation(Model* model, bool combo_flag)
 //-----------------------------------------------
 // アニメーションをループさせる
 //-----------------------------------------------
-void Animation::Loop_Animation()
+void Animation::LoopAnimation()
 {
 	// アニメーションフレームが最後まで回ったら
 	if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
@@ -341,7 +349,7 @@ void Animation::Loop_Animation()
 //-----------------------------------------------
 // アニメーションをループさせ無い場合
 //-----------------------------------------------
-void Animation::Not_Loop(Model* model)
+void Animation::NotLoop(Model* model)
 {
 	// アニメーションフレームが最後まで回ったら
 	if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
@@ -353,7 +361,7 @@ void Animation::Not_Loop(Model* model)
 		m_contexts[0].play_time = 0.0f;
 
 		// デフォルトのアニメーションに設定
-		Change_Animation(model, m_default_anim, true);
+		ChangeAnimation(model, m_default_anim, true);
 	}
 
 }

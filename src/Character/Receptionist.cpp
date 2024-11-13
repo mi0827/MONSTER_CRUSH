@@ -46,14 +46,14 @@ void Receptionist::Init()
 
 	// アニメーションの初期設定
 	// アニメーションの数を設定しておく
-	m_animation.Init_Animation(anim_max, idle);
+	m_animation.InitAnimation(anim_max, idle);
 
 	// アニメーションの読み込み
 	// とりあえずの状態を設定しておく
 	// 後で変更予定
-	m_animation.Load_Animation("Data/Model/Receptionist/Animation/idle.mv1", idle,0,1.0f);
+	m_animation.LoadAnimation("Data/Model/Receptionist/Animation/idle.mv1", idle,0,1.0f);
 	// 最初はアイドルアニメーションをつけておく
-	m_animation.Init_Attach_Animation(&m_model, 0, true);
+	m_animation.InitAttachAnimation(&m_model, 0, true);
 
 }
 
@@ -63,7 +63,7 @@ void Receptionist::Init()
 void Receptionist::Update()
 {
 	// アニメーションの再生
-	m_animation.Play_Animation(&m_model, true);
+	m_animation.PlayAnimation(&m_model, true);
 
 
 	// Bodyの当たり判定の設定
