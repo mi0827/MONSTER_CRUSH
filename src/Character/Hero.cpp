@@ -296,7 +296,7 @@ void Hero::Draw()
 	m_left_hand.Draw();
 	m_right_feet.Draw();
 	m_left_feet.Draw();*/
-
+	//m_sword.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 
 	m_model.DrawModel(&m_transform);
@@ -330,25 +330,27 @@ void Hero::CDUpdate()
 	{
 		// カプセルの座標１
 		Vector3 top_pos;
-		top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 10,
-			m_transform.pos.y + 5,
-			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 10);
+		top_pos.set( m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 11,
+			m_transform.pos.y + 8,
+			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 11);
 
 		// カプセルの座標２
 		Vector3 under_pos;
-		under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 5,
-			m_transform.pos.y + 5,
-			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 5);
-
-
+		under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 8,
+			m_transform.pos.y + 8,
+			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 8);
+		// 剣用の当たり判定の作成
+		m_sword.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
 	}
+	
+
 	// 攻撃時の当たり当た判定の保存とダメージの設定
-	SetHitDamage(m_left_hand, m_attack_damage[attack_sword_1], (attack_sword_1));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_2], (attack_sword_2));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_3], (attack_sword_3));
-	SetHitDamage(m_right_feet, m_attack_damage[attack_sword_4], (attack_sword_4));
-	SetHitDamage(m_left_feet, m_attack_damage[attack_kick_1], (attack_kick_1));
-	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_2], (attack_kick_2));
+	SetHitDamage(m_sword, m_attack_damage[attack_sword_1], (attack_sword_1));
+	SetHitDamage(m_sword, m_attack_damage[attack_sword_2], (attack_sword_2));
+	SetHitDamage(m_sword, m_attack_damage[attack_sword_3], (attack_sword_3));
+	SetHitDamage(m_sword, m_attack_damage[attack_sword_4], (attack_sword_4));
+	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_1], (attack_kick_1));
+	SetHitDamage(m_left_feet, m_attack_damage[attack_kick_2], (attack_kick_2));
 
 }
 
