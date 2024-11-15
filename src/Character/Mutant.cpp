@@ -626,7 +626,7 @@ void Mutant::Combo_Update()
 	}
 
 	// コンボ可能か判断用関数
-	m_combo.Combo_Judgment_Condition
+	m_combo.ComboJudgmentCondition
 	(
 		&m_combo_flag,
 		combo_jug,

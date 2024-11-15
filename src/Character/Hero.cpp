@@ -236,6 +236,8 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		{
 			// 待機モードにしておく
 			m_player_mode = IDLE;
+			m_combo.ChangeComboMode(m_combo.COMBO_FINISH);
+
 		}
 		// カウンター攻撃が行われている場合
 		// こうすることによってカウンター攻撃ちゅに回避ができなくなる

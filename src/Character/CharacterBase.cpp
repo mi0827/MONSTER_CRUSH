@@ -141,7 +141,9 @@ void CharacterBase::AttackFirst()
 		// コンボの回数をリセット
 		m_combo_count = 0;
 
-		m_stop_combo_flag = true;
+		// コンボをしていいようにする
+		m_combo.ComboStartJudgent();
+		// m_stop_combo_flag = false;
 	}
 	// 指定のマウスボタンが押されたら
 	if (PushMouseInput(MOUSE_INPUT_RIGHT) /*& MOUSE_INPUT_LEFT*/)
@@ -152,6 +154,7 @@ void CharacterBase::AttackFirst()
 		{
 			// アニメーションの切り替えフラグを上げる
 			m_animation.m_anim_change_flag = true;
+
 
 		}
 		// 攻撃モードにしておく
@@ -169,7 +172,10 @@ void CharacterBase::AttackFirst()
 		m_combo_count = 0;
 
 		// コンボをしていいようにする
-		m_stop_combo_flag = true;
+		m_combo.ComboStartJudgent();
+		
+		//m_stop_combo_flag = false;
+
 	}
 }
 
@@ -178,12 +184,13 @@ void CharacterBase::AttackFirst()
 //---------------------------------------------------------------------------
 void CharacterBase::AttackUpdate()
 {
-	// コンボをしていいフラグがったている時だけ
-	if (m_stop_combo_flag)
-	{
+	//bool combo_action = m_combo.ComboCanContinueJudgent();
+	//// コンボをしていいフラグがったている時だけ
+	//if (combo_action)
+	//{
 		// コンボ関数を呼ぶ
 		ComboActionUpdate();
-	}
+	//}
 }
 
 //---------------------------------------------------------------------------
@@ -316,53 +323,68 @@ void CharacterBase::ComboActionUpdate()
 {
 	// コンボ可能か判断用関数
 // 指定のキー操作がされた場合
-	m_combo.Combo_Judgment_Key
-	(
-		&m_combo_flag,
-		&m_mouse_flag,
-		MOUSE_INPUT_LEFT,
-		m_animation.m_contexts[0].play_time,
-		m_animation.m_contexts[0].animation_total_time,
-		&m_combo_count
-	);
-	m_combo.Combo_Judgment_Key
-	(
-		&m_combo_flag,
-		&m_mouse_flag,
-		MOUSE_INPUT_RIGHT,
-		m_animation.m_contexts[0].play_time,
-		m_animation.m_contexts[0].animation_total_time,
-		&m_combo_count
-	);
-	
-	// コンボフラグが上がっているとき
-	if (m_combo_flag)
+	switch (m_combo.m_combo_mode)
 	{
+	
+	case m_combo.COMBO_START: // コンボスタート
+		m_combo.Combo_Judgment_Key
+		(
+			&m_combo_flag,
+			&m_mouse_flag,
+			MOUSE_INPUT_LEFT,
+			m_animation.m_contexts[0].play_time,
+			m_animation.m_contexts[0].animation_total_time,
+			&m_combo_count
+		);
+		m_combo.Combo_Judgment_Key
+		(
+			&m_combo_flag,
+			&m_mouse_flag,
+			MOUSE_INPUT_RIGHT,
+			m_animation.m_contexts[0].play_time,
+			m_animation.m_contexts[0].animation_total_time,
+			&m_combo_count
+		);
+		break;
+		
+	case m_combo.COMBO_STANDBY: // コンボスタンバイ
+
 		// 今のアニメーション番号から一つ次のアニメーション
 		if (m_mouse_flag == MOUSE_INPUT_LEFT)
 		{
 			m_next_anim = m_first_attack_anim_1 + m_combo_count;
 			aaa = m_next_anim;
+			m_combo.ChangeComboMode(m_combo.COMBP_IN);
+			break;
 		}
 		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
 		{
 			m_next_anim = m_first_attack_anim_2 + m_combo_count;
 			bbb = m_next_anim;
+			m_combo.ChangeComboMode(m_combo.COMBP_IN);
+			break;
 		}
-
-		// コンボがアニメーションの最大と同じになったら
+		
+	case m_combo.COMBP_IN: // コンボ中
+		// コンボがアニメーションの最大と同じになったら(指定された)
 		if (m_combo_count >= m_COMBO_MAX)
 		{
+
 			// コンボをストップするようにする
-			m_stop_combo_flag = false;
-			// コンボフラグを下げる
-			m_combo_flag = false;
+			//m_stop_combo_flag = true;
+
+			
 			// コンボの回数をリセット
 			m_combo_count = 0;
+
 			// 当たり判定の設定がバックっているので一下げる
 			m_next_anim--;
 
+			m_combo.ChangeComboMode(m_combo.COMBO_FINISH);
+			break;
+
 		}
+
 
 		// コンボ用のアニメーションをつける
 		m_animation.ActionComboChangeAnimation(&m_model, m_next_anim, false, &m_combo_flag);
@@ -373,9 +395,27 @@ void CharacterBase::ComboActionUpdate()
 			m_now_attack_anim = m_next_anim;
 			// 現在の攻撃番号を保存する
 			m_now_attack = m_now_attack_anim - m_ATTAK_START_ANIM_NO;
+
+			m_combo.ChangeComboMode(m_combo.COMBO_START);
 		}
+		break;
+	case m_combo.COMBO_FINISH: // コンボ終了
+
+		// コンボフラグを下げる
+		m_combo_flag = false;
+
+		break;
 
 	}
+	
+
+	//// コンボフラグが上がっているとき
+	//if (m_combo_flag)
+	//{
+
+	//	
+
+	//}
 }
 
 //---------------------------------------------------------------------------
