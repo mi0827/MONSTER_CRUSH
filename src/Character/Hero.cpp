@@ -224,7 +224,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 
 		break;
 	case COUNTER:
-		CounterAction(attack_sword_anim_4);
+		CounterAction(counter_anim);
 
 		break;
 
@@ -293,8 +293,8 @@ void Hero::Draw()
 			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 		}
 	}
-	/*m_body.Draw();
-	m_right_hand.Draw();
+	m_body.Draw();
+	/*m_right_hand.Draw();
 	m_left_hand.Draw();
 	m_right_feet.Draw();
 	m_left_feet.Draw();*/
@@ -353,6 +353,7 @@ void Hero::CDUpdate()
 	SetHitDamage(m_sword, m_attack_damage[attack_sword_4], (attack_sword_4));
 	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_1], (attack_kick_1));
 	SetHitDamage(m_left_feet, m_attack_damage[attack_kick_2], (attack_kick_2));
+	SetHitDamage(m_sword, m_attack_damage[attack_counter], (attack_counter));
 
 }
 
@@ -394,6 +395,8 @@ void Hero::SetHitTimeInit()
 	SetHitTime(attack_frame[attack_sword_4].start_frame, attack_frame[attack_sword_4].end_frame, attack_sword_4);
 	SetHitTime(attack_frame[attack_kick_1].start_frame, attack_frame[attack_kick_1].end_frame, attack_kick_1);
 	SetHitTime(attack_frame[attack_kick_2].start_frame, attack_frame[attack_kick_2].end_frame, attack_kick_2);
+	SetHitTime(attack_frame[attack_counter].start_frame, attack_frame[attack_counter].end_frame, attack_counter);
+
 }
 
 
@@ -407,15 +410,16 @@ void Hero::AnimLoadInit()
 	// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì“Ç‚İ‚İ
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Idle.mv1", idle, 0, 1.0f); //!< ƒAƒCƒhƒ‹
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Run.mv1", run, 0, 1.0f);   //!< ‘–‚è
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1", rolling, 0, 1.0f);   //!< ƒ[ƒŠƒ“ƒO
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1", rolling, 0, 1.5f);   //!< ƒ[ƒŠƒ“ƒO
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1", hit_damage, 0, 1.0f);   //!< UŒ‚‚ª“–‚½‚Á‚½‚Æ‚«‚Ìƒ_ƒ[ƒW
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1", die, 0, 1.0f);   //!< €‚ñ‚¾‚Æ‚«
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 1.0f);      //< UŒ‚‚P, 0, 1.0f);  //!< UŒ‚‚P
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 1.0f);     //< UŒ‚‚Q, 0, 1.0f); //!< UŒ‚‚Q
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 1.0f); //!< UŒ‚‚R
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.0f); //<! ƒLƒbƒNUŒ‚
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.0f); //<! ƒLƒbƒNUŒ‚
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.0f); //<! ƒLƒbƒNUŒ‚
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 1.2f); //!< Œ•UŒ‚‚P 
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 1.5f); //!< Œ•UŒ‚‚Q
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 1.3f); //!< Œ•UŒ‚‚R
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.3f); //!< Œ•UŒ‚‚S
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.3f); //<! ƒLƒbƒNUŒ‚‚P
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.3f); //<! ƒLƒbƒNUŒ‚‚Q
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 1.7f);     //<! ƒJƒEƒ“ƒ^[UŒ‚
 	// Å‰‚ÍƒfƒtƒHƒ‹ƒgƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‚Â‚¯‚Ä‚¨‚­
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }

@@ -226,7 +226,7 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 
 		break;
 	case COUNTER:
-		CounterAction(attack_kick_anim_3);
+		CounterAction(counter_anim);
 
 		break;
 
@@ -292,7 +292,12 @@ void SamplePlayer::Draw()
 		{
 
 			// 当たり判定を描画
+			if (m_now_attack == attack_counter)
+			{
+				m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+			}
 			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+			
 		}
 	}
 	/*m_body.Draw();
@@ -359,6 +364,7 @@ void SamplePlayer::CDUpdate()
 	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_1], (attack_kick_1));
 	SetHitDamage(m_left_feet, m_attack_damage[attack_kick_2], (attack_kick_2));
 	SetHitDamage(m_right_feet, m_attack_damage[attack_kick_3], (attack_kick_3));
+	SetHitDamage(m_right_feet, m_attack_damage[attack_counter], (attack_counter));
 }
 
 
@@ -403,6 +409,8 @@ void SamplePlayer::SetHitTimeInit()
 	SetHitTime(attack_frame[attack_kick_1].start_frame, attack_frame[attack_kick_1].end_frame, attack_kick_1);
 	SetHitTime(attack_frame[attack_kick_2].start_frame, attack_frame[attack_kick_2].end_frame, attack_kick_2);
 	SetHitTime(attack_frame[attack_kick_3].start_frame, attack_frame[attack_kick_3].end_frame, attack_kick_3);
+	SetHitTime(attack_frame[attack_counter].start_frame, attack_frame[attack_counter].end_frame, attack_counter);
+
 }
 
 
@@ -425,6 +433,7 @@ void SamplePlayer::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick2.mv1", attack_kick_anim_1, 1, 1.5f); //<! キック攻撃
 	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick3.mv1", attack_kick_anim_2, 1, 1.5f); //<! キック攻撃
 	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", attack_kick_anim_3, 1, 1.5f); //<! キック攻撃
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", counter_anim, 1, 1.5f);       //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }

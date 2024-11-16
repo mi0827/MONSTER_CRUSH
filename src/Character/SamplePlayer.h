@@ -71,12 +71,16 @@ public:
 		rolling, //!< ƒ[ƒŠƒ“ƒO
 		hit_damage, //!< ƒ_ƒ[ƒW‚ðŽó‚¯‚½Žž
 		die,     //!< “|‚³‚ê‚½Žž
+
 		attack_anim_1,      //< UŒ‚‚P
 		attack_anim_2,      //< UŒ‚‚Q
 		attack_anim_3,      //< UŒ‚‚R
+
 		attack_kick_anim_1, //< ƒLƒbƒNUŒ‚‚P
 		attack_kick_anim_2, //< ƒLƒbƒNUŒ‚‚Q
 		attack_kick_anim_3, //< ƒLƒbƒNUŒ‚‚R
+
+		counter_anim,       //< ƒJƒEƒ“ƒ^[
 
 		anim_max //!< ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‘å”
 	};
@@ -97,6 +101,8 @@ public:
 		attack_kick_1 = attack_kick_anim_1 - ATTACK_ANIM_STAR, //< ƒLƒbƒNUŒ‚‚P
 		attack_kick_2 = attack_kick_anim_2 - ATTACK_ANIM_STAR,	//< ƒLƒbƒNUŒ‚‚Q
 		attack_kick_3 = attack_kick_anim_3 - ATTACK_ANIM_STAR,	//< ƒLƒbƒNUŒ‚‚R
+
+		attack_counter = counter_anim - ATTACK_ANIM_STAR,       //!< ƒJƒEƒ“ƒ^[UŒ‚
 
 		attack_max
 	};
@@ -127,12 +133,14 @@ public:
 		{	15.0f, 60.0f, },
 		// ƒLƒbƒN‚R
 		{	25.0f, 60.0f, },
+		// ƒJƒEƒ“ƒ^[UŒ‚
+		{   10.0f, 60.0f,},
 	};
 
 	// ŠeUŒ‚‚Ìƒ_ƒ[ƒW
 	int m_attack_damage[attack_max]
 	{
-		50,70,70,70,70,70,
+		50,70,70,70,70,70,70,
 	};
 
 

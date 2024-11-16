@@ -58,8 +58,11 @@
 //---------------------------------------------------------------------------------
 bool CheckBallHit(Vector3 center1, float radius1, Vector3 center2, float radius2)
 {
+	// ’¼ü‹——£‚ğo‚·
 	float length = GetVector3Distance(center1, center2);
+	// ”¼Œa“¯m‚ğ‘«‚µ‚½’l‚ğo‚·
 	float radius = radius1 + radius2;
+	// À•W“¯m‚Ì‹——£‚ª”¼Œa“¯m‚Ì‹——£‚æ‚è’Z‚­‚È‚Á‚½‚ç
 	if (length <= radius) {
 		return true;
 	}

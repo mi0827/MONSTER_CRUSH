@@ -94,10 +94,12 @@ public:
 		attack_sword_anim_1,      //< ソード攻撃１
 		attack_sword_anim_2,      //< ソード攻撃２
 		attack_sword_anim_3,      //< ソード攻撃３
-		
+
 		attack_sword_anim_4, //< ソード攻撃４
 		attack_kick_anim_1,   //< キック攻撃1
 		attack_kick_anim_2,   //< キック攻撃1
+
+		counter_anim,              // カウンター攻撃
 
 		anim_max //!< アニメーションの最大数
 	};
@@ -114,6 +116,8 @@ public:
 		attack_sword_4 = attack_sword_anim_4 - ATTACK_ANIM_STAR, //< キック攻撃１
 		attack_kick_1 = attack_kick_anim_1 - ATTACK_ANIM_STAR,	//< キック攻撃２
 		attack_kick_2 = attack_kick_anim_2 - ATTACK_ANIM_STAR,	//< キック攻撃３
+
+		attack_counter = counter_anim - ATTACK_ANIM_STAR,       //< カウンター攻撃
 
 		attack_max
 	};
@@ -144,12 +148,14 @@ public:
 		{	25.0f, 45.0f, },
 		// キック2
 		{	37.0f, 60.0f, },
+		// カウンター攻撃
+		{   93.0f,  120.0f},
 	};
 
 	// 各攻撃のダメージ
 	int m_attack_damage[attack_max]
 	{
-		50,70,70,70,70,70,
+		50,70,70,70,70,70,100,
 	};
 
 
