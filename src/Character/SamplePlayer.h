@@ -108,33 +108,37 @@ public:
 	};
 
 	// 当たり判定をとってほしいフレームの構造体
-	struct AttackFrame
+// 当たり判定をとってほしいフレームの構造体
+	struct AttackTiming
 	{
 		// 始まりのフレーム
 		float start_frame;
 		// 終わりのフレーム
 		float end_frame;
+		// ヒットストップを行っていいかどうか
+		bool can_hit_stop;
 	};
+
 
 	// 当たり判定を行ってほしいタイミングの設定
 	// 今のところ仮
 	// 作品展までに完成させる
-	AttackFrame attack_frame[attack_max] =
+	AttackTiming attack_frame[attack_max] =
 	{
 		// パンチ１
-		{ 0.0f, 30.0f, },
+		{ 0.0f, 30.0f, false},
 		// パンチ２
-		{ 15.0f, 50.0f, },
+		{ 15.0f, 50.0f, false},
 		// パンチ３
-		{	50.0f, 90.0f, },
+		{	50.0f, 90.0f, true},
 		// キック１
-		{	20.0f, 55.0f, },
+		{	20.0f, 55.0f, false},
 		// キック２
-		{	15.0f, 60.0f, },
+		{	15.0f, 60.0f, false},
 		// キック３
-		{	25.0f, 60.0f, },
+		{	25.0f, 60.0f, true},
 		// カウンター攻撃
-		{   10.0f, 60.0f,},
+		{   10.0f, 60.0f, true},
 	};
 
 	// 各攻撃のダメージ

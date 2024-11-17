@@ -100,7 +100,8 @@ public:
 	//! @param 当たり判定をとってほしいフレームのスタート
 	//! @param 当たり判定を終わってほしいフレームの終わり
 	//! @param 保存したい攻撃番号
-	void SetHitTime(int attack_frame_start, int attack_frame_end, int attack_num);
+	//! @param ヒットストップを行っていいか
+	void SetHitTiming(int attack_frame_start, int attack_frame_end,  bool can_hitstop, int attack_num);
 
 	// 当たり判定をとってよいタイミングかを判断する関数
 	//! @brief 攻撃番号
@@ -149,6 +150,8 @@ public:
 		int start_time = 0;
 		//! 終わり
 		int end_time = 0;
+		//! ヒットストップを行っていい攻撃かどうか
+		bool can_hit_stop;
 	};
 	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
 	//! @brief 攻撃時の当たり判定を設定する用の関数

@@ -403,13 +403,11 @@ void SamplePlayer::StatusBarDraw()
 //-----------------------------------------------
 void SamplePlayer::SetHitTimeInit()
 {
-	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
-	SetHitTime(attack_frame[attack_punch_2].start_frame, attack_frame[attack_punch_2].end_frame, attack_punch_2);
-	SetHitTime(attack_frame[attack_punch_3].start_frame, attack_frame[attack_punch_3].end_frame, attack_punch_3);
-	SetHitTime(attack_frame[attack_kick_1].start_frame, attack_frame[attack_kick_1].end_frame, attack_kick_1);
-	SetHitTime(attack_frame[attack_kick_2].start_frame, attack_frame[attack_kick_2].end_frame, attack_kick_2);
-	SetHitTime(attack_frame[attack_kick_3].start_frame, attack_frame[attack_kick_3].end_frame, attack_kick_3);
-	SetHitTime(attack_frame[attack_counter].start_frame, attack_frame[attack_counter].end_frame, attack_counter);
+	for (int i = 0; i < attack_max; i++)
+	{
+		SetHitTiming(attack_frame[i].start_frame, attack_frame[i].end_frame, attack_frame[i].can_hit_stop, i);
+	}
+
 
 }
 

@@ -196,12 +196,14 @@ void CharacterBase::AttackUpdate()
 //---------------------------------------------------------------------------
 // 当たり判定をとってほしいタイミングを保存するための関数
 //---------------------------------------------------------------------------
-void CharacterBase::SetHitTime(int attack_frame_start, int attack_frame_end, int attack_num)
+void CharacterBase::SetHitTiming(int attack_frame_start, int attack_frame_end, bool can_hitstop, int attack_num )
 {
 	// 当たり判定をとってほしい最初のフレームの保存
 	m_attack_hit_damage[attack_num]->start_time = attack_frame_start;
 	// 終わってほしいフレームの保存
 	m_attack_hit_damage[attack_num]->end_time = attack_frame_end;
+	// ヒットストップを行っていいかどうかの保存
+	m_attack_hit_damage[attack_num]->can_hit_stop = can_hitstop;
 }
 
 

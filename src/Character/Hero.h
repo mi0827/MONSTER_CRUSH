@@ -80,6 +80,7 @@ public:
 	// 列挙体の宣言
 	//-----------------------------------------------
 public:
+
 	//! アニメーションの種類用の列挙体
 	//! @detail 攻撃アニメーションはコンボの続けたい順番に設定する
 	enum Animation_Max
@@ -123,33 +124,35 @@ public:
 	};
 
 	// 当たり判定をとってほしいフレームの構造体
-	struct AttackFrame
+	struct AttackTiming
 	{
 		// 始まりのフレーム
 		float start_frame;
 		// 終わりのフレーム
 		float end_frame;
+		// ヒットストップを行っていいかどうか
+		bool can_hit_stop;
 	};
 
 	// 当たり判定を行ってほしいタイミングの設定
 	// 今のところ仮
 	// 作品展までに完成させる
-	AttackFrame attack_frame[attack_max] =
+	AttackTiming attack_frame[attack_max] =
 	{
 		// 剣攻撃１
-		{ 33.0f, 52.0f, },
+		{ 33.0f, 52.0f, false},
 		// 剣攻撃２
-		{ 48.0f, 62.0f, },
+		{ 48.0f, 62.0f, false},
 		// 剣攻撃３
-		{	52.0f, 70.0f, },
+		{	52.0f, 70.0f, true},
 		// 剣攻撃4
-		{	32.0f, 44.0f, },
+		{	32.0f, 44.0f, false},
 		// キック1
-		{	25.0f, 45.0f, },
+		{	25.0f, 45.0f, false},
 		// キック2
-		{	37.0f, 60.0f, },
+		{	37.0f, 60.0f, true},
 		// カウンター攻撃
-		{   93.0f,  120.0f},
+		{   93.0f,  120.0f,true},
 	};
 
 	// 各攻撃のダメージ
