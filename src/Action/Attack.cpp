@@ -20,7 +20,7 @@ bool Attack::HitAttack(CapsuleCollision capsule1, CapsuleCollision capsule2, Ani
 // コンボをつなぐと入る
 // 本来はanim.m_contexts[0].is_playingで判定をとりたいがうまくいかない
 // プログラミングの順番的にはうまくいくはずなのにうまくいかない
-	if (anim.m_contexts[0].play_time >= anim.m_contexts[0].animation_total_time -1 /*!anim.m_contexts[0].is_playing*/)
+	if (anim.m_contexts[0].play_time >= anim.m_contexts[0].animation_total_time - 2 /*!anim.m_contexts[0].is_playing*/)
 	{
 		// 当たり判定がないときはfalseにしておく
 		hit = false;
@@ -31,14 +31,15 @@ bool Attack::HitAttack(CapsuleCollision capsule1, CapsuleCollision capsule2, Ani
 		// 指定のカプセル同士の当たり判定があったとき
 		if (CheckCapsuleHit(capsule1, capsule2))
 		{
-			if (!hit)
+			/*if (!hit)
 			{
-				hit = true;
+				hit = true;*/
 				// 当たり判定があってなおかつ初めてこのif分に入ったときだけ
 				// trueを返してダメージ計算をさせる
 				return true;
-			}
-			return false;
+			//}
+			
 		}
+		return false;
 	}
 }

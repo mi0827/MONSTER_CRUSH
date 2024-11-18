@@ -329,22 +329,22 @@ void Hero::CDUpdate()
 	m_left_feet.CreateNodoCapsule(&m_model, 55, 59, 2.5f);
 
 	// 剣の当たり判定を調べるために作ったもの
-	{
-		// カプセルの座標１
-		Vector3 top_pos;
-		top_pos.set( m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 11,
-			m_transform.pos.y + 8,
-			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 11);
 
-		// カプセルの座標２
-		Vector3 under_pos;
-		under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 8,
-			m_transform.pos.y + 8,
-			m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 8);
-		// 剣用の当たり判定の作成
-		m_sword.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
-	}
-	
+		// カプセルの座標１
+	Vector3 top_pos;
+	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 11,
+		m_transform.pos.y + 8,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 11);
+
+	// カプセルの座標２
+	Vector3 under_pos;
+	under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 8,
+		m_transform.pos.y + 8,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 8);
+	// 剣用の当たり判定の作成
+
+
+	m_sword.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
 
 	// 攻撃時の当たり当た判定の保存とダメージの設定
 	SetHitDamage(m_sword, m_attack_damage[attack_sword_1], (attack_sword_1));

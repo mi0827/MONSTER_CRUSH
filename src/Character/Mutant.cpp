@@ -281,6 +281,7 @@ void Mutant::Draw()
 	}
 
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
+	m_body.Draw();
 	/*m_body.Draw();
 	m_left_hand.Draw();
 	m_right_hand.Draw();*/

@@ -322,20 +322,20 @@ void GameScene::Draw()
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_player_shadowMap_handle);
 	{
-	
+
 		player->Draw();
 		// ヒーローの描画処理
 		//hero.Draw();
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
-		
+
 		// シャドウマップへキャラクターモデルの描画
 		field.Draw();
 		// モンスターの描画
 		monster->Draw();
 	}
-	
+
 	UseShadowMapSet();
 
 	// ステータスバーの描画
@@ -351,23 +351,23 @@ void GameScene::Draw()
 	// フェードの描画処理
 	FadeDraw();
 
-	
+
 	//SetFontSize(50);
-	static constexpr int color =255;
-	DrawStringF(16, 250, "player_flag", color,0);
-	DrawFormatString(16, 300,  color, "Idle : %d", player->m_idle_flag);
+	static constexpr int color = 255;
+	DrawStringF(16, 250, "player_flag", color, 0);
+	DrawFormatString(16, 300, color, "Idle : %d", player->m_idle_flag);
 	DrawFormatString(16, 350, color, "Run : %d", player->m_run_flag);
-	DrawFormatString(16, 400,  color, "Attack : %d",player->m_attack_flag);
-	DrawFormatString(16, 450, color, "Damage : %d",player->m_damage_flag);
+	DrawFormatString(16, 400, color, "Attack : %d", player->m_attack_flag);
+	DrawFormatString(16, 450, color, "Damage : %d", player->m_damage_flag);
 	DrawFormatString(16, 500, color, "Rolling : %d", player->m_rolling_flag);
-	DrawFormatString(16, 550,  color, "Counter : %d",player->m_counter_flag);
+	DrawFormatString(16, 550, color, "Counter : %d", player->m_counter_flag);
 
 	DrawStringF(1500, 250, "monster_flag", color, 0);
 	DrawFormatString(1500, 300, color, "Idle : %d", monster->m_idle_flag);
 	DrawFormatString(1500, 350, color, "Run : %d", monster->m_run_flag);
-	DrawFormatString(1500,400, color, "Attack : %d", monster->m_attack_flag);
-	
-	
+	DrawFormatString(1500, 400, color, "Attack : %d", monster->m_attack_flag);
+
+
 }
 
 //---------------------------------------------------------------------------
@@ -501,19 +501,38 @@ void GameScene::AttackUpdate()
 
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
 		int num = player->m_now_attack;
-		CharacterBase::Attack_Hit_Damage* ptr = player->m_attack_hit_damage[num];
-		if (player_attack_hit.HitAttack(monster->m_body, ptr->attack_hit, player->m_animation) == true)
+		//CharacterBase::Attack_Hit_Damage* ptr = player->m_attack_hit_damage[num];
+		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
+		if (player->AttackHitGoodTiming(num))
 		{
-			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
-			if (player->AttackHitGoodTiming(num))
+			if (player_attack_hit.HitAttack(monster->m_body, player->m_attack_hit_damage[num]->attack_hit, player->m_animation) == true)
 			{
+				// 当たり判定があったら一回だけこの処理を通るようにする
+				// ダメージ処理を行っていいフラグが上がっていたら
+				if (player->m_can_hit_damage_flag )
+				{
+					// 一回だけ通ってほしいからフラグを下げる
+					player->m_can_hit_damage_flag = false;
 
-				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-				Damage_Count(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
+					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
+					Damage_Count(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
+					// ヒットストップを行っていいいタイミングだけ行う
+					if (player->m_attack_hit_damage[num]->can_hit_stop)
+					{
+						// ダメージが入ったタイミングでヒットストップのカウントをリセットする
+						hit_stop.Stop_Count_Reset();
+					}
+				}
+				
 			}
-
+		}
+		else
+		{
+			// 当たり判定をとれないときにフラグを戻す
+			player->m_can_hit_damage_flag = true;
 		}
 	}
+
 
 
 
@@ -522,13 +541,13 @@ void GameScene::AttackUpdate()
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
-		MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
-		if (monster_attack_hit.HitAttack(player->m_body, ptr->attack_hit, monster->m_animation) == true)
+		//MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
+		if (monster_attack_hit.HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit, monster->m_animation) == true)
 		{
 			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 
 			// 今仮でプレイヤーになっているのでモンスターを作るときにモンスター用のものを作る
-			if (player->AttackHitGoodTiming(monster->m_now_attack))
+			if (player->AttackHitGoodTiming(num))
 			{
 				// プレイヤーの攻撃受けたフラグが下がっているとき
 				if (player->m_damage_flag == false)
@@ -538,7 +557,7 @@ void GameScene::AttackUpdate()
 				}
 				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 				// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-				Damage_Count(monster->m_attack_hit_damage[monster->m_now_attack]->attack_damage, 5, &player->m_hp_value);
+				Damage_Count(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
 
 				// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 				hit_stop.Stop_Count_Reset();
