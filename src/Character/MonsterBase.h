@@ -45,13 +45,13 @@ public:
 	virtual void CDUpdate() = 0;
 
 	//! @brief ステータスバーの設定用関数
-	virtual void Status_Bar_Init() = 0;
+	virtual void StatusBarInit() = 0;
 	//! @brief ステータスバーの描画関数
-	virtual void Status_Bar_Draw() = 0;
+	virtual void StatusBarDraw() = 0;
 
 	//! @brief ローリングアクション用の関数（回避）
 	//! @param ローリングしたときの移動スピード
-	virtual void Action_Rolling(const int rolling_speed);
+	virtual void ActionRolling(const int rolling_speed);
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
@@ -61,9 +61,34 @@ public:
 	//! @param モンスターの状態
 	virtual void MonsterMode(int mode) = 0;
 
-	
-	
+	//! @brief アニメーション読み込み用関数
+	virtual void AnimLoadInit() = 0;
 
+	//! @brief 攻撃アニメーションに関する情報の設定
+	void AttackAnimInfo();
+
+	//! @brief 移動アクション処理
+	//! @param 移動用アニメーション番号
+	void MoveActionUpdate(int ran_anim);
+
+	//! @brief 最初の攻撃を行う用関数
+	void FirstAttackAction();
+
+	//! @brief 攻撃関連の更新処理
+	void AttackActionUpdate();
+
+	//! @brief ジャンプ攻撃開始の処理
+	//! @param ジャンプ用のアニメーション番号
+	void JumpAction(int jump_anim); 
+
+	//! @brief ジャンプ攻撃の更新処理
+	void JumpActionUpdate();
+
+	//! @brief コンボ攻撃更新処理
+	void ComboUpdate();
+
+	//! @brief 行いたい攻撃アニメーションをランダムで選ぶための関数
+	int SetRandAttack();
 
 	//! @brief ベースクラスでの初期処理
 	//! @param モンスターのHPマックス
@@ -118,6 +143,8 @@ public:
 	//! @brief 攻撃時の当たり判定を設定する用の関数
 	//! @param 攻撃アニメーションの最大数
 	void  NEW_Set_Attack_Hit_Damage(int attack_anim_max);
+
+
 
 
 	//! @brief キャラの壁擦り判定用の関数
@@ -208,6 +235,29 @@ public:
 
 	//! モンスターの現在行っている攻撃アニメーション番号を保存する
 	int m_now_attack = -1;
+
+
+	//! モンスターの状態
+	enum MonsterMode
+	{
+		IDLE,        //!< 待機
+		RUN,         //!< 走り状態
+		ATTACK,    //!< 攻撃
+		DIE,          //!< 死ぬ
+	};
+
+	enum Jump
+	{
+		STANDBY,     //! スタンバイ
+		GOUP,           //! 上がるタイミング
+		MOVE,           //! ジャンプ中の移動のタイミング
+		DROPDOWN,  //! 落ちてくるタイミング
+
+		max
+	};
+	//! ジャンプの状態を保存する変数
+	int jump_num = 0;
+
 
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言

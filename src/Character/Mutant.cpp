@@ -63,13 +63,13 @@ void Mutant::Init()
 	m_model.LoadModel("Data/Model/Mutant/Mutant.mv1");
 
 	// アニメーションの初期設定
-	Anima_Load_Init();
+	AnimaLoadInit();
 
 	// 攻撃アニメーションの数分のあたり判定用の入れ物を確保する
 	NEW_Set_Attack_Hit_Damage(ATTACK_ACTION_MAX);
 
 	// ステータスバーの設定
-	Status_Bar_Init();
+	StatusBarInit();
 
 	// 当たり判定をとってほしいタイミングのせってい 
 	SetHitTimeInit();
@@ -163,7 +163,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		// モンスターの回転してよいようにする
 		move.Set_Can_Rotate(true);
 		// 移動処理
-		Move_Update();
+		MoveUpdate();
 	}
 
 	switch (m_monster_mode)
@@ -185,7 +185,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 				// 最初の攻撃を行う
 				// 攻撃フラグを上げる
 				m_attack_flag = true;
-				Attack_First();
+				AttackFirst();
 			}
 		}
 		break;
@@ -204,7 +204,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 		// 走っている間に一定以上の距離が空いたら
 		// ジャンプ攻撃をする
-		Attack_Jump();
+		AttackJump();
 
 		break;
 	case ATTACK:
@@ -217,13 +217,13 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		// ジャンプ攻撃時の処理
 		if (m_now_attack_anim == jump)
 		{
-			Jump_Update();
+			JumpUpdate();
 		}
 
 		// ローリングアクション時の処理
 		if (m_now_attack_anim == rolling)
 		{
-			Action_Rolling(ROLLING_SPEED);
+			ActionRolling(ROLLING_SPEED);
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		move.Set_Can_Rotate(false);
@@ -242,7 +242,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			}
 		}
 		// 攻撃用の関数
-		Attack_Update();
+		AttackUpdate();
 
 		break;
 	}
@@ -358,7 +358,7 @@ void Mutant::CDUpdate()
 //-----------------------------------------------
 // ステータスバーの設定用関数
 //-----------------------------------------------
-void Mutant::Status_Bar_Init()
+void Mutant::StatusBarInit()
 {
 	// HPの
 	m_hp_value = HP_MAX;
@@ -375,7 +375,7 @@ void Mutant::Status_Bar_Init()
 //-----------------------------------------------
 // ステータスバー描画用関数
 //-----------------------------------------------
-void Mutant::Status_Bar_Draw()
+void Mutant::StatusBarDraw()
 {
 
 	//===================
@@ -436,7 +436,7 @@ void Mutant::MonsterMode(int mode)
 //-----------------------------------------------
 // アニメーションの初期処理
 //-----------------------------------------------
-void Mutant::Anima_Load_Init()
+void Mutant::AnimLoadInit()
 {
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle);
@@ -461,7 +461,7 @@ void Mutant::Anima_Load_Init()
 //-----------------------------------------------
 // プレイヤーの移動用関数
 //-----------------------------------------------
-void Mutant::Move_Update()
+void Mutant::MoveUpdate()
 {
 	// 毎回リセット
 	m_run_flag = false;
@@ -494,16 +494,14 @@ void Mutant::Move_Update()
 //-----------------------------------------------
 // 最初の攻撃を判断する
 //-----------------------------------------------
-void Mutant::Attack_First()
+void Mutant::AttackFirst()
 {
-
 	// attack_flag が上がってるときかつ
 	// プレイヤーモードがATTACK以外の時
 	if (m_attack_flag && m_monster_mode != ATTACK)
 	{
 		// アニメーションの切り替えフラグを上げる
 		m_animation.m_anim_change_flag = true;
-
 	}
 	// 攻撃モードにしておく
 	m_monster_mode = ATTACK;
@@ -523,20 +521,20 @@ void Mutant::Attack_First()
 //-----------------------------------------------
 // 攻撃に関する更新処理
 //-----------------------------------------------
-void Mutant::Attack_Update()
+void Mutant::AttackUpdate()
 {
 	// コンボをしていいフラグがったている時だけ
 	if (m_stop_combo_flag)
 	{
 		// コンボ関数を呼ぶ
-		Combo_Update();
+		ComboUpdate();
 	}
 }
 
 //-----------------------------------------------
 // ジャンプ攻撃に関する処理
 //-----------------------------------------------
-void Mutant::Attack_Jump()
+void Mutant::AttackJump()
 {
 	// ターゲットとの距離
 	float distance = move.Get_Target_Distance();
@@ -576,7 +574,7 @@ void Mutant::Attack_Jump()
 //-----------------------------------------------
 // ジャンプ攻撃中の処理
 //-----------------------------------------------
-void Mutant::Jump_Update()
+void Mutant::JumpUpdate()
 {
 	// モンスターのアニメーションがジャンプしそうに瞬間から着地アニメーションが始まるまでの間
 	if (m_animation.m_contexts[0].play_time >= 80.0f && m_animation.m_contexts[0].play_time < 110.0f)
@@ -608,7 +606,7 @@ void Mutant::Jump_Update()
 //-----------------------------------------------
 // コンボの判断をする関数
 //-----------------------------------------------
-void Mutant::Combo_Update()
+void Mutant::ComboUpdate()
 {
 	// コンボを行っていい状態なのはかを保存する変数
 	bool combo_jug;
@@ -640,7 +638,7 @@ void Mutant::Combo_Update()
 	if (m_combo_flag)
 	{
 		// 次の攻撃アニメーションをランダムでセット
-		m_next_anim = Set_Rand_Attack();
+		m_next_anim = SetRandAttack();
 
 		// コンボ用のアニメーションをつける
 		m_animation.ActionComboChangeAnimation(&m_model, m_next_anim, false, &m_combo_flag);
@@ -659,7 +657,7 @@ void Mutant::Combo_Update()
 //-----------------------------------------------
 // 行いたいアニメーションをランダムで選ぶための関数
 //-----------------------------------------------
-int Mutant::Set_Rand_Attack()
+int Mutant::SetRandAttack()
 {
 	// 次に行ってほしいアニメーションを入れる変数
 	int next_anim = 0;

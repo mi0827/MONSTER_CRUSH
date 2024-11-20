@@ -83,10 +83,6 @@ public:
 	//! モンスター用のオブジェクト
 	MonsterBase* monster;
 
-	//! 攻撃アクションの当たり判定用のオブジェクト
-	Attack player_attack_hit;
-	Attack monster_attack_hit;
-
 	// フィールドオブジェクト
 	Field field;
 

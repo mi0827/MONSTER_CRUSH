@@ -45,9 +45,9 @@ public:
 	void CDUpdate() override;
 
 	//! @brief ステータスバーの設定用関数
-	void Status_Bar_Init() override;
+	void StatusBarInit() override;
 	//! @brief ステータスバーの描画関数
-	void Status_Bar_Draw() override;
+	void StatusBarDraw() override;
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
 	void SetHitTimeInit() override;
@@ -59,28 +59,33 @@ public:
 
 
 	//! @brief アニメーション読み込み関数
-	void Anima_Load_Init();
+	void AnimLoadInit() override;
 
-	//! @brief プレイヤーの移動用関数
-	void Move_Update();
+	//! @brief 移動処理関数
+	//! runアニメーション番号
+	void MoveUpdate()override;
 
 	//! @brief 攻撃開始かそうでないかを判断する関数
-	void Attack_First();
+	//! 最初の攻撃をする関数
+	//! 攻撃用のアニメーションの中でランダムに決める
+	void AttackFirst()override;
 
 	//! @brief 攻撃用の関数
-	void Attack_Update();
+	//! 今はフラグで管理しているけどこれをそうでなくする
+	void AttackUpdate()override;
 
 	//! @brief ジャンプ攻撃用の関数
-	void Attack_Jump();
+	//! ジャンプ用のアニメーション番号
+	void AttackJump()override;
 
 	//! @brief ジャンプ攻撃の更新処理
-	void Jump_Update();
+	void JumpUpdate()override;
 
 	//! @brief コンボ関数
-	void Combo_Update();
+	void ComboUpdate()override;
 
 	//! @brief 行いたいアニメーションをランダムで選ぶための関数
-	int Set_Rand_Attack();
+	int SetRandAttack()override;
 
 	//=========================================================================
 	// 定数の宣言
@@ -172,26 +177,7 @@ public:
 		10,20,20,20,20,20
 	};
 
-	//! モンスターの状態
-	enum MonsterMode
-	{
-		IDLE,        //!< 待機
-		RUN,         //!< 走り状態
-		ATTACK,    //!< 攻撃
-		DIE,          //!< 死ぬ
-	};
-
-	enum Jump
-	{
-		STANDBY,     //! スタンバイ
-		GOUP,           //! 上がるタイミング
-		MOVE,           //! ジャンプ中の移動のタイミング
-		DROPDOWN,  //! 落ちてくるタイミング
-
-		max
-	};
-	//! ジャンプの状態を保存する変数
-	int jump_num = 0;
+	
 
 public:
 	

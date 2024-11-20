@@ -475,9 +475,6 @@ void GameScene::CharacterUpdate()
 
 	// モンスターの更新処理
 	monster->Update(&player->m_transform, player->m_hit_r);
-
-
-
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, player->m_body))
 	{
@@ -496,16 +493,13 @@ void GameScene::AttackUpdate()
 	// プレイヤーの攻撃
 	if (player->m_attack_flag)
 	{
-		// 一つのアニメーションの間に一回だけ当たったらtrueを返すようにするようにしたいがうまくいかない
-		// 詳しくは関数の中に書く
-
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
 		int num = player->m_now_attack;
 		//CharacterBase::Attack_Hit_Damage* ptr = player->m_attack_hit_damage[num];
 		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 		if (player->AttackHitGoodTiming(num))
 		{
-			if (player_attack_hit.HitAttack(monster->m_body, player->m_attack_hit_damage[num]->attack_hit, player->m_animation) == true)
+			if (HitAttack(monster->m_body, player->m_attack_hit_damage[num]->attack_hit) == true)
 			{
 				// 当たり判定があったら一回だけこの処理を通るようにする
 				// ダメージ処理を行っていいフラグが上がっていたら
@@ -523,7 +517,6 @@ void GameScene::AttackUpdate()
 						hit_stop.Stop_Count_Reset();
 					}
 				}
-				
 			}
 		}
 		else
@@ -542,7 +535,7 @@ void GameScene::AttackUpdate()
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
 		//MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
-		if (monster_attack_hit.HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit, monster->m_animation) == true)
+		if (HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 		{
 			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 
