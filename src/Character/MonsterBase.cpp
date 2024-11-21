@@ -144,6 +144,18 @@ void MonsterBase::NEW_Set_Attack_Hit_Damage(int attack_anim_max)
 	}
 }
 
+//---------------------------------------------------------------------------
+// 攻撃アニメーションに関する情報の設定
+//---------------------------------------------------------------------------
+void MonsterBase::SetAttackAnimInfo(int attack_anim_start, int attack_anim_max, int except_attack)
+{
+	// 攻撃アニメーションのスタートの保存
+	m_ATTACK_ANIM_START = attack_anim_start;
+	// 攻撃アニメーションの最大数の保存
+	m_ATTACK_ANIM_MAX = attack_anim_max;
+	// ランダムで攻撃を選ぶ際にはぶいてほしい攻撃番号の保存
+	m_ATTACK_ANIM_EXCEPT = except_attack;
+}
 
 //---------------------------------------------------------------------------
 // 移動処理関数
@@ -195,13 +207,13 @@ void MonsterBase::FirstAttackAction()
 	m_monster_mode = ATTACK;
 	// 最初の攻撃もランダムに設定する
 	// 攻撃アニメーション以外を排除しておく
-	int attack = GetRand(attack_rolling) + ATTACK_ANIM_START;
+	int attack = GetRand(m_ATTACK_ANIM_EXCEPT) + m_ATTACK_ANIM_START;
 	m_animation.ChangeAnimation(&m_model, attack, false);
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack;
 
 	// 現在の攻撃番号を保存する
-	m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
+	m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
 
 	m_stop_combo_flag = true;
 }
@@ -222,12 +234,12 @@ void MonsterBase::AttackActionUpdate()
 //---------------------------------------------------------------------------
 // 攻撃関連の更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::JumpAction(int jump_anim)
+void MonsterBase::JumpAction(int jump_anim, int target_distance)
 {
 	// ターゲットとの距離
 	float distance = move.Get_Target_Distance();
 	// ターゲットとの距離が一定以上になったら
-	if (TARGET_DISTANCE <= distance)
+	if (target_distance <= distance)
 	{
 		// ジャンプ攻撃をしてほしいのでランフラグを下す
 		m_run_flag = false;
@@ -246,7 +258,7 @@ void MonsterBase::JumpAction(int jump_anim)
 		// 攻撃アニメーション番号の保存
 		m_now_attack_anim = jump_anim;
 		// 現在の攻撃番号を保存する
-		m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
+		m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
 
 		m_stop_combo_flag = true;
 		// ジャンプ処理は
@@ -262,7 +274,7 @@ void MonsterBase::JumpAction(int jump_anim)
 //---------------------------------------------------------------------------
 // ジャンプ攻撃の更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::JumpActionUpdate()
+void MonsterBase::JumpActionUpdate(float down_speed)
 {
 	// モンスターのアニメーションがジャンプしそうに瞬間から着地アニメーションが始まるまでの間
 	if (m_animation.m_contexts[0].play_time >= 80.0f && m_animation.m_contexts[0].play_time < 110.0f)
@@ -275,7 +287,7 @@ void MonsterBase::JumpActionUpdate()
 	if (m_animation.m_contexts[0].play_time >= 110.0f)
 	{
 		// 降下スピードをリセット
-		m_down_speed = JUMP_DOWN_SPEED;
+		m_down_speed = down_speed;
 
 		// フラグが立っている時かつ地面につくアニメーションの時
 		if (m_jump_flag && m_animation.m_contexts[0].play_time >= 140.0f)
@@ -336,7 +348,7 @@ void MonsterBase::ComboUpdate()
 			// 現在の攻撃アニメーションを保存
 			m_now_attack_anim = m_next_anim;
 			// 現在の攻撃番号を保存する
-			m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
+			m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
 		}
 	}
 }
@@ -355,12 +367,12 @@ int MonsterBase::SetRandAttack()
 	{
 		// 次のアニメーションをランダムで入れる
 		// 攻撃アニメーションスタートから攻撃アニメーションの最大までで
-		next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
+		next_anim = GetRand(m_ATTACK_ANIM_MAX) + m_ATTACK_ANIM_START;
 		// 次に行いたいアニメーションと今のアニメーションがかぶったら
 		if (next_anim == m_now_attack_anim || next_anim == 0)
 		{
 			// またランダムで入れなおす
-			next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
+			next_anim = GetRand(m_ATTACK_ANIM_MAX) + m_ATTACK_ANIM_START;
 		}
 		break;
 	}

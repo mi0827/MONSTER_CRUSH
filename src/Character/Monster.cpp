@@ -64,7 +64,7 @@ void Monster::Init()
 	Anima_Load_Init();
 
 	// ステータスバーの設定
-	Status_Bar_Init();
+	StatusBarInit();
 
 	// モンスターのステータス部分の設定
 	MonsterBase::BaseInit(HP_MAX, JUMP_UP_SPEED,JUMP_DOWN_SPEED);
@@ -223,7 +223,7 @@ void Monster::CDUpdate()
 //-----------------------------------------------
 // ステータスバーの設定用関数
 //-----------------------------------------------
-void Monster::Status_Bar_Init()
+void Monster::StatusBarInit()
 {
 	// HPの設定
 	m_hp.Set({ 25,25 }, { 1200, 25 }, &m_hp_value, true);
@@ -237,7 +237,7 @@ void Monster::Status_Bar_Init()
 //-----------------------------------------------
 // ステータスバー描画用関数
 //-----------------------------------------------
-void Monster::Status_Bar_Draw()
+void Monster::StatusBarDraw()
 {
 	// HPの値が減ったかどうか
 	m_hp.Update(&m_hp_value);

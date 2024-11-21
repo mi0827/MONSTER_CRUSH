@@ -86,9 +86,9 @@ public:
 	void CDUpdate() override;
 
 	//! @brief ステータスバーの設定用関数
-	void Status_Bar_Init() override;
+	void StatusBarInit() override;
 	//! @brief ステータスバーの描画関数
-	void Status_Bar_Draw() override;
+	void StatusBarDraw() override;
 
 	//! @brief アニメーション読み込み関数
 	void Anima_Load_Init();

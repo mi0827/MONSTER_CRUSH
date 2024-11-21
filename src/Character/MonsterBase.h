@@ -65,7 +65,10 @@ public:
 	virtual void AnimLoadInit() = 0;
 
 	//! @brief 攻撃アニメーションに関する情報の設定
-	void AttackAnimInfo();
+	//! @param 攻撃アニメーションの開始番号
+	//! @param 攻撃アニメーションの最大数
+	//! @param ランダムで攻撃を選ぶ時のはぶいてほしい攻撃番号
+	void SetAttackAnimInfo(int attack_anim_start, int attack_anim_max, int except_attack);
 
 	//! @brief 移動アクション処理
 	//! @param 移動用アニメーション番号
@@ -79,10 +82,12 @@ public:
 
 	//! @brief ジャンプ攻撃開始の処理
 	//! @param ジャンプ用のアニメーション番号
-	void JumpAction(int jump_anim); 
+	//! @param 相手との距離
+	void JumpAction(int jump_anim, int target_distance);
 
 	//! @brief ジャンプ攻撃の更新処理
-	void JumpActionUpdate();
+	//! @param 落下スピード
+	void JumpActionUpdate(float down_speed);
 
 	//! @brief コンボ攻撃更新処理
 	void ComboUpdate();
@@ -144,15 +149,6 @@ public:
 	//! @param 攻撃アニメーションの最大数
 	void  NEW_Set_Attack_Hit_Damage(int attack_anim_max);
 
-
-
-
-	//! @brief キャラの壁擦り判定用の関数
-	//! @param キャラの座標
-	//! @param キャラの動く前の座標
-	//! @param キャラの当たり判定のサイズ
-	//! @param 当たり判定相手のボックスの情報
-	//void MoveHitUpdate(Vector3* monster_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box);
 public:
 
 	//-----------------------------------------------
@@ -189,7 +185,15 @@ public:
 	//! 今のアニメーション番号を保存する用の変数
 	int m_now_attack_anim = 0;
 
+private:
+	//! 攻撃アニメーションのスタート番号
+	int m_ATTACK_ANIM_START = 0;
+	//! 攻撃アニメーションの最大数
+	int m_ATTACK_ANIM_MAX = 0;
+	//! ランダムで攻撃を選ぶ際にはぶいてほしいアニメーション番号
+	int m_ATTACK_ANIM_EXCEPT = 0;
 
+public:
 	//! 壁擦り判定のためにいったん座標を保存しておく変数
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
 	//! 移動の際の当たり判定用のサイズ

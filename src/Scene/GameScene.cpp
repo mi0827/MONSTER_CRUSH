@@ -385,7 +385,7 @@ void GameScene::Exit()
 void GameScene::StatusDraw()
 {
 	player->StatusBarDraw();
-	monster->Status_Bar_Draw();
+	monster->StatusBarDraw();
 
 }
 

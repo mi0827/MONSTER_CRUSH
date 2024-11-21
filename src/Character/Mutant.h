@@ -8,7 +8,7 @@
 class Mutant :public MonsterBase
 {
 public:
-	
+
 public:
 
 	//=========================================================================
@@ -36,7 +36,7 @@ public:
 	void Exit() override;
 
 	//! @brief 登場演出用の更新処理
-    void EntryUpdate() override;
+	void EntryUpdate() override;
 
 	//! @brief HPが一定まで減ったときのレベルアップ処理
 	void ReinforceUpdate() override;
@@ -63,29 +63,29 @@ public:
 
 	//! @brief 移動処理関数
 	//! runアニメーション番号
-	void MoveUpdate()override;
+	//void MoveUpdate()override;
 
 	//! @brief 攻撃開始かそうでないかを判断する関数
 	//! 最初の攻撃をする関数
 	//! 攻撃用のアニメーションの中でランダムに決める
-	void AttackFirst()override;
+	//void AttackFirst()override;
 
 	//! @brief 攻撃用の関数
 	//! 今はフラグで管理しているけどこれをそうでなくする
-	void AttackUpdate()override;
+	// void AttackUpdate()override;
 
 	//! @brief ジャンプ攻撃用の関数
 	//! ジャンプ用のアニメーション番号
-	void AttackJump()override;
+	//void AttackJump()override;
 
 	//! @brief ジャンプ攻撃の更新処理
-	void JumpUpdate()override;
+	//void JumpUpdate()override;
 
 	//! @brief コンボ関数
-	void ComboUpdate()override;
+	//void ComboUpdate()override;
 
 	//! @brief 行いたいアニメーションをランダムで選ぶための関数
-	int SetRandAttack()override;
+	//int SetRandAttack()override;
 
 	//=========================================================================
 	// 定数の宣言
@@ -122,7 +122,7 @@ public:
 
 	//! 攻撃アニメーションの一番最初
 	static constexpr int ATTACK_ANIM_START = attack_1;
-	//! 攻撃アニメーション最大値（jumpを抜いた分）
+	//! 攻撃アニメーション最大値（jumpを抜いた分ジャンプを抜いておかないとコンボ攻撃の時なバグる）
 	static constexpr int ATTACK_ANIM_MAX = rolling - ATTACK_ANIM_START;
 
 	//! 攻撃アクションの数
@@ -177,10 +177,10 @@ public:
 		10,20,20,20,20,20
 	};
 
-	
+
 
 public:
-	
+
 	//==================================
 	// 攻撃時の当たり判定とダメージの設定当たり判定
 	//==================================
