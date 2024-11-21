@@ -6,13 +6,13 @@
 //---------------------------------------------------------------------------
 SE::~SE()
 {
-	SE_Delete();
+	SEDelete();
 }
 
 //---------------------------------------------------------------------------
 //  SE用の配列変数の獲得用関数
 //---------------------------------------------------------------------------
-void SE::SE_ContainerNew(int size)
+void SE::SEContainerNew(int size)
 {
 	// SE分の配列の確保
 	m_se_container = new int[size];
@@ -22,7 +22,7 @@ void SE::SE_ContainerNew(int size)
 //---------------------------------------------------------------------------
 //  SEの読み込み用関数
 //---------------------------------------------------------------------------
-void SE::Load_SE(const char name[256], int No)
+void SE::LoadSE(const char name[256], int No)
 {
 	// SEデータの読み込み
 	m_se_container[No] = LoadSoundMem(name);
@@ -31,7 +31,7 @@ void SE::Load_SE(const char name[256], int No)
 //---------------------------------------------------------------------------
 //  SEの再生用関数
 //---------------------------------------------------------------------------
-void SE::Play_SE(int No, int type, bool loop)
+void SE::PlaySE(int No, int type, bool loop)
 {
 	// SEの再生
 	PlaySoundMem(m_se_container[No], type, loop);
@@ -40,7 +40,7 @@ void SE::Play_SE(int No, int type, bool loop)
 //---------------------------------------------------------------------------
 //  SEのボリューム変更用関数
 //---------------------------------------------------------------------------
-void SE::SE_ChangeVolume(int se_volume/*, int size*/)
+void SE::SEChangeVolume(int se_volume/*, int size*/)
 {
 	// SEの数分ボリュームを変更する
 	for (int i = 0; i < m_se_size; i++) {
@@ -51,7 +51,7 @@ void SE::SE_ChangeVolume(int se_volume/*, int size*/)
 //---------------------------------------------------------------------------
 //  SEの再生中かを返す用関数
 //---------------------------------------------------------------------------
-bool SE::Playing_SE(int No)
+bool SE::PlayingSE(int No)
 {
 	int playing; // 再生中かの番号を入れる用の変数
 	// 再生中か調べる
@@ -68,7 +68,7 @@ bool SE::Playing_SE(int No)
 //---------------------------------------------------------------------------
 // SEのデリート（配列の解放）
 //---------------------------------------------------------------------------
-void SE::SE_Delete()
+void SE::SEDelete()
 {
 	InitSoundMem();        // 読み込んだSEの削除
 	delete[] m_se_container; // 

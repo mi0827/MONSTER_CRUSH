@@ -33,8 +33,4 @@ void GameExit();
 
 
 
-// シーン切り替え用の関数
-// 引数
-// １：今のシーン
-// ２：次のシーン
-void Scene_Change_Judge(int& now_scene, const int& next_scene);
+

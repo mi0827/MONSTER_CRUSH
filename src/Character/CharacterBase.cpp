@@ -329,7 +329,7 @@ void CharacterBase::ComboActionUpdate()
 	{
 	
 	case m_combo.COMBO_START: // コンボスタート
-		m_combo.Combo_Judgment_Key
+		m_combo.ComboJudgmentKey
 		(
 			&m_combo_flag,
 			&m_mouse_flag,
@@ -338,7 +338,7 @@ void CharacterBase::ComboActionUpdate()
 			m_animation.m_contexts[0].animation_total_time,
 			&m_combo_count
 		);
-		m_combo.Combo_Judgment_Key
+		m_combo.ComboJudgmentKey
 		(
 			&m_combo_flag,
 			&m_mouse_flag,

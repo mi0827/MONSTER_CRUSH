@@ -50,7 +50,7 @@ void TitleScene::Init()
 
 
 	// カメラの初期設定
-	camera.PlayField_Init();
+	camera.PlayFieldInit();
 
 	// プレイヤーの設定
 	player = new Hero;

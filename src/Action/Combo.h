@@ -17,7 +17,7 @@ public:
 	//! @param コンボしたいときのアニメーションの再生時間
 	//! @param コンボしたいときのアニメーションの一周分の時間
 	//! @detail デフォルトアニメーションのセット、アニメーションの入れ物の確保
-	void Combo_Judgment_Key(bool* combo_flag, int* mouse_flag, int key, float play_anim_time, float anim_total,int *combo_count);
+	void ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, float play_anim_time, float anim_total,int *combo_count);
 
 
 	//! @brief コンボしてよいのかを指定の条件で判断する関数

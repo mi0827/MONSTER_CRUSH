@@ -21,7 +21,7 @@ Combo::~Combo()
 // 指定のキー（ボタンを押されたとき）
 //---------------------------------------------------------------------------
 
-void Combo::Combo_Judgment_Key(bool* combo_flag, int* mouse_flag, int key, float play_anim_time, float anim_total, int* combo_count)
+void Combo::ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, float play_anim_time, float anim_total, int* combo_count)
 {
 	// コンボフラグが下がっていたら
 	if (*combo_flag == false)

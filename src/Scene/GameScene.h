@@ -60,7 +60,7 @@ public:
 	void OptionValuesReflect(int bgm, int se, int mouse)override;
 
 	//! @brief キャラクターの初期処理
-	void Character_Init();
+	void CharacterInit();
 
 	//! @brief キャラクターの更新処理
 	void CharacterUpdate();

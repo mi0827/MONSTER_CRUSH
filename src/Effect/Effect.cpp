@@ -4,7 +4,7 @@
 //---------------------------------------------------------------------------
 //  エフェクト用の配列変数の獲得用関数
 //---------------------------------------------------------------------------
-void Effect_New(int Effect_MAX, int* effect_container, int* effect_handle)
+void EffectNew(int Effect_MAX, int* effect_container, int* effect_handle)
 {
 	effect_container = new int[Effect_MAX];
 	effect_handle = new int[Effect_MAX];
@@ -23,7 +23,7 @@ int* EffectContainerNew(int size)
 //---------------------------------------------------------------------------
 //  エフェクト用変数のdelete用関数
 //---------------------------------------------------------------------------
-void Effect_Delete(int* effect_container, int* effect_handle)
+void EffectDelete(int* effect_container, int* effect_handle)
 {
 	delete[] effect_container;
 	delete[] effect_handle;

@@ -14,7 +14,7 @@ public:
 
 	void Init();        //　初期処理
 
-	void PlayField_Init(); // プレイ画面の初期設定
+	void PlayFieldInit(); // プレイ画面の初期設定
 
 
 
@@ -37,9 +37,9 @@ public:
 	void UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2);
 
 	//! @brief カメラが壁に埋まらないようにする
-	void Hit_Object(Vector3* obj_pos, Vector3* obj_size);
+	void HitObject(Vector3* obj_pos, Vector3* obj_size);
 	//! @brief 描画処理の前にカメラ、画面のセット
-	void Draw_Set();
+	void DrawSet();
 	//! @brief 描画処理
 	void Draw();
 	//! @brief 終了処理

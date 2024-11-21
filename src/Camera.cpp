@@ -48,7 +48,7 @@ void Camera::Init()
 //---------------------------------------------------------------------------------
 //	// プレイ画面の初期設定
 //---------------------------------------------------------------------------------
-void Camera::PlayField_Init()
+void Camera::PlayFieldInit()
 {
 	//m_field_size.set(SCREEN_W , SCREEN_H);                                                                                          // 描画する画面のサイズの設定
 	//m_screen_field = MakeScreen((int)m_field_size.x, (int)m_field_size.y);                                             // 描画画面を書き込むための初期設定
@@ -221,7 +221,7 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 //---------------------------------------------------------------------------------
 // カメラが壁に埋まらないようにする(うまくいかない)
 //---------------------------------------------------------------------------------
-void Camera::UseCameraUpdate(bool change_camera,Vector3* target_pos1, Vector3* target_pos2)
+void Camera::UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2)
 {
 	if (change_camera)
 	{
@@ -236,7 +236,7 @@ void Camera::UseCameraUpdate(bool change_camera,Vector3* target_pos1, Vector3* t
 //---------------------------------------------------------------------------------
 // カメラが壁に埋まらないようにする(うまくいかない)
 //---------------------------------------------------------------------------------
-void Camera::Hit_Object(Vector3* obj_pos, Vector3* obj_size)
+void Camera::HitObject(Vector3* obj_pos, Vector3* obj_size)
 {
 	if (m_before_pos.x + m_hit_box_size.x >= obj_pos->x - obj_size->x && m_before_pos.x - m_hit_box_size.x <= obj_pos->x + obj_size->x)
 	{
@@ -254,7 +254,7 @@ void Camera::Hit_Object(Vector3* obj_pos, Vector3* obj_size)
 //	描画前のカメラのセット
 //---------------------------------------------------------------------------------
 // めんどくさいけど頑張って工事しろ
-void Camera::Draw_Set()
+void Camera::DrawSet()
 {
 
 }

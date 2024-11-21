@@ -91,10 +91,10 @@ void GameScene::Init()
 	GameSceneInit();
 
 	// カメラの初期設定
-	camera.PlayField_Init();
+	camera.PlayFieldInit();
 
 	// キャラクターの初期処理
-	Character_Init();
+	CharacterInit();
 
 	// フィールドの初期化 
 	field.Init();
@@ -188,7 +188,7 @@ void GameScene::EntryUpdate()
 void GameScene::GameUpdate()
 {
 	// ヒットストップが起こってほしいときいがい
-	if (hit_stop.Hit_Stop() == false)
+	if (hit_stop.CheckHitStop() == false)
 	{
 		// キャラクターの更新処理
 		CharacterUpdate();
@@ -454,7 +454,7 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 //---------------------------------------------------------------------------
 // キャラクターの初期処理
 //---------------------------------------------------------------------------
-void GameScene::Character_Init()
+void GameScene::CharacterInit()
 {
 	// プレイヤーの初期処理
 	player->Init();
@@ -514,7 +514,7 @@ void GameScene::AttackUpdate()
 					if (player->m_attack_hit_damage[num]->can_hit_stop)
 					{
 						// ダメージが入ったタイミングでヒットストップのカウントをリセットする
-						hit_stop.Stop_Count_Reset();
+						hit_stop.StopCountReset();
 					}
 				}
 			}
@@ -553,7 +553,7 @@ void GameScene::AttackUpdate()
 				Damage_Count(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
 
 				// ダメージが入ったタイミングでヒットストップのカウントをリセットする
-				hit_stop.Stop_Count_Reset();
+				hit_stop.StopCountReset();
 			}
 		}
 	}

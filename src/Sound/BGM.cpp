@@ -7,13 +7,13 @@
 BGM::~BGM()
 {
 	// 終わったときに終了処理を呼ぶ
-	BGM_Delete();
+	BGMDelete();
 }
 
 //---------------------------------------------------------------------------
 //  BGM用の配列を作る関数
 //---------------------------------------------------------------------------
-void BGM::BGM_ContainerNew(int size)
+void BGM::BGMContainerNew(int size)
 {
 	// BGM分の配列の確保
 	m_bgm_container = new int[size];
@@ -23,7 +23,7 @@ void BGM::BGM_ContainerNew(int size)
 //---------------------------------------------------------------------------
 //  BGMの読み込み用関数
 //---------------------------------------------------------------------------
-void BGM::Load_BGM(const char name[256],int No)
+void BGM::LoadBGM(const char name[256],int No)
 {
 	// BGMのデータを読み込む
 	m_bgm_container[No] = LoadSoundMem(name);
@@ -32,7 +32,7 @@ void BGM::Load_BGM(const char name[256],int No)
 //---------------------------------------------------------------------------
 //  BGMの再生用関数
 //---------------------------------------------------------------------------
-void BGM::Play_BGM(int type, bool loop, int No)
+void BGM::PlayBGM(int type, bool loop, int No)
 {
 	// BGMの再生
 	PlaySoundMem(m_bgm_container[No], type, loop);
@@ -41,7 +41,7 @@ void BGM::Play_BGM(int type, bool loop, int No)
 //---------------------------------------------------------------------------
 //  BGMのボリューム変更用関数
 //---------------------------------------------------------------------------
-void BGM::BGM_ChangeVolume(int bgm_volume)
+void BGM::BGMChangeVolume(int bgm_volume)
 {
 	// BGMの数分ボリュームを変更する
 	for (int i = 0; i < m_bgm_size; ++i)
@@ -53,7 +53,7 @@ void BGM::BGM_ChangeVolume(int bgm_volume)
 //---------------------------------------------------------------------------
 //  BGMを止める用関数
 //---------------------------------------------------------------------------
-void BGM::Stop_BGM(int No)
+void BGM::StopBGM(int No)
 {
 	StopSoundMem(m_bgm_container[No]);
 }
@@ -61,7 +61,7 @@ void BGM::Stop_BGM(int No)
 //---------------------------------------------------------------------------
 //  BGMが再生中かを返す用関数
 //---------------------------------------------------------------------------
-bool BGM::Playing_BGM(int No)
+bool BGM::PlayingBGM(int No)
 {
 	int playing; // 再生中かの番号を入れる用の変数
 	// 再生中か調べる
@@ -79,7 +79,7 @@ bool BGM::Playing_BGM(int No)
 //---------------------------------------------------------------------------
 // BGMのデリート（配列の解放）
 //---------------------------------------------------------------------------
-void BGM::BGM_Delete()
+void BGM::BGMDelete()
 {
 	InitSoundMem();        // 読み込んだBGMの削除
 	delete[] m_bgm_container;
