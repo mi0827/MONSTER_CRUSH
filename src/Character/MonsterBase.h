@@ -89,6 +89,8 @@ public:
 	//! @param 落下スピード
 	void JumpActionUpdate(float down_speed);
 
+	void SetJumpPos(Vector3 pos);
+
 	//! @brief コンボ攻撃更新処理
 	void ComboUpdate();
 
@@ -214,6 +216,8 @@ public:
 	//------------------------------------------
 	// ジャンプのための移動量用の変数
 	Vector3 m_jump_mov{ 0.0f,0.0f,0.0f };
+	// ジャンプの着地地点の座標
+	Vector3 m_jump_pos{ 0.0f,0.0f,0.0f };
 	// ジャンプフラグ
 	bool m_jump_flag = false;
 	// 上昇スピード

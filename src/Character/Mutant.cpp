@@ -281,6 +281,12 @@ void Mutant::Draw()
 
 	}
 
+	if(m_jump_flag)
+	{
+	DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+	}
+
+
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
 	m_body.Draw();
 	/*m_body.Draw();

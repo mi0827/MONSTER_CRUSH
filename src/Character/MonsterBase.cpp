@@ -262,7 +262,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 
 		m_stop_combo_flag = true;
 		// ジャンプ処理は
-		jump_num = STANDBY;
+		//jump_num = STANDBY;
 	}
 	else
 	{
@@ -296,11 +296,16 @@ void MonsterBase::JumpActionUpdate(float down_speed)
 			m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
 			m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
 			// ジャンプフラグを下げる
-			m_jump_flag = false; // 落ちる処理へ
+			//m_jump_flag = false; // 落ちる処理へ
 		}
 	}
 
 
+}
+
+void MonsterBase::SetJumpPos(Vector3 pos)
+{
+	m_jump_pos = pos;
 }
 
 
