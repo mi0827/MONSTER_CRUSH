@@ -181,6 +181,12 @@ public:
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 
+	//! 攻撃を受けた時のアニメーションを設定するための変数
+	//! なんかいもダメージを受けた時のアニメーションセットに入ってほしくないので作った
+	//! 本来はもっといい方法があると思う見つけたらそちらに変更
+	bool m_damage_anim_flag = false;
+	//! 当たり判定をとっていいかのフラグ
+	bool m_can_hit_damage_flag;
 
 	//! プレイヤーのモードを管理する変数
 	int m_monster_mode = 0;

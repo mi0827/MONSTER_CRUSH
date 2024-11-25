@@ -506,7 +506,7 @@ void GameScene::AttackUpdate()
 			{
 				// 当たり判定があったら一回だけこの処理を通るようにする
 				// ダメージ処理を行っていいフラグが上がっていたら
-				if (player->m_can_hit_damage_flag )
+				if (player->m_can_hit_damage_flag)
 				{
 					// 一回だけ通ってほしいからフラグを下げる
 					player->m_can_hit_damage_flag = false;
@@ -538,26 +538,36 @@ void GameScene::AttackUpdate()
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
 		//MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
-		if (HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
-		{
 			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
-
 			// 今仮でプレイヤーになっているのでモンスターを作るときにモンスター用のものを作る
-			if (player->AttackHitGoodTiming(num))
+		if (monster->AttackHitGoodTiming(num))
+		{
+			if (HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 			{
-				// プレイヤーの攻撃受けたフラグが下がっているとき
-				if (player->m_damage_flag == false)
-				{
-					// プレイヤーの攻撃受けたフラグを上げる
-					player->m_damage_flag = true;
-				}
-				// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-				// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-				Damage_Count(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
 
-				// ダメージが入ったタイミングでヒットストップのカウントをリセットする
-				hit_stop.StopCountReset();
+				if (monster->m_can_hit_damage_flag)
+				{
+					// 一回だけ通ってほしいからフラグを下げる
+					monster->m_can_hit_damage_flag = false;
+					// プレイヤーの攻撃受けたフラグが下がっているとき
+					if (player->m_damage_flag == false)
+					{
+						// プレイヤーの攻撃受けたフラグを上げる
+						player->m_damage_flag = true;
+					}
+					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
+					// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
+					Damage_Count(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
+
+					// ダメージが入ったタイミングでヒットストップのカウントをリセットする
+					hit_stop.StopCountReset();
+				}
 			}
+		}
+		else
+		{
+			// 当たり判定をとれないときにフラグを戻す
+			monster->m_can_hit_damage_flag = true;
 		}
 	}
 }

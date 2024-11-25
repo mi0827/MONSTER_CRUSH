@@ -76,8 +76,6 @@ void HitGroundCharacterJump(Vector3* character_pos, Vector3* jump_mov, bool* jum
 			now_jump = true;
 			*jump_mov += character_hit.Normal * 2.0 * up_speed;
 		}
-
-	
 	}
 
 	// í‚É‰º‚ÉˆÚ“®
