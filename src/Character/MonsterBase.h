@@ -56,6 +56,8 @@ public:
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
 
+	//! @brief スタンした時用の更新処理
+	virtual void StunActionUpdate();
 
 	//! @brief モンスターの状態(フラグ)管理関数
 	//! @param モンスターの状態
@@ -127,6 +129,7 @@ public:
 	//! @param 与えるダメージ
 	//! @param 攻撃番号
 	void SetHitDamage(CapsuleCollision attack_hit, int attack_damage, int attack_num);
+
 
 
 	// 攻撃の時の当たり判定とダメージの構造体
@@ -214,8 +217,17 @@ public:
 	//! 自身回転速度
 	static constexpr float M_ROT_SPEED = 5.0f;
 
+	//------------------------------------------
+	// ステータス関連
+	//------------------------------------------
 	// HPの残量
 	int m_hp_value;
+	// HP用のバー
+	UIBra m_hp_bra;
+	// スタン値の残量
+	int m_stun_value;
+	// スタン用のバー
+	UIBra m_stun_bra;
 
 	//------------------------------------------
 	// ジャンプ関連
@@ -254,9 +266,10 @@ public:
 	//! モンスターの状態
 	enum MonsterMode
 	{
-		IDLE,        //!< 待機
+		IDLE,        //!< 待機状態
 		RUN,         //!< 走り状態
-		ATTACK,    //!< 攻撃
+		ATTACK,    //!< 攻撃状態
+		STUN,       //!< スタン状態
 		DIE,          //!< 死ぬ
 	};
 

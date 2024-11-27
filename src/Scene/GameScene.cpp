@@ -513,6 +513,8 @@ void GameScene::AttackUpdate()
 
 					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 					Damage_Count(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
+					// スタン値も攻撃を受けたタイミングで減らす
+					Damage_Count(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_stun_value);
 					// ヒットストップを行っていいいタイミングだけ行う
 					if (player->m_attack_hit_damage[num]->can_hit_stop)
 					{

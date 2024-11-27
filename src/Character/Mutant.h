@@ -61,31 +61,6 @@ public:
 	//! @brief アニメーション読み込み関数
 	void AnimLoadInit() override;
 
-	//! @brief 移動処理関数
-	//! runアニメーション番号
-	//void MoveUpdate()override;
-
-	//! @brief 攻撃開始かそうでないかを判断する関数
-	//! 最初の攻撃をする関数
-	//! 攻撃用のアニメーションの中でランダムに決める
-	//void AttackFirst()override;
-
-	//! @brief 攻撃用の関数
-	//! 今はフラグで管理しているけどこれをそうでなくする
-	// void AttackUpdate()override;
-
-	//! @brief ジャンプ攻撃用の関数
-	//! ジャンプ用のアニメーション番号
-	//void AttackJump()override;
-
-	//! @brief ジャンプ攻撃の更新処理
-	//void JumpUpdate()override;
-
-	//! @brief コンボ関数
-	//void ComboUpdate()override;
-
-	//! @brief 行いたいアニメーションをランダムで選ぶための関数
-	//int SetRandAttack()override;
 
 	//=========================================================================
 	// 定数の宣言
@@ -95,8 +70,10 @@ public:
 	static constexpr float TARGET_DISTANCE = 100.0f;     //! ジャンプするときの相手との距離
 	static constexpr float JUMP_UP_SPEED = 10.0f;          //! ジャンプの時の上昇スピード
 	static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
-	static constexpr int HP_MAX = 500;                           //! HPの最大値
 	static constexpr int ROLLING_SPEED = 1.0f;               //! ローリングスピード
+	static constexpr int HP_MAX = 500;                           //! HPの最大値
+	static constexpr int STUN_MAX = 150;                       //! スタン値の最大
+	
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -176,20 +153,4 @@ public:
 	{
 		10,20,20,20,20,20
 	};
-
-
-
-public:
-
-	//==================================
-	// 攻撃時の当たり判定とダメージの設定当たり判定
-	//==================================
-	// このカプセルの当たり判定を保存することがうまくできない
-	///Attack_Hit_Damage attack_hit_damage[ATTACK_ACTION_MAX];
-
-	//=================
-	// バー型のUI
-	//=================
-	UIBra m_hp;
-
 };

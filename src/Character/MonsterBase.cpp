@@ -1,5 +1,6 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
+#include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
 #include "src/Model/Model.h"
@@ -10,6 +11,7 @@
 
 #include "src/System/TargetMove.h"
 #include "src/Action/Combo.h"
+#include "src/System/UIBar.h"
 #include "src/Character/MonsterBase.h"
 
 
@@ -37,16 +39,24 @@ MonsterBase::~MonsterBase()
 void MonsterBase::ActionRolling(const int rolling_speed)
 {
 	// ローリング中の移動処理
-    // 向いている方向に PLAYER_ROLLING_SPEED 分移動する
+	// 向いている方向に PLAYER_ROLLING_SPEED 分移動する
 	m_transform.pos.z += rolling_speed * cosf(TO_RADIAN(m_transform.rot.y));
 	m_transform.pos.x += rolling_speed * sinf(TO_RADIAN(m_transform.rot.y));
+}
+
+//---------------------------------------------------------------------------
+// スタンした時用の更新処理
+//---------------------------------------------------------------------------
+void MonsterBase::StunActionUpdate()
+{
+
 }
 
 
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit(int hp_num,float up_speed, float down_speed)
+void MonsterBase::BaseInit(int hp_num, float up_speed, float down_speed)
 {
 	// HP設定
 	m_hp_value = hp_num;
@@ -66,7 +76,7 @@ void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_
 	// 自身の情報を設定
 	move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 
-	
+
 }
 
 
@@ -103,7 +113,7 @@ bool MonsterBase::AttackHitGoodTiming(int attack_num)
 	int end_time = m_attack_hit_damage[attack_num]->end_time;
 	// アニメーションの現在のフレーム
 	int play_anim_time = m_animation.m_contexts[0].play_time;
-	if (start_time <= play_anim_time   && play_anim_time <= end_time)
+	if (start_time <= play_anim_time && play_anim_time <= end_time)
 	{
 		return true;
 	}
@@ -126,6 +136,7 @@ void MonsterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage, i
 	// ダメージの保存
 	m_attack_hit_damage[attack_num]->attack_damage = attack_damage;
 }
+
 
 //---------------------------------------------------------------------------
 // 攻撃時の当たり判定を設定する用の関数

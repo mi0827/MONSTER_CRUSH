@@ -12,9 +12,9 @@
 
 #include "src/System/TargetMove.h"
 #include "src/Action/Combo.h"
+#include "src/System/UIBar.h"
 #include "src/Character/MonsterBase.h"
 
-#include "src/System/UIBar.h"
 #include "Mutant.h"
 
 namespace
@@ -88,8 +88,8 @@ void Mutant::Update(Transform* target_pos, float target_r)
 {
 	//clsDx();
 	// HPの値が減ったかどうか
-	m_hp.Update(&m_hp_value);
-
+	m_hp_bra.Update(&m_hp_value);
+	m_stun_bra.Update(&m_stun_value);
 
 
 	switch (m_life_and_death)
@@ -349,8 +349,6 @@ void Mutant::CDUpdate()
 	// 爪の部分が当たり判定がない
 	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 5.0f);
 
-
-
 	// 攻撃時の当たり当たり判定の保存
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
 	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_2], (attack_punch_2));
@@ -359,7 +357,6 @@ void Mutant::CDUpdate()
 	SetHitDamage(m_body, m_attack_damage[attack_rolling], (attack_rolling));
 	SetHitDamage(m_body, m_attack_damage[attack_jump], (attack_jump));
 
-
 }
 
 //-----------------------------------------------
@@ -367,16 +364,25 @@ void Mutant::CDUpdate()
 //-----------------------------------------------
 void Mutant::StatusBarInit()
 {
-	// HPの
+	// HPの残量を設定
 	m_hp_value = HP_MAX;
-	// HPの設定
-	m_hp.Set({ 25,25 }, { SCREEN_W - 50, 25 }, &m_hp_value, true);
-	m_hp.SetColor(255, 100, 50, &m_hp.m_color);
-	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
-	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
-	m_hp.SetColor(255, 255, 255, &m_hp.m_character_color);
-	m_hp.SetName("HP");
+	// HPバーの設定
+	m_hp_bra.Set({ 25,25 }, { SCREEN_W - 50, 25 }, &m_hp_value, true);
+	m_hp_bra.SetColor(255, 100, 50, &m_hp_bra.m_color);
+	m_hp_bra.SetColor(128, 128, 128, &m_hp_bra.m_back_color);
+	m_hp_bra.SetColor(0, 0, 0, &m_hp_bra.m_line_color);
+	m_hp_bra.SetColor(255, 255, 255, &m_hp_bra.m_character_color);
+	m_hp_bra.SetName("HP");
 
+	// スタン値の残量を設定
+	m_stun_value = STUN_MAX;
+	// スタンバーの設定
+	m_stun_bra.Set({ 25,70 }, { SCREEN_W - 50, 20 }, &m_stun_value, true);
+	m_stun_bra.SetColor(255, 255, 0, &m_stun_bra.m_color);
+	m_stun_bra.SetColor(128, 128, 128, &m_stun_bra.m_back_color);
+	m_stun_bra.SetColor(0, 0, 0, &m_stun_bra.m_line_color);
+	m_stun_bra.SetColor(255, 255, 255, &m_stun_bra.m_character_color);
+	//m_stun_bra.SetName("STUN");
 }
 
 //-----------------------------------------------
@@ -388,7 +394,9 @@ void Mutant::StatusBarDraw()
 	//===================
 	// UIの描画
 	//===================
-	m_hp.Draw();
+	m_hp_bra.Draw();
+	m_stun_bra.Draw();
+
 }
 
 
@@ -467,226 +475,3 @@ void Mutant::AnimLoadInit()
 
 }
 
-////-----------------------------------------------
-//// プレイヤーの移動用関数
-////-----------------------------------------------
-//void Mutant::MoveUpdate()
-//{
-//	// 毎回リセット
-//	m_run_flag = false;
-//
-//	// 移動前の座標一旦保存しておく
-//	m_before_pos = m_transform.pos;
-//
-//	// ベースクラスの更新処理
-//	// 移動の処理が中に入っている
-//	BaseUpdate(&m_run_flag);
-//
-//	// run_flag が上がってるときかつ
-//	// プレイヤーモードがRUN以外の時
-//	if (m_run_flag && m_monster_mode != RUN)
-//	{
-//		// アニメーションの切り替えフラグを上げる
-//		m_animation.m_anim_change_flag = true;
-//	}
-//
-//	// アニメーション変更が可能な時に
-//	if (m_animation.ChangeFlag(m_run_flag)) {
-//		// 走りアニメーションに変更
-//		m_animation.ChangeAnimation(&m_model, run, true);
-//		// アニメーションが変わったから
-//		// プレイヤーモードの切り替えをする
-//		m_monster_mode = RUN;
-//	}
-//}
-
-//-----------------------------------------------
-// 最初の攻撃を判断する
-//-----------------------------------------------
-//void Mutant::AttackFirst()
-//{
-//	// attack_flag が上がってるときかつ
-//	// プレイヤーモードがATTACK以外の時
-//	if (m_attack_flag && m_monster_mode != ATTACK)
-//	{
-//		// アニメーションの切り替えフラグを上げる
-//		m_animation.m_anim_change_flag = true;
-//	}
-//	// 攻撃モードにしておく
-//	m_monster_mode = ATTACK;
-//	// 最初の攻撃もランダムに設定する
-//	// 攻撃アニメーション以外を排除しておく
-//	int attack = GetRand(attack_rolling) + ATTACK_ANIM_START;
-//	m_animation.ChangeAnimation(&m_model, attack, false);
-//	// 攻撃アニメーション番号の保存
-//	m_now_attack_anim = attack;
-//
-//	// 現在の攻撃番号を保存する
-//	m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
-//
-//	m_stop_combo_flag = true;
-//}
-
-//-----------------------------------------------
-// 攻撃に関する更新処理
-//-----------------------------------------------
-//void Mutant::AttackUpdate()
-//{
-//	// コンボをしていいフラグがったている時だけ
-//	if (m_stop_combo_flag)
-//	{
-//		// コンボ関数を呼ぶ
-//		ComboUpdate();
-//	}
-//}
-
-//-----------------------------------------------
-// ジャンプ攻撃に関する処理
-//-----------------------------------------------
-//void Mutant::AttackJump()
-//{
-//	// ターゲットとの距離
-//	float distance = move.Get_Target_Distance();
-//	// ターゲットとの距離が一定以上になったら
-//	if (TARGET_DISTANCE <= distance)
-//	{
-//		// ジャンプ攻撃をしてほしいのでランフラグを下す
-//		m_run_flag = false;
-//
-//		// attack_flag が上がってるときかつ
-//	   // プレイヤーモードがATTACK以外の時
-//		if (m_attack_flag && m_monster_mode != ATTACK)
-//		{
-//			// アニメーションの切り替えフラグを上げる
-//			m_animation.m_anim_change_flag = true;
-//		}
-//		// 攻撃モードにしておく
-//		m_monster_mode = ATTACK;
-//
-//		m_animation.ChangeAnimation(&m_model, jump, false);
-//		// 攻撃アニメーション番号の保存
-//		m_now_attack_anim = jump;
-//		// 現在の攻撃番号を保存する
-//		m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
-//
-//		m_stop_combo_flag = true;
-//		// ジャンプ処理は
-//		jump_num = STANDBY;
-//	}
-//	else
-//	{
-//		// ジャンプフラグを下げる
-//		m_jump_flag = false;
-//	}
-//}
-
-//-----------------------------------------------
-// ジャンプ攻撃中の処理
-//-----------------------------------------------
-//void Mutant::JumpUpdate()
-//{
-//	// モンスターのアニメーションがジャンプしそうに瞬間から着地アニメーションが始まるまでの間
-//	if (m_animation.m_contexts[0].play_time >= 80.0f && m_animation.m_contexts[0].play_time < 110.0f)
-//	{
-//		// ジャンプしてから下に下がるスピードをゼロにする
-//		m_down_speed = 0.0f;
-//		m_jump_flag = true;
-//	}
-//
-//	if (m_animation.m_contexts[0].play_time >= 110.0f)
-//	{
-//		// 降下スピードをリセット
-//		m_down_speed = JUMP_DOWN_SPEED;
-//
-//		// フラグが立っている時かつ地面につくアニメーションの時
-//		if (m_jump_flag && m_animation.m_contexts[0].play_time >= 140.0f)
-//		{
-//			// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
-//			m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
-//			m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
-//			// ジャンプフラグを下げる
-//			m_jump_flag = false; // 落ちる処理へ
-//		}
-//	}
-//
-//
-//}
-
-////-----------------------------------------------
-//// コンボの判断をする関数
-////-----------------------------------------------
-//void Mutant::ComboUpdate()
-//{
-//	// コンボを行っていい状態なのはかを保存する変数
-//	bool combo_jug;
-//	// TargetMoveがターゲットと接しているそうでないかで変わる
-//	// 接していず移動可能状態になれば
-//	if (move.m_hit)
-//	{
-//		// コンボをできる状態でない
-//		combo_jug = true;
-//	}
-//	// 接していて止まっている場合
-//	if (!move.m_hit)
-//	{
-//		// コンボできる状態
-//		combo_jug = true;
-//	}
-//
-//	// コンボ可能か判断用関数
-//	m_combo.ComboJudgmentCondition
-//	(
-//		&m_combo_flag,
-//		combo_jug,
-//		m_animation.m_contexts[0].play_time,
-//		m_animation.m_contexts[0].animation_total_time
-//
-//	);
-//
-//	// コンボフラグが上がっているとき
-//	if (m_combo_flag)
-//	{
-//		// 次の攻撃アニメーションをランダムでセット
-//		m_next_anim = SetRandAttack();
-//
-//		// コンボ用のアニメーションをつける
-//		m_animation.ActionComboChangeAnimation(&m_model, m_next_anim, false, &m_combo_flag);
-//
-//		if (!m_combo_flag)
-//		{
-//			// 現在の攻撃アニメーションを保存
-//			m_now_attack_anim = m_next_anim;
-//			// 現在の攻撃番号を保存する
-//			m_now_attack = m_now_attack_anim - ATTACK_ANIM_START;
-//		}
-//	}
-//}
-
-
-//-----------------------------------------------
-// 行いたいアニメーションをランダムで選ぶための関数
-//-----------------------------------------------
-//int Mutant::SetRandAttack()
-//{
-//	// 次に行ってほしいアニメーションを入れる変数
-//	int next_anim = 0;
-//
-//	// アニメーションが決まる名で無限ループ
-//	while (true)
-//	{
-//		// 次のアニメーションをランダムで入れる
-//		// 攻撃アニメーションスタートから攻撃アニメーションの最大までで
-//		next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
-//		// 次に行いたいアニメーションと今のアニメーションがかぶったら
-//		if (next_anim == m_now_attack_anim || next_anim == 0)
-//		{
-//			// またランダムで入れなおす
-//			next_anim = GetRand(ATTACK_ANIM_MAX) + ATTACK_ANIM_START;
-//		}
-//		break;
-//	}
-//
-//	// 次に行ってほしい攻撃アニメーションを返す
-//	// 今はプレイヤーのカウンターがうまくいっているかを見るために固定にしている
-//	return next_anim;
-//}
