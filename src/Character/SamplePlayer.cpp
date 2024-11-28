@@ -87,7 +87,7 @@ void SamplePlayer::Update(Vector3* camera_rot)
 {
 
 	// HP‚Ì’l‚ªŒ¸‚Á‚½‚©‚Ç‚¤‚©
-	m_hp.Update(&m_hp_value);
+	m_hp.Update(m_hp_value);
 
 
 
@@ -389,7 +389,7 @@ void SamplePlayer::StatusBarInit()
 void SamplePlayer::StatusBarDraw()
 {
 
-	m_hp.Update(&m_hp_value);
+	m_hp.Update(m_hp_value);
 	//===================
 	// UI‚Ì•`‰æ
 	//===================

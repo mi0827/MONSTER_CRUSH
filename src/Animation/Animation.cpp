@@ -264,8 +264,8 @@ void Animation::ActionComboChangeAnimation(Model* model, int anim_num, bool loop
 void Animation::PlayAnimation(Model* model, bool combo_flag)
 {
 	m_playing_anim = true;
-	// アニメーションを再生中にしておく
-	if (m_contexts[0].play_time <= m_contexts[0].animation_total_time)
+	// アニメーションを再生中にしておく 再生速度分少しでけ費いとく
+	if (m_contexts[0].play_time <= m_contexts[0].animation_total_time - anim_handle[m_anim_num]->play_speed)
 	{
 		m_contexts[0].is_playing = true;
 	}

@@ -82,13 +82,13 @@ void UIBra::SetName(const char name[256])
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void UIBra::Update(int* value)
+void UIBra::Update(int value)
 {
-	if (*value <= 0)
+	if (value <= 0)
 	{
-		*value = 0;
+			value = 0;
 	}
-	m_value = *value;
+	m_value = value;
 	// m_value の数値が０いかになったらバーがそれ以上ひかれてほしくない
 
 		// valueがどれだけ減っているのかを調べる
@@ -125,7 +125,4 @@ void UIBra::Draw()
 		// フォントのサイズをもとのサイズに戻す
 		SetFontSize(font_size);
 	}
-
-	
-
 }

@@ -88,7 +88,7 @@ void Hero::Init()
 void Hero::Update(Vector3* camera_rot)
 {
 	// HP‚Ì’l‚ªŒ¸‚Á‚½‚©‚Ç‚¤‚©
-	m_hp.Update(&m_hp_value);
+	m_hp.Update(m_hp_value);
 	// ¶‚«‚Ä‚é‚©€‚ñ‚Å‚é‚©‚Åˆ—‚ğ•Ï‚¦‚é
 	switch (m_life_and_death)
 	{
@@ -376,7 +376,7 @@ void Hero::StatusBarInit()
 //-----------------------------------------------
 void Hero::StatusBarDraw()
 {
-	m_hp.Update(&m_hp_value);
+	m_hp.Update(m_hp_value);
 	//===================
 	// UI‚Ì•`‰æ
 	//===================

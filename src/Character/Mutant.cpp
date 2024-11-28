@@ -75,7 +75,7 @@ void Mutant::Init()
 	// 当たり判定をとってほしいタイミングのせってい 
 	SetHitTimeInit();
 	// モンスターのステータスの初期設定
-	BaseInit(HP_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
+	BaseInit(HP_VALUE_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
 	// アニメーションつけるのフラグを上げておく
 	m_animation.m_anim_change_flag = true;
 
@@ -88,8 +88,8 @@ void Mutant::Update(Transform* target_pos, float target_r)
 {
 	//clsDx();
 	// HPの値が減ったかどうか
-	m_hp_bra.Update(&m_hp_value);
-	m_stun_bra.Update(&m_stun_value);
+	m_hp_bra.Update(m_hp_value);
+	m_stun_bra.Update(m_stun_value);
 
 
 	switch (m_life_and_death)
@@ -157,6 +157,19 @@ void Mutant::Update(Transform* target_pos, float target_r)
 //-----------------------------------------------
 void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 {
+
+	// スタン状態になるかならないか
+	if (m_stun_value <= 0 && m_stun_flag == false)
+	{
+		// スタン状態に移動
+		m_monster_mode = STUN;
+		// スタンフラグを上げる
+		m_stun_flag = true;
+		// アニメーション変更フラグを立てる
+		m_animation.m_anim_change_flag = true;
+	}
+
+
 	// 待機状態または走りの時だけｗ
 	// 移動処理
 	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
@@ -246,6 +259,9 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		AttackActionUpdate();
 
 		break;
+	case STUN:
+		StunActionUpdate(stun_down, stun_up, STUN_VALUE_MAX);
+		break;
 	}
 }
 
@@ -281,9 +297,9 @@ void Mutant::Draw()
 
 	}
 
-	if(m_jump_flag)
+	if (m_jump_flag)
 	{
-	DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 	}
 
 
@@ -365,7 +381,7 @@ void Mutant::CDUpdate()
 void Mutant::StatusBarInit()
 {
 	// HPの残量を設定
-	m_hp_value = HP_MAX;
+	m_hp_value = HP_VALUE_MAX;
 	// HPバーの設定
 	m_hp_bra.Set({ 25,25 }, { SCREEN_W - 50, 25 }, &m_hp_value, true);
 	m_hp_bra.SetColor(255, 100, 50, &m_hp_bra.m_color);
@@ -375,7 +391,7 @@ void Mutant::StatusBarInit()
 	m_hp_bra.SetName("HP");
 
 	// スタン値の残量を設定
-	m_stun_value = STUN_MAX;
+	m_stun_value = STUN_VALUE_MAX ;
 	// スタンバーの設定
 	m_stun_bra.Set({ 25,70 }, { SCREEN_W - 50, 20 }, &m_stun_value, true);
 	m_stun_bra.SetColor(255, 255, 0, &m_stun_bra.m_color);
@@ -461,6 +477,9 @@ void Mutant::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage, 0, 1.0f); //!< ダメージを受けた時
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down.mv1", stun_down, 0, 1.5f);  //!< スタンを食らった時のダウン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up, 0, 2.0f);          //!< スタンを食らった時の起き上がり
+
 
 	// もっとモンスターっぽい攻撃を探してこい
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1, 0, 1.0f); //!< 攻撃１

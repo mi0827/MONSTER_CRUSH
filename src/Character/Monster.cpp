@@ -240,7 +240,7 @@ void Monster::StatusBarInit()
 void Monster::StatusBarDraw()
 {
 	// HP‚Ì’l‚ªŒ¸‚Á‚½‚©‚Ç‚¤‚©
-	m_hp.Update(&m_hp_value);
+	m_hp.Update(m_hp_value);
 	//===================
 	// UI‚Ì•`‰æ
 	//===================

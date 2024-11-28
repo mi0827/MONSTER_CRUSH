@@ -83,7 +83,7 @@ void Option::Update()
 	// バーの更新処理
 	for (int i = 0; i < MENU_MAX; i++)
 	{
-		m_bra[i].Update(&option_menu[i].m_value);
+		m_bra[i].Update(option_menu[i].m_value);
 	}
 }
 

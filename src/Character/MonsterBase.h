@@ -57,7 +57,10 @@ public:
 	virtual void SetHitTimeInit() = 0;
 
 	//! @brief スタンした時用の更新処理
-	virtual void StunActionUpdate();
+	//! @param スタン時のダウンアニメーション番号
+	//! @param スタン時の起き上がるアニメーション番号
+	//! @param スタン値の最大量
+	virtual void StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_value_max);
 
 	//! @brief モンスターの状態(フラグ)管理関数
 	//! @param モンスターの状態
@@ -183,18 +186,16 @@ public:
 	bool m_run_flag = false;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
-
 	//! 攻撃を受けた時のアニメーションを設定するための変数
 	//! なんかいもダメージを受けた時のアニメーションセットに入ってほしくないので作った
 	//! 本来はもっといい方法があると思う見つけたらそちらに変更
 	bool m_damage_anim_flag = false;
 	//! 当たり判定をとっていいかのフラグ
 	bool m_can_hit_damage_flag;
+	//! スタン状態かのフラグ
+	bool m_stun_flag;
 
-	//! プレイヤーのモードを管理する変数
-	int m_monster_mode = 0;
-	//! 今のアニメーション番号を保存する用の変数
-	int m_now_attack_anim = 0;
+	
 
 private:
 	//! 攻撃アニメーションのスタート番号
@@ -258,10 +259,11 @@ public:
 	//! コンボをやめてほしい時のフラグ
 	bool m_stop_combo_flag = false;
 
+	//! 今のアニメーション番号を保存する用の変数
+	int m_now_attack_anim = 0;
 
 	//! モンスターの現在行っている攻撃アニメーション番号を保存する
 	int m_now_attack = -1;
-
 
 	//! モンスターの状態
 	enum MonsterMode
@@ -272,19 +274,31 @@ public:
 		STUN,       //!< スタン状態
 		DIE,          //!< 死ぬ
 	};
+	//! モンスターの状態を管理する変数
+	int m_monster_mode = 0;
 
-	enum Jump
+	// ジャンプの状態を管理
+	//enum Jump
+	//{
+	//	STANDBY,     //! スタンバイ
+	//	GOUP,           //! 上がるタイミング
+	//	MOVE,           //! ジャンプ中の移動のタイミング
+	//	DROPDOWN,  //! 落ちてくるタイミング
+
+	//	max
+	//};
+	////! ジャンプの状態を保存する変数
+	//int jump_info_num = 0;
+
+	// スタンの状態を管理
+	enum Stun
 	{
-		STANDBY,     //! スタンバイ
-		GOUP,           //! 上がるタイミング
-		MOVE,           //! ジャンプ中の移動のタイミング
-		DROPDOWN,  //! 落ちてくるタイミング
-
-		max
+		DOWN,          //! 倒れているとき
+		UPSTANDBY,  //! 倒れてから起き上がるまでの間
+		UP,                //! 起き上がるとき
 	};
-	//! ジャンプの状態を保存する変数
-	int jump_num = 0;
-
+	//! スタンの状態を保存する変数
+	int m_stun_info_num = DOWN;
 
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言

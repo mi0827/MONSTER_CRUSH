@@ -71,8 +71,8 @@ public:
 	static constexpr float JUMP_UP_SPEED = 10.0f;          //! ジャンプの時の上昇スピード
 	static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
 	static constexpr int ROLLING_SPEED = 1.0f;               //! ローリングスピード
-	static constexpr int HP_MAX = 500;                           //! HPの最大値
-	static constexpr int STUN_MAX = 150;                       //! スタン値の最大
+	static constexpr int HP_VALUE_MAX = 500;                           //! HPの最大値
+	static constexpr int STUN_VALUE_MAX = 150;                       //! スタン値の最大
 	
 	//=========================================================================
 	// 列挙体の宣言
@@ -86,6 +86,8 @@ public:
 		die,   //!< 死亡
 		shout, //!< 叫び
 		hit_damage, //!< 攻撃を受けた時
+		stun_down, //!< スタンで倒れる時
+		stun_up,  //!< スタンで起き上がるとき
 
 		attack_1, //!< 攻撃１
 		attack_2, //!< 攻撃２

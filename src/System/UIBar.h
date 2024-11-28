@@ -29,7 +29,7 @@ public:
 	void SetName(const char name[256]);
 
 	//! @brief XVˆ—
-	void Update(int* value);
+	void Update(int value);
 
 	//! @brief •`‰æ—pŠÖ”
 	void Draw();

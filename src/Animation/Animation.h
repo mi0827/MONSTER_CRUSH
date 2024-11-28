@@ -70,6 +70,8 @@ public:
 	//! @brief読み込み用関数
 	//! @param ファイルのパス
 	//! @param アニメーション番号
+	//! @param アニメーションのイデックス番号
+	//! @param アニメーションの再生速度
 	void LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed);
 
 	//! @briefアニメーションをセットする関数
