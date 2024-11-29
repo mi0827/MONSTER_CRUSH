@@ -149,7 +149,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 	// プレイヤーではこれがないとバグるが
 	// モンスターではこれがあるとバグる
 	// モンスターのほうがフラグ管理に失敗した
-	//MonsterMode(m_monster_mode);
+	MonsterMode(m_monster_mode);
 }
 
 //-----------------------------------------------
@@ -165,6 +165,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		m_monster_mode = STUN;
 		// スタンフラグを上げる
 		m_stun_flag = true;
+		m_attack_flag = false;
 		// アニメーション変更フラグを立てる
 		m_animation.m_anim_change_flag = true;
 	}
@@ -213,6 +214,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			m_idle_flag = true;
 			// アニメーション変更が行えるようにする
 			m_animation.m_anim_change_flag = true;
+			// 
 			m_monster_mode = IDLE;
 		}
 
@@ -222,6 +224,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 		break;
 	case ATTACK:
+		if (m_stun_flag == true)
+		{
+			break;
+		}
+
 
 		// 歩いてほしくないのでフラグを
 		m_idle_flag = false;
@@ -252,7 +259,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			{
 				// 移動フラグを立てる
 				m_run_flag = true;
-				//m_monster_mode = RUN;
+				// アイドル状態に移動
+				m_monster_mode = IDLE;
 			}
 		}
 		// 攻撃用の関数
@@ -460,6 +468,14 @@ void Mutant::MonsterMode(int mode)
 		m_idle_flag = false;
 		m_run_flag = false;
 		m_attack_flag = false;
+
+		break;
+	case STUN:
+
+		m_idle_flag = false;
+		m_run_flag = false;
+		m_attack_flag = false;
+
 		break;
 	}
 }
@@ -467,6 +483,7 @@ void Mutant::MonsterMode(int mode)
 //-----------------------------------------------
 // アニメーションの初期処理
 //-----------------------------------------------
+
 void Mutant::AnimLoadInit()
 {
 	// アニメーションの初期設定
@@ -477,7 +494,7 @@ void Mutant::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage, 0, 1.0f); //!< ダメージを受けた時
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down.mv1", stun_down, 0, 1.5f);  //!< スタンを食らった時のダウン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down, 0, 1.5f);  //!< スタンを食らった時のダウン
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up, 0, 2.0f);          //!< スタンを食らった時の起き上がり
 
 

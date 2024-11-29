@@ -54,8 +54,8 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 	{
 	case DOWN: // スタンして倒れたはじめ
 		// モンスターの立っているフラグをすべて下げる
-		m_attack_flag = false;
-
+		// m_attack_flag = false;
+		// m_run_flag = false;
 		// ダウン中のアニメーションをつける
 		if (m_animation.ChangeFlag(m_stun_flag))
 		{
@@ -73,6 +73,10 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 			m_animation.m_anim_change_flag = true;
 			// 起き上がるアニメーションに変更
 			m_animation.ChangeAnimation(&m_model, up_anim_num, false);
+
+			m_transform.pos.z += 20 * cosf(TO_RADIAN(m_transform.rot.y));
+			m_transform.pos.x += 20 * sinf(TO_RADIAN(m_transform.rot.y));
+
 			// 状態を次の変更
 			m_stun_info_num = UP;
 		}
@@ -80,27 +84,24 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 		break;
 	case UP: // 起き上がるとき
 		// アニメーションの再生速度に合わせてスタン値を回復させる
-		/* static float stun_recovery_value = sutn_value_max / m_animation.m_contexts[0].animation_total_time ;
-		 m_stun_value = stun_recovery_value * m_animation.m_contexts[0].play_time;
-		 if (m_stun_value == sutn_value_max)
-		 {
-			 m_stun_value = sutn_value_max;
-		 }*/
-		 if (m_animation.m_contexts[0].is_playing == false)
-		 {
-			 // スタン状態の解除
-			 m_stun_flag = false;
-			 // アイドル状態にするためにアイドルフラグを立てる
-			 m_idle_flag = true;
-			 // モンスターの状態をアイドルに戻す
-			 m_monster_mode = IDLE;
-			 // スタン状態をリセット
-			 m_stun_info_num = DOWN;
-			 // アニメーション切り替え用のフラグを切り替える
-			 m_animation.m_anim_change_flag = true;
-			 // ほんとは徐々に増やしていきたかったけどそれがうまくいかない
-			 m_stun_value = 150;
-		 }
+		static float stun_recovery_value = sutn_value_max / m_animation.m_contexts[0].animation_total_time;
+		m_stun_value = stun_recovery_value * m_animation.m_contexts[0].play_time;
+
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+			// スタン状態の解除
+			m_stun_flag = false;
+			// アイドル状態にするためにアイドルフラグを立てる
+			m_idle_flag = true;
+			// モンスターの状態をアイドルに戻す
+			m_monster_mode = IDLE;
+			// スタン状態をリセット
+			m_stun_info_num = DOWN;
+			// アニメーション切り替え用のフラグを切り替える
+			m_animation.m_anim_change_flag = true;
+			// ほんとは徐々に増やしていきたかったけどそれがうまくいかない
+			m_stun_value = 150;
+		}
 		break;
 	}
 
