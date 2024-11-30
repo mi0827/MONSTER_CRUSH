@@ -33,16 +33,16 @@ public:
 	void Update(bool* run_flag);
 
 	//! @brief 本体の向きを
-	void Set_Direction();
+	void SetDirection();
 
 	//! @brief ターゲットと一定の距離に入ったかを返す関数
-	bool Target_Hit();
+	bool TargetHit();
 
 	//! @brief ターゲットとの距離を返す関数
-	float Get_Target_Distance();
+	float GetTargetDistance();
 
 	// @brief 向きの変更をしてよいかのフラグを受け取る
-	void Set_Can_Rotate(bool can = true);
+	void SetCanRotate(bool can = true);
 
 private:
 

@@ -130,18 +130,41 @@ void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_
 	move.SetTargetInfo(target_pos, m_target_hit_r);
 	// 自身の情報を設定
 	move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
-
-
 }
 
 
 //---------------------------------------------------------------------------
 // ベースクラスの更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseUpdate(bool* run_flag)
+void MonsterBase::MoveUpdate(bool* run_flag)
 {
+	// 前のフレームで攻撃フラグが立っていてそのフラグが今回下がったら
+	// プレイヤーが攻撃範囲外に出たということなので
+	// モンスターはプレイヤーを見失ったことになる
+	// ランダムで一定のフレームの間きょろきょろしてから動き始める
+	// 移動をはじめて一定のフレームで攻撃フラグが立たなかったら距離を詰める攻撃をする
+	
+
+
+
+
+
+	// 1フレーム前の攻撃フラグの状態を保存しておく
+	m_past_attack_flag = m_attack_flag;
+
+
 	// 移動処理
 	move.Update(run_flag);
+	// ランフラグが下りたら
+	if (!move.m_hit)
+	{
+		// モンスターの状態を攻撃に変更
+		m_monster_mode = ATTACK;
+		// 最初の攻撃を行う
+
+		FirstAttackAction();
+
+	}
 }
 
 
@@ -224,9 +247,57 @@ void MonsterBase::SetAttackAnimInfo(int attack_anim_start, int attack_anim_max, 
 }
 
 //---------------------------------------------------------------------------
+// アイドルアクションの更新処理
+//---------------------------------------------------------------------------
+void MonsterBase::IdleActionUpdate(int idle_anim_num)
+{
+	//Player_Mode(IDLE);
+			// アニメーション変更が可能な時に
+	if (m_animation.ChangeFlag(m_idle_flag))
+	{
+		// アニメーションを停止に変更する
+		m_animation.ChangeAnimation(&m_model, idle_anim_num, true);
+		m_animation.m_anim_change_flag = false;
+	}
+
+	// 一定時間たったらプレイヤーを追いかけ始める
+	// 止まってほしいフレームが設定されていない場合
+	if (!m_set_stop_frame_flag)
+	{
+		// 止まっていてほしいフレーム数を設定
+		m_stop_frame = GetRand(20) + 60;
+		// 設定が終わったらからフラグをあげる
+		m_set_stop_frame_flag = true;
+	}
+	else // 止まってほしいフレームを設定し終わっていたら
+	{
+		// 止まってほしいフレームを減らしていく
+		m_stop_frame--;
+		// フレームが０以下になったら
+		if (m_stop_frame <= 0)
+		{
+			// セットした分がなくなったのでフラグを下げる
+			m_set_stop_frame_flag = false;
+			// 止まってほしい時間が終わったのでプレイヤーを追わせる
+			m_monster_mode = RUN;
+		}
+	}
+
+
+	//// 移動が止まっていたら
+	//if (!move.m_hit)
+	//{
+	//	// 最初の攻撃を行う
+	//	// 攻撃フラグを上げる
+	//	m_attack_flag = true;
+	//	FirstAttackAction();
+	//}
+}
+
+//---------------------------------------------------------------------------
 // 移動処理関数
 //---------------------------------------------------------------------------
-void MonsterBase::MoveActionUpdate(int ran_anim)
+void MonsterBase::MoveAction(int ran_anim)
 {
 	// 毎回リセット
 	m_run_flag = false;
@@ -236,23 +307,24 @@ void MonsterBase::MoveActionUpdate(int ran_anim)
 
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている
-	BaseUpdate(&m_run_flag);
+	MoveUpdate(&m_run_flag);
 
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時
-	if (m_run_flag && m_monster_mode != RUN)
+	if (m_run_flag && m_animation.m_anim_change_flag == false)
 	{
+		// 走りアニメーションに変更
+		m_animation.ChangeAnimation(&m_model, ran_anim, true);
 		// アニメーションの切り替えフラグを上げる
 		m_animation.m_anim_change_flag = true;
 	}
 
 	// アニメーション変更が可能な時に
 	if (m_animation.ChangeFlag(m_run_flag)) {
-		// 走りアニメーションに変更
-		m_animation.ChangeAnimation(&m_model, ran_anim, true);
+
 		// アニメーションが変わったから
 		// プレイヤーモードの切り替えをする
-		m_monster_mode = RUN;
+		//m_monster_mode = RUN;
 	}
 }
 
@@ -293,7 +365,7 @@ void MonsterBase::AttackActionUpdate()
 	if (m_stop_combo_flag)
 	{
 		// コンボ関数を呼ぶ
-		ComboUpdate();
+		//ComboUpdate();
 	}
 }
 
@@ -303,7 +375,7 @@ void MonsterBase::AttackActionUpdate()
 void MonsterBase::JumpAction(int jump_anim, int target_distance)
 {
 	// ターゲットとの距離
-	float distance = move.Get_Target_Distance();
+	float distance = move.GetTargetDistance();
 	// ターゲットとの距離が一定以上になったら
 	if (target_distance <= distance)
 	{

@@ -75,9 +75,13 @@ public:
 	//! @param ランダムで攻撃を選ぶ時のはぶいてほしい攻撃番号
 	void SetAttackAnimInfo(int attack_anim_start, int attack_anim_max, int except_attack);
 
+	//! @brief アイドルアクション処理
+	//! @param アイドルアニメーション番号
+	void IdleActionUpdate(int idle_anim_num);
+
 	//! @brief 移動アクション処理
 	//! @param 移動用アニメーション番号
-	void MoveActionUpdate(int ran_anim);
+	void MoveAction(int ran_anim);
 
 	//! @brief 最初の攻撃を行う用関数
 	void FirstAttackAction();
@@ -113,9 +117,9 @@ public:
 	//! @param ターゲットのカプセルの当たり判定の半径
 	void BaseSetTarget(Transform* target_pos, const float m_target_hit_r);
 
-	//! @brief ベースクラスの更新処理
+	//! @brief 移動の更新処理
 	//! @param  歩いている状態かのフラグ
-	void BaseUpdate(bool* run_flag);
+	void MoveUpdate(bool* run_flag);
 
 	//! @brief 当たり判定を行ってほしいタイミングをセットする関数
 	//! @param 当たり判定をとってほしいフレームのスタート
@@ -186,6 +190,8 @@ public:
 	bool m_run_flag = false;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
+	//! 1フレーム前の攻撃フラグの状態を保存しておく
+	bool m_past_attack_flag = m_attack_flag;
 	//! 攻撃を受けた時のアニメーションを設定するための変数
 	//! なんかいもダメージを受けた時のアニメーションセットに入ってほしくないので作った
 	//! 本来はもっといい方法があると思う見つけたらそちらに変更
@@ -195,7 +201,7 @@ public:
 	//! スタン状態かのフラグ
 	bool m_stun_flag;
 
-	
+
 
 private:
 	//! 攻撃アニメーションのスタート番号
@@ -230,6 +236,17 @@ public:
 	// スタン用のバー
 	UIBra m_stun_bra;
 
+private:
+	//------------------------------------------
+	// アイドル関連
+	//------------------------------------------
+	//! どれだけのフレーム止まって欲しいかセットしたか同課のフラグ
+	bool m_set_stop_frame_flag = false;
+	//! アイドル状態で止まっていてほしいフレーム
+	int m_stop_frame = 0;
+	//! 何フレーム止まっているのかのカウント
+	int m_stop_frame_count = 0;
+public:
 	//------------------------------------------
 	// ジャンプ関連
 	//------------------------------------------

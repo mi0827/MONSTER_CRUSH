@@ -49,9 +49,9 @@ void TargetMove::SetTargetInfo(Transform* target_pos, const float target_hit_r)
 void TargetMove::Update(bool* run_flag)
 {
 	// 本体の向きの設定
-	Set_Direction();
+	SetDirection();
 	// ターゲットと一定の距離に入ったかを受け取る
-	m_hit = Target_Hit();
+	m_hit = TargetHit();
 	// 範囲に入っていないとき
 	if (m_hit)
 	{
@@ -61,12 +61,16 @@ void TargetMove::Update(bool* run_flag)
 		// 移動中なので
 		*run_flag = true;
 	}
+	else
+	{
+		*run_flag = false;
+	}
 }
 
 //---------------------------------------------------------------------------
 // 本体の向きの設定
 //---------------------------------------------------------------------------
-void TargetMove::Set_Direction()
+void TargetMove::SetDirection()
 {
 	// ラインのスタート位置を本体の位置に設定する
 	m_line_start.set(m_info.m_transform->pos);
@@ -96,25 +100,19 @@ void TargetMove::Set_Direction()
 		// そのままの座標だと線が地面に埋まってしまうのですこしあげています
 		Vector3 start = m_line_start + Vector3(0.0f, 0.1f, 0.0f);
 		Vector3 goal = m_line_goal + Vector3(0.0f, 0.1f, 0.0f);
-		// 開始座標とゴール座標を結んで線の描画
-		//DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
-
-		// 開始座標の場所とくろいたま
-		//DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
-		// ゴール座標の黄色い玉
-		//DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
+		
 	}
 }
 
 //---------------------------------------------------------------------------
 // ターゲットと一定の距離に入ったかを返す関数
 //---------------------------------------------------------------------------
-bool TargetMove::Target_Hit()
+bool TargetMove::TargetHit()
 {
-	Set_Direction();
+	SetDirection();
 	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
 	// 本体とターゲットの距離を求める
-	float distance = Get_Target_Distance();
+	float distance = GetTargetDistance();
 	// 基準の距離を求める（それぞれの半径）
 	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r;
 	// 回転していいときだけ回転する
@@ -148,7 +146,7 @@ bool TargetMove::Target_Hit()
 //---------------------------------------------------------------------------
 // ターゲットとの距離を返す関数
 //---------------------------------------------------------------------------
-float TargetMove::Get_Target_Distance()
+float TargetMove::GetTargetDistance()
 {
 	// 本体とターゲットの距離を求める
 	float distance = GetVector3Distance(m_info.m_transform->pos, m_target_info.m_target->pos);
@@ -158,7 +156,7 @@ float TargetMove::Get_Target_Distance()
 //---------------------------------------------------------------------------
 // 本体の向きを回転していいかのフラグ立てようの関数
 //---------------------------------------------------------------------------
-void TargetMove::Set_Can_Rotate(bool can)
+void TargetMove::SetCanRotate(bool can)
 {
 	m_can_rot = can;
 }

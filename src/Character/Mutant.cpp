@@ -107,7 +107,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 		}
 		else // それ以外の時
 		{
-
+			
 			// 死んだ
 			m_life_and_death = die;
 			// プレイヤーの状態をにDIE変更
@@ -171,52 +171,35 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 	}
 
 
-	// 待機状態または走りの時だけｗ
-	// 移動処理
-	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
-	{
-		// モンスターの回転してよいようにする
-		move.Set_Can_Rotate(true);
-		// 移動処理
-		MoveActionUpdate(run);
-	}
 
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
-		if (m_idle_flag)
-		{
-			//Player_Mode(IDLE);
-			// アニメーション変更が可能な時に
-			if (m_animation.ChangeFlag(m_idle_flag))
-			{
-				// アニメーションを停止に変更する
-				m_animation.ChangeAnimation(&m_model, idle, true);
-			}
+		IdleActionUpdate(shout);
 
-			// 移動が止まっていたら
-			if (!move.m_hit)
-			{
-				// 最初の攻撃を行う
-				// 攻撃フラグを上げる
-				m_attack_flag = true;
-				FirstAttackAction();
-			}
-		}
 		break;
 	case RUN:
 		// 待機フラグを毎回リセット
 		m_idle_flag = false;
-		// run_flagfフラグがさっがたら
-		if (m_run_flag == false)
+		// 待機状態または走りの時だけｗ
+	    // 移動処理
+		//if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
 		{
-			// 待機フラグを上げる
-			m_idle_flag = true;
-			// アニメーション変更が行えるようにする
-			m_animation.m_anim_change_flag = true;
-			// 
-			m_monster_mode = IDLE;
+			// モンスターの回転してよいようにする
+			move.SetCanRotate(true);
+			// 移動処理
+			MoveAction(run);
 		}
+		//// run_flagfフラグがさっがたら
+		//if (m_run_flag == false)
+		//{
+		//	// 待機フラグを上げる
+		//	m_idle_flag = true;
+		//	// アニメーション変更が行えるようにする
+		//	m_animation.m_anim_change_flag = true;
+		//	// 
+		//	m_monster_mode = IDLE;
+		//}
 
 		// 走っている間に一定以上の距離が空いたら
 		// ジャンプ攻撃をする
@@ -231,8 +214,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 
 		// 歩いてほしくないのでフラグを
-		m_idle_flag = false;
-		m_run_flag = false;
+		//m_idle_flag = false;
+		//m_run_flag = false;
 
 
 		// ジャンプ攻撃時の処理
@@ -247,20 +230,22 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			ActionRolling(ROLLING_SPEED);
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
-		move.Set_Can_Rotate(false);
+		move.SetCanRotate(false);
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
-		move.m_hit = move.Target_Hit();
+		move.m_hit = move.TargetHit();
 
 		// アニメーションの再生が終わったとき
-		if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time)
+		if (!m_animation.m_contexts[0].is_playing/*m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time*/)
 		{
 			// 移動していい状態だったら
 			if (move.m_hit)
 			{
-				// 移動フラグを立てる
-				m_run_flag = true;
+				//// 移動フラグを立てる
+				//m_run_flag = true;
 				// アイドル状態に移動
 				m_monster_mode = IDLE;
+				// アニメーション変更フラグを立てる
+				m_animation.m_anim_change_flag = true;
 			}
 		}
 		// 攻撃用の関数
@@ -399,7 +384,7 @@ void Mutant::StatusBarInit()
 	m_hp_bra.SetName("HP");
 
 	// スタン値の残量を設定
-	m_stun_value = STUN_VALUE_MAX ;
+	m_stun_value = STUN_VALUE_MAX;
 	// スタンバーの設定
 	m_stun_bra.Set({ 25,70 }, { SCREEN_W - 50, 20 }, &m_stun_value, true);
 	m_stun_bra.SetColor(255, 255, 0, &m_stun_bra.m_color);

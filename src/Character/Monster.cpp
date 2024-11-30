@@ -83,7 +83,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
 	{
 		// モンスターの回転してよいようにする
-		move.Set_Can_Rotate(true);
+		move.SetCanRotate(true);
 		// 移動処理
 		Move_Update();
 	}
@@ -153,9 +153,9 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			Jump_Update();
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
-		move.Set_Can_Rotate(false);
+		move.SetCanRotate(false);
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
-		move.m_hit = move.Target_Hit();
+		move.m_hit = move.TargetHit();
 		
 		// アニメーションの再生が終わったとき
 		if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time)
@@ -280,7 +280,7 @@ void Monster::Move_Update()
 
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている
-	BaseUpdate(&m_run_flag);
+	MoveUpdate(&m_run_flag);
 
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時
@@ -344,7 +344,7 @@ void Monster::Attack_Update()
 void Monster::Attack_Jump()
 {
 	// ターゲットとの距離
-	float distance = move.Get_Target_Distance();
+	float distance = move.GetTargetDistance();
 	// ターゲットとの距離が一定以上になったら
 	if (TARGET_DISTANCE <= distance)
 	{
