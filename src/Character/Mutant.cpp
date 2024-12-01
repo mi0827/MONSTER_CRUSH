@@ -79,6 +79,9 @@ void Mutant::Init()
 	// アニメーションつけるのフラグを上げておく
 	m_animation.m_anim_change_flag = true;
 
+
+	ComboPatternNumberInit(COMBO_PATTERN_MAX);
+	ComboPatternInfoInit(0, 3, 180, m_combo_pattern[0]);
 }
 
 //-----------------------------------------------
@@ -175,7 +178,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
-		IdleActionUpdate(shout);
+		IdleActionUpdate(idle);
 
 		break;
 	case RUN:
@@ -219,10 +222,10 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 
 		// ジャンプ攻撃時の処理
-		if (m_now_attack_anim == jump)
+		/*if (m_now_attack_anim == jump)
 		{
 			JumpActionUpdate(JUMP_DOWN_SPEED);
-		}
+		}*/
 
 		// ローリングアクション時の処理
 		if (m_now_attack_anim == rolling)
@@ -474,7 +477,7 @@ void Mutant::AnimLoadInit()
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle.mv1", idle, 0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1", idle, 0, 1.0f); //!< アイドル
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
@@ -489,7 +492,7 @@ void Mutant::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch3.mv1", attack_3, 0, 1.0f); //!< 攻撃３
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch4.mv1", attack_4, 0, 1.0f); //!< 攻撃４
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling, 0, 1.0f); //!< ローリング
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/jump.mv1", jump, 0, 1.0f); //!< ジャンプ
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump, 0, 1.0f); //!< ジャンプ
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 

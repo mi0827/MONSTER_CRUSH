@@ -30,7 +30,8 @@ MonsterBase::MonsterBase()
 //---------------------------------------------------------------------------
 MonsterBase::~MonsterBase()
 {
-
+	m_attack_hit_damage.clear();
+	m_combo_pattern.clear();
 }
 
 //---------------------------------------------------------------------------
@@ -213,6 +214,38 @@ void MonsterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage, i
 
 	// ダメージの保存
 	m_attack_hit_damage[attack_num]->attack_damage = attack_damage;
+}
+
+
+//---------------------------------------------------------------------------
+// コンボパターンの数を設定
+//---------------------------------------------------------------------------
+void MonsterBase::ComboPatternNumberInit(int pattern_max)
+{
+	// コンボを入れる入れ物をパターン分用意する
+	for (int i = 0; i < pattern_max; i++)
+	{
+		ComboPattern* combo = new ComboPattern;
+		m_combo_pattern.push_back(combo);
+	}
+}
+
+//---------------------------------------------------------------------------
+// 各コンボパターンの設定
+//---------------------------------------------------------------------------
+void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int anim_num[])
+{
+	// コンボの長さの保存
+	m_combo_pattern[pattern_num]->m_combo_num = combo_num_max;
+	// コンボに使用するアニメーション番号の保存先の数を確保
+	m_combo_pattern[pattern_num]->m_combo_parts = new int[m_combo_pattern[pattern_num]->m_combo_num];
+	// コンボが終わった後のあと隙の設定
+	m_combo_pattern[pattern_num]->m_rear_crevice_frame = rear_crevice_frame;
+	// コンボに使用するアニメーション番号を保存する
+	for (int i = 0; i < combo_num_max; i++)
+	{
+		m_combo_pattern[pattern_num]->m_combo_parts[i] = anim_num[i];
+	}
 }
 
 
@@ -437,9 +470,9 @@ void MonsterBase::JumpActionUpdate(float down_speed)
 			//m_jump_flag = false; // 落ちる処理へ
 		}
 	}
-
-
 }
+
+
 
 void MonsterBase::SetJumpPos(Vector3 pos)
 {

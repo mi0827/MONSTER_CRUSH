@@ -137,7 +137,16 @@ public:
 	//! @param 攻撃番号
 	void SetHitDamage(CapsuleCollision attack_hit, int attack_damage, int attack_num);
 
+	//! @brief コンボパターンの数を設定
+	//! @param コンボパターンの最大数
+	void ComboPatternNumberInit(int pattern_max);
 
+	//! @brief 各コンボパターンの設定
+	//! @param 何パターン目のコンボか
+	//! @param コンボの数の最大数
+	//! @param コンボが終わった後のあと隙のフレーム数
+	//! @param コンボ用アニメーション番号
+	void ComboPatternInfoInit(int pattern_num,int combo_num_max,int rear_crevice_frame,int anim_num[]);
 
 	// 攻撃の時の当たり判定とダメージの構造体
 	// 各子クラスで定義する
@@ -264,6 +273,20 @@ public:
 	//------------------------------------------
 	// コンボ関連
 	//------------------------------------------
+	// コンボを何パターンか用意してそれをランダムでモンスターに選ばせる
+	struct ComboPattern
+	{
+		// コンボが何個繋がるかの数
+		int m_combo_num; 
+		// コンボで使うアニメーション番号を保存するために変数
+		int* m_combo_parts;
+		// コンボの後のあと隙何フレームか
+		int m_rear_crevice_frame;
+	};
+	std::vector<ComboPattern*> m_combo_pattern;
+
+
+	// 上記で作っているコンボのパターン化ができればこの下のフラグ関連はいらなくなる
 	// コンボの最大数
 	static constexpr int COMBO_MAX = 3;
 	//! コンボ用フラグ

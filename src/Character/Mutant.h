@@ -71,9 +71,9 @@ public:
 	static constexpr float JUMP_UP_SPEED = 10.0f;          //! ジャンプの時の上昇スピード
 	static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
 	static constexpr int ROLLING_SPEED = 1.0f;               //! ローリングスピード
-	static constexpr int HP_VALUE_MAX = 500;                           //! HPの最大値
-	static constexpr int STUN_VALUE_MAX = 150;                       //! スタン値の最大
-	
+	static constexpr int HP_VALUE_MAX = 500;                //! HPの最大値
+	static constexpr int STUN_VALUE_MAX = 150;            //! スタン値の最大
+	static constexpr int COMBO_PATTERN_MAX = 5;         //! コンボパターンの数
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -120,6 +120,22 @@ public:
 		attack_max
 	};
 
+
+	struct ComboPattern
+	{
+		int anim_1;
+		int anim_2;
+		int anim_3;
+		int anim_4;
+	};
+	ComboPattern m_combo_pattern[COMBO_PATTERN_MAX] =
+	{
+		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,},
+		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	};
 
 	// 当たり判定をとってほしいフレームの構造体
 	struct AttackFrame
