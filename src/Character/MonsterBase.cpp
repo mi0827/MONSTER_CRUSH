@@ -230,10 +230,15 @@ void MonsterBase::ComboPatternNumberInit(int pattern_max)
 	}
 }
 
+int num[][4] =
+{
+	{}
+};
+
 //---------------------------------------------------------------------------
 // 各コンボパターンの設定
 //---------------------------------------------------------------------------
-void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int anim_num[])
+void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int* anim_num)
 {
 	// コンボの長さの保存
 	m_combo_pattern[pattern_num]->m_combo_num = combo_num_max;

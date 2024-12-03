@@ -79,9 +79,17 @@ void Mutant::Init()
 	// アニメーションつけるのフラグを上げておく
 	m_animation.m_anim_change_flag = true;
 
+	/*int Mutant::m_combo_pattern[][6] =
+	{
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	};*/
 
 	ComboPatternNumberInit(COMBO_PATTERN_MAX);
-	ComboPatternInfoInit(0, 3, 180, m_combo_pattern[0]);
+	ComboPatternInfoInit(0, 3, 180, &m_combo_pattern[0]);
 }
 
 //-----------------------------------------------
@@ -110,7 +118,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 		}
 		else // それ以外の時
 		{
-			
+
 			// 死んだ
 			m_life_and_death = die;
 			// プレイヤーの状態をにDIE変更
@@ -185,7 +193,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		// 待機フラグを毎回リセット
 		m_idle_flag = false;
 		// 待機状態または走りの時だけｗ
-	    // 移動処理
+		// 移動処理
 		//if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
 		{
 			// モンスターの回転してよいようにする

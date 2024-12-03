@@ -146,7 +146,7 @@ public:
 	//! @param コンボの数の最大数
 	//! @param コンボが終わった後のあと隙のフレーム数
 	//! @param コンボ用アニメーション番号
-	void ComboPatternInfoInit(int pattern_num,int combo_num_max,int rear_crevice_frame,int anim_num[]);
+	void ComboPatternInfoInit(int pattern_num,int combo_num_max,int rear_crevice_frame,int* anim_num);
 
 	// 攻撃の時の当たり判定とダメージの構造体
 	// 各子クラスで定義する

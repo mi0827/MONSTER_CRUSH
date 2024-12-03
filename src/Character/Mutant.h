@@ -121,7 +121,7 @@ public:
 	};
 
 
-	struct ComboPattern
+	/*struct ComboPattern
 	{
 		int anim_1;
 		int anim_2;
@@ -133,9 +133,12 @@ public:
 		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
 		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
 		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,},
 		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	};
+		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
+	};*/
+
+	static int m_combo_pattern[][6];
+	
 
 	// 当たり判定をとってほしいフレームの構造体
 	struct AttackFrame
@@ -160,9 +163,9 @@ public:
 		// パンチ４
 		{ 0.0f, 70.0f, },
 		// ローリング
-		{  0.0f, 50.0f, },
+		{ 0.0f, 50.0f, },
 		// ジャンプ
-		{ 00.0f, 40.0f, },
+		{ 0.0f, 40.0f, },
 
 	};
 
