@@ -88,8 +88,9 @@ void Mutant::Init()
 	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
 	};*/
 
-	ComboPatternNumberInit(COMBO_PATTERN_MAX);
-	ComboPatternInfoInit(0, 3, 180, &m_combo_pattern[0]);
+	// 攻撃のコンボパターンの数分配列を確保
+	ComboPatternNumberInit(M_COMBO_PATTERN_MAX);
+	ComboPatternInfoInit(0, M_COMBO_NUM_MAX, 180, &m_combo_pattern[0][6]);
 }
 
 //-----------------------------------------------
@@ -214,7 +215,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 		// 走っている間に一定以上の距離が空いたら
 		// ジャンプ攻撃をする
-		JumpAction(jump, TARGET_DISTANCE);
+		// JumpAction(jump, TARGET_DISTANCE);
 
 		break;
 	case ATTACK:
@@ -222,45 +223,38 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			break;
 		}
-
-
-		// 歩いてほしくないのでフラグを
-		//m_idle_flag = false;
-		//m_run_flag = false;
-
-
 		// ジャンプ攻撃時の処理
 		/*if (m_now_attack_anim == jump)
 		{
 			JumpActionUpdate(JUMP_DOWN_SPEED);
 		}*/
 
-		// ローリングアクション時の処理
-		if (m_now_attack_anim == rolling)
-		{
-			ActionRolling(ROLLING_SPEED);
-		}
+		//// ローリングアクション時の処理
+		//if (m_now_attack_anim == rolling)
+		//{
+		//	ActionRolling(ROLLING_SPEED);
+		//}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		move.SetCanRotate(false);
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
 		move.m_hit = move.TargetHit();
 
 		// アニメーションの再生が終わったとき
-		if (!m_animation.m_contexts[0].is_playing/*m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time*/)
-		{
-			// 移動していい状態だったら
-			if (move.m_hit)
-			{
-				//// 移動フラグを立てる
-				//m_run_flag = true;
-				// アイドル状態に移動
-				m_monster_mode = IDLE;
-				// アニメーション変更フラグを立てる
-				m_animation.m_anim_change_flag = true;
-			}
-		}
+		//if (!m_animation.m_contexts[0].is_playing/*m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time*/)
+		//{
+		//	// 移動していい状態だったら
+		//	if (move.m_hit)
+		//	{
+		//		//// 移動フラグを立てる
+		//		//m_run_flag = true;
+		//		// アイドル状態に移動
+		//		m_monster_mode = IDLE;
+		//		// アニメーション変更フラグを立てる
+		//		m_animation.m_anim_change_flag = true;
+		//	}
+		//}
 		// 攻撃用の関数
-		AttackActionUpdate();
+		AttackActionComboUpdate();
 
 		break;
 	case STUN:

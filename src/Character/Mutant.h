@@ -73,7 +73,7 @@ public:
 	static constexpr int ROLLING_SPEED = 1.0f;               //! ローリングスピード
 	static constexpr int HP_VALUE_MAX = 500;                //! HPの最大値
 	static constexpr int STUN_VALUE_MAX = 150;            //! スタン値の最大
-	static constexpr int COMBO_PATTERN_MAX = 5;         //! コンボパターンの数
+	//static constexpr int COMBO_PATTERN_MAX = 5;         //! コンボパターンの数
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -110,6 +110,7 @@ public:
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
+		attack_end = -1,                                                         //< コンボ攻撃の終わり
 		attack_punch_1 = attack_1 - ATTACK_ANIM_START,      //< 攻撃１
 		attack_punch_2 = attack_2 - ATTACK_ANIM_START,	   //< 攻撃２
 		attack_punch_3 = attack_3 - ATTACK_ANIM_START,	   //< 攻撃３
@@ -120,25 +121,21 @@ public:
 		attack_max
 	};
 
-
-	/*struct ComboPattern
+	//! コンボパターンの数
+	static const int M_COMBO_PATTERN_MAX = 6;
+	//! 各パターンのコンボの最大数
+	static const int M_COMBO_NUM_MAX = 6;
+	//! 各コンボパターンにコンボに使用する攻撃番号を保存しコンボを作成する
+	//! コンボの最後にはattack_endを入れること
+	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-		int anim_1;
-		int anim_2;
-		int anim_3;
-		int anim_4;
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
+	  {attack_punch_2,attack_punch_2,attack_punch_2,attack_punch_2,attack_punch_2,attack_end},
+	  {attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_end},
+	  {attack_punch_4,attack_punch_4,attack_punch_4,attack_punch_4,attack_punch_4,attack_end},
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
 	};
-	ComboPattern m_combo_pattern[COMBO_PATTERN_MAX] =
-	{
-		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-		{attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	};*/
 
-	static int m_combo_pattern[][6];
-	
 
 	// 当たり判定をとってほしいフレームの構造体
 	struct AttackFrame

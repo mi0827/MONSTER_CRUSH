@@ -144,11 +144,6 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 	// モンスターはプレイヤーを見失ったことになる
 	// ランダムで一定のフレームの間きょろきょろしてから動き始める
 	// 移動をはじめて一定のフレームで攻撃フラグが立たなかったら距離を詰める攻撃をする
-	
-
-
-
-
 
 	// 1フレーム前の攻撃フラグの状態を保存しておく
 	m_past_attack_flag = m_attack_flag;
@@ -161,10 +156,6 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 	{
 		// モンスターの状態を攻撃に変更
 		m_monster_mode = ATTACK;
-		// 最初の攻撃を行う
-
-		FirstAttackAction();
-
 	}
 }
 
@@ -217,38 +208,7 @@ void MonsterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage, i
 }
 
 
-//---------------------------------------------------------------------------
-// コンボパターンの数を設定
-//---------------------------------------------------------------------------
-void MonsterBase::ComboPatternNumberInit(int pattern_max)
-{
-	// コンボを入れる入れ物をパターン分用意する
-	for (int i = 0; i < pattern_max; i++)
-	{
-		ComboPattern* combo = new ComboPattern;
-		m_combo_pattern.push_back(combo);
-	}
-}
 
-
-
-//---------------------------------------------------------------------------
-// 各コンボパターンの設定
-//---------------------------------------------------------------------------
-void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int* anim_num)
-{
-	// コンボの長さの保存
-	m_combo_pattern[pattern_num]->m_combo_num = combo_num_max;
-	// コンボに使用するアニメーション番号の保存先の数を確保
-	m_combo_pattern[pattern_num]->m_combo_parts = new int[m_combo_pattern[pattern_num]->m_combo_num];
-	// コンボが終わった後のあと隙の設定
-	m_combo_pattern[pattern_num]->m_rear_crevice_frame = rear_crevice_frame;
-	// コンボに使用するアニメーション番号を保存する
-	for (int i = 0; i < combo_num_max; i++)
-	{
-		m_combo_pattern[pattern_num]->m_combo_parts[i] = anim_num[i];
-	}
-}
 
 
 //---------------------------------------------------------------------------
@@ -363,30 +323,70 @@ void MonsterBase::MoveAction(int ran_anim)
 	}
 }
 
+//---------------------------------------------------------------------------
+// コンボパターンの数を設定
+//---------------------------------------------------------------------------
+void MonsterBase::ComboPatternNumberInit(int pattern_max)
+{
+
+	// コンボのパターンの最大数を保存
+	m_combo_pattern_max = pattern_max;
+
+	// コンボを入れる入れ物をパターン分用意する
+	for (int i = 0; i < pattern_max; i++)
+	{
+		ComboPattern* combo = new ComboPattern;
+		m_combo_pattern.push_back(combo);
+	}
+}
+
+
+
+//---------------------------------------------------------------------------
+// 各コンボパターンの設定
+//---------------------------------------------------------------------------
+void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int* anim_num)
+{
+	// 配列の長さからコンボの長さの保存
+	m_combo_pattern[pattern_num]->m_combo_num_max = combo_num_max;
+	// コンボに使用するアニメーション番号の保存先の数を確保
+	m_combo_pattern[pattern_num]->m_combo_parts = new int[m_combo_pattern[pattern_num]->m_combo_num_max];
+	// コンボが終わった後のあと隙の設定
+	m_combo_pattern[pattern_num]->m_rear_crevice_frame = rear_crevice_frame;
+	// コンボに使用するアニメーション番号を保存する
+	for (int i = 0; i < m_combo_pattern[pattern_num]->m_combo_num_max; i++)
+	{
+		// ここで攻撃番号を入れる
+		m_combo_pattern[pattern_num]->m_combo_parts[i] = anim_num[i];
+	}
+}
 
 //---------------------------------------------------------------------------
 // 最初の攻撃を行う用関数
 //---------------------------------------------------------------------------
 void MonsterBase::FirstAttackAction()
 {
-	// attack_flag が上がってるときかつ
-	// プレイヤーモードがATTACK以外の時
-	if (m_attack_flag && m_monster_mode != ATTACK)
-	{
-		// アニメーションの切り替えフラグを上げる
-		m_animation.m_anim_change_flag = true;
-	}
-	// 攻撃モードにしておく
-	m_monster_mode = ATTACK;
-	// 最初の攻撃もランダムに設定する
-	// 攻撃アニメーション以外を排除しておく
-	int attack = GetRand(m_ATTACK_ANIM_EXCEPT) + m_ATTACK_ANIM_START;
-	m_animation.ChangeAnimation(&m_model, attack, false);
-	// 攻撃アニメーション番号の保存
-	m_now_attack_anim = attack;
+	// 攻撃フラグを上げる
+	m_attack_flag = true;
+	//// 攻撃モードにしておく
+	//m_monster_mode = ATTACK;
+	// アニメーションの切り替えフラグを上げる
+	m_animation.m_anim_change_flag = true;
+	
+	// どの攻撃パターンを使用するかをランダムで各確保する
+	int m_combo_pattern_num = GetRand(m_combo_pattern_max) ;
 
+	// コンボの番号を０にする
+	m_combo_num = 0;
+	// コンボのに使用する攻撃番号を保存
+	m_now_attack = m_combo_pattern[m_combo_pattern_num]->m_combo_parts[m_combo_num];
+	// 攻撃アニメーション番号の保存
+	m_now_attack_anim = m_now_attack + m_ATTACK_ANIM_START;
+	// アニメーションの変更
+	m_animation.ChangeAnimation(&m_model,m_now_attack_anim , false);
+	
 	// 現在の攻撃番号を保存する
-	m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
+	//m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
 
 	m_stop_combo_flag = true;
 }
@@ -394,13 +394,40 @@ void MonsterBase::FirstAttackAction()
 //---------------------------------------------------------------------------
 // 攻撃関連の更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::AttackActionUpdate()
+void MonsterBase::AttackActionComboUpdate()
 {
-	// コンボをしていいフラグがったている時だけ
-	if (m_stop_combo_flag)
+	switch (m_attack_info_num)
 	{
-		// コンボ関数を呼ぶ
-		//ComboUpdate();
+	case ATTACKSET:
+		// どのコンボを使うかをランダムでセット
+		FirstAttackAction();
+		break;
+	case UNDERATTACK:
+		// 現在行われるアニメーションがの再生が終わったら
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+			// コンボ番号を増やす
+			m_combo_num++;
+			// コンボのに使用する攻撃番号を保存
+			m_now_attack = m_combo_pattern[m_combo_pattern_num]->m_combo_parts[0];
+			
+			// 次の攻撃番号が-1ならコンボが続かないからbreakして
+			// モンスターの状態をIdle状態に変更する
+			if (m_now_attack == -1)
+			{
+				m_monster_mode = IDLE;
+				// アニメーション変更フラグを上げる
+				m_animation.m_anim_change_flag = true;
+				break;
+			}
+
+			// 攻撃アニメーション番号の保存
+			m_now_attack_anim = m_now_attack + m_ATTACK_ANIM_START;
+			// アニメーションの変更
+			m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
+		}
+
+		break;
 	}
 }
 
