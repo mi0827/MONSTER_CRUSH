@@ -268,6 +268,8 @@ public:
 	Vector3 m_jump_mov{ 0.0f,0.0f,0.0f };
 	// ジャンプの着地地点の座標
 	Vector3 m_jump_pos{ 0.0f,0.0f,0.0f };
+	// ジャンプの時に進む距離
+	float m_jump_move;
 	// ジャンプフラグ
 	bool m_jump_flag = false;
 	// 上昇スピード

@@ -78,17 +78,6 @@ void Mutant::Init()
 	BaseInit(HP_VALUE_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
 	// アニメーションつけるのフラグを上げておく
 	m_animation.m_anim_change_flag = true;
-
-	/*int Mutant::m_combo_pattern[][6] =
-	{
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
-	};*/
-
-
 }
 
 //-----------------------------------------------

@@ -208,9 +208,6 @@ void MonsterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage, i
 }
 
 
-
-
-
 //---------------------------------------------------------------------------
 // 攻撃時の当たり判定を設定する用の関数
 //---------------------------------------------------------------------------
@@ -421,7 +418,7 @@ void MonsterBase::AttackActionComboUpdate()
 			else
 			{
 				// 次の攻撃番号が-1ならコンボが続かないからbreakして
-			    // モンスターの状態をIdle状態に変更する
+				// モンスターの状態をIdle状態に変更する
 				m_monster_mode = IDLE;
 				// アニメーション変更フラグを上げる
 				m_animation.m_anim_change_flag = true;
@@ -445,39 +442,62 @@ void MonsterBase::AttackActionComboUpdate()
 //---------------------------------------------------------------------------
 void MonsterBase::JumpAction(int jump_anim, int target_distance)
 {
+	// プレイヤーとの距離をもらってくる
 	// ターゲットとの距離
 	float distance = move.GetTargetDistance();
+	// 行ってい以上の距離の時
 	// ターゲットとの距離が一定以上になったら
 	if (target_distance <= distance)
 	{
-		// ジャンプ攻撃をしてほしいのでランフラグを下す
-		m_run_flag = false;
-
-		// attack_flag が上がってるときかつ
-	   // プレイヤーモードがATTACK以外の時
-		if (m_attack_flag && m_monster_mode != ATTACK)
-		{
-			// アニメーションの切り替えフラグを上げる
-			m_animation.m_anim_change_flag = true;
-		}
+		// 攻撃フラグを立てる
+		m_jump_flag = true;
 		// 攻撃モードにしておく
 		m_monster_mode = ATTACK;
-
-		m_animation.ChangeAnimation(&m_model, jump_anim, false);
-		// 攻撃アニメーション番号の保存
-		m_now_attack_anim = jump_anim;
-		// 現在の攻撃番号を保存する
-		m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
-
-		m_stop_combo_flag = true;
-		// ジャンプ処理は
-		//jump_num = STANDBY;
 	}
-	else
+	if (m_jump_flag)
 	{
-		// ジャンプフラグを下げる
-		m_jump_flag = false;
+		// ジャンプアニメーションをつける
+		m_animation.ChangeAnimation(&m_model, jump_anim, false);
+		// アニメーションのフレーム割るプレイヤーとの距離をして
+		m_jump_move = m_animation.m_contexts[0].animation_total_time / distance;
 	}
+
+	// 着地と同時にプレイヤーのほうに飛んでくるようにする
+
+
+	//// ターゲットとの距離
+	//float distance = move.GetTargetDistance();
+	//// ターゲットとの距離が一定以上になったら
+	//if (target_distance <= distance)
+	//{
+	//	// ジャンプ攻撃をしてほしいのでランフラグを下す
+	//	m_run_flag = false;
+
+	//	// attack_flag が上がってるときかつ
+	//   // プレイヤーモードがATTACK以外の時
+	//	if (m_attack_flag && m_monster_mode != ATTACK)
+	//	{
+	//		// アニメーションの切り替えフラグを上げる
+	//		m_animation.m_anim_change_flag = true;
+	//	}
+	//	// 攻撃モードにしておく
+	//	m_monster_mode = ATTACK;
+
+	//	m_animation.ChangeAnimation(&m_model, jump_anim, false);
+	//	// 攻撃アニメーション番号の保存
+	//	m_now_attack_anim = jump_anim;
+	//	// 現在の攻撃番号を保存する
+	//	m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
+
+	//	m_stop_combo_flag = true;
+	//	// ジャンプ処理は
+	//	//jump_num = STANDBY;
+	//}
+	//else
+	//{
+	//	// ジャンプフラグを下げる
+	//	m_jump_flag = false;
+	//}
 }
 
 //---------------------------------------------------------------------------
@@ -485,29 +505,36 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 //---------------------------------------------------------------------------
 void MonsterBase::JumpActionUpdate(float down_speed)
 {
+	// ジャンプ時のモンスターの向きに合わせてジャンプする
+	// ここの移動量が決まっていない
+	m_transform.pos.x += m_jump_move * sinf(TO_RADIAN(m_transform.rot.y));
+	m_transform.pos.z += m_jump_move * cosf(TO_RADIAN(m_transform.rot.y));
+
+	
+	// 着地と同時にプレイヤーのほうに飛んでくるようにする
 	// モンスターのアニメーションがジャンプしそうに瞬間から着地アニメーションが始まるまでの間
-	if (m_animation.m_contexts[0].play_time >= 80.0f && m_animation.m_contexts[0].play_time < 110.0f)
-	{
-		// ジャンプしてから下に下がるスピードをゼロにする
-		m_down_speed = 0.0f;
-		m_jump_flag = true;
-	}
+	//if (m_animation.m_contexts[0].play_time >= 80.0f && m_animation.m_contexts[0].play_time < 110.0f)
+	//{
+	//	// ジャンプしてから下に下がるスピードをゼロにする
+	//	m_down_speed = 0.0f;
+	//	m_jump_flag = true;
+	//}
 
-	if (m_animation.m_contexts[0].play_time >= 110.0f)
-	{
-		// 降下スピードをリセット
-		m_down_speed = down_speed;
+	//if (m_animation.m_contexts[0].play_time >= 110.0f)
+	//{
+	//	// 降下スピードをリセット
+	//	m_down_speed = down_speed;
 
-		// フラグが立っている時かつ地面につくアニメーションの時
-		if (m_jump_flag && m_animation.m_contexts[0].play_time >= 140.0f)
-		{
-			// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
-			m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
-			m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
-			// ジャンプフラグを下げる
-			//m_jump_flag = false; // 落ちる処理へ
-		}
-	}
+	//	// フラグが立っている時かつ地面につくアニメーションの時
+	//	if (m_jump_flag && m_animation.m_contexts[0].play_time >= 140.0f)
+	//	{
+	//		// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径分
+	//		m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius;
+	//		m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius;
+	//		// ジャンプフラグを下げる
+	//		//m_jump_flag = false; // 落ちる処理へ
+	//	}
+	//}
 }
 
 
