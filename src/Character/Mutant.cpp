@@ -72,8 +72,8 @@ void Mutant::Init()
 	// ステータスバーの設定
 	StatusBarInit();
 
-	// 当たり判定をとってほしいタイミングのせってい 
-	SetHitTimeInit();
+	// 攻撃に関することの初期関数
+	SetAttackInfo();
 	// モンスターのステータスの初期設定
 	BaseInit(HP_VALUE_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
 	// アニメーションつけるのフラグを上げておく
@@ -88,9 +88,7 @@ void Mutant::Init()
 	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1},
 	};*/
 
-	// 攻撃のコンボパターンの数分配列を確保
-	ComboPatternNumberInit(M_COMBO_PATTERN_MAX);
-	ComboPatternInfoInit(0, M_COMBO_NUM_MAX, 180, &m_combo_pattern[0][6]);
+
 }
 
 //-----------------------------------------------
@@ -98,6 +96,12 @@ void Mutant::Init()
 //-----------------------------------------------
 void Mutant::Update(Transform* target_pos, float target_r)
 {
+
+	// プレイヤーではこれがないとバグるが
+	// モンスターではこれがあるとバグる
+	// モンスターのほうがフラグ管理に失敗した
+	MonsterMode(m_monster_mode);
+
 	//clsDx();
 	// HPの値が減ったかどうか
 	m_hp_bra.Update(m_hp_value);
@@ -158,10 +162,6 @@ void Mutant::Update(Transform* target_pos, float target_r)
 	CDUpdate();
 
 
-	// プレイヤーではこれがないとバグるが
-	// モンスターではこれがあるとバグる
-	// モンスターのほうがフラグ管理に失敗した
-	MonsterMode(m_monster_mode);
 }
 
 //-----------------------------------------------
@@ -182,7 +182,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		m_animation.m_anim_change_flag = true;
 	}
 
-
+	
 
 	switch (m_monster_mode)
 	{
@@ -202,6 +202,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			// 移動処理
 			MoveAction(run);
 		}
+
 		//// run_flagfフラグがさっがたら
 		//if (m_run_flag == false)
 		//{
@@ -253,6 +254,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		//		m_animation.m_anim_change_flag = true;
 		//	}
 		//}
+		
+
 		// 攻撃用の関数
 		AttackActionComboUpdate();
 
@@ -418,8 +421,29 @@ void Mutant::StatusBarDraw()
 // 当たり判定を行って欲しいタイミングを保存する関数
 // 全部の攻撃当たり判定に設定する(後でやる)
 //-----------------------------------------------
-void Mutant::SetHitTimeInit()
+void Mutant::SetAttackInfo()
 {
+
+	//------------------------------------------
+	// コンポパターンが何パターンあるかの設定
+	//------------------------------------------
+	ComboPatternNumberInit(M_COMBO_PATTERN_MAX);
+
+	//------------------------------------------
+	// 各コンボパターンのコンボの設定
+	//------------------------------------------
+	for (int i = 0; i < M_COMBO_PATTERN_MAX; i++)
+	{
+		// 各コンボの後隙を保存
+		int frame = m_combo_rear_crevice_frame[i];
+		// 各コンボパターンの設定
+		ComboPatternInfoInit(i, M_COMBO_NUM_MAX, frame, m_combo_pattern[i]);
+	}
+
+
+	//------------------------------------------
+	// 当たり判定のタイミングの設定
+	//------------------------------------------
 	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
 	SetHitTime(attack_frame[attack_punch_2].start_frame, attack_frame[attack_punch_2].end_frame, attack_punch_2);
 	SetHitTime(attack_frame[attack_punch_3].start_frame, attack_frame[attack_punch_3].end_frame, attack_punch_3);

@@ -16,6 +16,12 @@ Animation::Animation()
 //-----------------------------------------------
 Animation::~Animation()
 {
+	for (auto& a : anim_handle)
+	{
+		delete a;
+		a = nullptr;
+	}
+		
 	anim_handle.clear();
 
 	// ‰º‚Ì“ñ‚Â‚Ìdelete‚ÍƒGƒ‰[‚ªo‚é

@@ -11,12 +11,12 @@ public:
 	//=========================================================================
 	// 定数の宣言
 	//=========================================================================
-	static constexpr float MONSTER_MOVE_SPEED = 1.5f; //! 移動スピード
-	static constexpr float MONSTER_ROT_SPEED = 0.5f;   //! 回転スピード
-	static constexpr float TARGET_DISTANCE = 170.0f;     //! ターゲットとの距離
-	static constexpr float JUMP_UP_SPEED = 5.0f;            //! ジャンプの時の上昇スピード
+	static constexpr float MONSTER_MOVE_SPEED = 1.5f;   //! 移動スピード
+	static constexpr float MONSTER_ROT_SPEED = 0.5f;    //! 回転スピード
+	static constexpr float TARGET_DISTANCE = 170.0f;    //! ターゲットとの距離
+	static constexpr float JUMP_UP_SPEED = 5.0f;        //! ジャンプの時の上昇スピード
 	static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
-	static constexpr int HP_MAX = 500;                           //! HPの最大値
+	static constexpr int HP_MAX = 500;                  //! HPの最大値
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -39,7 +39,7 @@ public:
 	//! 攻撃アニメーション最大値
 	static constexpr int ATTACK_ANIM_MAX = jump - ATTACK_ANIM_START;
 
-	
+
 	//! モンスターの状態
 	enum MonsterMode
 	{
@@ -58,12 +58,13 @@ public:
 		max
 	};
 	//! ジャンプの状態を保存する変数
-	int jump_num=0;
+	int jump_num = 0;
 public:
 
 	//=========================================================================
 	// 関数の宣言
 	//=========================================================================
+	
 	//! @brief コンストラクタ
 	Monster();
 	//! @brief デストラクタ
@@ -81,7 +82,7 @@ public:
 	//! @brief 終了処理
 	void Exit() override;
 
-	
+
 	//! @brief あたり判定の更新処理
 	void CDUpdate() override;
 
@@ -143,7 +144,7 @@ public:
 	static constexpr int COMBO_MAX = 3;
 	//! コンボ用フラグ
 	bool m_combo_flag = false;
-	
+
 	//! 動いてほしいかのフラグ
 
 	//! 次のアニメーション番号を保存
@@ -151,11 +152,11 @@ public:
 	//! コンボをやめてほしい時のフラグ
 	bool m_stop_combo_flag = false;
 
-	
+
 
 public:
 
-	
+
 
 	//=================
 	// バー型のUI

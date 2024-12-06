@@ -9,8 +9,6 @@ class Mutant :public MonsterBase
 {
 public:
 
-public:
-
 	//=========================================================================
 	// 関数の宣言
 	//=========================================================================
@@ -50,7 +48,7 @@ public:
 	void StatusBarDraw() override;
 
 	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
-	void SetHitTimeInit() override;
+	void SetAttackInfo() override;
 
 
 	//! @brief モンスターの状態(フラグ)管理関数
@@ -129,13 +127,18 @@ public:
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
+	  {attack_punch_1,attack_punch_2,attack_punch_3,attack_punch_4,attack_punch_1,attack_end},
 	  {attack_punch_2,attack_punch_2,attack_punch_2,attack_punch_2,attack_punch_2,attack_end},
 	  {attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_end},
 	  {attack_punch_4,attack_punch_4,attack_punch_4,attack_punch_4,attack_punch_4,attack_end},
 	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
+	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
 	};
-
+	// 各コンボの後隙
+	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
+	{
+		{120},{120},{120},{120},{120},{120}
+	};
 
 	// 当たり判定をとってほしいフレームの構造体
 	struct AttackFrame

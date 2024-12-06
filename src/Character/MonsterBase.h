@@ -53,8 +53,11 @@ public:
 	//! @param ローリングしたときの移動スピード
 	virtual void ActionRolling(const int rolling_speed);
 
-	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
-	virtual void SetHitTimeInit() = 0;
+	//! @brief 攻撃に関することの初期関数
+	//! 当たり判定を行ってほしいタイミングを保存する
+	//! コンボパターンの初期化
+	//! 各コンボパターンの設定
+	virtual void SetAttackInfo() = 0;
 
 	//! @brief スタンした時用の更新処理
 	//! @param スタン時のダウンアニメーション番号
@@ -91,7 +94,7 @@ public:
 	//! @param 何パターン目のコンボか
 	//! @param コンボの数の最大数
 	//! @param コンボが終わった後のあと隙のフレーム数
-	//! @param コンボ用アニメーション番号
+	//! @param コンボ用の攻撃番号が保存されている配列をもらう
 	void ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int* anim_num);
 
 	//! @brief 最初の攻撃を行う用関数
@@ -281,11 +284,12 @@ public:
 		// コンボが何個繋がるかの数
 		int m_combo_num_max;
 		// コンボで使うアニメーション番号を保存するために変数
-		int* m_combo_parts;
+		// 
+		std::vector<int> m_combo_parts;
 		// コンボの後のあと隙何フレームか
 		int m_rear_crevice_frame;
 	};
-	std::vector<ComboPattern*> m_combo_pattern;
+	std::vector<ComboPattern> m_combo_pattern;
 	//! コンボのパターンの最大数を保存する
 	int m_combo_pattern_max = 0;
 	//! 何パターン目のコンボを使用するか

@@ -537,7 +537,7 @@ void GameScene::AttackUpdate()
 
 
 	//モンスターの攻撃
-	if (monster->m_attack_flag)
+	if (monster->m_monster_mode == monster->ATTACK&& monster->m_attack_flag)
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
