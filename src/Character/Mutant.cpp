@@ -75,7 +75,7 @@ void Mutant::Init()
 	// 攻撃に関することの初期関数
 	SetAttackInfo();
 	// モンスターのステータスの初期設定
-	BaseInit(HP_VALUE_MAX, JUMP_UP_SPEED, JUMP_DOWN_SPEED);
+	BaseInit(HP_VALUE_MAX/* JUMP_UP_SPEED, JUMP_DOWN_SPEED*/);
 	// アニメーションつけるのフラグを上げておく
 	m_animation.m_anim_change_flag = true;
 }
@@ -171,7 +171,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		m_animation.m_anim_change_flag = true;
 	}
 
-	
+
 
 	switch (m_monster_mode)
 	{
@@ -196,9 +196,9 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		m_running_frame_count++;
 		// 走っている時間が一定以上になったら
 		// 今は仮で１００フレームにしておく
-		if (m_running_frame_count >= 60)
+		if (m_running_frame_count >= 300)
 		{
-			JumpAction(jump_anim , TARGET_DISTANCE);
+			JumpAction(jump_anim, TARGET_DISTANCE);
 			// カウントをリセットする
 			m_running_frame_count = 0;
 		}
@@ -209,10 +209,17 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			break;
 		}
-		
-		if(m_jump_flag)
+
+		// ジャンプフラグが立っているとき
+		if (m_jump_flag)
 		{
 			JumpActionUpdate();
+			// ジャンプアニメーションが終わったときにアニメーションできた座標のずれを力ずくで直す
+			if (m_animation.m_contexts[0].is_playing == false)
+			{
+				m_transform.pos.x += JUMP_DEVIATION_POS * sinf(TO_RADIAN(m_transform.rot.y));
+				m_transform.pos.z += JUMP_DEVIATION_POS * cosf(TO_RADIAN(m_transform.rot.y));
+			}
 		}
 
 		//// ローリングアクション時の処理
@@ -239,18 +246,34 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		//		m_animation.m_anim_change_flag = true;
 		//	}
 		//}
-		
+
 
 		// 攻撃用の関数
 		if (m_jump_flag == false)
 		{
 			AttackActionComboUpdate();
 		}
-		
+
 
 		break;
 	case STUN:
+		// ジャンプ中にスタンされてしまったとき
+		if (m_jump_flag == true)
+		{
+			m_transform.pos.x += JUMP_DEVIATION_POS * sinf(TO_RADIAN(m_transform.rot.y));
+			m_transform.pos.z += JUMP_DEVIATION_POS * cosf(TO_RADIAN(m_transform.rot.y));
+			// ジャンプフラグを下げる
+			m_jump_flag = false;
+		}
+
 		StunActionUpdate(stun_down_anim, stun_up_anim, STUN_VALUE_MAX);
+		//if (m_anim_ && m_animation.m_contexts[0].is_playing == false)
+		//{
+		//	// スタンアニメーションでずれた座標を治す
+		//	m_transform.pos.z += 23 * cosf(TO_RADIAN(m_transform.rot.y));
+		//	m_transform.pos.x += 23 * sinf(TO_RADIAN(m_transform.rot.y));
+
+		//}
 		break;
 	}
 }

@@ -145,7 +145,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\OCA SPG\Sample;C:\OCA SPG\Sample\dxlib;C:\OCA SPG\sample\Sample;C:\OCA SPG\sample\Sample\dxlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\OCA SPG\Sample;C:\OCA SPG\Sample\dxlib;C:\OCA SPG\sample\Sample;C:\OCA SPG\sample\Sample\dxlib;$(SolutionDir);$(SolutionDir)\dxlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

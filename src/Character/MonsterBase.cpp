@@ -74,10 +74,9 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 			m_animation.m_anim_change_flag = true;
 			// 起き上がるアニメーションに変更
 			m_animation.ChangeAnimation(&m_model, up_anim_num, false);
-
-			m_transform.pos.z += 20 * cosf(TO_RADIAN(m_transform.rot.y));
-			m_transform.pos.x += 20 * sinf(TO_RADIAN(m_transform.rot.y));
-
+			// スタンアニメーションでずれた座標を治す
+			m_transform.pos.z += 22.0f * cosf(TO_RADIAN(m_transform.rot.y));
+			m_transform.pos.x += 22.0f * sinf(TO_RADIAN(m_transform.rot.y));
 			// 状態を次の変更
 			m_stun_info_num = UP;
 		}
@@ -112,13 +111,13 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
 //---------------------------------------------------------------------------
-void MonsterBase::BaseInit(int hp_num, float up_speed, float down_speed)
+void MonsterBase::BaseInit(int hp_num)
 {
 	// HP設定
 	m_hp_value = hp_num;
 	// ジャンプ関連の設定
-	m_up_speed = up_speed;
-	m_down_speed = down_speed;
+	/*m_up_speed = up_speed;
+	m_down_speed = down_speed;*/
 }
 
 
@@ -276,7 +275,7 @@ void MonsterBase::IdleActionUpdate(int idle_anim_num)
 	}
 
 
-	
+
 }
 
 //---------------------------------------------------------------------------
@@ -447,24 +446,30 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 		// ジャンプアニメーションをつける
 		m_animation.ChangeAnimation(&m_model, jump_anim, false);
 		// アニメーションのフレーム割るプレイヤーとの距離をして
-		m_jump_move = m_animation.m_contexts[0].animation_total_time / distance;
+		m_jump_move = 1.5f/*m_animation.m_contexts[0].animation_total_time / distance*/;
 	}
 
 	// 着地と同時にプレイヤーのほうに飛んでくるようにする
 
 
-	
+
 }
 
 //---------------------------------------------------------------------------
 // ジャンプ攻撃の更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::JumpActionUpdate()
+void MonsterBase::JumpActionUpdate(float jump_strat_frame, float jump_end_frame)
 {
 	// ジャンプ時のモンスターの向きに合わせてジャンプする
 	// ここの移動量が決まっていない
-	m_transform.pos.x += m_jump_move * sinf(TO_RADIAN(m_transform.rot.y));
-	m_transform.pos.z += m_jump_move * cosf(TO_RADIAN(m_transform.rot.y));
+	// ジャンプアニメーしょんの着地に合わせて移動をやめる
+	// 飛んでいる間だけ
+	if (m_animation.m_contexts[0].play_time <= 90.0f)
+	{
+		m_transform.pos.x += m_jump_move * sinf(TO_RADIAN(m_transform.rot.y));
+		m_transform.pos.z += m_jump_move * cosf(TO_RADIAN(m_transform.rot.y));
+	}
+
 
 	// ジャンプアニメーションが終わったらRunモードにへんこうする
 	if (m_animation.m_contexts[0].is_playing == false)
@@ -476,8 +481,10 @@ void MonsterBase::JumpActionUpdate()
 		m_monster_mode = RUN;
 		// アニメーション変更フラグを立てておく
 		m_animation.m_anim_change_flag = true;
+
+
 	}
-	
+
 }
 
 

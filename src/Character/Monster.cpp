@@ -67,7 +67,7 @@ void Monster::Init()
 	StatusBarInit();
 
 	// モンスターのステータス部分の設定
-	MonsterBase::BaseInit(HP_MAX, JUMP_UP_SPEED,JUMP_DOWN_SPEED);
+	MonsterBase::BaseInit(HP_MAX);
 }
 
 //-----------------------------------------------
