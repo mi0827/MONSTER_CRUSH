@@ -64,13 +64,13 @@ public:
 	// 定数の宣言
 	//=========================================================================
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f; //! 移動スピード
-	static constexpr float MONSTER_ROT_SPEED = 0.5f;   //! 回転スピード
-	static constexpr float TARGET_DISTANCE = 100.0f;     //! ジャンプするときの相手との距離
-	static constexpr float JUMP_UP_SPEED = 10.0f;          //! ジャンプの時の上昇スピード
-	static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
-	static constexpr int ROLLING_SPEED = 1.0f;               //! ローリングスピード
-	static constexpr int HP_VALUE_MAX = 500;                //! HPの最大値
-	static constexpr int STUN_VALUE_MAX = 150;            //! スタン値の最大
+	static constexpr float MONSTER_ROT_SPEED = 0.5f;  //! 回転スピード
+	static constexpr float TARGET_DISTANCE = 20.0f;  //! ジャンプするとき相手と離れててほしい最低限の距離
+	static constexpr float JUMP_UP_SPEED = 10.0f;     //! ジャンプの時の上昇スピード
+	static constexpr float JUMP_DOWN_SPEED = 2.0f;    //! ジャンプの時の下に落ちてほしいスピード 
+	static constexpr int ROLLING_SPEED = 1.0f;        //! ローリングスピード
+	static constexpr int HP_VALUE_MAX = 500;          //! HPの最大値
+	static constexpr int STUN_VALUE_MAX = 150;        //! スタン値の最大
 	//static constexpr int COMBO_PATTERN_MAX = 5;         //! コンボパターンの数
 	//=========================================================================
 	// 列挙体の宣言
@@ -79,42 +79,42 @@ public:
 	//! @detail 攻撃アニメーションはコンボの続けたい順番に設定する
 	enum Animation_Max
 	{
-		idle, //!< 待機
-		run,  //!< 走り
-		die,   //!< 死亡
-		shout, //!< 叫び
-		hit_damage, //!< 攻撃を受けた時
-		stun_down, //!< スタンで倒れる時
-		stun_up,  //!< スタンで起き上がるとき
+		idle_anim, //!< 待機
+		run_anim,  //!< 走り
+		die_anim,   //!< 死亡
+		shout_anim, //!< 叫び
+		hit_damage_anim, //!< 攻撃を受けた時
+		stun_down_anim, //!< スタンで倒れる時
+		stun_up_anim,  //!< スタンで起き上がるとき
 
-		attack_1, //!< 攻撃１
-		attack_2, //!< 攻撃２
-		attack_3, //!< 攻撃３
-		attack_4, //!< 攻撃４
-		rolling,    //!< ローリング
-		jump,     //!< ジャンプアクション
+		attack_1_anim, //!< 攻撃１
+		attack_2_anim, //!< 攻撃２
+		attack_3_anim, //!< 攻撃３
+		attack_4_anim, //!< 攻撃４
+		rolling_anim,  //!< ローリング
+		jump_anim,     //!< ジャンプアクション
 
 		anim_max //!< アニメーションの最大数
 	};
 
 	//! 攻撃アニメーションの一番最初
-	static constexpr int ATTACK_ANIM_START = attack_1;
+	static constexpr int ATTACK_ANIM_START = attack_1_anim;
 	//! 攻撃アニメーション最大値（jumpを抜いた分ジャンプを抜いておかないとコンボ攻撃の時なバグる）
-	static constexpr int ATTACK_ANIM_MAX = rolling - ATTACK_ANIM_START;
+	static constexpr int ATTACK_ANIM_MAX = rolling_anim - ATTACK_ANIM_START;
 
 	//! 攻撃アクションの数
-	static constexpr int ATTACK_ACTION_MAX = anim_max - attack_1;
+	static constexpr int ATTACK_ACTION_MAX = anim_max - attack_1_anim;
 
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
 		attack_end = -1,                                                         //< コンボ攻撃の終わり
-		attack_punch_1 = attack_1 - ATTACK_ANIM_START,      //< 攻撃１
-		attack_punch_2 = attack_2 - ATTACK_ANIM_START,	   //< 攻撃２
-		attack_punch_3 = attack_3 - ATTACK_ANIM_START,	   //< 攻撃３
-		attack_punch_4 = attack_4 - ATTACK_ANIM_START,       //< 攻撃４
-		attack_rolling = rolling - ATTACK_ANIM_START,      	//< 攻撃５
-		attack_jump = jump - ATTACK_ANIM_START,
+		attack_punch_1 = attack_1_anim - ATTACK_ANIM_START,      //< 攻撃１
+		attack_punch_2 = attack_2_anim - ATTACK_ANIM_START,	   //< 攻撃２
+		attack_punch_3 = attack_3_anim - ATTACK_ANIM_START,	   //< 攻撃３
+		attack_punch_4 = attack_4_anim - ATTACK_ANIM_START,       //< 攻撃４
+		attack_rolling = rolling_anim - ATTACK_ANIM_START,      	//< 攻撃５
+		attack_jump = jump_anim - ATTACK_ANIM_START,
 
 		attack_max
 	};

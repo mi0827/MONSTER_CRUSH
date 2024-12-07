@@ -291,8 +291,13 @@ void GameScene::Draw()
 		// シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(m_player_shadowMap_handle);
 	{
+		// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+		SetLightAmbColor(GetColorF(0.7f, 0.7f, 0.7f, 1.0f));
+
 		// プレイヤーの描画処理
 		player->Draw();
+		// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+		SetLightAmbColor(GetColorF(0.33f, 0.33f, 0.33f, 1.0f));
 
 		// ヒーローの描画処理
 		//hero.Draw();
@@ -408,9 +413,7 @@ void GameScene::HitField()
 	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
 
 	// モンスターと地面の当たり判定（ジャンプ処理できる）
-	HitGroundCharacterJump(&monster->m_transform.pos, &monster->m_jump_mov,
-		&monster->m_jump_flag, monster->m_up_speed, monster->m_down_speed,
-		&field.m_field_model);
+	HitGroundCharacter(&monster->m_transform.pos, &field.m_field_model);
 
 	Vector3 pos = GetGroundPos(&monster->m_transform.pos, &field.m_field_model);
 	monster->SetJumpPos(pos);
@@ -424,6 +427,7 @@ void GameScene::HitField()
 			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
 		}
 	}
+
 
 	// フェンスとキャラクターの当たり判定
 	for (int i = 0; i < field.FENCE_MAX; i++)

@@ -105,12 +105,12 @@ public:
 
 	//! @brief ジャンプ攻撃開始の処理
 	//! @param ジャンプ用のアニメーション番号
-	//! @param 相手との距離
+	//! @param 相手と離れててほしい距離
 	void JumpAction(int jump_anim, int target_distance);
 
 	//! @brief ジャンプ攻撃の更新処理
-	//! @param 落下スピード
-	void JumpActionUpdate(float down_speed);
+	
+	void JumpActionUpdate();
 
 	void SetJumpPos(Vector3 pos);
 
@@ -218,6 +218,7 @@ public:
 
 
 private:
+
 	//! 攻撃アニメーションのスタート番号
 	int m_ATTACK_ANIM_START = 0;
 	//! 攻撃アニメーションの最大数
@@ -226,17 +227,21 @@ private:
 	int m_ATTACK_ANIM_EXCEPT = 0;
 
 public:
+	//------------------------------------------
+	// Run関連
+	//------------------------------------------
 	//! 壁擦り判定のためにいったん座標を保存しておく変数
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
 	//! 移動の際の当たり判定用のサイズ
 	Vector3 move_hit_size = { 1.0f ,0.0f,1.0f };
-
 	//! 自身の半径を入れる用の変数
 	float m_hit_r = 15.0f;
 	//! 自身の移動スピード
 	static constexpr float M_MOV_SPEED = 1.0f;
 	//! 自身回転速度
 	static constexpr float M_ROT_SPEED = 5.0f;
+	//! どのくらいのフレームの間は走っているのかをカウントするための関数
+	int m_running_frame_count = 0;
 
 	//------------------------------------------
 	// ステータス関連
@@ -323,18 +328,6 @@ public:
 	//! モンスターの状態を管理する変数
 	int m_monster_mode = 0;
 
-	// ジャンプの状態を管理
-	//enum Jump
-	//{
-	//	STANDBY,     //! スタンバイ
-	//	GOUP,           //! 上がるタイミング
-	//	MOVE,           //! ジャンプ中の移動のタイミング
-	//	DROPDOWN,  //! 落ちてくるタイミング
-
-	//	max
-	//};
-	////! ジャンプの状態を保存する変数
-	//int jump_info_num = 0;
 
 	// 攻撃状態の管理
 	enum Attack

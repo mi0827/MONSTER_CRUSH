@@ -154,9 +154,9 @@ void TitleScene::Draw()
 	SetPlayerShadowMapArea(player->m_transform.pos);
 
 	//-------------------------------------------------------------
-		// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
-		//-------------------------------------------------------------
-		// シャドウマップへの描画の準備
+    // シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
+    //-------------------------------------------------------------
+    // シャドウマップへの描画の準備
 	ShadowMap_DrawSetup(m_player_shadowMap_handle);
 	{
 		// プレイヤーの描画処理
@@ -186,10 +186,12 @@ void TitleScene::Draw()
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_player_shadowMap_handle);
 	{
+		
+		// プレイヤーの描画処理
 		player->Draw();
-
-		// ヒーローの描画処理
-		//hero.Draw();
+		// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+		SetLightAmbColor(GetColorF(0.33f, 0.33f, 0.33f, 1.0f));
+		
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{

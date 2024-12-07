@@ -94,8 +94,8 @@ void Scene_Base::SetPlayerShadowMapArea(Vector3 player_pos)
 	// 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
 	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
 	SetShadowMapDrawArea(m_player_shadowMap_handle,
-		VGet(player_pos.x - 100.0f, -0.1f, player_pos.z - 100.0f),
-		VGet(player_pos.x + 100.0f, +1500.0f, player_pos.z + 100.0f));
+		VGet(player_pos.x - 50.0f, -0.1f, player_pos.z - 50.0f),
+		VGet(player_pos.x + 50.0f, +100.0f, player_pos.z + 50.0f));
 }
 
 // --------------------------------------------------------------------------

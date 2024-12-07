@@ -92,11 +92,24 @@ int gazou;
 
 int font_size;
 
+MATERIALPARAM material;
+
+
 //-------------------------------------------------------------
 // 初期処理
 //-------------------------------------------------------------
 void GameInit()
 {
+
+	/*material.Diffuse =  GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Ambient =  GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Specular = GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Emissive = GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
+	material.Power = 20.0f;
+	SetMaterialParam(material);*/
+
+	//// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+	SetLightAmbColor(GetColorF(0.5f, 0.5f, 0.5f, 1.0f));
 
 	// フォントサイズのデフォルトをもらっておく
 	font_size = GetFontSize();
@@ -127,8 +140,11 @@ void GameInit()
 	SetLightPositionHandle(light_handle, light_pos.VGet());
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
+	
+	//color = { 15.0f,1.0f,1.0f,0.0f };
+	//SetLightAmbColor(color);
 
-
+	// SetLightEnable(true);
 }
 
 //-------------------------------------------------------------

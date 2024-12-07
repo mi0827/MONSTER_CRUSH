@@ -114,7 +114,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 		{
 
 			// 死んだ
-			m_life_and_death = die;
+			m_life_and_death = die_anim;
 			// プレイヤーの状態をにDIE変更
 			m_monster_mode = DIE;
 			// すべてのフラグを下げる
@@ -130,13 +130,13 @@ void Mutant::Update(Transform* target_pos, float target_r)
 			if (m_animation.ChangeFlag(m_idle_flag))
 			{
 				// アニメーションを死んだのに変更する
-				m_animation.ChangeAnimation(&m_model, die, true);
+				m_animation.ChangeAnimation(&m_model, die_anim, true);
 			}
 		}
 
 		break;
 
-	case die: // 死んだとき
+	case die_anim: // 死んだとき
 		DieUpdate();
 		break;
 
@@ -176,7 +176,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
-		IdleActionUpdate(idle);
+		IdleActionUpdate(idle_anim);
 
 		break;
 	case RUN:
@@ -189,23 +189,17 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			// モンスターの回転してよいようにする
 			move.SetCanRotate(true);
 			// 移動処理
-			MoveAction(run);
+			MoveAction(run_anim);
 		}
 
-		//// run_flagfフラグがさっがたら
-		//if (m_run_flag == false)
-		//{
-		//	// 待機フラグを上げる
-		//	m_idle_flag = true;
-		//	// アニメーション変更が行えるようにする
-		//	m_animation.m_anim_change_flag = true;
-		//	// 
-		//	m_monster_mode = IDLE;
-		//}
-
-		// 走っている間に一定以上の距離が空いたら
-		// ジャンプ攻撃をする
-		// JumpAction(jump, TARGET_DISTANCE);
+		// 走っている間のフレームを加算する
+		m_running_frame_count++;
+		// 走っている時間が一定以上になったら
+		// 今は仮で１００フレームにしておく
+		if (m_running_frame_count >= 30)
+		{
+			JumpAction(jump_anim , TARGET_DISTANCE);
+		}
 
 		break;
 	case ATTACK:
@@ -213,11 +207,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			break;
 		}
-		// ジャンプ攻撃時の処理
-		/*if (m_now_attack_anim == jump)
+		
+		if(m_jump_flag)
 		{
-			JumpActionUpdate(JUMP_DOWN_SPEED);
-		}*/
+			JumpActionUpdate();
+		}
 
 		//// ローリングアクション時の処理
 		//if (m_now_attack_anim == rolling)
@@ -246,11 +240,15 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		
 
 		// 攻撃用の関数
-		AttackActionComboUpdate();
+		if (m_jump_flag == false)
+		{
+			AttackActionComboUpdate();
+		}
+		
 
 		break;
 	case STUN:
-		StunActionUpdate(stun_down, stun_up, STUN_VALUE_MAX);
+		StunActionUpdate(stun_down_anim, stun_up_anim, STUN_VALUE_MAX);
 		break;
 	}
 }
@@ -320,7 +318,7 @@ void Mutant::EntryUpdate()
 	// 登場アニメーションのセット(ループさせない)
 	if (m_animation.ChangeFlag(true))
 	{
-		m_animation.ChangeAnimation(&m_model, shout, true);
+		m_animation.ChangeAnimation(&m_model, shout_anim, true);
 	}
 
 	// アニメーションの再生
@@ -490,26 +488,26 @@ void Mutant::MonsterMode(int mode)
 void Mutant::AnimLoadInit()
 {
 	// アニメーションの初期設定
-	m_animation.InitAnimation(anim_max, idle);
+	m_animation.InitAnimation(anim_max, idle_anim);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1", idle, 0, 1.0f); //!< アイドル
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run, 0, 1.0f); //!< ラン
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die, 0, 1.0f); //!< 死亡
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout, 0, 0.5f); //!< 叫び
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage, 0, 1.0f); //!< ダメージを受けた時
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down, 0, 1.5f);  //!< スタンを食らった時のダウン
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up, 0, 2.0f);          //!< スタンを食らった時の起き上がり
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1", idle_anim, 0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run_anim, 0, 1.0f); //!< ラン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die_anim, 0, 1.0f); //!< 死亡
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout_anim, 0, 0.5f); //!< 叫び
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage_anim, 0, 1.0f); //!< ダメージを受けた時
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim, 0, 1.5f);  //!< スタンを食らった時のダウン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up_anim, 0, 2.0f);          //!< スタンを食らった時の起き上がり
 
 
 	// もっとモンスターっぽい攻撃を探してこい
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1, 0, 1.0f); //!< 攻撃１
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch2.mv1", attack_2, 0, 1.0f); //!< 攻撃２
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch3.mv1", attack_3, 0, 1.0f); //!< 攻撃３
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch4.mv1", attack_4, 0, 1.0f); //!< 攻撃４
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling, 0, 1.0f); //!< ローリング
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump, 0, 1.0f); //!< ジャンプ
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", attack_1_anim, 0, 1.0f); //!< 攻撃１
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch2.mv1", attack_2_anim, 0, 1.0f); //!< 攻撃２
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch3.mv1", attack_3_anim, 0, 1.0f); //!< 攻撃３
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch4.mv1", attack_4_anim, 0, 1.0f); //!< 攻撃４
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling_anim, 0, 1.0f); //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump_anim, 0, 1.0f); //!< ジャンプ
 	// 最初はデフォルトアニメーションをつけておく
-	m_animation.InitAttachAnimation(&m_model, idle, true);
+	m_animation.InitAttachAnimation(&m_model, idle_anim, true);
 
 
 }

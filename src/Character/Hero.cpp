@@ -293,7 +293,7 @@ void Hero::Draw()
 			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 		}
 	}
-	m_body.Draw();
+	//m_body.Draw();
 	/*m_right_hand.Draw();
 	m_left_hand.Draw();
 	m_right_feet.Draw();
