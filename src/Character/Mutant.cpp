@@ -196,9 +196,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		m_running_frame_count++;
 		// 走っている時間が一定以上になったら
 		// 今は仮で１００フレームにしておく
-		if (m_running_frame_count >= 30)
+		if (m_running_frame_count >= 60)
 		{
 			JumpAction(jump_anim , TARGET_DISTANCE);
+			// カウントをリセットする
+			m_running_frame_count = 0;
 		}
 
 		break;

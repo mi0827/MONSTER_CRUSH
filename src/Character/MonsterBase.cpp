@@ -442,6 +442,8 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 	}
 	if (m_jump_flag)
 	{
+		// 攻撃番号の保存
+		m_now_attack = jump_anim - m_ATTACK_ANIM_START;
 		// ジャンプアニメーションをつける
 		m_animation.ChangeAnimation(&m_model, jump_anim, false);
 		// アニメーションのフレーム割るプレイヤーとの距離をして
