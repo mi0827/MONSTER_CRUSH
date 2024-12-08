@@ -191,16 +191,21 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			// 移動処理
 			MoveAction(run_anim);
 		}
-
+	
 		// 走っている間のフレームを加算する
 		m_running_frame_count++;
 		// 走っている時間が一定以上になったら
-		// 今は仮で１００フレームにしておく
-		if (m_running_frame_count >= 300)
+		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			JumpAction(jump_anim, TARGET_DISTANCE);
 			// カウントをリセットする
 			m_running_frame_count = 0;
+		}
+
+		// 走っている時間が一定以上になったら
+		if (m_running_frame_count >= ? ? ? )
+		{
+			RollingAction(rolling_anim);
 		}
 
 		break;
@@ -213,7 +218,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		// ジャンプフラグが立っているとき
 		if (m_jump_flag)
 		{
-			JumpActionUpdate();
+			// ジャンプの更新処理
+			JumpActionUpdate(JUMP_STRAT_FRAME, JUMP_END_FRAME);
 			// ジャンプアニメーションが終わったときにアニメーションできた座標のずれを力ずくで直す
 			if (m_animation.m_contexts[0].is_playing == false)
 			{
@@ -225,7 +231,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		//// ローリングアクション時の処理
 		//if (m_now_attack_anim == rolling)
 		//{
-		//	ActionRolling(ROLLING_SPEED);
+		ActionRolling(ROLLING_SPEED);
 		//}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		move.SetCanRotate(false);

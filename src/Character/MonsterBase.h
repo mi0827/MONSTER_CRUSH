@@ -49,9 +49,19 @@ public:
 	//! @brief ステータスバーの描画関数
 	virtual void StatusBarDraw() = 0;
 
+	//! @brief アニメーションの指定のフレームで移動させる処理
+	//! @param 移動スピード
+	//! @param 移動開始フレーム
+	//! @param 移動終了フレーム
+	void MoveBetween(float mov_speed, float mov_start_frame, float mov_end_frame);
+
+	//! @biref ローリングアクションをセットする関数
+	//! @param ローリングアニメーション番号
+	//! 
+	void RollingAction(int rolling_anim);
 	//! @brief ローリングアクション用の関数（回避）
 	//! @param ローリングしたときの移動スピード
-	virtual void ActionRolling(const int rolling_speed);
+    void ActionRolling(const int rolling_speed,float rolling_start_frame,float rolling_end_frame);
 
 	//! @brief 攻撃に関することの初期関数
 	//! 当たり判定を行ってほしいタイミングを保存する
@@ -109,10 +119,11 @@ public:
 	void JumpAction(int jump_anim, int target_distance);
 
 	//! @brief ジャンプ攻撃の更新処理
-	
-	void JumpActionUpdate();
+	//! @param ジャンプ時の移動スピード
+	//! @param ジャンプでの移動開始フレーム
+	//! @param ジャンプでの移動終了フレーム
+	void JumpActionUpdate(float jump_mov_speed, float jump_mov_strat_frame, float jump_mov_end_frame);
 
-	void SetJumpPos(Vector3 pos);
 
 	//! @brief コンボ攻撃更新処理
 	void ComboUpdate();
@@ -269,18 +280,15 @@ public:
 	//------------------------------------------
 	// ジャンプ関連
 	//------------------------------------------
-	// ジャンプのための移動量用の変数
+	//! ジャンプのための移動量用の変数
 	Vector3 m_jump_mov{ 0.0f,0.0f,0.0f };
-	// ジャンプの着地地点の座標
+	//! ジャンプの着地地点の座標
 	Vector3 m_jump_pos{ 0.0f,0.0f,0.0f };
-	// ジャンプの時に進む距離
+	//! ジャンプの時に進む距離
 	float m_jump_move;
-	// ジャンプフラグ
+	//! ジャンプフラグ
 	bool m_jump_flag = false;
-	// 上昇スピード
-	float m_up_speed = 0;
-	// 下降スピード
-	float m_down_speed = 0;
+	 
 
 	//------------------------------------------
 	// コンボ関連

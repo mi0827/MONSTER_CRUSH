@@ -65,11 +65,11 @@ public:
 	//=========================================================================
 	static constexpr float MONSTER_MOVE_SPEED = 1.5f;      //! 移動スピード
 	static constexpr float MONSTER_ROT_SPEED = 0.5f;       //! 回転スピード
-	static constexpr float CHANGE_JUMP_RUNNIG_FRAME = 180; //! Run
-	static constexpr float TARGET_DISTANCE = 40.0f;        //! ジャンプするとき相手と離れててほしい最低限の距離
-	static constexpr float JUMP_DEVIATION_POS = 26.0f;     //! ジャンプ攻撃をしたときに
-	// static constexpr float JUMP_UP_SPEED = 10.0f;       //! ジャンプの時の上昇スピード
-	// static constexpr float JUMP_DOWN_SPEED = 2.0f;      //! ジャンプの時の下に落ちてほしいスピード 
+	static constexpr float CHANGE_JUMP_RUNNIG_FRAME = 180; //! Runからジャンプに移るのに何フレームかかるか
+	static constexpr float TARGET_DISTANCE = 40.0f;          //! ジャンプするとき相手と離れててほしい最低限の距離
+	static constexpr float JUMP_DEVIATION_POS = 26.0f;    //! ジャンプ攻撃をしたときに
+	static constexpr float JUMP_STRAT_FRAME = 34.0f;       //! ジャンプの移動開始のフレーム
+	static constexpr float JUMP_END_FRAME = 90.0f;          //! ジャンプの移動終了のフレーム
 	static constexpr int ROLLING_SPEED = 1.0f;             //! ローリングスピード
 	static constexpr int HP_VALUE_MAX = 500;               //! HPの最大値
 	static constexpr int STUN_VALUE_MAX = 150;             //! スタン値の最大
@@ -150,6 +150,7 @@ public:
 		// 終わりのフレーム
 		float end_frame;
 	};
+
 
 	// 当たり判定を行ってほしいタイミングの設定の変数
 	// まだまだ未完成
