@@ -416,7 +416,7 @@ void GameScene::HitField()
 	HitGroundCharacter(&monster->m_transform.pos, &field.m_field_model);
 
 	Vector3 pos = GetGroundPos(&monster->m_transform.pos, &field.m_field_model);
-	monster->SetJumpPos(pos);
+	//monster->SetJumpPos(pos);
 
 	// 木のオブジェクトとプレイヤーの当たり判定
 	for (int i = 0; i < field.TREE_MAX; i++)

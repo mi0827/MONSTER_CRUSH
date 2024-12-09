@@ -50,15 +50,29 @@ void MonsterBase::MoveBetween(float mov_speed, float mov_strat_frame, float mov_
 //---------------------------------------------------------------------------
 // ローリングアクションをセット
 //---------------------------------------------------------------------------
-void MonsterBase::RollingAction(int rolling_anim)
+void MonsterBase::SetRollingAction(int rolling_anim, int target_distance)
 {
-	// アニメーション番号を保存
-	m_now_attack_anim = rolling_anim;
-	// 攻撃番号も保存
-	m_now_attack = m_now_attack_anim + m_ATTACK_ANIM_START;
-	// アニメーションの変更
-	m_animation.ChangeAnimation(&m_model,m_now_attack,false);
+	// プレイヤーとの距離をもらってくる
+	// ターゲットとの距離
+	float distance = move.GetTargetDistance();
+	// 行ってい以上の距離の時
+	// ターゲットとの距離が一定以下だったら
+	if (  target_distance <= distance)
+	{
+		// ローリングフラグを立てる
+		m_rolling_flag = true;
+		// 攻撃フラグを立てる
+		m_attack_flag = true;
+		// 攻撃モードにしておく
+		m_monster_mode = ATTACK;
+		// アニメーション番号を保存
+		m_now_attack_anim = rolling_anim;
+		// 攻撃番号も保存(攻撃番号が欲しいからアニメーション番号から攻撃スタート番号を引く)
+		m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
+		// アニメーションの変更
+		m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
 
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -69,6 +83,12 @@ void MonsterBase::ActionRolling(const int rolling_speed, float rolling_start_fra
 	// ローリング中の移動処理
 	// 向いている方向に PLAYER_ROLLING_SPEED 分移動する
 	MoveBetween(rolling_speed, rolling_start_frame, rolling_end_frame);
+	// ローリングアニメーションが終わったら
+	if (m_animation.m_contexts[0].is_playing == false)
+	{
+		// ローリングフラグを下す
+		m_rolling_flag = false;
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -458,7 +478,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 	float distance = move.GetTargetDistance();
 	// 行ってい以上の距離の時
 	// ターゲットとの距離が一定以上だったら
-	if (distance <= target_distance )
+	if (distance <= target_distance)
 	{
 		// 攻撃フラグを立てる
 		m_jump_flag = true;
@@ -467,7 +487,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 	}
 	if (m_jump_flag)
 	{
-		// 攻撃番号の保存
+		// 攻撃番号の保存(攻撃番号が欲しいからアニメーション番号から攻撃スタート番号を引く)
 		m_now_attack = jump_anim - m_ATTACK_ANIM_START;
 		// ジャンプアニメーションをつける
 		m_animation.ChangeAnimation(&m_model, jump_anim, false);
@@ -477,7 +497,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 //---------------------------------------------------------------------------
 // ジャンプ攻撃の更新処理
 //---------------------------------------------------------------------------
-void MonsterBase::JumpActionUpdate(float jump_mov_speed,float jump_mov_strat_frame, float jump_mov_end_frame)
+void MonsterBase::JumpActionUpdate(float jump_mov_speed, float jump_mov_strat_frame, float jump_mov_end_frame)
 {
 	// ジャンプ時のモンスターの向きに合わせてジャンプする
 	// ここの移動量が決まっていない

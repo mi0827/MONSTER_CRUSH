@@ -55,10 +55,10 @@ public:
 	//! @param 移動終了フレーム
 	void MoveBetween(float mov_speed, float mov_start_frame, float mov_end_frame);
 
-	//! @biref ローリングアクションをセットする関数
+	//! @brief ローリングアクションをセットする関数
 	//! @param ローリングアニメーション番号
-	//! 
-	void RollingAction(int rolling_anim);
+	//! @param ターゲットローリングアクションを行う
+	void SetRollingAction(int rolling_anim, int target_distance);
 	//! @brief ローリングアクション用の関数（回避）
 	//! @param ローリングしたときの移動スピード
     void ActionRolling(const int rolling_speed,float rolling_start_frame,float rolling_end_frame);
@@ -289,6 +289,11 @@ public:
 	//! ジャンプフラグ
 	bool m_jump_flag = false;
 	 
+	//------------------------------------------
+	// ローリング関連
+	//------------------------------------------
+	//! ローリングフラグ
+	bool m_rolling_flag; 
 
 	//------------------------------------------
 	// コンボ関連

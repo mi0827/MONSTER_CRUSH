@@ -191,22 +191,29 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			// 移動処理
 			MoveAction(run_anim);
 		}
-	
+
 		// 走っている間のフレームを加算する
 		m_running_frame_count++;
+
 		// 走っている時間が一定以上になったら
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
-			JumpAction(jump_anim, TARGET_DISTANCE);
+			// ローリングアクションをセットする
+			SetRollingAction(rolling_anim, ROLLING_TARGET_DISTANCE);
 			// カウントをリセットする
 			m_running_frame_count = 0;
 		}
 
 		// 走っている時間が一定以上になったら
-		if (m_running_frame_count >= ? ? ? )
+		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
-			RollingAction(rolling_anim);
+			// ジャンプアクションをセットする
+			JumpAction(jump_anim, JUMP_TARGET_DISTANCE);
+			// カウントをリセットする
+			m_running_frame_count = 0;
 		}
+
+		
 
 		break;
 	case ATTACK:
@@ -219,7 +226,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		if (m_jump_flag)
 		{
 			// ジャンプの更新処理
-			JumpActionUpdate(JUMP_STRAT_FRAME, JUMP_END_FRAME);
+			JumpActionUpdate(JUMP_MOV_SPEED, JUMP_STRAT_FRAME, JUMP_END_FRAME);
 			// ジャンプアニメーションが終わったときにアニメーションできた座標のずれを力ずくで直す
 			if (m_animation.m_contexts[0].is_playing == false)
 			{
@@ -229,10 +236,10 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		}
 
 		//// ローリングアクション時の処理
-		//if (m_now_attack_anim == rolling)
-		//{
-		ActionRolling(ROLLING_SPEED);
-		//}
+		if (m_now_attack_anim == rolling_anim)
+		{
+			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
+		}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		move.SetCanRotate(false);
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
@@ -255,9 +262,16 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 
 		// 攻撃用の関数
-		if (m_jump_flag == false)
+		// ジャンプとローリングのが行われていないとき
+		if (m_jump_flag == false && m_rolling_flag == false)
 		{
-			AttackActionComboUpdate();
+			// モンスターの移動ができない距離に敵がいたら
+			if (!move.m_hit)
+			{
+				// 攻撃を始める
+				AttackActionComboUpdate();
+			}
+		
 		}
 
 
