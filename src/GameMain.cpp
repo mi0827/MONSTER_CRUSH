@@ -108,9 +108,7 @@ void GameInit()
 	material.Power = 20.0f;
 	SetMaterialParam(material);*/
 
-	//// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
-	SetLightAmbColor(GetColorF(0.5f, 0.5f, 0.5f, 1.0f));
-
+	
 	// フォントサイズのデフォルトをもらっておく
 	font_size = GetFontSize();
 
@@ -127,7 +125,7 @@ void GameInit()
 
 	scene->Init();
 
-
+	
 
 	// デフォルトカラーをもらってくる
 	COLOR_F color = GetLightDifColor();
@@ -141,8 +139,11 @@ void GameInit()
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
 	
+	//// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
+
 	//color = { 15.0f,1.0f,1.0f,0.0f };
-	//SetLightAmbColor(color);
+	//SetLightAmbColor(GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
 
 	// SetLightEnable(true);
 }

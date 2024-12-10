@@ -217,6 +217,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 
 		break;
 	case ATTACK:
+		// スタン中はほかの攻撃処理をしてほしくない
 		if (m_stun_flag == true)
 		{
 			break;
@@ -235,31 +236,16 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			}
 		}
 
-		//// ローリングアクション時の処理
+		// ローリングアクション時の処理
 		if (m_now_attack_anim == rolling_anim)
 		{
 			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
 		}
-		// 攻撃中(アニメーション中)は回転してほしくない
-		move.SetCanRotate(false);
+
+
+		
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
 		move.m_hit = move.TargetHit();
-
-		// アニメーションの再生が終わったとき
-		//if (!m_animation.m_contexts[0].is_playing/*m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time*/)
-		//{
-		//	// 移動していい状態だったら
-		//	if (move.m_hit)
-		//	{
-		//		//// 移動フラグを立てる
-		//		//m_run_flag = true;
-		//		// アイドル状態に移動
-		//		m_monster_mode = IDLE;
-		//		// アニメーション変更フラグを立てる
-		//		m_animation.m_anim_change_flag = true;
-		//	}
-		//}
-
 
 		// 攻撃用の関数
 		// ジャンプとローリングのが行われていないとき
@@ -274,6 +260,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		
 		}
 
+		// 攻撃中(アニメーション中)は回転してほしくない
+		move.SetCanRotate(false);
 
 		break;
 	case STUN:

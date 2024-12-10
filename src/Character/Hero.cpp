@@ -57,6 +57,8 @@ void Hero::Init()
 	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit(PLAYER_HIT_R, HP_MAX);
 
+	
+
 	// プレイヤーの初期座標
 	SetCharacterPos({ 170,0,170 });
 	// 向きの設定
@@ -64,8 +66,14 @@ void Hero::Init()
 	// モデルのスケールの設定
 	m_transform.scale.set(0.1f, 0.1, 0.1);
 
-	// モデル画像の読み込み
+	// キャラクターモデル画像の読み込み
 	m_model.LoadModel("Data/Model/Hero/Hero.mv1");
+	// キャラクターのマテリアル調整
+	// モデルのマテリアルを確保
+	// マテリアルのアンビエントをあげるとプレイヤーにかかっている影が明るくなる
+	m_model.SetMaterialAmbient({ 0.4f,0.4f,0.4f,0.0f });
+	//m_model.SetMaterialEmissive({ 1.0f,1.0f,1.0f,0.0f });
+
 
 	// アニメーションの初期設定
 	AnimLoadInit();

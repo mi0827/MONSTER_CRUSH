@@ -302,7 +302,7 @@ void MonsterBase::IdleActionUpdate(int idle_anim_num)
 	if (!m_set_stop_frame_flag)
 	{
 		// 止まっていてほしいフレーム数を設定
-		m_stop_frame = GetRand(20) + 60;
+		m_stop_frame = GetRand(20) + m_combo_pattern[m_now_combo_pattern_num].m_rear_crevice_frame;
 		// 設定が終わったらからフラグをあげる
 		m_set_stop_frame_flag = true;
 	}
@@ -361,12 +361,12 @@ void MonsterBase::ComboPatternNumberInit(int pattern_max)
 	m_combo_pattern_max = pattern_max;
 
 	// コンボを入れる入れ物をパターン分用意する
-	for (int i = 0; i < pattern_max; i++)
-	{
-		/*ComboPattern* combo = new ComboPattern;
-		m_combo_pattern.push_back(combo);*/
+	//for (int i = 0; i < pattern_max; i++)
+	//{
+	//	/*ComboPattern* combo = new ComboPattern;
+	//	m_combo_pattern.push_back(combo);*/
 
-	}
+	//}
 	m_combo_pattern.resize(pattern_max);
 
 
@@ -415,11 +415,8 @@ void MonsterBase::FirstAttackAction()
 	m_now_attack_anim = m_now_attack + m_ATTACK_ANIM_START;
 	// アニメーションの変更
 	m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
-
-	// 現在の攻撃番号を保存する
-	//m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
-
-	m_stop_combo_flag = true;
+	// 現在使用されているコンボパターンを保存
+	m_now_combo_pattern_num = m_combo_pattern_num;
 }
 
 //---------------------------------------------------------------------------
@@ -552,7 +549,7 @@ void MonsterBase::ComboUpdate()
 		m_animation.m_contexts[0].play_time,
 		m_animation.m_contexts[0].animation_total_time
 	);
-
+	
 	// コンボフラグが上がっているとき
 	if (m_combo_flag)
 	{

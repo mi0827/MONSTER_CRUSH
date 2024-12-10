@@ -27,7 +27,8 @@ void Model::LoadModel(const char data[256])
 {
 	// モデルの読み込み
 	m_model = MV1LoadModel(data);
-
+	
+	GetMaterilaInfo();
 }
 
 //-----------------------------------------------
@@ -87,7 +88,8 @@ void Model::SetModelScale(Vector3 scale)
 	m_transform.scale.set(scale);
 }
 
-// ---------------------------------------------- -
+//-----------------------------------------------
+// モデルの指定のノードを取得する
 //-----------------------------------------------
 Vector3 Model::GetNodePos(int node_index)
 {
@@ -96,4 +98,93 @@ Vector3 Model::GetNodePos(int node_index)
 	pos = MV1GetFramePosition(m_model, node_index);
 
 	return pos;
+}
+
+
+//-----------------------------------------------
+// マテリアルの各情報を取得する
+//-----------------------------------------------
+void Model::GetMaterilaInfo()
+{
+	m_material_max = MV1GetMaterialNum(m_model);
+
+	// マテリアルの数文配列を増やす
+	m_material.resize(m_material_max);
+
+	for (int i = 0; i < m_material_max; i++)
+	{
+		m_material[i].Diffuse = MV1GetMaterialDifColor(m_model, i);
+		m_material[i].Ambient = MV1GetMaterialAmbColor(m_model, i);
+		m_material[i].Emissive = MV1GetMaterialEmiColor(m_model, i);
+		m_material[i].Specular = MV1GetMaterialSpcColor(m_model, i);
+		m_material[i].Power = MV1GetMaterialSpcPower(m_model, i);
+	}
+
+}
+
+//-----------------------------------------------
+// マテリアルのDiffuseの設定用関数
+//-----------------------------------------------
+void Model::SetMaterialDiffuse(COLOR_F color)
+{
+	for (int i = 0; i < m_material_max; i++)
+	{
+		m_material[i].Diffuse = { color.r,color.g,color.b, color.a };
+		// 受け取ってきたカラーを設定する
+		MV1SetMaterialDifColor(m_model, i, m_material[i].Diffuse);
+	}
+	
+}
+
+//-----------------------------------------------
+// マテリアルのAmbientの設定用関数
+//-----------------------------------------------
+void Model::SetMaterialAmbient(COLOR_F color)
+{
+	for (int i = 0; i < m_material_max; i++)
+	{
+		m_material[i].Ambient = { color.r,color.g,color.b, color.a };
+		// 受け取ってきたカラーを設定する
+		MV1SetMaterialAmbColor(m_model, i, m_material[i].Ambient);
+	}
+}
+
+//-----------------------------------------------
+// マテリアルのSpecularの設定用関数
+//-----------------------------------------------
+void Model::SetMaterialSpecular(COLOR_F color)
+{
+	for (int i = 0; i < m_material_max; i++)
+	{
+		m_material[i].Specular = { color.r,color.g,color.b, color.a };
+		// 受け取ってきたカラーを設定する
+		MV1SetMaterialSpcColor(m_model, i, m_material[i].Specular);
+	}
+}
+
+//-----------------------------------------------
+// マテリアルのEmissiveの設定用関数
+//-----------------------------------------------
+void Model::SetMaterialEmissive(COLOR_F color)
+{
+	for(int i = 0; i < m_material_max; i++)
+	{
+		m_material[i].Emissive = { color.r,color.g,color.b, color.a };
+		// 受け取ってきたカラーを設定する
+		MV1SetMaterialEmiColor(m_model, i, m_material[i].Emissive);
+		m_material[i].Emissive = MV1GetMaterialEmiColor(m_model, i);
+	}
+}
+
+//-----------------------------------------------
+// マテリアルのスペキュラハイライトの鮮明度の設定用関数
+//-----------------------------------------------
+void Model::SetMaterialPower(float power)
+{
+	for (int i = 0; i < m_material_max; i++)
+	{
+		m_material[i].Power = power;
+		// 受け取ってきたスペキュラーのを設定する
+		MV1SetMaterialSpcPower(m_model, i, m_material[i].Power);
+	}
 }
