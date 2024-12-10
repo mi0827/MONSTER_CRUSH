@@ -76,23 +76,7 @@ int light_handle;
 
 //! ライトの座標用変数
 
-//int scene_num = 0; // 今どのシーン名のを見る用の変数
-//// 各シーンでの使い分けをするためのシーンの列挙隊
-//enum Scene
-//{
-//	Titele, // タイトル
-//	QuestArea, // クエスト受注シーン
-//	Play,  // メインのプレイシーン
-//	End,   // エンド
-//
-//	Scene_Max // シーンの最大数
-//};
 
-int gazou;
-
-int font_size;
-
-MATERIALPARAM material;
 
 
 //-------------------------------------------------------------
@@ -101,20 +85,8 @@ MATERIALPARAM material;
 void GameInit()
 {
 
-	/*material.Diffuse =  GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Ambient =  GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Specular = GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Emissive = GetColorF(1.0f, 1.0f, 1.0f, 1.0f);
-	material.Power = 20.0f;
-	SetMaterialParam(material);*/
-
-	
-	// フォントサイズのデフォルトをもらっておく
-	font_size = GetFontSize();
-
+	// オプションメニューの初期処理
 	option.Init();
-
-	gazou = LoadGraph("Data/Monsuta 2024_10_12 16_49_23.png");
 
 
 	// とりあえず今はタイトルシーンをつけておく
@@ -125,7 +97,7 @@ void GameInit()
 
 	scene->Init();
 
-	
+
 
 	// デフォルトカラーをもらってくる
 	COLOR_F color = GetLightDifColor();
@@ -138,7 +110,7 @@ void GameInit()
 	SetLightPositionHandle(light_handle, light_pos.VGet());
 	// 色の設定
 	SetLightDifColorHandle(light_handle, color);
-	
+
 	//// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
 	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
 
@@ -276,8 +248,7 @@ void GameDraw()
 void GameExit()
 {
 
-	// ゲームが終わるときに直す
-	SetFontSize(font_size);
+
 	////	シェーダーファイルの終了処理
 	//DeleteShader(vertex_shader);
 	//DeleteShader(pixel_shader);
