@@ -184,15 +184,6 @@ void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_
 //---------------------------------------------------------------------------
 void MonsterBase::MoveUpdate(bool* run_flag)
 {
-	// 前のフレームで攻撃フラグが立っていてそのフラグが今回下がったら
-	// プレイヤーが攻撃範囲外に出たということなので
-	// モンスターはプレイヤーを見失ったことになる
-	// ランダムで一定のフレームの間きょろきょろしてから動き始める
-	// 移動をはじめて一定のフレームで攻撃フラグが立たなかったら距離を詰める攻撃をする
-
-	// 1フレーム前の攻撃フラグの状態を保存しておく
-	//m_past_attack_flag = m_attack_flag;
-
 
 	// 移動処理
 	move.Update(run_flag);
@@ -319,8 +310,6 @@ void MonsterBase::IdleActionUpdate(int idle_anim_num)
 			m_monster_mode = RUN;
 		}
 	}
-
-
 
 }
 

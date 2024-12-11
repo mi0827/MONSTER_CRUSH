@@ -213,8 +213,6 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			m_running_frame_count = 0;
 		}
 
-		
-
 		break;
 	case ATTACK:
 		// スタン中はほかの攻撃処理をしてほしくない
@@ -241,9 +239,6 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
 		}
-
-
-		
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
 		move.m_hit = move.TargetHit();
 
@@ -252,12 +247,18 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		if (m_jump_flag == false && m_rolling_flag == false)
 		{
 			// モンスターの移動ができない距離に敵がいたら
-			if (!move.m_hit)
-			{
-				// 攻撃を始める
-				AttackActionComboUpdate();
-			}
-		
+		    // 攻撃を始める
+			AttackActionComboUpdate();
+			// 攻撃アニメーションが終わったタイミングで
+			//if (m_animation.m_contexts[0].is_playing == false)
+			//{
+			//	// 動いていいとき
+			//	if (move.m_hit)
+			//	{
+			//		// アイドル状態
+			//		m_monster_mode = IDLE;
+			//	}
+			//}
 		}
 
 		// 攻撃中(アニメーション中)は回転してほしくない
@@ -275,13 +276,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		}
 
 		StunActionUpdate(stun_down_anim, stun_up_anim, STUN_VALUE_MAX);
-		//if (m_anim_ && m_animation.m_contexts[0].is_playing == false)
-		//{
-		//	// スタンアニメーションでずれた座標を治す
-		//	m_transform.pos.z += 23 * cosf(TO_RADIAN(m_transform.rot.y));
-		//	m_transform.pos.x += 23 * sinf(TO_RADIAN(m_transform.rot.y));
-
-		//}
+	
 		break;
 	}
 }
@@ -320,7 +315,8 @@ void Mutant::Draw()
 
 	if (m_jump_flag)
 	{
-		DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f, 
+			GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 	}
 
 

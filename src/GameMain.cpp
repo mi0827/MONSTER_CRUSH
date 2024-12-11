@@ -99,23 +99,23 @@ void GameInit()
 
 
 
-	// デフォルトカラーをもらってくる
-	COLOR_F color = GetLightDifColor();
-	// もう一つのライトの作成
-	// 今使うとまぶしすぎる
-	// キャラクターにだけ背後からのライトからの影響を受けない
-	Vector3 light_pos = { 1000.0f, 100.0f, 0.0f };
-	light_handle = CreateDirLightHandle(VGet(0.0f, 0.0f, 1.0f));
-	// ライトのポジションの設定
-	SetLightPositionHandle(light_handle, light_pos.VGet());
-	// 色の設定
-	SetLightDifColorHandle(light_handle, color);
+	//// デフォルトカラーをもらってくる
+	//COLOR_F color = GetLightDifColor();
+	//// もう一つのライトの作成
+	//// 今使うとまぶしすぎる
+	//// キャラクターにだけ背後からのライトからの影響を受けない
+	//Vector3 light_pos = { 1000.0f, 100.0f, 0.0f };
+	//light_handle = CreateDirLightHandle(VGet(0.0f, 0.0f, 1.0f));
+	//// ライトのポジションの設定
+	//SetLightPositionHandle(light_handle, light_pos.VGet());
+	//// 色の設定
+	//SetLightDifColorHandle(light_handle, color);
 
-	//// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+	// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
 	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
 
 	//color = { 15.0f,1.0f,1.0f,0.0f };
-	//SetLightAmbColor(GetColorF(1.0f, 0.0f, 0.0f, 1.0f));
+	//SetLightAmbColor(GetColorF(0.5f, 0.5f, 0.5f, 1.0f));
 
 	// SetLightEnable(true);
 }

@@ -256,6 +256,8 @@ public:
 		HIT_DAMAGE, // 攻撃を受けた
 		DIE        // 死亡
 	};
+	//! プレイヤーのモードを管理する変数
+	int m_player_mode = 0;
 
 	//! アイドル状態かのフラグ
 	bool m_idle_flag = false;
@@ -277,8 +279,7 @@ public:
 	//! 当たり判定をとっていいかのフラグ
 	bool m_can_hit_damage_flag;
 
-	//! プレイヤーのモードを管理する変数
-	int m_player_mode = 0;
+	
 
 	//------------------------------------------
 	// アニメーション、攻撃関連

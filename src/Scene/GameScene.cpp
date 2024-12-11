@@ -373,7 +373,7 @@ void GameScene::Draw()
 	DrawFormatString(1500, 400, color, "Attack : %d", monster->m_attack_flag);
 	DrawFormatString(1500, 450, color, "Stun : %d", monster->m_stun_flag);
 	DrawFormatString(1500, 500, color, "StunNum : %3d", monster->m_stun_value);
-
+	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);
 
 }
 

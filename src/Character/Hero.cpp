@@ -71,9 +71,8 @@ void Hero::Init()
 	// キャラクターのマテリアル調整
 	// モデルのマテリアルを確保
 	// マテリアルのアンビエントをあげるとプレイヤーにかかっている影が明るくなる
-	m_model.SetMaterialAmbient({ 0.4f,0.4f,0.4f,0.0f });
-	//m_model.SetMaterialEmissive({ 1.0f,1.0f,1.0f,0.0f });
-
+	m_model.SetMaterialAmbient({ 1.0f,1.0f,1.0f,0.0f });
+	// m_model.SetMaterialEmissive({ 1.0f,1.0f,1.0f,0.0f });
 
 	// アニメーションの初期設定
 	AnimLoadInit();
