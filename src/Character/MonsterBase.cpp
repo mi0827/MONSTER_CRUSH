@@ -310,7 +310,6 @@ void MonsterBase::IdleActionUpdate(int idle_anim_num)
 			m_monster_mode = RUN;
 		}
 	}
-
 }
 
 //---------------------------------------------------------------------------
@@ -357,8 +356,6 @@ void MonsterBase::ComboPatternNumberInit(int pattern_max)
 
 	//}
 	m_combo_pattern.resize(pattern_max);
-
-
 }
 
 
@@ -380,6 +377,7 @@ void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int r
 		m_combo_pattern[pattern_num].m_combo_parts[i] = anim_num[i];
 	}
 }
+
 
 //---------------------------------------------------------------------------
 // 最初の攻撃を行う用関数
@@ -407,6 +405,7 @@ void MonsterBase::FirstAttackAction()
 	// 現在使用されているコンボパターンを保存
 	m_now_combo_pattern_num = m_combo_pattern_num;
 }
+
 
 //---------------------------------------------------------------------------
 // 攻撃関連の更新処理
@@ -454,6 +453,7 @@ void MonsterBase::AttackActionComboUpdate()
 	}
 }
 
+
 //---------------------------------------------------------------------------
 // 攻撃関連の更新処理
 //---------------------------------------------------------------------------
@@ -479,6 +479,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 		m_animation.ChangeAnimation(&m_model, jump_anim, false);
 	}
 }
+
 
 //---------------------------------------------------------------------------
 // ジャンプ攻撃の更新処理
