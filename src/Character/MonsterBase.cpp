@@ -54,10 +54,10 @@ void MonsterBase::SetRollingAction(int rolling_anim, int target_distance)
 {
 	// プレイヤーとの距離をもらってくる
 	// ターゲットとの距離
-	float distance = move.GetTargetDistance();
+	float distance = m_move.GetTargetDistance();
 	// 行ってい以上の距離の時
 	// ターゲットとの距離が一定以下だったら
-	if (  target_distance <= distance)
+	if (target_distance <= distance)
 	{
 		// ローリングフラグを立てる
 		m_rolling_flag = true;
@@ -68,7 +68,7 @@ void MonsterBase::SetRollingAction(int rolling_anim, int target_distance)
 		// アニメーション番号を保存
 		m_now_attack_anim = rolling_anim;
 		// 攻撃番号も保存(攻撃番号が欲しいからアニメーション番号から攻撃スタート番号を引く)
-		m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
+		m_now_attack = m_now_attack_anim - M_ATTACK_ANIM_START;
 		// アニメーションの変更
 		m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
 
@@ -173,9 +173,9 @@ void MonsterBase::BaseInit(int hp_num)
 void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_r)
 {
 	// 移動の際のターゲットのの設定
-	move.SetTargetInfo(target_pos, m_target_hit_r);
+	m_move.SetTargetInfo(target_pos, m_target_hit_r);
 	// 自身の情報を設定
-	move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
+	m_move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 }
 
 
@@ -186,9 +186,9 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 {
 
 	// 移動処理
-	move.Update(run_flag);
-	// ランフラグが下りたら
-	if (!move.m_hit)
+	m_move.Update(run_flag);
+	// 移動制限がかかったらまた攻撃範囲に侵入したら
+	if (!m_move.m_hit || HitAttackRange())
 	{
 		// モンスターの状態を攻撃に変更
 		m_monster_mode = ATTACK;
@@ -267,11 +267,11 @@ void MonsterBase::NEW_Set_Attack_Hit_Damage(int attack_anim_max)
 void MonsterBase::SetAttackAnimInfo(int attack_anim_start, int attack_anim_max, int except_attack)
 {
 	// 攻撃アニメーションのスタートの保存
-	m_ATTACK_ANIM_START = attack_anim_start;
+	M_ATTACK_ANIM_START = attack_anim_start;
 	// 攻撃アニメーションの最大数の保存
-	m_ATTACK_ANIM_MAX = attack_anim_max;
+	M_ATTACK_ANIM_MAX = attack_anim_max;
 	// ランダムで攻撃を選ぶ際にはぶいてほしい攻撃番号の保存
-	m_ATTACK_ANIM_EXCEPT = except_attack;
+	M_ATTACK_ANIM_EXCEPT = except_attack;
 }
 
 //---------------------------------------------------------------------------
@@ -337,28 +337,19 @@ void MonsterBase::MoveAction(int ran_anim)
 		// アニメーションの切り替えフラグを上げる
 		m_animation.m_anim_change_flag = true;
 	}
-
 }
+
 
 //---------------------------------------------------------------------------
 // コンボパターンの数を設定
 //---------------------------------------------------------------------------
 void MonsterBase::ComboPatternNumberInit(int pattern_max)
 {
-
 	// コンボのパターンの最大数を保存
 	m_combo_pattern_max = pattern_max;
 
-	// コンボを入れる入れ物をパターン分用意する
-	//for (int i = 0; i < pattern_max; i++)
-	//{
-	//	/*ComboPattern* combo = new ComboPattern;
-	//	m_combo_pattern.push_back(combo);*/
-
-	//}
+	// パターンの数分入れ物を用意する
 	m_combo_pattern.resize(pattern_max);
-
-
 }
 
 
@@ -382,6 +373,29 @@ void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int r
 }
 
 //---------------------------------------------------------------------------
+// 攻撃範囲に入ったかどうか判断する関数
+//---------------------------------------------------------------------------
+bool MonsterBase::HitAttackRange()
+{
+	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
+	// 本体とターゲットの距離を求める
+	float distance = m_move.GetTargetDistance();
+	// 基準の距離を求める（攻撃対象の半径とモンスターの攻撃範囲分足したもの）
+	float radius = m_hit_r + M_ATTACK_HIT_RANGE + m_move.m_target_info.m_target_hit_r;
+	// 設定された値より近づいたら
+	if (distance < radius) {
+
+		// 攻撃範囲に侵入した
+		return true;
+	}
+	else
+	{
+		// 攻撃範囲外
+		return false;
+	}
+}
+
+//---------------------------------------------------------------------------
 // 最初の攻撃を行う用関数
 //---------------------------------------------------------------------------
 void MonsterBase::FirstAttackAction()
@@ -401,7 +415,7 @@ void MonsterBase::FirstAttackAction()
 	// コンボのに使用する攻撃番号を保存
 	m_now_attack = m_combo_pattern[m_combo_pattern_num].m_combo_parts[m_combo_num];
 	// 攻撃アニメーション番号の保存
-	m_now_attack_anim = m_now_attack + m_ATTACK_ANIM_START;
+	m_now_attack_anim = m_now_attack + M_ATTACK_ANIM_START;
 	// アニメーションの変更
 	m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
 	// 現在使用されているコンボパターンを保存
@@ -444,8 +458,21 @@ void MonsterBase::AttackActionComboUpdate()
 				break;
 			}
 
+			// 移動制限が外れたら(攻撃範囲から出たら)
+			if (!HitAttackRange())
+			{
+				// 次の攻撃番号が-1ならコンボが続かないからbreakして
+				// モンスターの状態をIdle状態に変更する
+				m_monster_mode = IDLE;
+				// アニメーション変更フラグを上げる
+				m_animation.m_anim_change_flag = true;
+				// 最初の攻撃状態に移動
+				m_attack_info_num = ATTACKSET;
+				break;
+			}
+
 			// 攻撃アニメーション番号の保存
-			m_now_attack_anim = m_now_attack + m_ATTACK_ANIM_START;
+			m_now_attack_anim = m_now_attack + M_ATTACK_ANIM_START;
 			// アニメーションの変更
 			m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
 		}
@@ -461,7 +488,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 {
 	// プレイヤーとの距離をもらってくる
 	// ターゲットとの距離
-	float distance = move.GetTargetDistance();
+	float distance = m_move.GetTargetDistance();
 	// 行ってい以上の距離の時
 	// ターゲットとの距離が一定以上だったら
 	if (distance <= target_distance)
@@ -474,7 +501,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 	if (m_jump_flag)
 	{
 		// 攻撃番号の保存(攻撃番号が欲しいからアニメーション番号から攻撃スタート番号を引く)
-		m_now_attack = jump_anim - m_ATTACK_ANIM_START;
+		m_now_attack = jump_anim - M_ATTACK_ANIM_START;
 		// ジャンプアニメーションをつける
 		m_animation.ChangeAnimation(&m_model, jump_anim, false);
 	}
@@ -518,13 +545,13 @@ void MonsterBase::ComboUpdate()
 	bool combo_jug;
 	// TargetMoveがターゲットと接しているそうでないかで変わる
 	// 接していず移動可能状態になれば
-	if (move.m_hit)
+	if (m_move.m_hit)
 	{
 		// コンボをできる状態でない
 		combo_jug = true;
 	}
 	// 接していて止まっている場合
-	if (!move.m_hit)
+	if (!m_move.m_hit)
 	{
 		// コンボできる状態
 		combo_jug = true;
@@ -538,7 +565,7 @@ void MonsterBase::ComboUpdate()
 		m_animation.m_contexts[0].play_time,
 		m_animation.m_contexts[0].animation_total_time
 	);
-	
+
 	// コンボフラグが上がっているとき
 	if (m_combo_flag)
 	{
@@ -553,7 +580,7 @@ void MonsterBase::ComboUpdate()
 			// 現在の攻撃アニメーションを保存
 			m_now_attack_anim = m_next_anim;
 			// 現在の攻撃番号を保存する
-			m_now_attack = m_now_attack_anim - m_ATTACK_ANIM_START;
+			m_now_attack = m_now_attack_anim - M_ATTACK_ANIM_START;
 		}
 	}
 }
@@ -572,12 +599,12 @@ int MonsterBase::SetRandAttack()
 	{
 		// 次のアニメーションをランダムで入れる
 		// 攻撃アニメーションスタートから攻撃アニメーションの最大までで
-		next_anim = GetRand(m_ATTACK_ANIM_MAX) + m_ATTACK_ANIM_START;
+		next_anim = GetRand(M_ATTACK_ANIM_MAX) + M_ATTACK_ANIM_START;
 		// 次に行いたいアニメーションと今のアニメーションがかぶったら
 		if (next_anim == m_now_attack_anim || next_anim == 0)
 		{
 			// またランダムで入れなおす
-			next_anim = GetRand(m_ATTACK_ANIM_MAX) + m_ATTACK_ANIM_START;
+			next_anim = GetRand(M_ATTACK_ANIM_MAX) + M_ATTACK_ANIM_START;
 		}
 		break;
 	}

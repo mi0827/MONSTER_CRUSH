@@ -107,6 +107,9 @@ public:
 	//! @param コンボ用の攻撃番号が保存されている配列をもらう
 	void ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int* anim_num);
 
+	//! @brief 攻撃範囲に侵入したかどうかを判断する
+	bool HitAttackRange();
+
 	//! @brief 最初の攻撃を行う用関数
 	void FirstAttackAction();
 
@@ -189,13 +192,6 @@ public:
 public:
 
 	//-----------------------------------------------
-	// 変数の宣言
-	//-----------------------------------------------
-
-	//===============
-	// 状態管理用フラグ
-	//=============== 
-	//-----------------------------------------------
 	// 列挙体で管理
 	//-----------------------------------------------
 	//! モンスターの状態
@@ -229,13 +225,15 @@ public:
 
 
 private:
+	//! 攻撃範囲の大きさ(一旦モンスター全員共通にする)
+	int M_ATTACK_HIT_RANGE = 20;
 
 	//! 攻撃アニメーションのスタート番号
-	int m_ATTACK_ANIM_START = 0;
+	int M_ATTACK_ANIM_START = 0;
 	//! 攻撃アニメーションの最大数
-	int m_ATTACK_ANIM_MAX = 0;
+	int M_ATTACK_ANIM_MAX = 0;
 	//! ランダムで攻撃を選ぶ際にはぶいてほしいアニメーション番号
-	int m_ATTACK_ANIM_EXCEPT = 0;
+	int M_ATTACK_ANIM_EXCEPT = 0;
 
 public:
 	//------------------------------------------
@@ -380,7 +378,7 @@ public:
 	//! 自身の情報を入れる変数
 	Transform m_transform;
 	//! 移動に使うクラス
-	TargetMove move;
+	TargetMove m_move;
 	//! モデルクラスのオブジェクト
 	Model m_model;
 	//! アニメーションクラスのオブジェクト

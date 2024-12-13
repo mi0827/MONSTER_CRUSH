@@ -184,13 +184,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		m_idle_flag = false;
 		// 待機状態または走りの時だけｗ
 		// 移動処理
-		//if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
-		{
-			// モンスターの回転してよいようにする
-			move.SetCanRotate(true);
-			// 移動処理
-			MoveAction(run_anim);
-		}
+	    // モンスターの回転してよいようにする
+		m_move.SetCanRotate(true);
+		// 移動処理
+		MoveAction(run_anim);
+
 
 		// 走っている間のフレームを加算する
 		m_running_frame_count++;
@@ -239,30 +237,19 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
 		}
-		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
-		move.m_hit = move.TargetHit();
 
 		// 攻撃用の関数
 		// ジャンプとローリングのが行われていないとき
 		if (m_jump_flag == false && m_rolling_flag == false)
 		{
 			// モンスターの移動ができない距離に敵がいたら
-		    // 攻撃を始める
+			// 攻撃を始める
 			AttackActionComboUpdate();
-			// 攻撃アニメーションが終わったタイミングで
-			//if (m_animation.m_contexts[0].is_playing == false)
-			//{
-			//	// 動いていいとき
-			//	if (move.m_hit)
-			//	{
-			//		// アイドル状態
-			//		m_monster_mode = IDLE;
-			//	}
-			//}
+			
 		}
 
 		// 攻撃中(アニメーション中)は回転してほしくない
-		move.SetCanRotate(false);
+		m_move.SetCanRotate(false);
 
 		break;
 	case STUN:
@@ -276,7 +263,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		}
 
 		StunActionUpdate(stun_down_anim, stun_up_anim, STUN_VALUE_MAX);
-	
+
 		break;
 	}
 }
@@ -315,7 +302,7 @@ void Mutant::Draw()
 
 	if (m_jump_flag)
 	{
-		DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f, 
+		DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f,
 			GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 	}
 

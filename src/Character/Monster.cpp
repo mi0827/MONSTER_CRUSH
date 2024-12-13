@@ -83,7 +83,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 	if (m_idle_flag == true || m_run_flag == true /*&& m_monster_mode == IDLE*/)
 	{
 		// モンスターの回転してよいようにする
-		move.SetCanRotate(true);
+		m_move.SetCanRotate(true);
 		// 移動処理
 		Move_Update();
 	}
@@ -102,7 +102,7 @@ void Monster::Update(Transform* traget_pos, float target_r)
 			}
 
 			// 移動が止まっていたら
-			if (!move.m_hit)
+			if (!m_move.m_hit)
 			{
 				// 最初の攻撃を行う
 				// 攻撃フラグを上げる
@@ -135,33 +135,21 @@ void Monster::Update(Transform* traget_pos, float target_r)
 		m_idle_flag = false;
 		m_run_flag = false;
 
-		// コンボフラグが立っていなくて
-		// 攻撃アニメーションの再生が終わっていたら
-		// 待機モードにしておく
-		//if (move.m_hit && m_combo_flag == false && m_animation.m_contexts[0].is_playing == false)
-		//{
-		//	m_monster_mode = IDLE;
-		//	// 歩いてほしいのでフラグを上げる
-		//	m_idle_flag = true;
-		//	m_run_flag = true;
-		//	move.Set_Can_Rotate(true);
-		//}
-
 		// ジャンプ攻撃時の処理
 		if (m_now_attack_anim == jump)
 		{
 			Jump_Update();
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
-		move.SetCanRotate(false);
+		m_move.SetCanRotate(false);
 		// 歩いていい範囲かをプレイヤーの向きとあっていいるかを調べる
-		move.m_hit = move.TargetHit();
+		m_move.m_hit = m_move.TargetHit();
 		
 		// アニメーションの再生が終わったとき
 		if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time)
 		{
 			// 移動していい状態だったら
-			if (move.m_hit)
+			if (m_move.m_hit)
 			{
 				// 移動フラグを立てる
 				m_run_flag = true;
@@ -344,7 +332,7 @@ void Monster::Attack_Update()
 void Monster::Attack_Jump()
 {
 	// ターゲットとの距離
-	float distance = move.GetTargetDistance();
+	float distance = m_move.GetTargetDistance();
 	// ターゲットとの距離が一定以上になったら
 	if (TARGET_DISTANCE <= distance)
 	{
@@ -434,13 +422,13 @@ void Monster::Combo_Update()
 	bool combo_jug;
 	// TargetMoveがターゲットと接しているそうでないかで変わる
 	// 接していず移動可能状態になれば
-	if (move.m_hit)
+	if (m_move.m_hit)
 	{
 		// コンボをできる状態でない
 		combo_jug = true;
 	}
 	// 接していて止まっている場合
-	if (!move.m_hit)
+	if (!m_move.m_hit)
 	{
 		// コンボできる状態
 		combo_jug = true;
