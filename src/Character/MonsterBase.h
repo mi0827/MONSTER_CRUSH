@@ -234,6 +234,9 @@ private:
 	int M_ATTACK_ANIM_MAX = 0;
 	//! ランダムで攻撃を選ぶ際にはぶいてほしいアニメーション番号
 	int M_ATTACK_ANIM_EXCEPT = 0;
+	
+
+
 
 public:
 	//------------------------------------------
