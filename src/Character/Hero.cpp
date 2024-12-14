@@ -273,10 +273,10 @@ void Hero::DieUpdate()
 {
 	// 死んだアニメーションが追わないように
 	// 一定のところまで進んだら
-	if (m_animation.m_contexts[0].play_time >= 260)
+	if (m_animation.m_contexts[0].play_time >= 140)
 	{
 		// 少し前に戻す
-		m_animation.m_contexts[0].play_time = 200;
+		m_animation.m_contexts[0].play_time = 140;
 	}
 }
 

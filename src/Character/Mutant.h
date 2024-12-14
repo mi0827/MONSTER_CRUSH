@@ -63,25 +63,25 @@ public:
 	//=========================================================================
 	// 定数の宣言
 	//=========================================================================
-	static constexpr float MONSTER_MOVE_SPEED = 1.5f;            //! 移動スピード
-	static constexpr float MONSTER_ROT_SPEED = 0.5f;               //! 回転スピード
-	
-	static constexpr float CHANGE_JUMP_RUNNIG_FRAME = 180; //! Runからジャンプ,ローリングに移るのに何フレームかかるか
-	
-	static constexpr float JUMP_TARGET_DISTANCE = 40.0f;     //! ジャンプするとき相手と離れててほしい最低限の距離
-	static constexpr float JUMP_MOV_SPEED = 2.0f;
-	static constexpr float JUMP_DEVIATION_POS = 26.0f;         //! ジャンプ攻撃をしたときにズレを直す値
-	static constexpr float JUMP_STRAT_FRAME = 34.0f;            //! ジャンプの移動開始のフレーム
-	static constexpr float JUMP_END_FRAME = 90.0f;               //! ジャンプの移動終了のフレーム
-	
-	static constexpr float ROLLING_SPEED = 1.0f;                       //! ローリングスピード
-	static constexpr float ROLLING_STRAT_FRAME = 0.0f;           //! ローリングの移動開始フレーム
-	static constexpr float ROLLING_END_FRAME = 70.0f;            //! ローリングの移動終了フレーム
-	static constexpr float ROLLING_TARGET_DISTANCE = 20.0f;  //! ローリングするとき相手と離れててほしい最低限の距離
-	
+	static constexpr float MONSTER_MOVE_SPEED = 1.5f;        //! 移動スピード
+	static constexpr float MONSTER_ROT_SPEED = 0.5f;         //! 回転スピード
+
+	static constexpr float CHANGE_JUMP_RUNNIG_FRAME = 150;   //! Runからジャンプ,ローリングに移るのに何フレームかかるか
+
+	static constexpr float JUMP_TARGET_DISTANCE = 60.0f;     //! ジャンプするとき相手と離れててほしい最低限の距離
+	static constexpr float JUMP_MOV_SPEED = 1.0f;            //! ジャンプ中の移動スピード
+	static constexpr float JUMP_DEVIATION_POS = 26.0f;       //! ジャンプ攻撃をしたときにズレを直す値
+	static constexpr float JUMP_STRAT_FRAME = 34.0f;         //! ジャンプの移動開始のフレーム
+	static constexpr float JUMP_END_FRAME = 90.0f;           //! ジャンプの移動終了のフレーム
+
+	static constexpr float ROLLING_SPEED = 1.0f;             //! ローリングスピード
+	static constexpr float ROLLING_STRAT_FRAME = 0.0f;       //! ローリングの移動開始フレーム
+	static constexpr float ROLLING_END_FRAME = 70.0f;        //! ローリングの移動終了フレーム
+	static constexpr float ROLLING_TARGET_DISTANCE = 15.0f;  //! ローリングするとき相手と離れててほしい最低限の距離
+
 	static constexpr int HP_VALUE_MAX = 500;                 //! HPの最大値
-	static constexpr int STUN_VALUE_MAX = 150;             //! スタン値の最大
-	//static constexpr int COMBO_PATTERN_MAX = 5;          //! コンボパターンの数
+	static constexpr int STUN_VALUE_MAX = 150;               //! スタン値の最大
+
 	//=========================================================================
 	// 列挙体の宣言
 	//=========================================================================
@@ -101,6 +101,8 @@ public:
 		attack_2_anim, //!< 攻撃２
 		attack_3_anim, //!< 攻撃３
 		attack_4_anim, //!< 攻撃４
+		attack_5_anim, //!< 攻撃５
+		attack_6_anim, //!< 攻撃６
 		rolling_anim,  //!< ローリング
 		jump_anim,     //!< ジャンプアクション
 
@@ -118,13 +120,15 @@ public:
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
-		attack_end = -1,                                                         //< コンボ攻撃の終わり
-		attack_punch_1 = attack_1_anim - ATTACK_ANIM_START,      //< 攻撃１
-		attack_punch_2 = attack_2_anim - ATTACK_ANIM_START,	   //< 攻撃２
-		attack_punch_3 = attack_3_anim - ATTACK_ANIM_START,	   //< 攻撃３
-		attack_punch_4 = attack_4_anim - ATTACK_ANIM_START,       //< 攻撃４
-		attack_rolling = rolling_anim - ATTACK_ANIM_START,      	//< 攻撃５
-		attack_jump = jump_anim - ATTACK_ANIM_START,            //< ジャンプ攻撃
+		attack_end = -1, //< コンボ攻撃の終わり
+		attack_punch_1 = attack_1_anim - ATTACK_ANIM_START,  //< 攻撃１
+		attack_punch_3 = attack_3_anim - ATTACK_ANIM_START,	 //< 攻撃３
+		attack_punch_2 = attack_2_anim - ATTACK_ANIM_START,	 //< 攻撃２
+		attack_punch_4 = attack_4_anim - ATTACK_ANIM_START,  //< 攻撃４
+		attack_punch_5 = attack_5_anim - ATTACK_ANIM_START,  //< 攻撃５
+		attack_punch_6 = attack_6_anim - ATTACK_ANIM_START,  //< 攻撃６
+		attack_rolling = rolling_anim - ATTACK_ANIM_START,   //< ローリング攻撃
+		attack_jump = jump_anim - ATTACK_ANIM_START,         //< ジャンプ攻撃
 
 		attack_max
 	};
@@ -137,11 +141,11 @@ public:
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	  {attack_punch_1,attack_punch_2,attack_punch_3,attack_punch_4,attack_punch_1,attack_end},
-	  {attack_punch_2,attack_punch_2,attack_punch_2,attack_punch_2,attack_punch_2,attack_end},
-	  {attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_end},
-	  {attack_punch_4,attack_punch_4,attack_punch_4,attack_punch_4,attack_punch_4,attack_end},
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
+	  {attack_punch_4,attack_punch_2,attack_punch_3,attack_punch_4,attack_punch_1,attack_end},
+	  {attack_punch_1,attack_punch_6,attack_punch_2,attack_punch_2,attack_punch_2,attack_end},
+	  {attack_punch_4,attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_end},
+	  {attack_punch_5,attack_punch_2,attack_punch_4,attack_punch_4,attack_punch_4,attack_end},
+	  {attack_punch_6,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
 	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
 	};
 	// 各コンボの後隙
@@ -173,6 +177,10 @@ public:
 		{ 0.0f, 80.0f, },
 		// パンチ４
 		{ 0.0f, 70.0f, },
+		// パンチ５
+		{10.0f,57.0f},
+		// パンチ６
+		{45.0f,75.0f},
 		// ローリング
 		{ 0.0f, 50.0f, },
 		// ジャンプ
@@ -183,6 +191,6 @@ public:
 	//! 各攻撃のダメージ
 	int m_attack_damage[attack_max]
 	{
-		10,20,20,20,20,20
+		100,100,100,100,100,100,100,100,
 	};
 };

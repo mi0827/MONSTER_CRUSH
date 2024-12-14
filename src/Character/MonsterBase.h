@@ -187,7 +187,7 @@ public:
 
 	//! @brief 攻撃時の当たり判定を設定する用の関数
 	//! @param 攻撃アニメーションの最大数
-	void  NEW_Set_Attack_Hit_Damage(int attack_anim_max);
+	void  SetAttackHitDamage(int attack_anim_max);
 
 public:
 
@@ -226,7 +226,7 @@ public:
 
 private:
 	//! 攻撃範囲の大きさ(一旦モンスター全員共通にする)
-	int M_ATTACK_HIT_RANGE = 20;
+	int M_ATTACK_HIT_RANGE = 10;
 
 	//! 攻撃アニメーションのスタート番号
 	int M_ATTACK_ANIM_START = 0;

@@ -57,7 +57,7 @@ void MonsterBase::SetRollingAction(int rolling_anim, int target_distance)
 	float distance = m_move.GetTargetDistance();
 	// 行ってい以上の距離の時
 	// ターゲットとの距離が一定以下だったら
-	if (target_distance <= distance)
+	if (distance >= target_distance)
 	{
 		// ローリングフラグを立てる
 		m_rolling_flag = true;
@@ -71,7 +71,8 @@ void MonsterBase::SetRollingAction(int rolling_anim, int target_distance)
 		m_now_attack = m_now_attack_anim - M_ATTACK_ANIM_START;
 		// アニメーションの変更
 		m_animation.ChangeAnimation(&m_model, m_now_attack_anim, false);
-
+		// ランニングフレームを初期化する
+		m_running_frame_count = 0;
 	}
 }
 
@@ -88,6 +89,10 @@ void MonsterBase::ActionRolling(const int rolling_speed, float rolling_start_fra
 	{
 		// ローリングフラグを下す
 		m_rolling_flag = false;
+		// Run状態に変更
+		m_monster_mode = RUN;
+		// アニメーション変更フラグを立てておく
+		m_animation.m_anim_change_flag = true;
 	}
 }
 
@@ -111,6 +116,8 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 			m_animation.m_anim_change_flag = false;
 			// 状態を次に変更
 			m_stun_info_num = UPSTANDBY;
+			// ランニングフレームを初期化する
+			m_running_frame_count = 0;
 		}
 		break;
 	case UPSTANDBY: // スタン中
@@ -247,7 +254,7 @@ void MonsterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage, i
 //---------------------------------------------------------------------------
 // 攻撃時の当たり判定を設定する用の関数
 //---------------------------------------------------------------------------
-void MonsterBase::NEW_Set_Attack_Hit_Damage(int attack_anim_max)
+void MonsterBase::SetAttackHitDamage(int attack_anim_max)
 {
 
 	// 攻撃アニメーションの数確保する
@@ -493,7 +500,7 @@ void MonsterBase::JumpAction(int jump_anim, int target_distance)
 	float distance = m_move.GetTargetDistance();
 	// 行ってい以上の距離の時
 	// ターゲットとの距離が一定以上だったら
-	if (distance <= target_distance)
+	if (distance >= target_distance)
 	{
 		// 攻撃フラグを立てる
 		m_jump_flag = true;
@@ -532,8 +539,6 @@ void MonsterBase::JumpActionUpdate(float jump_mov_speed, float jump_mov_strat_fr
 		m_monster_mode = RUN;
 		// アニメーション変更フラグを立てておく
 		m_animation.m_anim_change_flag = true;
-
-
 	}
 
 }
