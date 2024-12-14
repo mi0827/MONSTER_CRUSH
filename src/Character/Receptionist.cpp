@@ -42,7 +42,10 @@ void Receptionist::Init()
 
 	// モデルの読み込み
 	m_model.LoadModel("Data/Model/Receptionist/receptionist.mv1");
-
+	// キャラクターのマテリアル調整
+    // モデルのマテリアルを確保
+    // マテリアルのアンビエントをあげるとプレイヤーにかかっている影が明るくなる
+    m_model.SetMaterialAmbient({ 1.0f,1.0f,1.0f,0.0f });
 
 	// アニメーションの初期設定
 	// アニメーションの数を設定しておく

@@ -54,8 +54,10 @@ public:
 	//! @brief シャドーマップ用の初期化関数
 	void ShadowMapInit();
 
-	//! @brief プレイヤーのシャドーマップの範囲の設定
-	void SetPlayerShadowMapArea(Vector3 player_pos);
+	//! @brief 指定場所にのシャドーマップの範囲の設定
+	//! @param シャドーマップハンドル
+	//! @param 指定の座標
+	void SetShadowMapArea(int shadowMap_handle,Vector3 player_pos);
 
 	//! @brief 描画に使用するシャドウマップの設定を解除（これを使わないとシャドーマップが使えない）
 	void UseShadowMapSet();
@@ -90,8 +92,10 @@ public:
 	//! シーンの切り替えを行っていいかフラグ (trueになったらシーンの切り替え可能)
 	bool m_scene_change_judge = false;
 
-	//! プレイヤー用のシャドーマップ用変数
-	int m_player_shadowMap_handle = 0;
+	//! 単体専用のシャドーマップ用変数１
+	int m_shadowMap_handle_1 = 0;
+	//! 単体専用のシャドーマップ用変数２
+	int m_shadowMap_handle_2 = 0;
 	//! シャドーマップ用の変数
 	int m_shadowMap_handle = 0;
 

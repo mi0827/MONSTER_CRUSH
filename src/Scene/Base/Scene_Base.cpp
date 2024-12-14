@@ -61,9 +61,9 @@ void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 // --------------------------------------------------------------------------
 void Scene_Base::ShadowMapInit()
 {
-	// プレイヤー用のシャドーマップの作成
-	m_player_shadowMap_handle = MakeShadowMap(4096, 4096);
 	// シャドーマップの作成
+	m_shadowMap_handle_1 = MakeShadowMap(4096, 4096);
+	m_shadowMap_handle_2 = MakeShadowMap(4096, 4096);
 	m_shadowMap_handle = MakeShadowMap(4096, 4096);
 	// ライトの角度の初期化
 	m_light_angle = 10.0f;
@@ -78,7 +78,8 @@ void Scene_Base::ShadowMapInit()
 	SetLightDirection(m_light_direction);
 
 	// シャドーマップが想定するライトの方向のセット
-	SetShadowMapLightDirection(m_player_shadowMap_handle, m_light_direction);
+	SetShadowMapLightDirection(m_shadowMap_handle_1, m_light_direction);
+	SetShadowMapLightDirection(m_shadowMap_handle_2, m_light_direction);
 	SetShadowMapLightDirection(m_shadowMap_handle, m_light_direction);
 	// シャドーマップに描画する範囲の設定
 	SetShadowMapDrawArea(m_shadowMap_handle, VGet(-8192.0f, -0.1f, -8192.0f), VGet(+8192.0f, 3000.0f, +8192.0f));
@@ -88,12 +89,12 @@ void Scene_Base::ShadowMapInit()
 // --------------------------------------------------------------------------
 // プレイヤーのシャドーマップの範囲設定
 // --------------------------------------------------------------------------
-void Scene_Base::SetPlayerShadowMapArea(Vector3 player_pos)
+void Scene_Base::SetShadowMapArea(int shadowMap_handle, Vector3 player_pos)
 {
 	// シャドーマップに描画する範囲の設定
 	// 今はこの　範囲でプレイヤーのシャドウマップを設定しているが
 	// 背後の影が気に入らなければ二つ目のY座標の値を上げるか全体的に描画範囲を広げろ
-	SetShadowMapDrawArea(m_player_shadowMap_handle,
+	SetShadowMapDrawArea(shadowMap_handle,
 		VGet(player_pos.x - 50.0f, -0.1f, player_pos.z - 50.0f),
 		VGet(player_pos.x + 50.0f, +100.0f, player_pos.z + 50.0f));
 }
@@ -112,7 +113,8 @@ void Scene_Base::UseShadowMapSet()
 // --------------------------------------------------------------------------
 void Scene_Base::ExitShadowMap()
 {
-	DeleteShadowMap(m_player_shadowMap_handle);
+	DeleteShadowMap(m_shadowMap_handle_1);
+	DeleteShadowMap(m_shadowMap_handle_2);
 	DeleteShadowMap(m_shadowMap_handle);
 }
 

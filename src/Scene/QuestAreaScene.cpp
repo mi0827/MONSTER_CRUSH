@@ -223,29 +223,26 @@ void QuestAreaScene::Update()
 //------------------------------------------
 void QuestAreaScene::Draw()
 {
-	// プレイヤーのシャドーマップのエリアのセット
-	SetPlayerShadowMapArea(player->m_transform.pos);
-
+	// シャドーマップのエリアのセット
+	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_2, receptionist.m_transform.pos);
 	//-------------------------------------------------------------
 		// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
 		//-------------------------------------------------------------
 		// シャドウマップへの描画の準備
-	ShadowMap_DrawSetup(m_player_shadowMap_handle);
+	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
 		player->Draw();
-
-		// ヒーローの描画処理
-		//hero.Draw();
+	}
+	ShadowMap_DrawSetup(m_shadowMap_handle_2);
+	{
+		receptionist.Draw();
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
-		// 受付嬢の描画
-		receptionist.Draw();
-
 		// フィールドの描画
 		field.Draw();
-
 	}
 
 	// シャドウマップへの描画を終了
@@ -263,15 +260,20 @@ void QuestAreaScene::Draw()
 
 
 	// 描画に使用するシャドウマップを設定
-	SetUseShadowMap(1, m_player_shadowMap_handle);
+	SetUseShadowMap(1, m_shadowMap_handle_1);
 	{
 		player->Draw();
-
-		// ヒーローの描画処理
-		//hero.Draw();
+		// 受付嬢の描画
+		receptionist.Draw();
+	}
+	SetUseShadowMap(2, m_shadowMap_handle_2);
+	{
+		receptionist.Draw();
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
+		// プレイヤーの描画処理
+		player->Draw();
 
 		// 受付嬢の描画
 		receptionist.Draw();

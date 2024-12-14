@@ -138,29 +138,23 @@ void EndScene::Update()
 void EndScene::Draw()
 {
 	// プレイヤーのシャドーマップのエリアのセット
-	SetPlayerShadowMapArea(player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle, player->m_transform.pos);
 
 	//-------------------------------------------------------------
-		// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
-		//-------------------------------------------------------------
-		// シャドウマップへの描画の準備
-	ShadowMap_DrawSetup(m_player_shadowMap_handle);
+	// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
+	//-------------------------------------------------------------
+	// シャドウマップへの描画の準備
+	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
 		player->Draw();
 
-		// ヒーローの描画処理
-		//hero.Draw();
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
+		
 		// シャドウマップへキャラクターモデルの描画
-		//MV1SetPosition(ground, VGet(0.0f, 0.0f, 0.0f)); // 描画するプレイヤーモデルの座標の設定
-		//MV1SetRotationXYZ(ground, VGet(TO_RADIAN(0.0f), TO_RADIAN(0.0f), TO_RADIAN(0.0f))); // モデルの回転
-		//MV1SetScale(ground, VGet(10, 10, 10)); // モデルの大きさ(10分の１のサイズ)
-		//MV1DrawModel(ground); // モデルの描画
 		field.Draw();
-
 	}
 
 	// シャドウマップへの描画を終了
@@ -178,21 +172,22 @@ void EndScene::Draw()
 
 
 	// 描画に使用するシャドウマップを設定
-	SetUseShadowMap(1, m_player_shadowMap_handle);
+	SetUseShadowMap(1, m_shadowMap_handle_1);
 	{
+
+		// プレイヤーの描画処理
 		player->Draw();
 
-		// ヒーローの描画処理
-		//hero.Draw();
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
+		// プレイヤーの描画処理
+		player->Draw();
 		// シャドウマップへキャラクターモデルの描画
 		field.Draw();
 
 	}
 	UseShadowMapSet();
-
 
 	
 	// フォントサイズの設定

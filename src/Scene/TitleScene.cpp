@@ -151,13 +151,13 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 	// プレイヤーのシャドーマップのエリアのセット
-	SetPlayerShadowMapArea(player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
 
 	//-------------------------------------------------------------
     // シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
     //-------------------------------------------------------------
     // シャドウマップへの描画の準備
-	ShadowMap_DrawSetup(m_player_shadowMap_handle);
+	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
 		player->Draw();
@@ -184,17 +184,17 @@ void TitleScene::Draw()
 
 
 	// 描画に使用するシャドウマップを設定
-	SetUseShadowMap(1, m_player_shadowMap_handle);
+	SetUseShadowMap(1, m_shadowMap_handle_1);
 	{
 		
 		// プレイヤーの描画処理
 		player->Draw();
-		// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
-		SetLightAmbColor(GetColorF(0.33f, 0.33f, 0.33f, 1.0f));
 		
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
+		// プレイヤーの描画処理
+		player->Draw();
 		// シャドウマップへキャラクターモデルの描画
 		field.Draw();
 

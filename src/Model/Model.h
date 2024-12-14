@@ -97,26 +97,11 @@ public:
 
 private:
 
+	//! マテリアルの最大数を保存する
 	int m_material_max;
-
 	//! モデルのマテリアル情報
-	//! 現在のゲーム使用されているモデルのテクスチャーがこの変数で作られるものより
-	//! 少ないため(各モデルテクスチャー)コメントアウトしておく(2024/12/10)
 	std::vector<MATERIALPARAM> m_material;
 
-	//// マテリアルの各カラー情報（）
-	//struct Material
-	//{
-	//	//! Diffuseカラー用変数
-	//	COLOR_F m_diffuse;
-	//	//! Normalカラー用変数
-	//	COLOR_F m_normal; 
-	//	//! Specularカラー用変数
-	//	COLOR_F m_specular;
-	//	//! Specularの強さ
-	//	float m_speular_power;
-	//};
-	//// マテリアル用変数
-	//Material m_color;
+
 
 };

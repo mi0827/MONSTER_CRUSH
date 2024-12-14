@@ -70,7 +70,7 @@ void Hero::Init()
 	m_model.LoadModel("Data/Model/Hero/Hero.mv1");
 	// キャラクターのマテリアル調整
 	// モデルのマテリアルを確保
-	// マテリアルのアンビエントをあげるとプレイヤーにかかっている影が明るくなる
+	// マテリアルのアンビエントをあげると自分にかかっている影が明るくなる
 	m_model.SetMaterialAmbient({ 1.0f,1.0f,1.0f,0.0f });
 	// m_model.SetMaterialEmissive({ 1.0f,1.0f,1.0f,0.0f });
 
