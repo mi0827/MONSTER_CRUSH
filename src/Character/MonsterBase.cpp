@@ -226,7 +226,7 @@ bool MonsterBase::AttackHitGoodTiming(int attack_num)
 	int end_time = m_attack_hit_damage[attack_num]->end_time;
 	// アニメーションの現在のフレーム
 	int play_anim_time = m_animation.m_contexts[0].play_time;
-	if (start_time <= play_anim_time && play_anim_time <= end_time)
+	if (play_anim_time >= start_time   && play_anim_time <= end_time)
 	{
 		return true;
 	}

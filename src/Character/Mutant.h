@@ -136,17 +136,17 @@ public:
 	//! コンボパターンの数
 	static const int M_COMBO_PATTERN_MAX = 6;
 	//! 各パターンのコンボの最大数
-	static const int M_COMBO_NUM_MAX = 6;
+	static const int M_COMBO_NUM_MAX = 4;
 	//! 各コンボパターンにコンボに使用する攻撃番号を保存しコンボを作成する
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	  {attack_punch_4,attack_punch_2,attack_punch_3,attack_punch_4,attack_punch_1,attack_end},
-	  {attack_punch_1,attack_punch_6,attack_punch_2,attack_punch_2,attack_punch_2,attack_end},
-	  {attack_punch_4,attack_punch_3,attack_punch_3,attack_punch_3,attack_punch_3,attack_end},
-	  {attack_punch_5,attack_punch_2,attack_punch_4,attack_punch_4,attack_punch_4,attack_end},
-	  {attack_punch_6,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
-	  {attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_punch_1,attack_end},
+	  {attack_punch_4,attack_punch_2,attack_end,attack_end},
+	  {attack_punch_1,attack_punch_6,attack_end,attack_end},
+	  {attack_punch_4,attack_punch_3,attack_end,attack_end},
+	  {attack_punch_5,attack_punch_2,attack_punch_1,attack_end},
+	  {attack_punch_6,attack_punch_1,attack_punch_4,attack_end},
+	  {attack_punch_1,attack_punch_4,attack_punch_3,attack_end},
 	};
 	// 各コンボの後隙
 	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
@@ -170,21 +170,21 @@ public:
 	AttackFrame attack_frame[attack_max] =
 	{
 		// パンチ１
-		{ 00.0f, 30.0f, },
+		{ 13.0f, 30.0f, },
 		// パンチ２
-		{ 0.0f, 90.0f, },
+		{ 40.0f, 90.0f, },
 		// パンチ３
-		{ 0.0f, 80.0f, },
+		{ 30.0f, 90.0f, },
 		// パンチ４
-		{ 0.0f, 70.0f, },
+		{ 25.0f, 75.0f, },
 		// パンチ５
-		{10.0f,57.0f},
+		{10.0f,30.0f},
 		// パンチ６
 		{45.0f,75.0f},
 		// ローリング
-		{ 0.0f, 50.0f, },
+		{ 10.0f, 50.0f, },
 		// ジャンプ
-		{ 0.0f, 40.0f, },
+		{ 15.0f, 105.0f, },
 
 	};
 

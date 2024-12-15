@@ -552,7 +552,6 @@ void GameScene::AttackUpdate()
 		{
 			if (HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 			{
-
 				if (monster->m_can_hit_damage_flag)
 				{
 					// ˆê‰ñ‚¾‚¯’Ê‚Á‚Ä‚Ù‚µ‚¢‚©‚çƒtƒ‰ƒO‚ð‰º‚°‚é

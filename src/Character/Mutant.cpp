@@ -522,7 +522,6 @@ void Mutant::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim,  0, 1.5f);  //!< スタンを食らった時のダウン
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1",    stun_up_anim,    0, 2.0f);          //!< スタンを食らった時の起き上がり
 
-
 	// もっとモンスターっぽい攻撃を探してこい
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1",     attack_1_anim, 0, 1.0f); //!< 攻撃１
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch2.mv1",     attack_2_anim, 0, 1.0f); //!< 攻撃２
@@ -536,7 +535,6 @@ void Mutant::AnimLoadInit()
 	
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle_anim, true);
-
 
 }
 

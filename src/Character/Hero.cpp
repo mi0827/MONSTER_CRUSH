@@ -412,18 +412,18 @@ void Hero::AnimLoadInit()
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Idle.mv1", idle, 0, 1.0f); //!< アイドル
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Run.mv1", run, 0, 1.0f);   //!< 走り
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1", rolling, 0, 1.5f);   //!< ローリング
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1", hit_damage, 0, 1.0f);   //!< 攻撃が当たったときのダメージ
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1", die, 0, 1.0f);   //!< 死んだとき
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 1.2f); //!< 剣攻撃１ 
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 1.5f); //!< 剣攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 1.3f); //!< 剣攻撃３
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.3f); //!< 剣攻撃４
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.3f); //<! キック攻撃１
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.3f); //<! キック攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 1.7f);     //<! カウンター攻撃
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Idle.mv1",                          idle,                           0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Run.mv1",                          run,                           0, 1.0f);   //!< 走り
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1",                      rolling,                       0, 1.5f);   //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1",              hit_damage,               0, 1.0f);   //!< 攻撃が当たったときのダメージ
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1",                           die,                            0, 1.0f);   //!< 死んだとき
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 1.8f); //!< 剣攻撃１ 
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 1.8f); //!< 剣攻撃２
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 1.8f); //!< 剣攻撃３
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.7); //!< 剣攻撃４
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1",             attack_kick_anim_1,     0, 1.7); //<! キック攻撃１
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1",             attack_kick_anim_2,     0, 1.7); //<! キック攻撃２
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1",        counter_anim,              0, 2.0);     //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
