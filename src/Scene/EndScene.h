@@ -1,7 +1,7 @@
-
 #pragma once
 
-// タイトルシーンのクラス
+//! @file EndScene.h
+//! @brief タイトルシーンのクラス
 class EndScene : public Scene_Base
 {
 	//int effeckt_h;

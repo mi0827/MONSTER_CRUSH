@@ -1,6 +1,6 @@
 #pragma once
 
-//! @fule Receptionist.h
+//! @file Receptionist.h
 //! @brief ó•tì‚ÌƒNƒ‰ƒX
 
 class Receptionist

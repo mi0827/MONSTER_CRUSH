@@ -1,6 +1,6 @@
 #pragma once
 
-//! @fule Combo.h
+//! @file Combo.h
 //! @brief コンボ用のクラス
 class Combo
 {

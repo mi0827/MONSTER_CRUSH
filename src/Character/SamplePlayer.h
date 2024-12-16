@@ -1,6 +1,6 @@
 #pragma once
 
-//! @fule SamplePlayer.h
+//! @file SamplePlayer.h
 //! @brief サンプルキャラのクラス
 //! @brief キャラクターベースクラスを継承
 

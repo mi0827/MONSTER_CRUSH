@@ -1,9 +1,8 @@
 #pragma once
 #include "src/System/Transform.h"
-/**
-* @file Model.h
-* @ brief モデル用のクラス
-*/
+
+//! @file Model.h
+//! @ brief モデル用のクラス
 class Model
 {
 public:

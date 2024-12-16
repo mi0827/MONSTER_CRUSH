@@ -1,9 +1,8 @@
 #pragma once
 // 指定されたターゲットの方向に移動するためのクラス
 
-//! @fule TargetMove.h
+//! @file TargetMove.h
 //! @brief 指定されたターゲット方向に移動するためのクラス
-
 class TargetMove
 {
 public:

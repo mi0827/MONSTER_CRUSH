@@ -1,5 +1,5 @@
 #pragma once
-//! @fule BoxCollision.h
+//! @file BoxCollision.h
 //! @brief ボックスコンポネントのクラス 
 
 

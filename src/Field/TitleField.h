@@ -1,6 +1,6 @@
 #pragma once
-
-// TitleFild(タイトル画面のフィールド)クラス
+//! @file TitleField.h
+//! @brief  TitleField(タイトル画面のフィールド)クラス
 
 class TitleField : public FieldBase
 {

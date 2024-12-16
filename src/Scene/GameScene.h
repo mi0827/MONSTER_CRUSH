@@ -1,13 +1,11 @@
 #pragma once
 // #include "Character_Base.h"
 
-
+//! @file GameScene.h
+//! @brief メインのゲームシーンクラス
 class GameScene :public Scene_Base
 {
 public:
-
-
-
 	//! @brief コンストラクタ
 	GameScene();
 	//! @brief デストラクタ

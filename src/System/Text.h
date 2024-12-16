@@ -1,5 +1,6 @@
 #pragma once
-
+//! @file Text.h
+//! @テキストファイルから読み取り描画するクラス
 class Text
 {
 public:

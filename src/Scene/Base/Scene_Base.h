@@ -1,6 +1,6 @@
 #pragma once
-
-// シーンクラスたちのベースクラス
+//! @file SceneBase.h
+//! @brief シーンクラスたちのベースクラス
 class Scene_Base
 {
 public:

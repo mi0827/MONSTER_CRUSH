@@ -415,7 +415,7 @@ void GameScene::HitField()
 	// モンスターと地面の当たり判定（ジャンプ処理できる）
 	HitGroundCharacter(&monster->m_transform.pos, &field.m_field_model);
 
-	Vector3 pos = GetGroundPos(&monster->m_transform.pos, &field.m_field_model);
+	//Vector3 pos = GetGroundPos(&monster->m_transform.pos, &field.m_field_model);
 	//monster->SetJumpPos(pos);
 
 	// 木のオブジェクトとプレイヤーの当たり判定

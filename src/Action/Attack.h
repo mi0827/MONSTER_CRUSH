@@ -1,6 +1,6 @@
 #pragma once
 
-//! @fule Attack.h
+//! @file Attack.h
 //! @brief 攻撃アクションの当たり判定についてのクラス
 
 

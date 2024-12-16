@@ -1,9 +1,7 @@
 #pragma once
-/**
-* @file Spotlight.h
-* @ brief スポットライト用のクラス
-*/
 
+//! @file Spotlight.h
+//! @brief スポットライト用のクラス
 class Spotlight
 {
 public:

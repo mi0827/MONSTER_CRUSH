@@ -1,10 +1,9 @@
 #pragma once
 #pragma once
 
-//! @fule Mutant.h
+//! @file Mutant.h
 //! @brief ミュータントのクラス
 //! @brief モンスターベースクラスを継承
-
 class Mutant :public MonsterBase
 {
 public:

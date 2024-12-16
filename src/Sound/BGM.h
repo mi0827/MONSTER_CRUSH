@@ -1,6 +1,6 @@
 #pragma once
-
-// BGM関係のクラス
+//! @file BGM.h
+//! @brief BGM関係のクラス
 class BGM
 {
 public:

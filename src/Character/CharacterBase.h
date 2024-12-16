@@ -1,7 +1,7 @@
 #pragma once
 
 //! 
-//! @fule CharacterBase.h
+//! @file CharacterBase.h
 //! @brief キャラクターのベースクラス
 
 class CharacterBase

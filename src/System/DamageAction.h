@@ -7,10 +7,9 @@
 void Damage_Count(int damage_value,int defense_value,int* hp_value);
 
 
-//! @fule DamageAction.h
+//! @file DamageAction.h
 //! @brief 攻撃が当たったときのダメージ計算用のクラス
-
-class DamageAction
-{
-
-};
+//class DamageAction
+//{
+//
+//};

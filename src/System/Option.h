@@ -1,5 +1,6 @@
 #pragma once
-
+//! @file Option.h
+//! @brief オプション画面用クラス
 class Option
 {
 public:

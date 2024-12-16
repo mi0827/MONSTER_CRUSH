@@ -1,7 +1,7 @@
 #pragma once
 
 
-//! @fule Animation.h
+//! @file Animation.h
 //! @brief アニメーション用のクラス
 
 

@@ -1,9 +1,8 @@
 #pragma once
 
-/**
-* @file Move.h
-* @ brief キャラの移動用のクラス
-*/
+
+//! @file Move.h
+//! @brief キャラの移動用のクラス
 class Move
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
-
-// タイトルシーンのクラス
+//! @file TitleScene.h
+//! @brief タイトルシーンのクラス
 class TitleScene : public Scene_Base
 {
 	//int effeckt_h;

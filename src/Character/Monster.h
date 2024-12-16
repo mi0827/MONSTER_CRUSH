@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-//! @fule SamplePlayer.h
+//! @file SamplePlayer.h
 //! @brief モンスターのクラス
 //! @brief モンスターベースクラスを継承
 

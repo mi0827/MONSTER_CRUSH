@@ -1,10 +1,8 @@
-
 #pragma once
-
-// タイトルシーンのクラス
+//! @file QusetAreaScene.h
+//! @brief タイトルシーンのクラス
 class QuestAreaScene : public Scene_Base
 {
-	//int effeckt_h;
 public:
 	//! コンストラクタ
 	QuestAreaScene();

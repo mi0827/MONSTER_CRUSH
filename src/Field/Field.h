@@ -1,12 +1,11 @@
 #pragma once
 
 
-
-//	Field(フィールド)クラス
+//! @file Field.h
+//! @brief	Field(フィールド)クラス
+//! @brief フィールドベースクラスを継承
 class Field:public FieldBase
 {
-
-
 public:
 	// モデルの保存番号
 	enum

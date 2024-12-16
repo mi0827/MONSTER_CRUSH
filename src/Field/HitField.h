@@ -1,16 +1,16 @@
 #pragma once
 
 
-//! @brinf 地面モデルの当たり判定の設定 
+//! @brief 地面モデルの当たり判定の設定 
 void SetHitGround(Model* ground_model);
 
 
-//! @brinf 地面モデルとキャラクターモデルのモデル同士の当たり判定
+//! @brief 地面モデルとキャラクターモデルのモデル同士の当たり判定
 //! @param キャラクターの座標
 //! @param 地面のモデル
 void HitGroundCharacter(Vector3* character_pos, Model*  ground_model);
 
-//! @brinf 地面モデルとキャラクターモデルのモデル同士の当たり判定(ジャンプを行う場合)
+//! @brief 地面モデルとキャラクターモデルのモデル同士の当たり判定(ジャンプを行う場合)
 //! @param キャラクターの座標
 //! @param ジャンプに使うVector3
 //! @param ジャンプフラグ
@@ -21,4 +21,4 @@ void HitGroundCharacterJump(Vector3* character_pos, Vector3* jump_mov, bool* jum
 
 
 
-VECTOR GetGroundPos(Vector3* character_pos, Model* ground_model);
+//VECTOR GetGroundPos(Vector3* character_pos, Model* ground_model);

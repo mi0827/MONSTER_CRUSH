@@ -1,6 +1,6 @@
 #pragma once
-
-// 効果音用のクラス
+//! @file SE.h
+//! @brief 効果音用のクラス
 class SE
 {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-//! @fule CapsuleCollision.h
+//! @file CapsuleCollision.h
 //! @brief カプセルコンポーネントのクラス
 
 

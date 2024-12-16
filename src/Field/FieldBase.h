@@ -1,9 +1,7 @@
 #pragma once
 
-//! フィールドの意ベースクラス
-
-
-
+//! @file FieldBase.h
+//! @brief フィールドのベースクラス
 class FieldBase
 {
 public:

@@ -1,7 +1,6 @@
 #pragma once
-//! @fule UIBar.h
+//! @file UIBar.h
 //! @brief バー状のUIのクラス
-
 class UIBra
 {
 public:

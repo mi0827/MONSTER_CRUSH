@@ -1,6 +1,6 @@
 #pragma once
 
-//! @fule HeroPlayer.h
+//! @file HeroPlayer.h
 //! @brief ヒーローのクラス
 //! @brief キャラクターベースクラスを継承
 
