@@ -15,6 +15,7 @@
 
 #include "src/System/UIBar.h"
 
+
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
 #include "src/Character/CharacterBase.h"
@@ -150,6 +151,8 @@ void TitleScene::Update()
 //------------------------------------------
 void TitleScene::Draw()
 {
+	
+
 	// プレイヤーのシャドーマップのエリアのセット
 	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
 
@@ -178,11 +181,12 @@ void TitleScene::Draw()
 
 	// バックバッファに描画する
 	SetDrawScreen(DX_SCREEN_BACK);
-
+	// Effekseerに3D表示の設定をDXライブラリの3D表示の設定に同期させる。
+	Effekseer_Sync3DSetting();
 	// カメラの描画処理
 	camera.Draw();
 
-
+	
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_shadowMap_handle_1);
 	{

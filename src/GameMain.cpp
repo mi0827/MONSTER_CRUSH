@@ -3,13 +3,13 @@
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 
-#include "src/Action/Combo.h"
+
 #include "src/System/Transform.h"
 #include "src/System/InputPad.h"
 
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
-#include "src/Effect/Effect.h"
+
 
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
@@ -20,6 +20,9 @@
 #include "src/System/TargetMove.h"
 
 #include "src/System/UIBar.h"
+#include "src/Effect/Effect.h"
+
+#include "src/Action/Combo.h"
 #include "src/Character/CharacterBase.h"
 #include "src/Character/MonsterBase.h"
 #include "src/Character/SamplePlayer.h"
@@ -224,14 +227,15 @@ void GameDraw()
 {
 
 	// シーンの描画処理
+	
 	scene->Draw();
-
+	
 
 	option.Draw();
 
-
+	
 	scene->BaseDraw(scene->m_now_scene, { 0,100 });
-
+	
 
 
 	////	シェーダーを使って描画します

@@ -113,7 +113,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// マウスの表示状態の設定
 	SetMouseDispFlag(FALSE);
 	
-
 	// ４：メインループ
 	while (TRUE) {
 		//// DXライブラリのカメラとEffekseerのカメラを同期する。
@@ -134,7 +133,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			else				KeyFrame[i] = 0; // 何も押されてなっかたらカウントを0にする
 		}
 
-	
 		// 上の二つのコメントと同様のことをしている
 		if (CheckMouseInput(MOUSE_INPUT_LEFT))	MouseLeftFrame++;
 		else									MouseLeftFrame = 0;
@@ -150,18 +148,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// Effekseer更新処理
 		UpdateEffekseer3D();
 
-
 		// ゲーム描画処理
 		GameDraw();
 
-
 		BeforeMouseX = NowMouseX;
 		BeforeMouseY = NowMouseY;
-
 		//	マウス座標を設定する（画面の真ん中に固定する）
 		SetMousePoint(SCREEN_W/ 2, SCREEN_H / 2);
-	
-	
 		
 		// １２：描画が完了したものを画面に映します
 		ScreenFlip();

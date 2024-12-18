@@ -15,6 +15,7 @@
 
 #include "src/System/UIBar.h"
 
+
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
 #include "src/Character/CharacterBase.h"

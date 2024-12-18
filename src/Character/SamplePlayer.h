@@ -51,6 +51,7 @@ public:
 	//! 攻撃アニメーションの始まるアニメーション番号
 	void AnimLoadInit() override;
 
+	void EffectLoadInit() override;
 	//! @brief プレイヤーの移動用関数
 	//! (ランアニメーションの番号をを引数で渡す)
 	//void MoveAction(Vector3* camera_rot) override;

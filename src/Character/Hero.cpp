@@ -16,6 +16,7 @@
 
 #include "src/System/UIBar.h"
 
+#include "src/Effect/Effect.h"
 #include "src/Character/CharacterBase.h"
 #include "Hero.h"
 
@@ -57,7 +58,7 @@ void Hero::Init()
 	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit(PLAYER_HIT_R, HP_MAX);
 
-	
+
 
 	// プレイヤーの初期座標
 	SetCharacterPos({ 170,0,170 });
@@ -76,7 +77,8 @@ void Hero::Init()
 
 	// アニメーションの初期設定
 	AnimLoadInit();
-
+	// エフェクトの初期設定
+	EffectLoadInit();
 	// 攻撃関連のアニメーションについての情報を保存する
 	SetAttackInfo(ATTACK_ANIM_STAR, attack_sword_anim_1, attack_sword_anim_4, COMBO_MAX);
 	// 攻撃アニメーションの数分の当たり判定の入れ物を確保する
@@ -246,6 +248,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 			m_combo.ChangeComboMode(m_combo.COMBO_FINISH);
 
 		}
+
 		// カウンター攻撃が行われている場合
 		// こうすることによってカウンター攻撃ちゅに回避ができなくなる
 		if (m_counter_flag && m_animation.m_contexts[0].is_playing == false)
@@ -258,6 +261,10 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 
 		// 攻撃用の関数
 		AttackUpdate();
+
+		// エフェクトの再生
+		m_effect.PlayEffect(effect1, m_transform.pos);
+
 		break;
 
 	case HIT_DAMAGE: // ダメージを受けた時
@@ -289,17 +296,19 @@ void Hero::Draw()
 		// カプセルの描画（仮）（後で消す）
 		//===================
 		// 攻撃フラグをが立っていたら
-	if (m_attack_flag)
-	{
+	//if (m_attack_flag)
+	//{
 
-		// 攻撃の当たり判定行っていいときだけ
-		if (AttackHitGoodTiming(m_now_attack))
-		{
+	//	// 攻撃の当たり判定行っていいときだけ
+	//	if (AttackHitGoodTiming(m_now_attack))
+	//	{
 
-			// 当たり判定を描画
-			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-		}
-	}
+	//		// 当たり判定を描画
+	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+	//	}
+	//}
+	// Effekseer描画処理
+	DrawEffekseer3D();
 	//m_body.Draw();
 	/*m_right_hand.Draw();
 	m_left_hand.Draw();
@@ -349,8 +358,6 @@ void Hero::CDUpdate()
 		m_transform.pos.y + 8,
 		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 8);
 	// 剣用の当たり判定の作成
-
-
 	m_sword.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
 
 	// 攻撃時の当たり当た判定の保存とダメージの設定
@@ -412,20 +419,30 @@ void Hero::AnimLoadInit()
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Idle.mv1",                          idle,                           0, 1.0f); //!< アイドル
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Run.mv1",                          run,                           0, 1.0f);   //!< 走り
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1",                      rolling,                       0, 1.5f);   //!< ローリング
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1",              hit_damage,               0, 1.0f);   //!< 攻撃が当たったときのダメージ
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1",                           die,                            0, 1.0f);   //!< 死んだとき
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Idle.mv1", idle, 0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Run.mv1", run, 0, 1.0f);   //!< 走り
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1", rolling, 0, 1.5f);   //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1", hit_damage, 0, 1.0f);   //!< 攻撃が当たったときのダメージ
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1", die, 0, 1.0f);   //!< 死んだとき
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 1.8f); //!< 剣攻撃１ 
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 1.8f); //!< 剣攻撃２
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 1.8f); //!< 剣攻撃３
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.7); //!< 剣攻撃４
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1",             attack_kick_anim_1,     0, 1.7); //<! キック攻撃１
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1",             attack_kick_anim_2,     0, 1.7); //<! キック攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1",        counter_anim,              0, 2.0);     //<! カウンター攻撃
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.7); //<! キック攻撃１
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.7); //<! キック攻撃２
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 2.0);     //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
+}
+
+void Hero::EffectLoadInit()
+{
+	// エフェクト初期化
+	// エフェクトの最大数を設定
+	m_effect.NewArraySecure(effect_max);
+	// エフェクトの読み込み
+	m_effect.LoadEffect("Data/Model/Hero/Effect/Sword1.efkefc", effect1, 1.0f);
+	m_effect.SetEffectSize(effect1, { 1.0f,1.0f,1.0f });
 }
 
 //-----------------------------------------------

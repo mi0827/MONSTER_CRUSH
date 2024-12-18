@@ -55,10 +55,11 @@ public:
 	//! @brief 当たり判定を行って欲しいタイミングを保存させるための関数
 	virtual void SetHitTimeInit() = 0;
 
-	//! @brief アニメーションを読み込みをまとめる関数
+	//! @brief アニメーションの読み込みをまとめる関数
 	virtual void AnimLoadInit() = 0;
 
-	
+	//! @brief エフェクトの読み込みをまとめる関数
+	virtual void EffectLoadInit() = 0;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
@@ -206,6 +207,8 @@ public:
 	Model m_model;
 	//! アニメーションクラスのオブジェクト
 	Animation m_animation;
+	//! エフェクトクラスオブジェクト
+	Effect m_effect;
 	//! コンボクラス
 	Combo m_combo;
 	//! カプセルコリジョン

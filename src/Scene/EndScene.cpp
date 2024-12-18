@@ -19,19 +19,16 @@
 #include "src/System/Move.h"
 #include "src/Character/CharacterBase.h"
 #include "src/Character/SamplePlayer.h"
+#include "src/Character/Hero.h"
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
 //#include "src/Field/TitleField.h"
 #include "src/Field/Field.h"
 
-
 #include "src/Sound/BGM.h"
 #include "src/Sound/SE.h"
-
 #include "src/Camera.h"
-
-
 #include "src/System/Text.h"
 #include "Base/Scene_Base.h"
 #include "EndScene.h"
@@ -67,7 +64,7 @@ void EndScene::Init()
 	camera.PlayFieldInit();
 
 	// プレイヤーの設定
-	player = new SamplePlayer;
+	player = new Hero;
 
 	// プリえやーの初期設定 
 	player->Init();

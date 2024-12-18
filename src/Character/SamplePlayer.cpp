@@ -5,6 +5,7 @@
 
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
+#include "src/Effect/Effect.h"
 
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
@@ -434,6 +435,14 @@ void SamplePlayer::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", counter_anim, 1, 1.5f);       //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
+}
+
+//-----------------------------------------------
+// エフェクトの初期処理
+//-----------------------------------------------
+void SamplePlayer::EffectLoadInit()
+{
+	
 }
 
 //-----------------------------------------------

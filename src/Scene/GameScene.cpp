@@ -3,7 +3,6 @@
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 
-#include "src/Action/Combo.h"
 #include "src/System/Transform.h"
 #include "src/System/InputPad.h"
 
@@ -20,6 +19,7 @@
 
 #include "src/System/UIBar.h"
 
+#include "src/Action/Combo.h"
 #include "src/System/Move.h"
 #include "src/System/TargetMove.h"
 #include "src/Character/CharacterBase.h"

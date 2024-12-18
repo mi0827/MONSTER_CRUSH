@@ -58,10 +58,9 @@ public:
 	//! @brief アニメーション読み込み関数
 	//! 攻撃アニメーションの始まるアニメーション番号
 	void AnimLoadInit() override;
+	//! @brief エフェクトの読み込みをまとめる関数
+    void EffectLoadInit() override;
 
-	//! @brief プレイヤーの移動用関数
-	//! (ランアニメーションの番号をを引数で渡す)
-	//void MoveAction(Vector3* camera_rot) override;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
@@ -161,6 +160,12 @@ public:
 		50,70,70,70,70,70,100,
 	};
 
+	//! エフェクトの種類用の列挙体
+	enum Effect
+	{
+		effect1,
+		effect_max
+	};
 
 	//------------------------------------------
 	// コンボ関連
