@@ -4,8 +4,6 @@
 #include "src/System/Transform.h"
 
 #include "src/Model/Model.h"
-#include "src/Animation/Animation.h"
-#include "src/Effect/Effect.h"
 
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
@@ -14,7 +12,11 @@
 #include "src/System/Move.h"
 
 #include "src/System/UIBar.h"
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
+#include "src/Model/Model.h"
+#include "src/Animation/Animation.h"
 #include "src/Character/CharacterBase.h"
 #include "SamplePlayer.h"
 

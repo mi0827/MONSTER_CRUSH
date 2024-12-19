@@ -11,12 +11,12 @@
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
 
+#include "src/System/UIBar.h"
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
+
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
-
-#include "src/System/UIBar.h"
-
-#include "src/Effect/Effect.h"
 #include "src/Character/CharacterBase.h"
 #include "Hero.h"
 
@@ -79,6 +79,8 @@ void Hero::Init()
 	AnimLoadInit();
 	// エフェクトの初期設定
 	EffectLoadInit();
+	// サウンドの初期化
+	SELoadInit();
 	// 攻撃関連のアニメーションについての情報を保存する
 	SetAttackInfo(ATTACK_ANIM_STAR, attack_sword_anim_1, attack_sword_anim_4, COMBO_MAX);
 	// 攻撃アニメーションの数分の当たり判定の入れ物を確保する
@@ -264,7 +266,20 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 
 		// エフェクトの再生
 		m_effect.PlayEffect(effect1, m_transform.pos);
-
+		// エフェクトによって座標を合わせる
+		m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
+		// エフェクトのサイズを合わせる
+		m_effect.SetEffectSize(attack_effect[m_now_attack].size);
+		// エフェクトの向きを合わせる
+		m_effect.SetEffectRot(attack_effect[m_now_attack].rot);
+	
+		// サウンドが再生されていないとき
+		if (!m_se.PlayingSound(se1))
+		{
+			// サウンドの再生
+			m_se.PlaySound_(se1, DX_PLAYTYPE_BACK, true);
+		}
+		
 		break;
 
 	case HIT_DAMAGE: // ダメージを受けた時
@@ -293,22 +308,18 @@ void Hero::DieUpdate()
 void Hero::Draw()
 {
 	//===================
-		// カプセルの描画（仮）（後で消す）
-		//===================
-		// 攻撃フラグをが立っていたら
+	// カプセルの描画（仮）（後で消す）
+	//===================
+	// 攻撃フラグをが立っていたら
 	//if (m_attack_flag)
 	//{
-
 	//	// 攻撃の当たり判定行っていいときだけ
 	//	if (AttackHitGoodTiming(m_now_attack))
 	//	{
-
 	//		// 当たり判定を描画
 	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 	//	}
 	//}
-	// Effekseer描画処理
-	DrawEffekseer3D();
 	//m_body.Draw();
 	/*m_right_hand.Draw();
 	m_left_hand.Draw();
@@ -316,9 +327,10 @@ void Hero::Draw()
 	m_left_feet.Draw();*/
 	//m_sword.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
+	// エフェクトの描画処理
+	DrawEffekseer3D();
 
 	m_model.DrawModel(&m_transform);
-
 }
 
 //-----------------------------------------------
@@ -435,6 +447,9 @@ void Hero::AnimLoadInit()
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
 
+//-----------------------------------------------
+// エフェクトの初期処理
+//-----------------------------------------------
 void Hero::EffectLoadInit()
 {
 	// エフェクト初期化
@@ -442,7 +457,18 @@ void Hero::EffectLoadInit()
 	m_effect.NewArraySecure(effect_max);
 	// エフェクトの読み込み
 	m_effect.LoadEffect("Data/Model/Hero/Effect/Sword1.efkefc", effect1, 1.0f);
-	m_effect.SetEffectSize(effect1, { 1.0f,1.0f,1.0f });
+}
+
+//-----------------------------------------------
+// SEの初期処理
+//-----------------------------------------------
+void Hero::SELoadInit()
+{
+	// サウンドの初期化
+	// サウンドの最大数を設定
+	m_se.NewArraySecureSound(se_max);
+	// SEの読み込み
+	m_se.LoadSound("Data/Model/Hero/SE/scifi_attack4.mp3", se1);
 }
 
 //-----------------------------------------------

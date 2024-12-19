@@ -5,15 +5,15 @@
 
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
-#include "src/Effect/Effect.h"
 
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
 
 #include "src/System/UIBar.h"
-#include "src/Model/Model.h"
-#include "src/System/Move.h"
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
+#include "src/System/Move.h"
 #include "src/Action/Combo.h"
 #include "CharacterBase.h"
 

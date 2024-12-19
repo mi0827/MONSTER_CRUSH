@@ -14,6 +14,8 @@
 #include "src/Hit/Hit.h"
 
 #include "src/System/UIBar.h"
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
@@ -264,5 +266,7 @@ void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
+	// キャラクターのサウンドの調整
+	player->m_se.SetSoundVolume(se);
 }
 

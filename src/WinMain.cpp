@@ -150,6 +150,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// ƒQ[ƒ€•`‰æˆ—
 		GameDraw();
+	
 
 		BeforeMouseX = NowMouseX;
 		BeforeMouseY = NowMouseY;

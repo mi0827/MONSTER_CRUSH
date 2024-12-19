@@ -4,17 +4,16 @@
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
-
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
-#include "src/Effect/Effect.h"
 
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
 
 #include "src/System/UIBar.h"
-
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
@@ -26,14 +25,8 @@
 #include "src/Field/HitField.h" 
 #include "src/Field/TitleField.h"
 
-
-#include "src/Sound/BGM.h"
-#include "src/Sound/SE.h"
-
 #include "src/Camera.h"
-
 #include "src/System/Text.h"
-
 #include "Base/Scene_Base.h"
 #include "TitleScene.h"
 
@@ -72,8 +65,6 @@ void TitleScene::Init()
 
 	// 現在のシーンの設定(タイトルシーン)
 	m_now_scene = Title;
-
-
 
 	// タイトルで使うテキストデータの読み込み
 	m_text.LoadText("Data/Text/TitleStory.txt", STORY_NUM_MAX);
@@ -181,20 +172,12 @@ void TitleScene::Draw()
 
 	// バックバッファに描画する
 	SetDrawScreen(DX_SCREEN_BACK);
-	// Effekseerに3D表示の設定をDXライブラリの3D表示の設定に同期させる。
-	Effekseer_Sync3DSetting();
+	
 	// カメラの描画処理
 	camera.Draw();
-
+	
 	
 	// 描画に使用するシャドウマップを設定
-	SetUseShadowMap(1, m_shadowMap_handle_1);
-	{
-		
-		// プレイヤーの描画処理
-		player->Draw();
-		
-	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// プレイヤーの描画処理
@@ -203,6 +186,14 @@ void TitleScene::Draw()
 		field.Draw();
 
 	}
+	SetUseShadowMap(1, m_shadowMap_handle_1);
+	{
+		
+		// プレイヤーの描画処理
+		player->Draw();
+		
+	}
+	
 	UseShadowMapSet();
 
 
@@ -290,6 +281,10 @@ void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
 
+	// キャラクターのサウンドの調整
+	player->m_se.SetSoundVolume(se);
+
+	// BGMのサウンドの調整
 }
 
 //------------------------------------------
@@ -305,7 +300,4 @@ void TitleScene::SetAeraBoxSet()
 	{
 		m_area_box[i].CreateBox(m_box_pos[i], m_box_size);
 	}
-
-	//// 座標の設定
-	//m_box_pos[next_scene].set(0.0f, 0.0f, 150);	
 }

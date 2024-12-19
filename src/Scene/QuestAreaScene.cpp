@@ -4,17 +4,16 @@
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
 
-
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
-#include "src/Effect/Effect.h"
 
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
 
 #include "src/System/UIBar.h"
-
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
@@ -27,14 +26,8 @@
 #include "src/Field/HitField.h" 
 #include "src/Field/TitleField.h"
 
-
-#include "src/Sound/BGM.h"
-#include "src/Sound/SE.h"
-
 #include "src/Camera.h"
-
 #include "src/System/Text.h"
-
 #include "Base/Scene_Base.h"
 #include "QuestAreaScene.h"
 
@@ -385,6 +378,9 @@ void QuestAreaScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
+	// キャラクターのサウンドの調整
+	player->m_se.SetSoundVolume(se);
+
 }
 
 //------------------------------------------

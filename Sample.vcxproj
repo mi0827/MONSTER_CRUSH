@@ -197,6 +197,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClCompile Include="src\Scene\TitleScene.cpp" />
     <ClCompile Include="src\Sound\BGM.cpp" />
     <ClCompile Include="src\Sound\SE.cpp" />
+    <ClCompile Include="src\Sound\Sound.cpp" />
     <ClCompile Include="src\System\DamageAction.cpp" />
     <ClCompile Include="src\System\InputPad.cpp" />
     <ClCompile Include="src\System\Move.cpp" />
@@ -257,6 +258,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\Scene\TitleScene.h" />
     <ClInclude Include="src\Sound\BGM.h" />
     <ClInclude Include="src\Sound\SE.h" />
+    <ClInclude Include="src\Sound\Sound.h" />
     <ClInclude Include="src\System\DamageAction.h" />
     <ClInclude Include="src\System\InputPad.h" />
     <ClInclude Include="src\System\Move.h" />

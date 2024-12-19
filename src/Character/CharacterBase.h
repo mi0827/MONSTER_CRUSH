@@ -1,9 +1,6 @@
 #pragma once
-
-//! 
 //! @file CharacterBase.h
 //! @brief キャラクターのベースクラス
-
 class CharacterBase
 {
 public:
@@ -33,7 +30,6 @@ public:
 	//! @param HPの最大量
 	void BaseInit(float r, int HP);
 
-
 	//! @brief 死んだときの更新処理 
 	virtual void DieUpdate() = 0;
 
@@ -60,6 +56,9 @@ public:
 
 	//! @brief エフェクトの読み込みをまとめる関数
 	virtual void EffectLoadInit() = 0;
+
+	//! @brief SEの読み込み
+	virtual void SELoadInit() = 0;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
@@ -201,8 +200,8 @@ public:
 	Move m_move;
 	//! 移動の際の当たり判定に使う
 	BoxCollision m_move_hit_box;
-
-
+	//! サウンドクラスのオブジェクト
+	Sound m_se;
 	//! モデルクラスのオブジェクト
 	Model m_model;
 	//! アニメーションクラスのオブジェクト
@@ -226,12 +225,6 @@ public:
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
 	//! 移動の際の当たり判定用のサイズ
 	Vector3 m_move_hit_size = { 5.0f ,5.0f,5.0f };
-
-
-	//-----------------------------------------------
-	// 変数の定義
-	//-----------------------------------------------
-
 
 	//===============
 	// 状態管理用フラグ
@@ -326,7 +319,7 @@ public:
 	//! 敵との移動当たり判定に使う
 	float m_hit_r = 0.0f;
 
-	//! プレイヤーの現在行っている攻撃アニメーション番号を保存する(当たり判定に使用する)
+	//! プレイヤーの現在行っている攻撃番号を保存する(当たり判定に使用する)
 	int m_now_attack = 0;
 
 	//! HPの残量

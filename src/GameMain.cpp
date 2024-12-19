@@ -3,26 +3,26 @@
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 
-
 #include "src/System/Transform.h"
 #include "src/System/InputPad.h"
 
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
 
-
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
 #include "src/Hit/HitStop.h"
 
-#include "src/System/Move.h"
-#include "src/System/TargetMove.h"
-
 #include "src/System/UIBar.h"
 #include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
+
+#include "src/System/Move.h"
+#include "src/System/TargetMove.h"
 #include "src/Action/Combo.h"
+
 #include "src/Character/CharacterBase.h"
 #include "src/Character/MonsterBase.h"
 #include "src/Character/SamplePlayer.h"
@@ -30,7 +30,6 @@
 #include "src/Character/Monster.h"
 #include "src/Character/Mutant.h"
 #include "src/Character/Receptionist.h"
-
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/Field.h"
@@ -51,8 +50,6 @@
 #include "src/Scene/GameScene.h"
 #include "src/Scene/EndScene.h"
 
-#include "src/Sound/BGM.h"
-#include "src/Sound/BGM.h"
 #include "src/System/Option.h"
 
 #include "GameMain.h"
@@ -78,10 +75,6 @@ Option option;
 int light_handle;
 
 //! ライトの座標用変数
-
-
-
-
 //-------------------------------------------------------------
 // 初期処理
 //-------------------------------------------------------------
@@ -99,8 +92,6 @@ void GameInit()
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
 
 	scene->Init();
-
-
 
 	//// デフォルトカラーをもらってくる
 	//COLOR_F color = GetLightDifColor();
@@ -227,9 +218,9 @@ void GameDraw()
 {
 
 	// シーンの描画処理
-	
 	scene->Draw();
-	
+	// エフェクトの描画処理
+	DrawEffekseer3D();
 
 	option.Draw();
 

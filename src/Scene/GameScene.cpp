@@ -10,7 +10,7 @@
 
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
-#include "src/Effect/Effect.h"
+
 
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
@@ -18,6 +18,8 @@
 #include "src/Hit/HitStop.h"
 
 #include "src/System/UIBar.h"
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
@@ -458,6 +460,9 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
+	// キャラクターのサウンドの調整
+	player->m_se.SetSoundVolume(se);
+
 }
 
 //---------------------------------------------------------------------------
