@@ -35,6 +35,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ８：背景の塗りつぶしの色を設定
 	SetBackgroundColor(100, 100, 100);
 
+
 	// ９：ウィンドウサイズの設定
 	// 800 × 450 : ウィンドウの大きさ
 	// 32 : 色数（32ビットカラー）*直接てな色の数じゃない
@@ -54,7 +55,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// 10 :画面描画設定(描画領域を二つにして後ろに書き込んで完了したものを前にして画面に出す）
 	SetDrawScreen(DX_SCREEN_BACK);
-
 
 
 	//-----------------------------------------------------------

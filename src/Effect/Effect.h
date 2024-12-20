@@ -52,6 +52,13 @@ public:
 	//! @param 設定したいカラー
 	void SetEffectColor( COLOR_F color);
 
+	//! @brief エフェクトが再生中かどうかを調べる
+	bool IsPlayingEffect();
+
+	//! @brief 指定のエフェクトが再生中かどうかを調べる
+	//! @param 調べたいエフェクト番号
+	bool PickPlayingEffect(int no);
+
 	//! @brief エフェクトの描画
 	void EffectDraw();
 private:
@@ -70,7 +77,7 @@ private:
 
 private:
 	//! 現在再生中のエフェクトのを保存する変数
-	int  m_playing_effect;
+	std::vector<int> m_playing_effect;
 	//! モデルの座標
 	Vector3 m_model_pos;
 };

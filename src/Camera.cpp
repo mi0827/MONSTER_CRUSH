@@ -264,14 +264,16 @@ void Camera::DrawSet()
 //---------------------------------------------------------------------------------
 void Camera::Draw()
 {
-	// Effekseerに3D表示の設定をDXライブラリの3D表示の設定に同期させる。
-	Effekseer_Sync3DSetting();
+	
 
 	//	カメラの設定
 	SetCameraNearFar(0.1f, 3000.0f);
 	SetupCamera_Perspective(TO_RADIAN(45.0f));
 	// カメラ座標と見る座標を渡してカメラの設定
 	SetCameraPositionAndTarget_UpVecY(m_pos.VGet(), m_look.VGet());
+
+	// Effekseerに3D表示の設定をDXライブラリの3D表示の設定に同期させる。
+	Effekseer_Sync3DSetting();
 }
 
 //---------------------------------------------------------------------------------
@@ -339,6 +341,9 @@ void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 	m_pos = m_look + change_dir;
 }
 
+//---------------------------------------------------------------------------------
+// カメラシェイクを行う
+//---------------------------------------------------------------------------------
 void Camera::CameraShakeLimited(float power, float time)
 {
 	// 振動のパワーが0の時

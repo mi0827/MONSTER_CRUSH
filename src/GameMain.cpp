@@ -59,7 +59,6 @@ Scene_Base* scene;
 
 Option option;
 
-
 // ライトとシャドーマップの設定はゲームメインで行う
 
 
@@ -112,6 +111,9 @@ void GameInit()
 	//SetLightAmbColor(GetColorF(0.5f, 0.5f, 0.5f, 1.0f));
 
 	// SetLightEnable(true);
+
+
+
 }
 
 //-------------------------------------------------------------
@@ -217,6 +219,8 @@ void GameUpdate()
 void GameDraw()
 {
 
+
+
 	// シーンの描画処理
 	scene->Draw();
 	// エフェクトの描画処理
@@ -224,10 +228,8 @@ void GameDraw()
 
 	option.Draw();
 
-	
-	scene->BaseDraw(scene->m_now_scene, { 0,100 });
-	
 
+	scene->BaseDraw(scene->m_now_scene, { 0,100 });
 
 	////	シェーダーを使って描画します
 	//MV1SetUseOrigShader(TRUE);
@@ -235,7 +237,6 @@ void GameDraw()
 	//SetUseVertexShader(vertex_shader);
 	////	ピクセルシェーダーのセット
 	//SetUsePixelShader(pixel_shader);
-
 
 }
 

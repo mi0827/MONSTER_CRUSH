@@ -264,6 +264,10 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		// 攻撃用の関数
 		AttackUpdate();
 
+		if (!m_effect.IsPlayingEffect())
+		{
+
+		}
 		// エフェクトの再生
 		m_effect.PlayEffect(effect1, m_transform.pos);
 		// エフェクトによって座標を合わせる
@@ -456,7 +460,7 @@ void Hero::EffectLoadInit()
 	// エフェクトの最大数を設定
 	m_effect.NewArraySecure(effect_max);
 	// エフェクトの読み込み
-	m_effect.LoadEffect("Data/Model/Hero/Effect/Sword1.efkefc", effect1, 1.0f);
+	m_effect.LoadEffect("Data/Model/Hero/Effect/Simple_Ribbon_Sword.efkefc", effect1, 1.0f);
 }
 
 //-----------------------------------------------

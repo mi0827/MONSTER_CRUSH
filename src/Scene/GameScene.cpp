@@ -321,7 +321,8 @@ void GameScene::Draw()
 
 	// カメラの描画処理
 	camera.Draw();
-
+	// 空の描画
+	SkyDraw();
 
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_shadowMap_handle_1);

@@ -48,8 +48,8 @@ public:
 	virtual void OptionValuesReflect(int bgm, int se, int mouse) = 0;
 
 
-	//! @bom,se の音量を設定する用の関数
-	// void SetSoundSize(int bgm_volume, int se_volume);
+	//! @brief 空の描画
+	void SkyDraw();
 
 	//! @brief シャドーマップ用の初期化関数
 	void ShadowMapInit();
@@ -78,6 +78,7 @@ public:
 	//! @brief フェードアウト処理関数
 	void FadeOutUpdate();
 	//! @brief フェードアウトからのシーンチェンジ用関数
+	//! @param 次のシーン番号
 	void FadeOutSceneChange(int next_scene);
 	//! @brief フェードイン処理
 	void FadeInUpdate();
@@ -150,4 +151,9 @@ private:
 	int m_fade_ratio = 0;
 	//! どのくらいの値変化するのかの値
 	int m_fade_value = 0;
+
+	// 空の座標など
+	Transform m_sky_transform;
+	// 空用のモデル
+	Model m_sky_model;
 };

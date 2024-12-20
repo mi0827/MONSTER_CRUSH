@@ -1,6 +1,9 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
+#include "src/System/Transform.h"
+#include "src/Model/Model.h"
+
 
 #include "src/System/Text.h"
 
@@ -29,7 +32,17 @@ void Scene_Base::SetCharacter(int player_num, int monster_num)
 //---------------------------------------------------------------------------
 void Scene_Base::BaseInit()
 {
+	// テキストデータの読み込み
 	m_text.LoadText("Data/Text/Option.txt", TEXT_MAX);
+	
+	// 空の設定
+	// 空データの読み込み
+	m_sky_model.LoadModel("Data/Model/Sky/sky.mqoz");
+
+	m_sky_transform.pos.set(0.0f, 500.0f, 0.0f);
+	m_sky_transform.rot.set(0.0f, 0.0f, 0.0f);
+	m_sky_transform.scale.set(20.0f, 20.0f, 20.0f);
+
 }
 
 // --------------------------------------------------------------------------
@@ -54,6 +67,18 @@ void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 	}
 	// フォントサイズをリセット
 	SetFontSize(default_size);
+}
+
+// --------------------------------------------------------------------------
+// 空の描画
+// --------------------------------------------------------------------------
+void Scene_Base::SkyDraw()
+{
+	// 空もモデルはライトの影響はない状態にしたい
+	SetUseLighting(FALSE);
+	m_sky_model.DrawModel(&m_sky_transform);
+	// ライトを元に戻す
+	SetUseLighting(TRUE);
 }
 
 // --------------------------------------------------------------------------

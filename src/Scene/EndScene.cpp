@@ -137,7 +137,7 @@ void EndScene::Update()
 void EndScene::Draw()
 {
 	// プレイヤーのシャドーマップのエリアのセット
-	SetShadowMapArea(m_shadowMap_handle, player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
 
 	//-------------------------------------------------------------
 	// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
@@ -168,7 +168,8 @@ void EndScene::Draw()
 
 	// カメラの描画処理
 	camera.Draw();
-
+	// 空の描画
+	SkyDraw();
 
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_shadowMap_handle_1);
