@@ -179,6 +179,13 @@ void TitleScene::Draw()
 	// 空の描画
 	SkyDraw();
 	
+	SetUseShadowMap(1, m_shadowMap_handle_1);
+	{
+
+		// プレイヤーの描画処理
+		player->Draw();
+
+	}
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
@@ -188,13 +195,7 @@ void TitleScene::Draw()
 		field.Draw();
 
 	}
-	SetUseShadowMap(1, m_shadowMap_handle_1);
-	{
-		
-		// プレイヤーの描画処理
-		player->Draw();
-		
-	}
+	
 	
 	UseShadowMapSet();
 

@@ -332,7 +332,7 @@ void Hero::Draw()
 	//m_sword.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	// エフェクトの描画処理
-	DrawEffekseer3D();
+	//DrawEffekseer3D();
 
 	m_model.DrawModel(&m_transform);
 }
