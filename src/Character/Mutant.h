@@ -38,6 +38,9 @@ public:
 	//! @brief HPが一定まで減ったときのレベルアップ処理
 	void ReinforceUpdate() override;
 
+	//! @brief 攻撃を受けた時の更新処理
+	void ComeAttackUpdate() override;
+
 	//! @brief あたり判定の更新処理
 	void CDUpdate() override;
 
@@ -49,15 +52,24 @@ public:
 	//! @brief 当たり判定を行って欲しいタイミングを保存する関数
 	void SetAttackInfo() override;
 
-
 	//! @brief モンスターの状態(フラグ)管理関数
 	//! @param モンスターの状態
 	void MonsterMode(int mode) override;
 
-
 	//! @brief アニメーション読み込み関数
 	void AnimLoadInit() override;
 
+	//! @brief エフェクトの読み込みをまとめる関数
+	void EffectLoadInit() override;
+	//! @brief エフェクトの更新処理
+	//! @param 行いたいエフェクト番号
+	//! @param 行いたいエフェクトの情報番号
+	void EffectUpdate(int effect_num, int effect_info_num) override;
+	//! @brief SEの読み込み
+	void SELoadInit() override;
+	//! @brief SEの更新処理
+	//! @param 行いたいSE番号
+	void SEUpdate(int se_num) override;
 
 	//=========================================================================
 	// 定数の宣言
@@ -96,12 +108,12 @@ public:
 		stun_down_anim, //!< スタンで倒れる時
 		stun_up_anim,  //!< スタンで起き上がるとき
 
-		attack_1_anim, //!< 攻撃１
-		attack_2_anim, //!< 攻撃２
-		attack_3_anim, //!< 攻撃３
-		attack_4_anim, //!< 攻撃４
-		attack_5_anim, //!< 攻撃５
-		attack_6_anim, //!< 攻撃６
+		punch_attack_1_anim, //!< パンチ攻撃１
+		sword_attack_1_anim, //!< ソード攻撃１
+		sword_attack_2_anim, //!< ソード攻撃２
+		sword_attack_3_anim, //!< ソード攻撃３
+		sword_attack_4_anim, //!< ソード攻撃４
+		sword_attack_5_anim, //!< ソード攻撃５
 		rolling_anim,  //!< ローリング
 		jump_anim,     //!< ジャンプアクション
 
@@ -109,23 +121,23 @@ public:
 	};
 
 	//! 攻撃アニメーションの一番最初
-	static constexpr int ATTACK_ANIM_START = attack_1_anim;
+	static constexpr int ATTACK_ANIM_START = punch_attack_1_anim;
 	//! 攻撃アニメーション最大値（jumpを抜いた分ジャンプを抜いておかないとコンボ攻撃の時なバグる）
 	static constexpr int ATTACK_ANIM_MAX = rolling_anim - ATTACK_ANIM_START;
 
 	//! 攻撃アクションの数
-	static constexpr int ATTACK_ACTION_MAX = anim_max - attack_1_anim;
+	static constexpr int ATTACK_ACTION_MAX = anim_max - punch_attack_1_anim;
 
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
 		attack_end = -1, //< コンボ攻撃の終わり
-		attack_punch_1 = attack_1_anim - ATTACK_ANIM_START,  //< 攻撃１
-		attack_punch_3 = attack_3_anim - ATTACK_ANIM_START,	 //< 攻撃３
-		attack_punch_2 = attack_2_anim - ATTACK_ANIM_START,	 //< 攻撃２
-		attack_punch_4 = attack_4_anim - ATTACK_ANIM_START,  //< 攻撃４
-		attack_punch_5 = attack_5_anim - ATTACK_ANIM_START,  //< 攻撃５
-		attack_punch_6 = attack_6_anim - ATTACK_ANIM_START,  //< 攻撃６
+		attack_punch_1 = punch_attack_1_anim - ATTACK_ANIM_START,  //< 攻撃１
+		attack_sword_1 = sword_attack_1_anim - ATTACK_ANIM_START,  //< 攻撃２
+		attack_sword_2 = sword_attack_2_anim - ATTACK_ANIM_START,  //< 攻撃３
+		attack_sword_3 = sword_attack_3_anim - ATTACK_ANIM_START,  //< 攻撃４
+		attack_sword_4 = sword_attack_4_anim - ATTACK_ANIM_START,  //< 攻撃５
+		attack_sword_5 = sword_attack_5_anim - ATTACK_ANIM_START,  //< 攻撃６
 		attack_rolling = rolling_anim - ATTACK_ANIM_START,   //< ローリング攻撃
 		attack_jump = jump_anim - ATTACK_ANIM_START,         //< ジャンプ攻撃
 
@@ -140,17 +152,17 @@ public:
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	  {attack_punch_4,attack_punch_2,attack_end,attack_end},
-	  {attack_punch_1,attack_punch_6,attack_end,attack_end},
-	  {attack_punch_4,attack_punch_3,attack_end,attack_end},
-	  {attack_punch_5,attack_punch_2,attack_punch_1,attack_end},
-	  {attack_punch_6,attack_punch_1,attack_punch_4,attack_end},
-	  {attack_punch_1,attack_punch_4,attack_punch_3,attack_end},
+	  {attack_sword_3,attack_sword_1,attack_end,attack_end},
+	  {attack_punch_1,attack_sword_5,attack_end,attack_end},
+	  {attack_sword_3,attack_sword_2,attack_end,attack_end},
+	  {attack_sword_4,attack_sword_1,attack_punch_1,attack_end},
+	  {attack_sword_5,attack_punch_1,attack_sword_3,attack_end},
+	  {attack_punch_1,attack_sword_3,attack_sword_2,attack_end},
 	};
 	// 各コンボの後隙
 	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
 	{
-		{120},{120},{120},{120},{120},{120}
+		{20},{20},{20},{20},{20},{20}
 	};
 
 	// 当たり判定をとってほしいフレームの構造体
@@ -190,6 +202,68 @@ public:
 	//! 各攻撃のダメージ
 	int m_attack_damage[attack_max]
 	{
-		100,100,100,100,100,100,100,100,
+		10,10,10,10,10,10,10,10,
+	};
+
+	//! エフェクトの種類用の列挙体
+	enum Effect
+	{
+		sword_attack_effect, // 剣での攻撃時のエフェクト
+		punch_attack_effect, // パンチ攻撃時のエフェクト
+		damage_effect, // ダメージを受けた時のエフェクト
+		roar_effect,      // 咆哮時のエフェクト
+		effect_max
+	};
+
+	// エフェクトをつけたいアニメーションの種類を列挙体で管理
+	enum EffectInfoNum
+	{
+		// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
+		attack_punch_1_effect_info, // パンチ攻撃１
+		attack_sword_1_effect_info, // ソード攻撃１
+		attack_sowrd_2_effect_info, // ソード攻撃２
+		attack_sowrd_3_effect_info, // ソード攻撃３
+		attack_sowrd_4_effect_info, // ソード攻撃４
+		attack_sowrd_5_effect_info, // ソード攻撃５
+		attack_counter_effect_info,  // カウンター
+
+		// ここからは攻撃とは別のエフェクト
+		damage_effect_info,     // 攻撃を受けた時のエフェクト
+		roar_effect_info,       // 咆哮時のエフェクト  
+
+		effect_info_max
+	};
+	struct EffectInfo
+	{
+		// エフェクトのスケール
+		Vector3 size;
+		// エフェクトの座標(キャラの座標からずらす分の座標)
+		Vector3 pos;
+		// エフェクトの向き
+		Vector3 rot;
+
+		// 下の二つはなくてもいいかも
+		// エフェクトの再生を開始させたいときのアニメーションフレーム
+		float effect_start_anim_frame;
+	};
+	EffectInfo m_effect_info[effect_info_max]
+	{
+		// パンチ攻撃１
+	    { {4.0f,4.0f,4.0f},{15.0f,14.0f,15.0f},{90.0f,180.0f,0.0f}, 5},
+		// ソード攻撃１
+		{ {6.0f,6.0f,6.0f},{20.0f,18.0f,20.0f},{35.0f,-90.0f,0.0f}, 60},
+		// ソード攻撃２
+		{ {6.0f,6.0f,6.0f},{20.0f,25.0f,20.0f},{155.0f,-90.0f,0.0f}, 40},
+		// ソード攻撃３
+		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{35.0f,-90.0f,0.0f}, 30},
+		// ソード攻撃４
+		{ {5.0f,5.0f,5.0f},{15.0f,24.0f,15.0f},{85.0f,-90.0f,0.0f}, 1},
+		// ソード攻撃５
+		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{90.0f,-90.0f,10.0f}, 30},
+		// ダメージを受けた時のエフェクト
+		{ {1.0f,1.0f,1.0f},{0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
+		// ローリング時のエフェクト  
+		{ {1.0f,1.0f,1.0f},{5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
+		
 	};
 };

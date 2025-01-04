@@ -4,7 +4,7 @@
 //! @brief UŒ‚‚µ‚½‘¤‚ÌUŒ‚—Í
 //! @brief UŒ‚‚³‚ê‚½‘¤‚Ì–hŒä—Í
 //! @brief UŒ‚‚³‚ê‚½‘¤‚ÌHP
-void Damage_Count(int damage_value,int defense_value,int* hp_value);
+void DamageCount(int damage_value,int defense_value,int* hp_value);
 
 
 //! @file DamageAction.h

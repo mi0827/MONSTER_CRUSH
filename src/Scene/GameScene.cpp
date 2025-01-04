@@ -24,6 +24,7 @@
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
 #include "src/System/TargetMove.h"
+
 #include "src/Character/CharacterBase.h"
 #include "src/Character/MonsterBase.h"
 #include "src/Character/SamplePlayer.h"
@@ -180,8 +181,6 @@ void GameScene::EntryUpdate()
 		// バトルのためにカメラの向きの設定
 		camera.SetCameraRot(player->m_transform.rot);
 	}
-
-
 }
 
 //---------------------------------------------------------------------------
@@ -340,8 +339,6 @@ void GameScene::Draw()
 		player->Draw();
 		// モンスターの描画
 		monster->Draw();
-		
-		
 	}
 
 	UseShadowMapSet();
@@ -510,10 +507,10 @@ void GameScene::AttackUpdate()
 	{
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
 		int num = player->m_now_attack;
-		//CharacterBase::Attack_Hit_Damage* ptr = player->m_attack_hit_damage[num];
 		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 		if (player->AttackHitGoodTiming(num))
 		{
+			// モンスターのボディーとの当たり判定をとる
 			if (HitAttack(monster->m_body, player->m_attack_hit_damage[num]->attack_hit) == true)
 			{
 				// 当たり判定があったら一回だけこの処理を通るようにする
@@ -523,10 +520,16 @@ void GameScene::AttackUpdate()
 					// 一回だけ通ってほしいからフラグを下げる
 					player->m_can_hit_damage_flag = false;
 
+					//--------------------------------------------
+					// モンスターの中身を変更する
 					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-					Damage_Count(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
+					DamageCount(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
 					// スタン値も攻撃を受けたタイミングで減らす
-					Damage_Count(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_stun_value);
+					DamageCount(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_stun_value);
+					// モンスターが攻撃受けた時の処理
+					monster->ComeAttackUpdate();
+					//--------------------------------------------
+
 					// ヒットストップを行っていいいタイミングだけ行う
 					if (player->m_attack_hit_damage[num]->can_hit_stop)
 					{
@@ -543,25 +546,27 @@ void GameScene::AttackUpdate()
 		}
 	}
 
-
-
-
 	//モンスターの攻撃
 	if (monster->m_monster_mode == monster->ATTACK&& monster->m_attack_flag)
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
-		//MonsterBase::Attack_Hit_Damage* ptr = monster->m_attack_hit_damage[num];
-			// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
-			// 今仮でプレイヤーになっているのでモンスターを作るときにモンスター用のものを作る
+	
+		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 		if (monster->AttackHitGoodTiming(num))
 		{
+			// プレイヤーのボディーとの当たり判定をとる
 			if (HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 			{
+				// 当たり判定があったら一回だけこの処理を通るようにする
+				// ダメージ処理を行っていいフラグが上がっていたら
 				if (monster->m_can_hit_damage_flag)
 				{
 					// 一回だけ通ってほしいからフラグを下げる
 					monster->m_can_hit_damage_flag = false;
+
+					//--------------------------------------------
+					// プレイヤーの中身を変更する
 					// プレイヤーの攻撃受けたフラグが下がっているとき
 					if (player->m_damage_flag == false)
 					{
@@ -570,8 +575,11 @@ void GameScene::AttackUpdate()
 					}
 					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 					// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-					Damage_Count(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
-
+					DamageCount(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
+					// プレイヤーが攻撃受けた時の処理
+					player-> ComeAttackUpdate();
+					//--------------------------------------------
+					
 					// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 					hit_stop.StopCountReset();
 				}

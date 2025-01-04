@@ -24,7 +24,6 @@ public:
 	//! @brief エフェクトを再生
 	//! @param 再生したいエフェクト番号
 	//! @param エフェクトの座標
-	
 	void PlayEffect(int effect_num, Vector3 pos);
 
 	//! @brief エフェクトの座標を設定
@@ -32,13 +31,16 @@ public:
 	void SetEffectPos( Vector3 pos = { 0.0f,0.0f,0.0f });
 
 	//! @brief エフェクトの座標をモデルの向きに合わせてずらす関数
+	//! @param 設定したいキャラの座標
 	//! @param ずらしたい座標
 	//! @param 設定したいモデルの向き
-	void SetEffectRotPos(Vector3 pos, Vector3 rot);
+	void SetEffectRotPos(Vector3 character_pos, Vector3 pos, Vector3 rot);
 
 	//! @brief エフェクトの向きの設定
-	//! @param エフェクトの向き
-	void SetEffectRot( Vector3 rot);
+	//! @param X軸の回転
+	//! @param Y軸の回転
+	//! @param Z軸の回転
+	void SetEffectRot(float rot_x, float rot_y, float rot_z);
 
 	//! @brief エフェクトの細かいサイズの設定
 	//! @param 各方向に対しての拡大率(Vector3)
@@ -53,11 +55,12 @@ public:
 	void SetEffectColor( COLOR_F color);
 
 	//! @brief エフェクトが再生中かどうかを調べる
-	bool IsPlayingEffect();
+	//! @return	再生中かどうか?
+	//! @return	0:再生中、 - 1 : 再生されていない、もしくは再生終了
+	int IsPlayingEffect();
 
-	//! @brief 指定のエフェクトが再生中かどうかを調べる
-	//! @param 調べたいエフェクト番号
-	bool PickPlayingEffect(int no);
+	//! @brief 再生中のエフェクトを終了させる
+	void StopEffect();
 
 	//! @brief エフェクトの描画
 	void EffectDraw();
@@ -78,6 +81,13 @@ private:
 private:
 	//! 現在再生中のエフェクトのを保存する変数
 	std::vector<int> m_playing_effect;
+	
+	//! エフェクトの再生中かのフラグ
+    int m_playing_effect_flag;
+
 	//! モデルの座標
 	Vector3 m_model_pos;
+public:
+	//! エフェクトを再生再生していいかのフラグ
+	bool m_play_effect_flag = true;
 };

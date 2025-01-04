@@ -292,6 +292,7 @@ void CharacterBase::RollingActionUpdate(int rolling_anim_no, const int rolling_s
 		{
 			// 一旦アクションモードをIDLEにしておく
 			m_player_mode = IDLE;
+		
 		}
 	}
 }

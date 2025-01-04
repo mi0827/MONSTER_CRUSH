@@ -11,11 +11,12 @@
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
 
+#include "src/Effect/Effect.h"
+#include "src/System/UIBar.h"
+#include "src/Sound/Sound.h"
+
 #include "src/Action/Combo.h"
 #include "src/System/TargetMove.h"
-
-#include "src/System/UIBar.h"
-
 #include "src/Character/MonsterBase.h"
 #include "Monster.h"
 
@@ -368,49 +369,6 @@ void Monster::Jump_Update()
 		// ジャンプフラグを下げる
 		m_jump_flag = false; // 落ちる処理へ
 	}
-
-	//switch (jump_num)
-	//{
-	//case STANDBY: // 待機
-	//	// 指定のアニメーションフレームになったら指定の処理のところに行くようにすうる
-	//	if (m_animation.m_contexts[0].play_time >= 80.0f)
-	//	{
-	//		jump_num = GOUP; // 上がる処理へ
-	//	}
-	//	if (m_animation.m_contexts[0].play_time >= 110.0f)
-	//	{
-	//		jump_num = DROPDOWN; // 落ちる処理へ
-	//	}
-	//	break;
-	//case GOUP:        // 上がる
-	//	m_transform.pos.y += 5;
-	//	// 一定の高さまで上がったら
-	//	if (m_transform.pos.y >= JUMP_HEIGHT)
-	//	{
-	//		// 上がるのを止めて移動の処理へ
-	//		m_transform.pos.y = JUMP_HEIGHT;
-	//		jump_num = MOVE;
-	//	}
-	//	break;
-
-	//case MOVE:        // 座標移動
-	//	// 移動先の座標の設定ターゲットの座標からモンスターのbodyの半径より少し小さいくらいずらしたとこ
-	//	m_transform.pos.x = move.m_target_info.m_target->pos.x - m_body.m_capsule.radius + 5;
-	//	m_transform.pos.z = move.m_target_info.m_target->pos.z - m_body.m_capsule.radius + 5;
-
-	//	jump_num = STANDBY; // 落ちるタイミングを合わせるためにいったん待機へ
-	//	break;
-
-	//case DROPDOWN:   // 落ちる
-	//	m_transform.pos.y -= 5;
-	//	// 図面についたら落ちるのをやめる
-	//	if (m_transform.pos.y <= 0)
-	//	{
-	//		m_transform.pos.y = 0;
-	//	}
-	//	break;
-	//}
-
 }
 
 //-----------------------------------------------

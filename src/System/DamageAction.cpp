@@ -3,7 +3,7 @@
 //-----------------------------------------------
 // ダメージ計算用関数
 //-----------------------------------------------
-void Damage_Count(int damage_value, int defense_value, int* hp_value)
+void DamageCount(int damage_value, int defense_value, int* hp_value)
 {
 	// ダメージ計算(アルテリオス計算式を使用)
 	// どれだけのダメージを食らったかの計算

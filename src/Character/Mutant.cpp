@@ -10,9 +10,12 @@
 #include "src/Collision/CapsuleCollision.h"
 
 
-#include "src/System/TargetMove.h"
-#include "src/Action/Combo.h"
+#include "src/Effect/Effect.h"
 #include "src/System/UIBar.h"
+#include "src/Sound/Sound.h"
+
+#include "src/Action/Combo.h"
+#include "src/System/TargetMove.h"
 #include "src/Character/MonsterBase.h"
 
 #include "Mutant.h"
@@ -72,6 +75,11 @@ void Mutant::Init()
 	SetAttackAnimInfo(ATTACK_ANIM_START, ATTACK_ANIM_MAX, attack_rolling);
 	// 攻撃アニメーションの数分のあたり判定用の入れ物を確保する
 	SetAttackHitDamage(ATTACK_ACTION_MAX);
+
+	// エフェクトの初期化
+	EffectLoadInit();
+	// SEの初期化
+	SELoadInit();
 
 	// ステータスバーの設定
 	StatusBarInit();
@@ -202,19 +210,16 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			// ジャンプアクションをセットする
-     		JumpAction(jump_anim, JUMP_TARGET_DISTANCE);
-			
+			JumpAction(jump_anim, JUMP_TARGET_DISTANCE);
+
 		}
 		// 走っている時間が一定以上になったら
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			// ローリングアクションをセットする
 			SetRollingAction(rolling_anim, ROLLING_TARGET_DISTANCE);
-			
+
 		}
-
-		
-
 		break;
 	case ATTACK:
 		// スタン中はほかの攻撃処理をしてほしくない
@@ -249,9 +254,31 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			// モンスターの移動ができない距離に敵がいたら
 			// 攻撃を始める
 			AttackActionComboUpdate();
-
+		}
+		// 攻撃のあったエフェクトの再生
+	    // 攻撃のエフェクトがキック以外の時
+	    // 攻撃時のエフェクトは攻撃とタイミングを合わせる
+		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
+			m_effect.m_play_effect_flag == true)
+		{
+			if (m_now_attack == attack_punch_1 )
+			{
+				// パンチ攻撃の時のエフェクト
+				EffectUpdate(punch_attack_effect, m_now_attack);
+			}
+			else
+			{
+				//ソードで攻撃するときのエフェクト
+				EffectUpdate(sword_attack_effect, m_now_attack);
+			}
 		}
 
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+			// 攻撃アニメーションが終わったから
+			// 次のエフェクトが再生できるようにする
+			m_effect.m_play_effect_flag = true;
+		}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		m_move.SetCanRotate(false);
 
@@ -285,8 +312,6 @@ void Mutant::DieUpdate()
 		// 少し前に戻す
 		m_animation.m_contexts[0].play_time = 200;
 	}
-
-
 }
 
 //-----------------------------------------------
@@ -343,6 +368,7 @@ void Mutant::EntryUpdate()
 
 	// アニメーションの再生
 	m_animation.PlayAnimation(&m_model, m_combo_flag);
+
 }
 
 //-----------------------------------------------
@@ -355,6 +381,20 @@ void Mutant::ReinforceUpdate()
 	// そのあとに叫ぶアニメーションをつける
 	// その後で攻撃を増やしたりダメージ量を増やした入りエフェクトを派手にしたり変化を加える
 
+}
+
+//-----------------------------------------------
+// 攻撃を受けた時の更新処理
+//-----------------------------------------------
+void Mutant::ComeAttackUpdate()
+{
+	m_effect.m_play_effect_flag = true;
+
+	// 再生中のエフェクトがあったら終了させる
+	m_effect.StopEffect();
+
+	//ダメージを受けた時のエフェクト
+	EffectUpdate(damage_effect, damage_effect_info);
 }
 
 //-----------------------------------------------
@@ -375,11 +415,11 @@ void Mutant::CDUpdate()
 
 	// 攻撃時の当たり当たり判定の保存
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_2], (attack_punch_2));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_3], (attack_punch_3));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_4], (attack_punch_4));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_5], (attack_punch_5));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_punch_6], (attack_punch_6));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_1], (attack_sword_1));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_2], (attack_sword_2));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_3], (attack_sword_3));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_4], (attack_sword_4));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_sword_5], (attack_sword_5));
 	SetHitDamage(m_body, m_attack_damage[attack_rolling], (attack_rolling));
 	SetHitDamage(m_body, m_attack_damage[attack_jump], (attack_jump));
 
@@ -454,11 +494,11 @@ void Mutant::SetAttackInfo()
 	// 当たり判定のタイミングの設定
 	//------------------------------------------
 	SetHitTime(attack_frame[attack_punch_1].start_frame, attack_frame[attack_punch_1].end_frame, attack_punch_1);
-	SetHitTime(attack_frame[attack_punch_2].start_frame, attack_frame[attack_punch_2].end_frame, attack_punch_2);
-	SetHitTime(attack_frame[attack_punch_3].start_frame, attack_frame[attack_punch_3].end_frame, attack_punch_3);
-	SetHitTime(attack_frame[attack_punch_4].start_frame, attack_frame[attack_punch_4].end_frame, attack_punch_4);
-	SetHitTime(attack_frame[attack_punch_5].start_frame, attack_frame[attack_punch_5].end_frame, attack_punch_5);
-	SetHitTime(attack_frame[attack_punch_6].start_frame, attack_frame[attack_punch_6].end_frame, attack_punch_6);
+	SetHitTime(attack_frame[attack_sword_1].start_frame, attack_frame[attack_sword_1].end_frame, attack_sword_1);
+	SetHitTime(attack_frame[attack_sword_2].start_frame, attack_frame[attack_sword_2].end_frame, attack_sword_2);
+	SetHitTime(attack_frame[attack_sword_3].start_frame, attack_frame[attack_sword_3].end_frame, attack_sword_3);
+	SetHitTime(attack_frame[attack_sword_4].start_frame, attack_frame[attack_sword_4].end_frame, attack_sword_4);
+	SetHitTime(attack_frame[attack_sword_5].start_frame, attack_frame[attack_sword_5].end_frame, attack_sword_5);
 	SetHitTime(attack_frame[attack_rolling].start_frame, attack_frame[attack_rolling].end_frame, attack_rolling);
 	SetHitTime(attack_frame[attack_jump].start_frame, attack_frame[attack_jump].end_frame, attack_jump);
 }
@@ -508,33 +548,84 @@ void Mutant::MonsterMode(int mode)
 //-----------------------------------------------
 // アニメーションの初期処理
 //-----------------------------------------------
-
 void Mutant::AnimLoadInit()
 {
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle_anim);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1",      idle_anim,       0, 1.0f); //!< アイドル
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1",        run_anim,        0, 1.0f); //!< ラン
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1",        die_anim,        0, 1.0f); //!< 死亡
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1",      shout_anim,      0, 0.5f); //!< 叫び
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1", idle_anim, 0, 1.0f); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run_anim, 0, 1.0f); //!< ラン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die_anim, 0, 1.0f); //!< 死亡
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout_anim, 0, 0.5f); //!< 叫び
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage_anim, 0, 1.0f); //!< ダメージを受けた時
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim,  0, 1.5f);  //!< スタンを食らった時のダウン
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1",    stun_up_anim,    0, 2.0f);          //!< スタンを食らった時の起き上がり
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim, 0, 1.5f);  //!< スタンを食らった時のダウン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up_anim, 0, 2.0f);          //!< スタンを食らった時の起き上がり
 
 	// もっとモンスターっぽい攻撃を探してこい
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1",     attack_1_anim, 0, 1.0f); //!< 攻撃１
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch2.mv1",     attack_2_anim, 0, 1.0f); //!< 攻撃２
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch3.mv1",     attack_3_anim, 0, 1.0f); //!< 攻撃３
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch4.mv1",     attack_4_anim, 0, 1.0f); //!< 攻撃４
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch5.mv1",     attack_5_anim, 0, 1.0f); //!< 攻撃４
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch6.mv1",     attack_6_anim, 0, 1.0f); //!< 攻撃４
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1",    rolling_anim,  0, 1.0f); //!< ローリング
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump_anim,     0, 1.0f); //!< ジャンプ
-	
-	
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", punch_attack_1_anim, 0, 1.5f); //!< パンチ攻撃１
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_1.mv1", sword_attack_1_anim, 0, 1.0f); //!< ソード攻撃１
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_2.mv1", sword_attack_2_anim, 0, 1.3f); //!< ソード攻撃２
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_3.mv1", sword_attack_3_anim, 0, 1.5f); //!< ソード攻撃３
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_4.mv1", sword_attack_4_anim, 0, 1.0f); //!< ソード攻撃４
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_5.mv1", sword_attack_5_anim, 0, 1.5f); //!< ソード攻撃５
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling_anim, 0, 1.0f); //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump_anim, 0, 1.0f); //!< ジャンプ
+
+
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle_anim, true);
+}
 
+//-----------------------------------------------
+// エフェクトの初期処理
+//-----------------------------------------------
+void Mutant::EffectLoadInit()
+{
+	// エフェクト初期化
+   // エフェクトの最大数を設定
+	m_effect.NewArraySecure(effect_max);
+	// エフェクトの読み込み
+	m_effect.LoadEffect("Data/Model/Mutant/Effect/LightningAttack.efkefc", sword_attack_effect, 1.0f); // 剣での攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Mutant/Effect/attack1.efkefc", punch_attack_effect, 1.0f); // パンチ攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Mutant/Effect/blood.efkefc", damage_effect, 4.0f);        // ダメージを受けた時のエフェクト
+	m_effect.LoadEffect("Data/Model/Mutant/Effect/roar.efkefc", roar_effect, 1.0f);              // 咆哮時のエフェクト
+}
+
+//-----------------------------------------------
+// エフェクトの更新処理
+//-----------------------------------------------
+void Mutant::EffectUpdate(int effect_num, int effect_info_num)
+{
+	// エフェクトが再生可能状態なら
+	if (m_effect.m_play_effect_flag == true)
+	{
+		// エフェクトの再生
+		m_effect.PlayEffect(effect_num, m_transform.pos);
+		// エフェクトが再生されたので再生してはいけないようにする
+		m_effect.m_play_effect_flag = false;
+	}
+
+	// エフェクトによって座標を合わせる
+	//m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
+	m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	// エフェクトのサイズを合わせる
+	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
+	// エフェクトの向きを合わせる
+	// プレイヤーの向きにも合わせる
+	m_effect.SetEffectRot(m_effect_info[effect_info_num].rot.x, m_effect_info[effect_info_num].rot.y + m_transform.rot.y, m_effect_info[effect_info_num].rot.z);
+}
+
+//-----------------------------------------------
+// SEの初期処理
+//-----------------------------------------------
+void Mutant::SELoadInit()
+{
+}
+
+//-----------------------------------------------
+// SEの更新処理
+//-----------------------------------------------
+void Mutant::SEUpdate(int se_num)
+{
 }
 

@@ -9,9 +9,12 @@
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 
-#include "src/System/TargetMove.h"
-#include "src/Action/Combo.h"
+#include "src/Effect/Effect.h"
 #include "src/System/UIBar.h"
+#include "src/Sound/Sound.h"
+
+#include "src/Action/Combo.h"
+#include "src/System/TargetMove.h"
 #include "src/Character/MonsterBase.h"
 
 

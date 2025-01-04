@@ -155,8 +155,6 @@ void Hero::Update(Vector3* camera_rot)
 	{
 		m_transform.pos.y = 0;
 	}
-
-
 }
 
 //-----------------------------------------------
@@ -190,7 +188,6 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		// ローリングの切り替え
 		RollingActionStart();
 	}
-
 
 	// キャラクターの状態によって行動を変える
 	switch (m_player_mode)
@@ -231,11 +228,25 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 
 		break;
 	case ROLLING: // ローリングアクションをしている時
+
+		// ローリングの更新処理
 		RollingActionUpdate(rolling, PLAYER_ROLLING_SPEED);
+		
+		// ローリングエf稀有と自体に問題があるかの可能性があるので一旦置いておく
+		//// エフェクト再生可能状態にしておく
+		//m_effect.m_play_effect_flag = true;
+		//// ローリング時のエフェクト
+		//EffectUpdate(rolling_effect, rolling_effect_info);
 
 		break;
 	case COUNTER:
+
+		// カウンター攻撃をセット
 		CounterAction(counter_anim);
+
+		m_effect.StopEffect();
+		// エフェクト再生可能状態にしておく
+		m_effect.m_play_effect_flag = true;
 
 		break;
 
@@ -252,7 +263,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		}
 
 		// カウンター攻撃が行われている場合
-		// こうすることによってカウンター攻撃ちゅに回避ができなくなる
+		// こうすることによってカウンター攻撃中に回避ができなくなる
 		if (m_counter_flag && m_animation.m_contexts[0].is_playing == false)
 		{
 			// カウンターフラグを下す
@@ -264,26 +275,38 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		// 攻撃用の関数
 		AttackUpdate();
 
-		if (!m_effect.IsPlayingEffect())
-		{
 
+		// 攻撃のエフェクトがキック以外の時
+		// 攻撃時のエフェクトは攻撃とタイミングを合わせる
+		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
+			m_effect.m_play_effect_flag == true)
+		{
+			if (m_now_attack == attack_kick_1 || m_now_attack == attack_kick_2)
+			{
+				// キック攻撃の時のエフェクト
+				EffectUpdate(attack_kick_effect, m_now_attack);
+			}
+			else
+			{
+				// 剣で攻撃するときのエフェクト
+				EffectUpdate(attack_sword_effect, m_now_attack);
+			}
 		}
-		// エフェクトの再生
-		m_effect.PlayEffect(effect1, m_transform.pos);
-		// エフェクトによって座標を合わせる
-		m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
-		// エフェクトのサイズを合わせる
-		m_effect.SetEffectSize(attack_effect[m_now_attack].size);
-		// エフェクトの向きを合わせる
-		m_effect.SetEffectRot(attack_effect[m_now_attack].rot);
-	
+
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+			// 攻撃アニメーションが終わったから
+			// 次のエフェクトが再生できるようにする
+			m_effect.m_play_effect_flag = true;
+		}
+
 		// サウンドが再生されていないとき
 		if (!m_se.PlayingSound(se1))
 		{
 			// サウンドの再生
-			m_se.PlaySound_(se1, DX_PLAYTYPE_BACK, true);
+			//m_se.PlaySound_(se1, DX_PLAYTYPE_BACK, true);
 		}
-		
+
 		break;
 
 	case HIT_DAMAGE: // ダメージを受けた時
@@ -440,13 +463,13 @@ void Hero::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1", rolling, 0, 1.5f);   //!< ローリング
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1", hit_damage, 0, 1.0f);   //!< 攻撃が当たったときのダメージ
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1", die, 0, 1.0f);   //!< 死んだとき
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 1.8f); //!< 剣攻撃１ 
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 1.8f); //!< 剣攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 1.8f); //!< 剣攻撃３
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 2.0f); //!< 剣攻撃１ 
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 2.0f); //!< 剣攻撃２
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 2.0f); //!< 剣攻撃３
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.7); //!< 剣攻撃４
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.7); //<! キック攻撃１
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.7); //<! キック攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 2.0);     //<! カウンター攻撃
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.0);     //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
@@ -460,7 +483,35 @@ void Hero::EffectLoadInit()
 	// エフェクトの最大数を設定
 	m_effect.NewArraySecure(effect_max);
 	// エフェクトの読み込み
-	m_effect.LoadEffect("Data/Model/Hero/Effect/Simple_Ribbon_Sword.efkefc", effect1, 1.0f);
+	m_effect.LoadEffect("Data/Model/Hero/Effect/Simple_Ribbon_Sword.efkefc", attack_sword_effect, 1.0f); // 剣攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Hero/Effect/kick.efkefc", attack_kick_effect, 1.0f); // キック攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Hero/Effect/HitDamage.efkefc", damage_effect, 1.0f); // ダメージを受けた時のエフェクト
+	m_effect.LoadEffect("Data/Model/Hero/Effect/rolling.efkefc", rolling_effect, 1.0f); // ローリング時のエフェクト
+}
+
+//-----------------------------------------------
+// エフェクトの更新処理
+//-----------------------------------------------
+void Hero::EffectUpdate(int effect_num, int effect_info_num)
+{
+	// エフェクトが再生可能状態なら
+	if (m_effect.m_play_effect_flag == true)
+	{
+		// エフェクトの再生
+		m_effect.PlayEffect(effect_num, m_transform.pos);
+		// エフェクトが再生されたので再生してはいけないようにする
+		m_effect.m_play_effect_flag = false;
+	}
+
+	// エフェクトによって座標を合わせる
+	//m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
+	m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	// エフェクトのサイズを合わせる
+	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
+	// エフェクトの向きを合わせる
+	// プレイヤーの向きにも合わせる
+	m_effect.SetEffectRot(m_effect_info[effect_info_num].rot.x, m_effect_info[effect_info_num].rot.y + m_transform.rot.y, m_effect_info[effect_info_num].rot.z);
+
 }
 
 //-----------------------------------------------
@@ -473,6 +524,13 @@ void Hero::SELoadInit()
 	m_se.NewArraySecureSound(se_max);
 	// SEの読み込み
 	m_se.LoadSound("Data/Model/Hero/SE/scifi_attack4.mp3", se1);
+}
+
+//-----------------------------------------------
+// SEの更新処理
+//-----------------------------------------------
+void Hero::SEUpdate(int se_num)
+{
 }
 
 //-----------------------------------------------
@@ -524,6 +582,17 @@ void Hero::PlayerMode(int mode)
 		m_rolling_flag = false;
 		break;
 	}
+}
+
+//-----------------------------------------------
+// 攻撃を受けた時の更新処理
+//-----------------------------------------------
+void Hero::ComeAttackUpdate()
+{
+	// エフェクト再生可能状態にする
+	m_effect.m_play_effect_flag = true;
+	// ダメージを受けた時のエフェクト
+	EffectUpdate(damage_effect, damage_effect_info);
 }
 
 

@@ -33,21 +33,26 @@ public:
 
 	//! @brief HPが一定まで減ったときのレベルアップ処理
 	virtual void ReinforceUpdate() = 0;
-
+	
+	//! @brief 攻撃を受けた時の更新処理
+	virtual void ComeAttackUpdate() = 0;
 
 	//! @brief 死んだときの更新処理 
 	virtual void DieUpdate() = 0;
 	//! @brief 終了処理
 	virtual void Exit() = 0;
 
-
 	//! @brief 当たり判定の更新処理
 	virtual void CDUpdate() = 0;
 
 	//! @brief ステータスバーの設定用関数
 	virtual void StatusBarInit() = 0;
+
 	//! @brief ステータスバーの描画関数
 	virtual void StatusBarDraw() = 0;
+
+	//! @brief ダメージを受けた時の処理
+	//virtual void DamageUpdate() = 0;
 
 	//! @brief アニメーションの指定のフレームで移動させる処理
 	//! @param 移動スピード
@@ -81,6 +86,18 @@ public:
 
 	//! @brief アニメーション読み込み用関数
 	virtual void AnimLoadInit() = 0;
+
+	//! @brief エフェクトの読み込みをまとめる関数
+	virtual void EffectLoadInit() = 0;
+	//! @brief エフェクトの更新処理
+    //! @param 行いたいエフェクト番号
+	//! @param 行いたいエフェクトの情報番号
+	virtual void EffectUpdate(int effect_num, int effect_info_num) = 0;
+	//! @brief SEの読み込み
+	virtual void SELoadInit() = 0;
+	//! @brief SEの更新処理
+	//! @param 行いたいSE番号
+	virtual void SEUpdate(int se_num) = 0;
 
 	//! @brief 攻撃アニメーションに関する情報の設定
 	//! @param 攻撃アニメーションの開始番号
@@ -127,7 +144,6 @@ public:
 	//! @param ジャンプでの移動終了フレーム
 	void JumpActionUpdate(float jump_mov_speed, float jump_mov_strat_frame, float jump_mov_end_frame);
 
-
 	//! @brief コンボ攻撃更新処理
 	void ComboUpdate();
 
@@ -165,36 +181,20 @@ public:
 	//! @param 攻撃番号
 	void SetHitDamage(CapsuleCollision attack_hit, int attack_damage, int attack_num);
 
-	
-
-	// 攻撃の時の当たり判定とダメージの構造体
-	// 各子クラスで定義する
-	struct Attack_Hit_Damage
-	{
-		//!  攻撃時に使いたい当たり判定
-		CapsuleCollision attack_hit;
-		//! 攻撃にあったダメージ
-		int attack_damage = 0;
-
-		//! 当たり判定をとってほしいタイミング
-		//! スタート
-		int start_time = 0;
-		//! 終わり
-		int end_time = 0;
-
-	};
-	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
-
 	//! @brief 攻撃時の当たり判定を設定する用の関数
 	//! @param 攻撃アニメーションの最大数
-	void  SetAttackHitDamage(int attack_anim_max);
+	void SetAttackHitDamage(int attack_anim_max);
+
+	
+	
+
 
 public:
 
 	//-----------------------------------------------
 	// 列挙体で管理
 	//-----------------------------------------------
-	//! モンスターの状態
+	//! モンスターの状態（生死）
 	enum Situation
 	{
 		alive, // 生きてるとき
@@ -234,9 +234,6 @@ private:
 	int M_ATTACK_ANIM_MAX = 0;
 	//! ランダムで攻撃を選ぶ際にはぶいてほしいアニメーション番号
 	int M_ATTACK_ANIM_EXCEPT = 0;
-	
-
-
 
 public:
 	//------------------------------------------
@@ -297,6 +294,27 @@ public:
 	//! ローリングフラグ
 	bool m_rolling_flag; 
 
+
+	//------------------------------------------
+	// 攻撃の当たり判定関連
+	//------------------------------------------
+	// 攻撃の時の当たり判定とダメージの構造体
+	// 各子クラスで定義する
+	struct Attack_Hit_Damage
+	{
+		//!  攻撃時に使いたい当たり判定
+		CapsuleCollision attack_hit;
+		//! 攻撃にあったダメージ
+		int attack_damage = 0;
+
+		//! 当たり判定をとってほしいタイミング
+		//! スタート
+		int start_time = 0;
+		//! 終わり
+		int end_time = 0;
+
+	};
+	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
 
 	//------------------------------------------
 	// コンボ関連
@@ -388,11 +406,15 @@ public:
 	Animation m_animation;
 	//! コンボクラス
 	Combo m_combo;
+	//! エフェクトクラスオブジェクト
+	Effect m_effect;
+	//! サウンドクラスのオブジェクト
+	Sound m_se;
 
-	//! カプセルコリジョン
 	//=================
 	// 当たり判定
 	//=================
+	//! カプセルコリジョン
 	CapsuleCollision m_left_hand; //!< 左手のあたり判定
 	CapsuleCollision m_right_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定

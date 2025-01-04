@@ -57,12 +57,24 @@ public:
 	//! @brief エフェクトの読み込みをまとめる関数
 	virtual void EffectLoadInit() = 0;
 
+	//! @brief エフェクトの更新処理
+	//! @param 行いたいエフェクト番号
+	//! @param 行いたいエフェクトの情報番号
+	virtual void EffectUpdate(int effect_num, int effect_info_num) = 0;
+
 	//! @brief SEの読み込み
 	virtual void SELoadInit() = 0;
+
+	//! @brief SEの更新処理
+	//! @param 行いたいSE番号
+	virtual void SEUpdate(int se_num) = 0;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
 	virtual void PlayerMode(int mode) = 0;
+
+	//! @brief 攻撃を受けた時の更新処理
+	virtual void ComeAttackUpdate() = 0;
 
 	//! @brief プレイヤーの移動用関数
 	//! @param Runアニメーションの保存されているアニメーション番号

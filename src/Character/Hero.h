@@ -58,14 +58,27 @@ public:
 	//! @brief アニメーション読み込み関数
 	//! 攻撃アニメーションの始まるアニメーション番号
 	void AnimLoadInit() override;
+
 	//! @brief エフェクトの読み込みをまとめる関数
 	void EffectLoadInit() override;
+
+	//! @brief エフェクトの更新処理
+	//! @param 行いたいエフェクト番号
+	//! @param 行いたいエフェクトの情報番号
+	void EffectUpdate(int effect_num, int effect_info_num) override;
+
 	//! @brief SEの読み込み
 	void SELoadInit() override;
+	//! @brief SEの更新処理
+	//! @param 行いたいSE番号
+	void SEUpdate(int se_num) override;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
 	void PlayerMode(int mode) override;
+
+	//! @brief 攻撃を受けた時の更新処理
+	void ComeAttackUpdate() override;
 public:
 
 	//-----------------------------------------------
@@ -134,6 +147,7 @@ public:
 		bool can_hit_stop;
 	};
 
+
 	// 当たり判定を行ってほしいタイミングの設定
 	// 今のところ仮
 	// 作品展までに完成させる
@@ -164,8 +178,29 @@ public:
 	//! エフェクトの種類用の列挙体
 	enum Effect
 	{
-		effect1,
+		attack_sword_effect, // 攻撃時の剣の攻撃エフェクト
+		attack_kick_effect,    // キック時のエフェクト
+		damage_effect,        // 攻撃を受けた時のエフェクト
+		rolling_effect,           // ローリングエフェクト
 		effect_max
+	};
+	// エフェクトをつけたいアニメーションの種類を列挙体で管理
+	enum EffectInfoNum
+	{
+		// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
+		attack_sword_1_effect_info, // 剣攻撃１
+		attack_sword_2_effect_info, // 剣攻撃２
+		attack_sowrd_3_effect_info, // 剣攻撃３
+		attack_sowrd_4_effect_info, // 剣攻撃４
+		attack_kick_1_effect_info,    // キック１
+		attack_kick_2_effect_info,    // キック２
+		attack_counter_effect_info,  // カウンター
+
+		// ここからは攻撃とは別のエフェクト
+		damage_effect_info,     // 攻撃を受けた時のエフェクト
+		rolling_effect_info,       // ローリング時のエフェクト  
+
+		effect_info_max
 	};
 	// エフェクトの細かい設定いの内容(攻撃関連のアニメーションにつけるエフェクト用)
 	struct EffectInfo
@@ -180,9 +215,33 @@ public:
 		// 下の二つはなくてもいいかも
 		// エフェクトの再生を開始させたいときのアニメーションフレーム
 		float effect_start_anim_frame;
-		// エフェクトの再生終了させるときのアニメーションフレーム
-		float effect_end_anim_frame;
 	};
+
+	// エフェクトの情報
+	EffectInfo m_effect_info[effect_info_max] =
+	{
+		// 攻撃番号と合わせたいので攻撃のエフェクト情報から先に調べる
+		// 剣攻撃１
+		{ {2.0f,2.0f,2.0f},{10.0f,10.0f,10.0f},{-40.0f,-90.0f,0.0f}, 25},
+		// 剣攻撃２
+		{ {2.0f,2.0f,2.0f},{8.0f,8.0f,8.0f},{90.0f,-90.0f,0.0f}, 35},
+		// 剣攻撃３
+		{ {2.0f,2.0f,2.0f},{8.0f,8.0f,8.0f},{-225.0f,90.0f,160.0f}, 40},
+		// 剣攻撃4
+		{ {2.0f,2.0f,2.0f},{8.0f,8.0f,8.0f},{225.0f,90.0f,160.0f}, 10},
+		// キック1
+		{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
+		// キック2
+		{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
+		// カウンター攻撃
+		{ {2.0f,2.0f,2.0f},{8.0f,8.0f,8.0f},{195.0f,90.0f,160.0f}, 70},
+
+		// 攻撃を受けた時
+		{{1.2f,1.2f,1.2f},{0.0f,10.0f,0.0f},{90.0f,-90.0f,90.0f}, 1},
+		// ローリング
+	    {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{90.0f,-180.0f,90.0f}, 1}
+	};
+
 
 	// SEの種類用の列挙体
 	enum SE
@@ -192,23 +251,7 @@ public:
 	};
 
 
-	EffectInfo attack_effect[attack_max] =
-	{
-		// 剣攻撃１
-		{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-		// 剣攻撃２
-		{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-		// 剣攻撃３
-		{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-		// 剣攻撃4
-		{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-		// キック1
-	    { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-	    // キック2
-	    { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-	    // カウンター攻撃
-	    { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0, 50},
-	};
+
 	//------------------------------------------
 	// コンボ関連
 	//------------------------------------------
@@ -216,8 +259,8 @@ public:
 	static constexpr int COMBO_MAX = 3;
 
 	//=================
-    // バー型のUI
-    //=================
+	// バー型のUI
+	//=================
 	UIBra m_hp;
 
 public:
