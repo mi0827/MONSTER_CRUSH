@@ -167,7 +167,14 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 	// プレイヤーが攻撃を受けたかのチェック
 	if (!m_rolling_flag || m_player_mode != COUNTER)
 	{
+		
 		CheckHitDamage();
+		if (m_player_mode== HIT_DAMAGE)
+		{
+			// 再生中のSEを止める
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
+		}
 	}
 
 
@@ -187,6 +194,12 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 	{
 		// ローリングの切り替え
 		RollingActionStart();
+		if (m_player_mode == ROLLING)
+		{
+			// 再生中のSEを止める
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
+		}
 	}
 
 	// キャラクターの状態によって行動を変える
@@ -221,17 +234,40 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 			m_animation.m_anim_change_flag = true;
 			// プレイヤーの状態をIDLEに変更
 			m_player_mode = IDLE;
+			
 		}
-
+		else
+		{
+			// ランフラグが立っているときだけ
+			// SEの再生
+			SEUpdate(run_se_info);
+		}
+		
 		// 最初の攻撃を判断する
 		AttackFirst();
+		// ランフラグが下がったときか攻撃に移行するタイミングで
+		if (m_player_mode == ATTACK || m_run_flag == false)
+		{
+			// 再生中のSEを止める
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
+		}
 
 		break;
 	case ROLLING: // ローリングアクションをしている時
 
 		// ローリングの更新処理
 		RollingActionUpdate(rolling, PLAYER_ROLLING_SPEED);
-		
+		//SEUpdate(rolling_se_info);
+
+		//if (m_animation.m_contexts[0].is_playing == false /*m_rolling_flag == false*/)
+		//{
+		//
+		//	// 次のSEを再生できるようにする
+		//	m_se.m_playing_flag = true;
+		//	// 再生中のSEを終わらせる
+		//	m_se.StopSe();
+		//}
 		// ローリングエf稀有と自体に問題があるかの可能性があるので一旦置いておく
 		//// エフェクト再生可能状態にしておく
 		//m_effect.m_play_effect_flag = true;
@@ -292,19 +328,22 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 				EffectUpdate(attack_sword_effect, m_now_attack);
 			}
 		}
+		// 攻撃にあったサウンドを再生
+		if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
+		{
+			SEUpdate(m_now_attack);
+		}
+			
 
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
 			// 攻撃アニメーションが終わったから
 			// 次のエフェクトが再生できるようにする
 			m_effect.m_play_effect_flag = true;
-		}
-
-		// サウンドが再生されていないとき
-		if (!m_se.PlayingSound(se1))
-		{
-			// サウンドの再生
-			//m_se.PlaySound_(se1, DX_PLAYTYPE_BACK, true);
+			// 次のSEを再生できるようにする
+			m_se.m_playing_flag = true;
+			// 再生中のSEを終わらせる
+			m_se.StopSound();
 		}
 
 		break;
@@ -523,14 +562,29 @@ void Hero::SELoadInit()
 	// サウンドの最大数を設定
 	m_se.NewArraySecureSound(se_max);
 	// SEの読み込み
-	m_se.LoadSound("Data/Model/Hero/SE/scifi_attack4.mp3", se1);
+	m_se.LoadSound("Data/Model/Hero/SE/SwordAttack_1.mp3", sword_attack_se_1); // 剣攻撃１
+	m_se.LoadSound("Data/Model/Hero/SE/SwordAttack_3.mp3", sword_attack_se_2); // 剣攻撃２
+	m_se.LoadSound("Data/Model/Hero/SE/KickAttack_1.mp3", kick_attack_se_1); // キック攻撃１
+	m_se.LoadSound("Data/Model/Hero/SE/KickAttack_2.mp3", kick_attack_se_2); // キック攻撃２
+	m_se.LoadSound("Data/Model/Hero/SE/Run_1.mp3", run_se); // 足音
+	m_se.LoadSound("Data/Model/Hero/SE/Rolling.mp3", rolling_se); // ローリング
+	m_se.LoadSound("Data/Model/Hero/SE/Damage.mp3", damage_se); // 攻撃を受けた時のサウンド
+
 }
 
 //-----------------------------------------------
 // SEの更新処理
 //-----------------------------------------------
-void Hero::SEUpdate(int se_num)
+void Hero::SEUpdate(int se_info_num)
 {
+	// SEが再生されていかつSE再生可能状態なら
+	if (m_se.PlayingSound() == false && m_se.m_playing_flag)
+	{
+		// SEの再生
+		m_se.PlaySound_(m_se_info[se_info_num].se_num, m_se_info[se_info_num].play_type, m_se_info[se_info_num].loop);
+		// SEが再生されたので再生可能状態を変更する
+		m_se.m_playing_flag = false;
+	}
 }
 
 //-----------------------------------------------

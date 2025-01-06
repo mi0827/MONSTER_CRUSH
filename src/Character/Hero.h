@@ -70,8 +70,8 @@ public:
 	//! @brief SEの読み込み
 	void SELoadInit() override;
 	//! @brief SEの更新処理
-	//! @param 行いたいSE番号
-	void SEUpdate(int se_num) override;
+	//! @param 行いたいSEの情報が保管されている番号
+	void SEUpdate(int se_info_num) override;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態
@@ -246,12 +246,72 @@ public:
 	// SEの種類用の列挙体
 	enum SE
 	{
-		se1,
+		sword_attack_se_1, // 剣攻撃１
+		sword_attack_se_2, // 剣攻撃２
+		kick_attack_se_1,    // キック攻撃１
+		kick_attack_se_2,    // キック攻撃２
+		run_se,                   // 足音
+		rolling_se,               // ローリング
+		damage_se,            // 攻撃を受けた時のサウンド
 		se_max
 	};
+	// SEををつけたいものの情報の列挙体
+	enum SEInfoNum
+	{
+		// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
+		attack_sword_1_se_info, // 剣攻撃１
+		attack_sword_2_se_info, // 剣攻撃２
+		attack_sowrd_3_se_info, // 剣攻撃３
+		attack_sowrd_4_se_info, // 剣攻撃４
+		attack_kick_1_se_info,    // キック１
+		attack_kick_2_se_info,    // キック２
+		attack_counter_se_info,  // カウンター
 
+		// ここからは攻撃とは別のエフェクト
+		run_se_info,           // 足音用
+		rolling_se_info,       // ローリング時のエフェクト  
+		damage_se_info,     // 攻撃を受けた時のエフェクト
 
+		se_info_max
+	};
 
+	struct SEInfo
+	{
+		// 再生したいSE番号
+		int se_num;
+		// 再生するタイプ
+		int play_type;
+		// ループするかどうか
+		bool loop;
+		// 再生するタイミング
+		int se_start_frame;
+	};
+
+	SEInfo m_se_info[se_info_max]
+	{
+		// 攻撃番号と合わせたいので攻撃のエフェクト情報から先に調べる
+		// 剣攻撃１
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 10},
+		// 剣攻撃２
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 1},
+		// 剣攻撃３
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 1},
+		// 剣攻撃4
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 1},
+		// キック1
+		{ kick_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
+		// キック2
+		{ kick_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
+		// カウンター攻撃
+		{  sword_attack_se_1, DX_PLAYTYPE_BACK, true, 0},
+
+		// 足音
+		{run_se, DX_PLAYTYPE_LOOP, true, 1},
+		// ローリング
+		{rolling_se, DX_PLAYTYPE_BACK, true, 1},
+		// 攻撃を受けた時
+		{damage_se,DX_PLAYTYPE_NORMAL, true, 1},
+	};
 	//------------------------------------------
 	// コンボ関連
 	//------------------------------------------

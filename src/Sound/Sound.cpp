@@ -14,7 +14,7 @@ Sound::Sound()
 Sound::~Sound()
 {
 	// 読み込んだサウンドの削除
-	InitSoundMem();        
+	InitSoundMem();
 	// サウンドの入れ物を解放する
 	m_sound_handle.clear();
 }
@@ -44,6 +44,8 @@ void Sound::LoadSound(const char path[256], int no)
 //---------------------------------------------------------------------------
 void Sound::PlaySound_(int no, int type, bool loop)
 {
+	// 再生中のサウンド番号を保存する
+	m_now_playing_se_num = no;
 	// サウンドの再生
 	PlaySoundMem(m_sound_handle[no], type, loop);
 }
@@ -51,13 +53,39 @@ void Sound::PlaySound_(int no, int type, bool loop)
 //---------------------------------------------------------------------------
 // サウンドが再生中がどうかを返す
 //---------------------------------------------------------------------------
-bool Sound::PlayingSound(int no)
+bool Sound::PlayingSound()
 {
 	// 現在サウンドが再生中がどうか
 	// 再生中               ：  １
 	// 再生されていない :  ０
 	// エラー                :－１
-	return CheckSoundMem(m_sound_handle[no]);
+	if (CheckSoundMem(m_sound_handle[m_now_playing_se_num]) == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+//---------------------------------------------------------------------------
+// サウンドのボリューム調整用の関数
+//---------------------------------------------------------------------------
+bool Sound::PickPlayingSound(int num)
+{
+	// 現在サウンドが再生中がどうか
+	// 再生中               ：  １
+	// 再生されていない :  ０
+	// エラー                :－１
+	if (CheckSoundMem(m_sound_handle[num]) == 1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -69,5 +97,18 @@ void Sound::SetSoundVolume(int volume)
 	{
 		// サウンドのボリューム調整
 		ChangeVolumeSoundMem(volume, m_sound_handle[i]);
+	}
+}
+
+//---------------------------------------------------------------------------
+// 再生中のサウンドを止める
+//---------------------------------------------------------------------------
+void Sound::StopSound()
+{
+	// サウンドが再生中の時
+	if (PlayingSound())
+	{
+		// サウンドを止める
+		StopSoundMem(m_sound_handle[m_now_playing_se_num]);
 	}
 }

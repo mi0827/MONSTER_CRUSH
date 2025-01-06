@@ -27,17 +27,31 @@ public:
 	//! @param 再生をループするかどうか
 	void PlaySound_(int no, int type, bool loop);
 
-	//! @brief サウンドが再生中がどうかを返す
-	//! @param 調べたいサウンド番号
-	bool PlayingSound(int no);
+	//! @brief サウンドが再生中かどうかを返す
+	//! @return true：再生中、false：停止中
+    bool PlayingSound();
+
+	//! 指定のサウンドが再生中かどうかを返す
+	//! @param 再生中か調べたいSE番号
+	//! @return true：再生中、false：停止中
+	bool PickPlayingSound(int num);
 
 	//! @brief サウンドのボリューム調整用の関数
 	//! @param 設定したいボリューム
 	void SetSoundVolume(int volume);
+
+	//! @brief 再生中のサウンドを止める
+	void StopSound();
 
 private:
 	//! サウンドの入れ物
 	std::vector<int>m_sound_handle;
 	//! サウンドの最大数を保存する
 	int m_sound_max;
+	//! 現在再生中のサウンド番号
+	int m_now_playing_se_num;
+
+public:
+	//! 現在再生可能状態化を判断するためのフラグ
+	bool m_playing_flag = true;
 };

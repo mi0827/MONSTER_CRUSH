@@ -66,8 +66,8 @@ public:
 	virtual void SELoadInit() = 0;
 
 	//! @brief SEの更新処理
-	//! @param 行いたいSE番号
-	virtual void SEUpdate(int se_num) = 0;
+	//! @param 行いたいSEの情報が保管されている番号
+	virtual void SEUpdate(int se_info_num) = 0;
 
 	//! @brief プレイヤーの状態(フラグ)管理関数
 	//! @param プレイヤーの状態

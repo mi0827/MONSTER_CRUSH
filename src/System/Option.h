@@ -25,6 +25,10 @@ public:
 
 	//! @brief メニュー画面が開いているときの更新処理
 	void OpenMenuUpdate();
+private:
+	//! @brief サウンドの再生
+	//! @param 再生したいSE番号
+	void SoundPlay(int se_num);
 
 private:
 	// 範囲
@@ -57,6 +61,7 @@ public:
 	int m_se_Volume = 0;  // SEの音量
 	int m_mouse_sensi = 0; // マウス感度
 	bool m_option_flag = false;    // オプションメニューを開くためのもの
+
 
 
 	// オプションメニュー種類
@@ -93,20 +98,48 @@ public:
 	Information option_menu[MENU_MAX]
 	{
 		//! BGM用
-		{{ BRA_X_STRAT ,  m_option_box_pos.y + BRA_Y_DIVISION},  VOLUME_MAX, "BGM"},
+		{{ BRA_X_STRAT ,  m_option_box_pos.y + BRA_Y_DIVISION},  VOLUME_MAX , "BGM"},
 		//! SE用
-		{{ BRA_X_STRAT , m_option_box_pos.y + BRA_Y_DIVISION * 2}, VOLUME_MAX, "SE"},
+		{{ BRA_X_STRAT , m_option_box_pos.y + BRA_Y_DIVISION * 2}, VOLUME_MAX , "SE"},
 		//! マウス感度用
-		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  MOUSE_SENSI_MAX , "マウス感度"}
+		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  MOUSE_SENSI_MAX, "マウス感度"}
 
 	};
-
+private:
 	// それぞれで描画するバー
 	UIBra m_bra[MENU_MAX];
 	UIBra m_op;
 
 	// 各バーのサイズの設定
 	Vector2 m_bra_size = { BAR_X_SIZE, BAR_Y_SIZE };
+
+	// オプションメニューでのSE
+	Sound m_se;
+	// SEの種類の列挙体
+	enum SE
+	{
+		open_menu_se, // オプションメニューを開いた時	
+		close_menu_se, // オプションメニューを閉じるとき
+		selection_menu_se,// 各メニューを選択しているとき
+		change_value_se, // 各数値を変更しているとき
+		se_max
+	};
+
+	struct SEInfo
+	{
+		// 再生するタイプ
+		int play_type;
+		// ループするかどうか
+		bool loop;
+	}; 
+	SEInfo m_se_info[se_max]
+	{
+		{DX_PLAYTYPE_BACK, true},
+		{DX_PLAYTYPE_BACK, true},
+		{DX_PLAYTYPE_BACK, true},
+		{DX_PLAYTYPE_BACK, true}
+	};
+
 
 	// 現在どのメニューが選択させているかを保存する
 	int m_selection_menu = BGM;
