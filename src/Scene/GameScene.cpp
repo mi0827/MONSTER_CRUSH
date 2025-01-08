@@ -159,7 +159,7 @@ void GameScene::EntryUpdate()
 	camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 	monster->EntryUpdate();
 	// カメラシェイクを行う
-	camera.CameraShakeLimited(2.0f, (float)CHANGE_TIME);
+	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
 
 	// フレームのカウントを増やす
 	m_count_flame++;
@@ -180,6 +180,10 @@ void GameScene::EntryUpdate()
 		m_count_time = 0;
 		// バトルのためにカメラの向きの設定
 		camera.SetCameraRot(player->m_transform.rot);
+		// モンスターのSE再生可能フラグを立てる
+		// 本来ならモンスター側で処理したいほうが良い
+		monster->m_se.m_playing_flag = true;
+
 	}
 }
 
@@ -393,7 +397,7 @@ void GameScene::StatusDraw()
 {
 	player->StatusBarDraw();
 	monster->StatusBarDraw();
-
+	monster->StatusBarDraw();
 }
 
 //---------------------------------------------------------------------------
@@ -460,7 +464,8 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
 	player->m_se.SetSoundVolume(se);
-
+	// モンスターのサウンドの調整
+	monster->m_se.SetSoundVolume(se);
 }
 
 //---------------------------------------------------------------------------

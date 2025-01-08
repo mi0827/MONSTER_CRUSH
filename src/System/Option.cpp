@@ -48,7 +48,6 @@ void Option::Init()
 		option_menu[i].m_value = option_menu[i].m_value / 2;
 	}
 
-
 	// ‘€ìà–¾‚¾‚¯‚±‚Á‚¿‚Å‘‚­
 	//m_op.Set({ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 4 }, { 200,30 }, 0, true);
 	// SE‚Ì‰Šú‰»

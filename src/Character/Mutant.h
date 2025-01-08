@@ -68,7 +68,7 @@ public:
 	//! @brief SEの読み込み
 	void SELoadInit() override;
 	//! @brief SEの更新処理
-	//! @param 行いたいSE番号
+	//! @param 行いたいSEの情報が保管されている番号
 	void SEUpdate(int se_num) override;
 
 	//=========================================================================
@@ -174,7 +174,6 @@ public:
 		float end_frame;
 	};
 
-
 	// 当たり判定を行ってほしいタイミングの設定の変数
 	// まだまだ未完成
 	// 作品展までに完成させる
@@ -182,15 +181,15 @@ public:
 	{
 		// パンチ１
 		{ 13.0f, 30.0f, },
-		// パンチ２
+		// ソード１
 		{ 40.0f, 90.0f, },
-		// パンチ３
+		// ソード２
 		{ 30.0f, 90.0f, },
-		// パンチ４
-		{ 25.0f, 75.0f, },
-		// パンチ５
+		// ソード３
+		{ 25.0f, 80.0f, },
+		// ソード４
 		{10.0f,30.0f},
-		// パンチ６
+		// ソード５
 		{45.0f,75.0f},
 		// ローリング
 		{ 10.0f, 50.0f, },
@@ -225,7 +224,6 @@ public:
 		attack_sowrd_3_effect_info, // ソード攻撃３
 		attack_sowrd_4_effect_info, // ソード攻撃４
 		attack_sowrd_5_effect_info, // ソード攻撃５
-		attack_counter_effect_info,  // カウンター
 
 		// ここからは攻撃とは別のエフェクト
 		damage_effect_info,     // 攻撃を受けた時のエフェクト
@@ -249,7 +247,7 @@ public:
 	EffectInfo m_effect_info[effect_info_max]
 	{
 		// パンチ攻撃１
-	    { {4.0f,4.0f,4.0f},{15.0f,14.0f,15.0f},{90.0f,180.0f,0.0f}, 5},
+		{ {4.0f,4.0f,4.0f},{15.0f,14.0f,15.0f},{90.0f,180.0f,0.0f}, 5},
 		// ソード攻撃１
 		{ {6.0f,6.0f,6.0f},{20.0f,18.0f,20.0f},{35.0f,-90.0f,0.0f}, 60},
 		// ソード攻撃２
@@ -262,8 +260,75 @@ public:
 		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{90.0f,-90.0f,10.0f}, 30},
 		// ダメージを受けた時のエフェクト
 		{ {1.0f,1.0f,1.0f},{0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
-		// ローリング時のエフェクト  
+		// 咆哮時のエフェクト  
 		{ {1.0f,1.0f,1.0f},{5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
-		
+
+	};
+
+
+	// SEの種類用の列挙体
+	enum SE
+	{
+		punch_attack_se,    // パンチ攻撃
+		sword_attack_se_1, // 剣攻撃１
+		sword_attack_se_2, // 剣攻撃２
+		damage_se,            // ダメージを受けた時
+		roar_se,                  // 咆哮時
+		run_se,                   // 足音
+		se_max
+	};
+
+	// SEををつけたいものの情報の列挙体
+	enum SEInfoNum
+	{
+		// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
+		attack_punch_1_se_info, // パンチ攻撃１
+		attack_sword_1_se_info, // ソード攻撃１
+		attack_sowrd_2_se_info, // ソード攻撃２
+		attack_sowrd_3_se_info, // ソード攻撃３
+		attack_sowrd_4_se_info, // ソード攻撃４
+		attack_sowrd_5_se_info, // ソード攻撃５
+
+		damage_se_info,     // 攻撃を受けた時
+		roar_se_info,       // 咆哮時  
+		run_se_info,        // 足音
+		se_info_max
+	};
+
+	// 各SEの情報
+	struct SEInfo
+	{
+		// 再生したいSE番号
+		int se_num;
+		// 再生するタイプ
+		int play_type;
+		// ループするかどうか
+		bool loop;
+		// 再生するタイミング
+		int se_start_frame;
+	};
+	SEInfo m_se_info[se_info_max]
+	{
+		// 攻撃番号と合わせたいので攻撃のエフェクト情報から先に調べる
+		// キック1
+		{ punch_attack_se, DX_PLAYTYPE_BACK, true, 1},
+		// 剣攻撃１
+		{ sword_attack_se_1, DX_PLAYTYPE_BACK, true, 10},
+		// 剣攻撃２
+		{ sword_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
+		// 剣攻撃３
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 1},
+		// 剣攻撃4
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 1},
+		// 剣攻撃5
+		{ sword_attack_se_2, DX_PLAYTYPE_BACK, true, 1},
+
+	
+		// 攻撃を受けた時
+		{damage_se,DX_PLAYTYPE_BACK, true, 1},
+		// 咆哮
+		{roar_se,DX_PLAYTYPE_BACK, true, 1},
+		// 足音
+	    {run_se, DX_PLAYTYPE_LOOP, true, 1},
 	};
 };

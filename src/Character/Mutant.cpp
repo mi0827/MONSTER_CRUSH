@@ -151,18 +151,12 @@ void Mutant::Update(Transform* target_pos, float target_r)
 	case die_anim: // 死んだとき
 		DieUpdate();
 		break;
-
-	default:
-		break;
 	}
-
 
 	// アニメーションの再生
 	m_animation.PlayAnimation(&m_model, m_combo_flag);
 	// あたり判定の更新処理
 	CDUpdate();
-
-
 }
 
 //-----------------------------------------------
@@ -218,8 +212,21 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			// ローリングアクションをセットする
 			SetRollingAction(rolling_anim, ROLLING_TARGET_DISTANCE);
-
 		}
+
+		// ランフラグが立っている間だけ
+		if (m_run_flag == true && m_rolling_flag == false && m_jump_flag == false)
+		{
+			// SEの再生
+			SEUpdate(run_se_info);
+		}
+		else
+		{
+			// 再生中のSEを止める
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
+		}
+
 		break;
 	case ATTACK:
 		// スタン中はほかの攻撃処理をしてほしくない
@@ -256,12 +263,12 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 			AttackActionComboUpdate();
 		}
 		// 攻撃のあったエフェクトの再生
-	    // 攻撃のエフェクトがキック以外の時
-	    // 攻撃時のエフェクトは攻撃とタイミングを合わせる
+		// 攻撃のエフェクトがキック以外の時
+		// 攻撃時のエフェクトは攻撃とタイミングを合わせる
 		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
 			m_effect.m_play_effect_flag == true)
 		{
-			if (m_now_attack == attack_punch_1 )
+			if (m_now_attack == attack_punch_1)
 			{
 				// パンチ攻撃の時のエフェクト
 				EffectUpdate(punch_attack_effect, m_now_attack);
@@ -272,12 +279,20 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 				EffectUpdate(sword_attack_effect, m_now_attack);
 			}
 		}
-
+		// 攻撃にあったサウンドを再生
+		if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
+		{
+			SEUpdate(m_now_attack);
+		}
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
 			// 攻撃アニメーションが終わったから
 			// 次のエフェクトが再生できるようにする
 			m_effect.m_play_effect_flag = true;
+			// 次のSEを再生できるようにする
+			m_se.m_playing_flag = true;
+			// 再生中のSEを終わらせる
+			m_se.StopSound();
 		}
 		// 攻撃中(アニメーション中)は回転してほしくない
 		m_move.SetCanRotate(false);
@@ -326,7 +341,6 @@ void Mutant::Draw()
 			//m_right_hand.Draw();
 			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 		}
-
 	}
 
 	if (m_jump_flag)
@@ -343,6 +357,8 @@ void Mutant::Draw()
 	m_right_hand.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
+	m_left_hand.Draw();
+	m_right_hand.Draw();
 }
 
 //-----------------------------------------------
@@ -368,7 +384,9 @@ void Mutant::EntryUpdate()
 
 	// アニメーションの再生
 	m_animation.PlayAnimation(&m_model, m_combo_flag);
-
+	// 咆哮用のSEの再生
+	SEUpdate(roar_se_info);
+	
 }
 
 //-----------------------------------------------
@@ -392,9 +410,16 @@ void Mutant::ComeAttackUpdate()
 
 	// 再生中のエフェクトがあったら終了させる
 	m_effect.StopEffect();
-
 	//ダメージを受けた時のエフェクト
 	EffectUpdate(damage_effect, damage_effect_info);
+
+	// 攻撃を受けた時だけSEが重なってほしいため他とは違う方法で再生
+	m_se.m_playing_flag = true;
+	// ダメージ受けた時用のSEの再生
+	m_se.PlaySound_(m_se_info[damage_se_info].se_num, m_se_info[damage_se_info].play_type, m_se_info[damage_se_info].loop);
+	// SEが再生されたので再生可能状態を変更する
+	m_se.m_playing_flag = false;
+
 }
 
 //-----------------------------------------------
@@ -407,11 +432,11 @@ void Mutant::CDUpdate()
 	m_body.CreateNodoCapsule(&m_model, 0, 7, 8.0f);
 
 	// 左手のあたり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 3.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 3.5f);
 
 	// 右手の当たり判定
 	// 爪の部分が当たり判定がない
-	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 5.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 6.0f);
 
 	// 攻撃時の当たり当たり判定の保存
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
@@ -620,12 +645,31 @@ void Mutant::EffectUpdate(int effect_num, int effect_info_num)
 //-----------------------------------------------
 void Mutant::SELoadInit()
 {
+	// SE分確保
+	// SEの最大数を設定
+	m_se.NewArraySecureSound(se_max);
+	// SEの読み込み
+	m_se.LoadSound("Data/Model/Mutant/SE/PunchAttack_2.mp3", punch_attack_se);                   // パンチ攻撃
+	m_se.LoadSound("Data/Model/Mutant/SE/LightningSwordAttack_1.mp3", sword_attack_se_1);   // 剣攻撃１
+	m_se.LoadSound("Data/Model/Mutant/SE/LightningSwordAttack_2.mp3", sword_attack_se_2);   // 剣攻撃２
+	m_se.LoadSound("Data/Model/Mutant/SE/Damage.mp3", damage_se);									 // ダメージを受けた時
+	m_se.LoadSound("Data/Model/Mutant/SE/Roar.mp3", roar_se);												  // 咆哮時
+	m_se.LoadSound("Data/Model/Mutant/SE/Run3.mp3", run_se);													 // 足音
+
 }
 
 //-----------------------------------------------
 // SEの更新処理
 //-----------------------------------------------
-void Mutant::SEUpdate(int se_num)
+void Mutant::SEUpdate(int se_info_num)
 {
+	// SEが再生されていかつSE再生可能状態なら
+	if (m_se.PlayingSound() == false && m_se.m_playing_flag)
+	{
+		// SEの再生
+		m_se.PlaySound_(m_se_info[se_info_num].se_num, m_se_info[se_info_num].play_type, m_se_info[se_info_num].loop);
+		// SEが再生されたので再生可能状態を変更する
+		m_se.m_playing_flag = false;
+	}
 }
 

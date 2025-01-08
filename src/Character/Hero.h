@@ -275,6 +275,7 @@ public:
 		se_info_max
 	};
 
+	// 各SEの情報
 	struct SEInfo
 	{
 		// 再生したいSE番号
@@ -310,7 +311,7 @@ public:
 		// ローリング
 		{rolling_se, DX_PLAYTYPE_BACK, true, 1},
 		// 攻撃を受けた時
-		{damage_se,DX_PLAYTYPE_NORMAL, true, 1},
+		{damage_se,DX_PLAYTYPE_BACK, true, 1},
 	};
 	//------------------------------------------
 	// コンボ関連

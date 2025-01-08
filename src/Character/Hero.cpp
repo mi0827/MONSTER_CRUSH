@@ -233,14 +233,13 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 			// アニメーション変更が行えるようにする
 			m_animation.m_anim_change_flag = true;
 			// プレイヤーの状態をIDLEに変更
-			m_player_mode = IDLE;
-			
+			m_player_mode = IDLE;	
 		}
 		else
 		{
 			// ランフラグが立っているときだけ
 			// SEの再生
-			SEUpdate(run_se_info);
+			//SEUpdate(run_se_info);
 		}
 		
 		// 最初の攻撃を判断する
@@ -249,8 +248,8 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		if (m_player_mode == ATTACK || m_run_flag == false)
 		{
 			// 再生中のSEを止める
-			m_se.StopSound();
-			m_se.m_playing_flag = true;
+			/*m_se.StopSound();
+			m_se.m_playing_flag = true;*/
 		}
 
 		break;
@@ -558,8 +557,8 @@ void Hero::EffectUpdate(int effect_num, int effect_info_num)
 //-----------------------------------------------
 void Hero::SELoadInit()
 {
-	// サウンドの初期化
-	// サウンドの最大数を設定
+	// SEの初期化
+	// SEの最大数を設定
 	m_se.NewArraySecureSound(se_max);
 	// SEの読み込み
 	m_se.LoadSound("Data/Model/Hero/SE/SwordAttack_1.mp3", sword_attack_se_1); // 剣攻撃１
@@ -647,6 +646,14 @@ void Hero::ComeAttackUpdate()
 	m_effect.m_play_effect_flag = true;
 	// ダメージを受けた時のエフェクト
 	EffectUpdate(damage_effect, damage_effect_info);
+
+	//再生中のSEを終わらせる
+	//m_se.StopSound();
+	// SE再生可能にしておく
+	//m_se.m_playing_flag = true;
+	// 攻撃を受けた時用のSEの再生
+	SEUpdate(damage_se_info);
+
 }
 
 

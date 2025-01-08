@@ -83,7 +83,6 @@ void GameInit()
 	// オプションメニューの初期処理
 	option.Init();
 
-
 	// とりあえず今はタイトルシーンをつけておく
 	scene = new TitleScene;
 
@@ -92,25 +91,9 @@ void GameInit()
 
 	scene->Init();
 
-	//// デフォルトカラーをもらってくる
-	//COLOR_F color = GetLightDifColor();
-	//// もう一つのライトの作成
-	//// 今使うとまぶしすぎる
-	//// キャラクターにだけ背後からのライトからの影響を受けない
-	//Vector3 light_pos = { 1000.0f, 100.0f, 0.0f };
-	//light_handle = CreateDirLightHandle(VGet(0.0f, 0.0f, 1.0f));
-	//// ライトのポジションの設定
-	//SetLightPositionHandle(light_handle, light_pos.VGet());
-	//// 色の設定
-	//SetLightDifColorHandle(light_handle, color);
-
 	// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
 	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
 
-	//color = { 15.0f,1.0f,1.0f,0.0f };
-	//SetLightAmbColor(GetColorF(0.5f, 0.5f, 0.5f, 1.0f));
-
-	// SetLightEnable(true);
 
 
 
@@ -204,10 +187,14 @@ void GameUpdate()
 
 	// オプションメニューの更新処理
 	option.Update();
+
 	// オプションで変更された値を反映　　
-	scene->OptionValuesReflect(option.option_menu[option.BGM].m_value,
+	scene->OptionValuesReflect(
+		option.option_menu[option.BGM].m_value,
 		option.option_menu[option.SE].m_value,
 		option.option_menu[option.MOUSE].m_value);
+
+
 	// ３：子の変数の値をシェーダーに渡します
 	//SetPSConstF(25, shader_base_pos);
 }
