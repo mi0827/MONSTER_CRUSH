@@ -33,8 +33,10 @@
 #include "src/Character/Mutant.h"
 
 #include "src/Field/FieldBase.h"
-#include "src/Field/Field.h"
 #include "src/Field/HitField.h" 
+#include "src/Field/TitleField.h"
+#include "src/Field/Field.h"
+
 
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
@@ -67,10 +69,10 @@ GameScene::~GameScene()
 void GameScene::GameSceneInit()
 {
 	// キャラクターの設定
-	if (m_player_num == SAMPLEPLAYER)
-	{
-		player = new Hero;
-	}
+	//if (m_player_num == SAMPLEPLAYER)
+	//{
+	//	m_player = new Hero;
+	//}
 	if (m_monster_num == MUTANT)
 	{
 		monster = new Mutant;
@@ -100,7 +102,7 @@ void GameScene::Init()
 	CharacterInit();
 
 	// フィールドの初期化 
-	field.Init();
+	m_field_2.Init();
 
 	// シャドーマップの設定
 	ShadowMapInit();
@@ -179,7 +181,7 @@ void GameScene::EntryUpdate()
 		// タイマーをリセットする
 		m_count_time = 0;
 		// バトルのためにカメラの向きの設定
-		camera.SetCameraRot(player->m_transform.rot);
+		camera.SetCameraRot(m_player->m_transform.rot);
 		// モンスターのSE再生可能フラグを立てる
 		// 本来ならモンスター側で処理したいほうが良い
 		monster->m_se.m_playing_flag = true;
@@ -213,9 +215,9 @@ void GameScene::GameUpdate()
 	}
 
 	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &player->m_transform.pos, &monster->m_transform.pos);
+	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
 	// プレイヤーのHPが０になったら
-	if (player->m_hp_value <= 0)
+	if (m_player->m_hp_value <= 0)
 	{
 		// プレイヤーの死亡を知らせる
 		m_who_died = player_die;
@@ -269,7 +271,7 @@ void GameScene::EndUpdate()
 	case player_die: // プレイヤーが死んだとき
 		// プレイヤーを中心に
 		// 右回転
-		camera.MoveCamera(&player->m_transform.pos, CAMERA_DIRECTIN_RIGHT, CAMERA_ROT_SPEED);
+		camera.MoveCamera(&m_player->m_transform.pos, CAMERA_DIRECTIN_RIGHT, CAMERA_ROT_SPEED);
 		break;
 
 	case monster_die: // モンスターが死んだとき
@@ -288,7 +290,7 @@ void GameScene::EndUpdate()
 void GameScene::Draw()
 {
 	// 指定のシャドーマップのエリアを設定
-	SetShadowMapArea(m_shadowMap_handle_1,player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1,m_player->m_transform.pos);
 	SetShadowMapArea(m_shadowMap_handle_2, monster->m_transform.pos);
 
 	//-------------------------------------------------------------
@@ -298,7 +300,7 @@ void GameScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle_2);
 	{
@@ -308,7 +310,7 @@ void GameScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// フィールドの描画
-		field.Draw();
+		m_field_2.Draw();
 			
 	}
 
@@ -330,7 +332,7 @@ void GameScene::Draw()
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_shadowMap_handle_1);
 	{
-		player->Draw();
+		m_player->Draw();
 	}
 	SetUseShadowMap(2, m_shadowMap_handle_2);
 	{
@@ -339,8 +341,8 @@ void GameScene::Draw()
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		field.Draw();
-		player->Draw();
+		m_field_2.Draw();
+		m_player->Draw();
 		// モンスターの描画
 		monster->Draw();
 	}
@@ -364,12 +366,12 @@ void GameScene::Draw()
 	//SetFontSize(50);
 	static constexpr int color = 255;
 	DrawStringF(16, 250, "player_flag", color, 0);
-	DrawFormatString(16, 300, color, "Idle : %d", player->m_idle_flag);
-	DrawFormatString(16, 350, color, "Run : %d", player->m_run_flag);
-	DrawFormatString(16, 400, color, "Attack : %d", player->m_attack_flag);
-	DrawFormatString(16, 450, color, "Damage : %d", player->m_damage_flag);
-	DrawFormatString(16, 500, color, "Rolling : %d", player->m_rolling_flag);
-	DrawFormatString(16, 550, color, "Counter : %d", player->m_counter_flag);
+	DrawFormatString(16, 300, color, "Idle : %d", m_player->m_idle_flag);
+	DrawFormatString(16, 350, color, "Run : %d", m_player->m_run_flag);
+	DrawFormatString(16, 400, color, "Attack : %d", m_player->m_attack_flag);
+	DrawFormatString(16, 450, color, "Damage : %d", m_player->m_damage_flag);
+	DrawFormatString(16, 500, color, "Rolling : %d", m_player->m_rolling_flag);
+	DrawFormatString(16, 550, color, "Counter : %d", m_player->m_counter_flag);
 
 	DrawStringF(1500, 250, "monster_flag", color, 0);
 	DrawFormatString(1500, 300, color, "Idle : %d", monster->m_idle_flag);
@@ -388,6 +390,10 @@ void GameScene::Exit()
 {
 	//　シャドーマップの削除
 	ExitShadowMap();
+	// プレイヤーの終了処理
+	m_player->Exit();
+	// モンスターの終了処理
+	monster->Exit();
 }
 
 //---------------------------------------------------------------------------
@@ -395,7 +401,7 @@ void GameScene::Exit()
 //---------------------------------------------------------------------------
 void GameScene::StatusDraw()
 {
-	player->StatusBarDraw();
+	m_player->StatusBarDraw();
 	monster->StatusBarDraw();
 	monster->StatusBarDraw();
 }
@@ -414,43 +420,43 @@ void GameScene::HitField()
 {
 
 	// フィールドの地面モデルとキャラクターの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	HitGroundCharacter(&m_player->m_transform.pos, &m_field_2.m_field_model);
 
 	// モンスターと地面の当たり判定（ジャンプ処理できる）
-	HitGroundCharacter(&monster->m_transform.pos, &field.m_field_model);
+	HitGroundCharacter(&monster->m_transform.pos, &m_field_2.m_field_model);
 
 	//Vector3 pos = GetGroundPos(&monster->m_transform.pos, &field.m_field_model);
 	//monster->SetJumpPos(pos);
 
 	// 木のオブジェクトとプレイヤーの当たり判定
-	for (int i = 0; i < field.TREE_MAX; i++)
+	for (int i = 0; i < m_field_2.TREE_MAX; i++)
 	{
 		// モンスターとプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		if (CheckCapsuleHit(m_field_2.m_hit_tree[i], m_player->m_body))
 		{
-			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_2.m_hit_tree[i]);
 		}
 	}
 
 
 	// フェンスとキャラクターの当たり判定
-	for (int i = 0; i < field.FENCE_MAX; i++)
+	for (int i = 0; i < m_field_2.FENCE_MAX; i++)
 	{
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			field.m_hit_fence[i].m_box.hit_pos, field.m_hit_fence[i].m_box.half_size))
+		if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
+			m_field_2.m_hit_fence[i].m_box.hit_pos, m_field_2.m_hit_fence[i].m_box.half_size))
 		{
-			player->MoveHitUpdate(&field.m_hit_fence[i]);
+			m_player->MoveHitUpdate(&m_field_2.m_hit_fence[i]);
 		}
 	}
 
 
 	// 石とキャラクターの当たり判定
-	for (int i = 0; i < field.STONE_MAX; i++)
+	for (int i = 0; i < m_field_2.STONE_MAX; i++)
 	{
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			field.m_hit_stone[i].m_box.hit_pos, field.m_hit_stone[i].m_box.half_size))
+		if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
+			m_field_2.m_hit_stone[i].m_box.hit_pos, m_field_2.m_hit_stone[i].m_box.half_size))
 		{
-			player->MoveHitUpdate(&field.m_hit_stone[i]);
+			m_player->MoveHitUpdate(&m_field_2.m_hit_stone[i]);
 		}
 	}
 }
@@ -463,7 +469,7 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
-	player->m_se.SetSoundVolume(se);
+	m_player->m_se.SetSoundVolume(se);
 	// モンスターのサウンドの調整
 	monster->m_se.SetSoundVolume(se);
 }
@@ -473,8 +479,9 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 //---------------------------------------------------------------------------
 void GameScene::CharacterInit()
 {
+	PlayerInit(hero);
 	// プレイヤーの初期処理
-	player->Init();
+	m_player->Init();
 	// モンスターの初期処理
 	monster->Init();
 }
@@ -488,14 +495,14 @@ void GameScene::CharacterUpdate()
 	m_camera_rot = camera.GetCameraRot();
 
 	// プレイヤーの更新処理
-	player->Update(&m_camera_rot);
+	m_player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
-	monster->Update(&player->m_transform, player->m_hit_r);
+	monster->Update(&m_player->m_transform, m_player->m_hit_r);
 	// モンスターとプレイヤーの移動の当たり判定
-	if (CheckCapsuleHit(monster->m_body, player->m_body))
+	if (CheckCapsuleHit(monster->m_body, m_player->m_body))
 	{
-		player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &monster->m_body);
+		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &monster->m_body);
 	}
 
 	// 攻撃関係のアップデート
@@ -508,35 +515,35 @@ void GameScene::CharacterUpdate()
 void GameScene::AttackUpdate()
 {
 	// プレイヤーの攻撃
-	if (player->m_attack_flag)
+	if (m_player->m_attack_flag)
 	{
 		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
-		int num = player->m_now_attack;
+		int num = m_player->m_now_attack;
 		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
-		if (player->AttackHitGoodTiming(num))
+		if (m_player->AttackHitGoodTiming(num))
 		{
 			// モンスターのボディーとの当たり判定をとる
-			if (HitAttack(monster->m_body, player->m_attack_hit_damage[num]->attack_hit) == true)
+			if (HitAttack(monster->m_body, m_player->m_attack_hit_damage[num]->attack_hit) == true)
 			{
 				// 当たり判定があったら一回だけこの処理を通るようにする
 				// ダメージ処理を行っていいフラグが上がっていたら
-				if (player->m_can_hit_damage_flag)
+				if (m_player->m_can_hit_damage_flag)
 				{
 					// 一回だけ通ってほしいからフラグを下げる
-					player->m_can_hit_damage_flag = false;
+					m_player->m_can_hit_damage_flag = false;
 
 					//--------------------------------------------
 					// モンスターの中身を変更する
 					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
-					DamageCount(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
+					DamageCount(m_player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_hp_value);
 					// スタン値も攻撃を受けたタイミングで減らす
-					DamageCount(player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_stun_value);
+					DamageCount(m_player->m_attack_hit_damage[num]->attack_damage, 5, &monster->m_stun_value);
 					// モンスターが攻撃受けた時の処理
 					monster->ComeAttackUpdate();
 					//--------------------------------------------
 
 					// ヒットストップを行っていいいタイミングだけ行う
-					if (player->m_attack_hit_damage[num]->can_hit_stop)
+					if (m_player->m_attack_hit_damage[num]->can_hit_stop)
 					{
 						// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 						hit_stop.StopCountReset();
@@ -547,7 +554,7 @@ void GameScene::AttackUpdate()
 		else
 		{
 			// 当たり判定をとれないときにフラグを戻す
-			player->m_can_hit_damage_flag = true;
+			m_player->m_can_hit_damage_flag = true;
 		}
 	}
 
@@ -561,7 +568,7 @@ void GameScene::AttackUpdate()
 		if (monster->AttackHitGoodTiming(num))
 		{
 			// プレイヤーのボディーとの当たり判定をとる
-			if (HitAttack(player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
+			if (HitAttack(m_player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 			{
 				// 当たり判定があったら一回だけこの処理を通るようにする
 				// ダメージ処理を行っていいフラグが上がっていたら
@@ -573,16 +580,16 @@ void GameScene::AttackUpdate()
 					//--------------------------------------------
 					// プレイヤーの中身を変更する
 					// プレイヤーの攻撃受けたフラグが下がっているとき
-					if (player->m_damage_flag == false)
+					if (m_player->m_damage_flag == false)
 					{
 						// プレイヤーの攻撃受けたフラグを上げる
-						player->m_damage_flag = true;
+						m_player->m_damage_flag = true;
 					}
 					// ダメージを入れるのは攻撃アニメーションの間に一回だけ
 					// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
-					DamageCount(monster->m_attack_hit_damage[num]->attack_damage, 5, &player->m_hp_value);
+					DamageCount(monster->m_attack_hit_damage[num]->attack_damage, 5, &m_player->m_hp_value);
 					// プレイヤーが攻撃受けた時の処理
-					player-> ComeAttackUpdate();
+					m_player-> ComeAttackUpdate();
 					//--------------------------------------------
 					
 					// ダメージが入ったタイミングでヒットストップのカウントをリセットする

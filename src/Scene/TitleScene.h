@@ -83,12 +83,6 @@ private:
 	//! カメラクラスのオブジェクト
 	Camera camera;
 
-	// フィールドオブジェクト
-	TitleField field;
-
-	// プレイヤーのオブジェクト
-	CharacterBase* player;
-
 	// エリア用のBOX
 	BoxCollision m_area_box[Area_Max];
 	// BOXの座標

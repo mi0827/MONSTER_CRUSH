@@ -87,10 +87,10 @@ private:
 	Camera camera;
 
 	// フィールドオブジェクト
-	Field field;
+	// Field field;
 
 	// プレイヤーのオブジェクト
-	CharacterBase* player;
+	// CharacterBase* player;
 
 private:
 	//! シーン変更でどちらのシーンに移動するかを保存する

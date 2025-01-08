@@ -25,7 +25,7 @@
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
-//#include "src/Field/TitleField.h"
+#include "src/Field/TitleField.h"
 #include "src/Field/Field.h"
 
 #include "src/Sound/BGM.h"
@@ -59,17 +59,15 @@ void EndScene::Init()
 	BaseInit();
 
 	// フィールドの初期化
-	field.Init();
+	m_field_2.Init();
 
 
 	// カメラの初期設定
 	camera.PlayFieldInit();
 
-	// プレイヤーの設定
-	player = new Hero;
-
-	// プリえやーの初期設定 
-	player->Init();
+	PlayerInit(hero);
+	// プレイヤーの初期設定 
+	m_player->Init();
 
 	// シャドーマップの設定
 	ShadowMapInit();
@@ -99,9 +97,9 @@ void EndScene::Update()
 		// カメラの向きを取得する
 		m_camera_rot = camera.GetCameraRot();
 		// プレイヤーの更新処理
-		player->Update(&m_camera_rot);
+		m_player->Update(&m_camera_rot);
 		// カメラの更新処理
-		camera.MouseCamera(&player->m_transform.pos);
+		camera.MouseCamera(&m_player->m_transform.pos);
 
 		// エンターを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_RSHIFT))
@@ -137,7 +135,7 @@ void EndScene::Update()
 void EndScene::Draw()
 {
 	// プレイヤーのシャドーマップのエリアのセット
-	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1, m_player->m_transform.pos);
 
 	//-------------------------------------------------------------
 	// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
@@ -146,14 +144,14 @@ void EndScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		
 		// シャドウマップへキャラクターモデルの描画
-		field.Draw();
+		m_field_2.Draw();
 	}
 
 	// シャドウマップへの描画を終了
@@ -176,15 +174,15 @@ void EndScene::Draw()
 	{
 
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 
 	}
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 		// シャドウマップへキャラクターモデルの描画
-		field.Draw();
+		m_field_2.Draw();
 
 	}
 	UseShadowMapSet();
@@ -216,8 +214,10 @@ void EndScene::Exit()
 {
 	//　シャドーマップの削除
 	ExitShadowMap();
+	
+	m_player->Exit();
 	// プレイヤークラスはポインタなので最後に開放する
-	delete player;
+	delete m_player;
 }
 
 //------------------------------------------
@@ -226,36 +226,36 @@ void EndScene::Exit()
 void EndScene::HitField()
 {
 	// フィールドの地面モデルとキャラクターの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	HitGroundCharacter(&m_player->m_transform.pos, &m_field_2.m_field_model);
 
 	// 木のオブジェクトとプレイヤーの当たり判定
-	for (int i = 0; i < field.TREE_MAX; i++)
+	for (int i = 0; i < m_field_2.TREE_MAX; i++)
 	{
 		// モンスターとプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		if (CheckCapsuleHit(m_field_2.m_hit_tree[i], m_player->m_body))
 		{
-			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_2.m_hit_tree[i]);
 		}
 	}
 
 	// フェンスとキャラクターの当たり判定
-	for (int i = 0; i < field.FENCE_MAX; i++)
+	for (int i = 0; i < m_field_2.FENCE_MAX; i++)
 	{
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			field.m_hit_fence[i].m_box.hit_pos, field.m_hit_fence[i].m_box.half_size))
+		if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
+			m_field_2.m_hit_fence[i].m_box.hit_pos, m_field_2.m_hit_fence[i].m_box.half_size))
 		{
-			player->MoveHitUpdate(&field.m_hit_fence[i]);
+			m_player->MoveHitUpdate(&m_field_2.m_hit_fence[i]);
 		}
 	}
 
 
 	// 石とキャラクターの当たり判定
-	for (int i = 0; i < field.STONE_MAX; i++)
+	for (int i = 0; i < m_field_2.STONE_MAX; i++)
 	{
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			field.m_hit_stone[i].m_box.hit_pos, field.m_hit_stone[i].m_box.half_size))
+		if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
+			m_field_2.m_hit_stone[i].m_box.hit_pos, m_field_2.m_hit_stone[i].m_box.half_size))
 		{
-			player->MoveHitUpdate(&field.m_hit_stone[i]);
+			m_player->MoveHitUpdate(&m_field_2.m_hit_stone[i]);
 		}
 	}
 }
@@ -268,6 +268,6 @@ void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
-	player->m_se.SetSoundVolume(se);
+	m_player->m_se.SetSoundVolume(se);
 }
 

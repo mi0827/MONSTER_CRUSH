@@ -24,6 +24,7 @@
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
 #include "src/Field/TitleField.h"
+#include "src/Field/Field.h"
 
 #include "src/Camera.h"
 #include "src/System/Text.h"
@@ -40,22 +41,19 @@ void TitleScene::Init()
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
 	// フィールドの初期化
-	field.Init();
-
+	m_field_1.Init();
 
 	// カメラの初期設定
 	camera.PlayFieldInit();
 
-	// プレイヤーの設定
-	player = new Hero;
-
-	// プリえやーの初期設定 
-	player->Init();
-	player->SetCharacterPos({ 0,0,750 });
-	player->SetCharacterRot({ 0.0f,180.0f,0.0f });
+	PlayerInit(hero);
+	// プレイヤーの初期設定 
+	m_player->Init();
+	m_player->SetCharacterPos({ 0,0,750 });
+	m_player->SetCharacterRot({ 0.0f,180.0f,0.0f });
 
 	// カメラの向きの設定
-	camera.SetCameraRot(player->m_transform.rot);
+	camera.SetCameraRot(m_player->m_transform.rot);
 
 	// シャドーマップの設定
 	ShadowMapInit();
@@ -83,13 +81,13 @@ void TitleScene::Update()
 		m_camera_rot = camera.GetCameraRot();
 
 		// プレイヤーの更新処理
-		player->Update(&m_camera_rot);
+		m_player->Update(&m_camera_rot);
 
 		// フィールドとの当たり判定
 		HitField();
 
 		// カメラの更新処理
-		camera.MouseCamera(&player->m_transform.pos);
+		camera.MouseCamera(&m_player->m_transform.pos);
 
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_RETURN))
@@ -104,7 +102,7 @@ void TitleScene::Update()
 		// この当たり判定に入ったら
 		for (int i = 0; i < Area_Max; i++)
 		{
-			if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
+			if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
 				m_area_box[i].m_box.hit_pos, m_area_box[i].m_box.half_size))
 			{
 				// 当たり判定がヒットしたエリアよりさかのぼってもストーリーをさかのぼらせないための処理
@@ -145,7 +143,7 @@ void TitleScene::Draw()
 	
 
 	// プレイヤーのシャドーマップのエリアのセット
-	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1, m_player->m_transform.pos);
 
 	//-------------------------------------------------------------
     // シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
@@ -154,13 +152,13 @@ void TitleScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		field.Draw();
+		m_field_1.Draw();
 	}
 
 	// シャドウマップへの描画を終了
@@ -183,16 +181,16 @@ void TitleScene::Draw()
 	{
 
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 
 	}
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 		// シャドウマップへキャラクターモデルの描画
-		field.Draw();
+		m_field_1.Draw();
 
 	}
 	
@@ -225,11 +223,11 @@ void TitleScene::Draw()
 	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 
 
-	DrawFormatString(16, 300, GetColor(255, 255, 255), "now_anim : %d", player->m_now_attack_anim);
-	DrawFormatString(16, 400, GetColor(255, 255, 255), "combo_count : %d", player->m_combo_count);
-	DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %d", player->m_now_attack);
-	DrawFormatString(16, 600, GetColor(255, 255, 255), "aaa: %d", player->aaa);
-	DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", player->bbb);
+	DrawFormatString(16, 300, GetColor(255, 255, 255), "now_anim : %d", m_player->m_now_attack_anim);
+	DrawFormatString(16, 400, GetColor(255, 255, 255), "combo_count : %d", m_player->m_combo_count);
+	DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %d", m_player->m_now_attack);
+	DrawFormatString(16, 600, GetColor(255, 255, 255), "aaa: %d", m_player->aaa);
+	DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", m_player->bbb);
 
 	// フェードの描画処理
 	FadeDraw();
@@ -243,6 +241,8 @@ void TitleScene::Exit()
 
 	//　シャドーマップの削除
 	ExitShadowMap();
+
+	m_player->Exit();
 }
 
 //------------------------------------------
@@ -252,26 +252,26 @@ void TitleScene::HitField()
 {
 
 	// フィールドの地面モデルとキャラクターの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	HitGroundCharacter(&m_player->m_transform.pos, &m_field_1.m_field_model);
 
 	// 木のオブジェクトとプレイヤーの当たり判定
 	// なぜか２本だけ当たり判定がどうしない
-	for (int i = 0; i < field.TREE_MAX; i++)
+	for (int i = 0; i < m_field_1.TREE_MAX; i++)
 	{
 		// モンスターとプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		if (CheckCapsuleHit(m_field_1.m_hit_tree[i], m_player->m_body))
 		{
-			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_1.m_hit_tree[i]);
 		}
 	}
 
 	// プレイヤーとフィールドを囲ってる四角との当たり判定
-	for (int i = 0; i < field.AROUND_MAX; i++)
+	for (int i = 0; i < m_field_1.AROUND_MAX; i++)
 	{
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			field.m_hit_around[i].m_box.hit_pos, field.m_hit_around[i].m_box.half_size))
+		if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
+			m_field_1.m_hit_around[i].m_box.hit_pos, m_field_1.m_hit_around[i].m_box.half_size))
 		{
-			player->MoveHitUpdate(&field.m_hit_around[i]);
+			m_player->MoveHitUpdate(&m_field_1.m_hit_around[i]);
 		}
 	}
 }
@@ -285,7 +285,7 @@ void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
 	camera.SetCameraSensi(mouse);
 
 	// キャラクターのサウンドの調整
-	player->m_se.SetSoundVolume(se);
+	m_player->m_se.SetSoundVolume(se);
 
 	// BGMのサウンドの調整
 }

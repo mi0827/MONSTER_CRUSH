@@ -76,13 +76,13 @@ public:
 	Camera camera;
 
 	//! プレイヤーキャラ用のオブジェクト
-	CharacterBase* player;
+	//CharacterBase* player;
 
 	//! モンスター用のオブジェクト
 	MonsterBase* monster;
 
-	// フィールドオブジェクト
-	Field field;
+	//// フィールドオブジェクト
+	//Field field;
 
 	// ヒットストップ用のオブジェクト
 	HitStop hit_stop;

@@ -239,7 +239,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		{
 			// ƒ‰ƒ“ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚é‚Æ‚«‚¾‚¯
 			// SE‚ÌÄ¶
-			//SEUpdate(run_se_info);
+			SEUpdate(run_se_info);
 		}
 		
 		// Å‰‚ÌUŒ‚‚ğ”»’f‚·‚é
@@ -248,8 +248,8 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		if (m_player_mode == ATTACK || m_run_flag == false)
 		{
 			// Ä¶’†‚ÌSE‚ğ~‚ß‚é
-			/*m_se.StopSound();
-			m_se.m_playing_flag = true;*/
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
 		}
 
 		break;
@@ -403,6 +403,8 @@ void Hero::Draw()
 //-----------------------------------------------
 void Hero::Exit()
 {
+	// Ä¶’†‚ÌSE‚ğ~‚ß‚é
+	m_se.StopSound();
 }
 
 //-----------------------------------------------

@@ -18,7 +18,6 @@
 #include "src/Effect/Effect.h"
 #include "src/Sound/Sound.h"
 
-
 #include "src/System/Move.h"
 #include "src/System/TargetMove.h"
 #include "src/Action/Combo.h"
@@ -32,6 +31,7 @@
 #include "src/Character/Receptionist.h"
 
 #include "src/Field/FieldBase.h"
+#include "src/Field/HitField.h" 
 #include "src/Field/Field.h"
 #include "src/Field/TitleField.h"
 
@@ -93,10 +93,6 @@ void GameInit()
 
 	// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
 	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
-
-
-
-
 }
 
 //-------------------------------------------------------------

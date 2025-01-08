@@ -57,7 +57,7 @@ public:
 	//! @brief 指定場所にのシャドーマップの範囲の設定
 	//! @param シャドーマップハンドル
 	//! @param 指定の座標
-	void SetShadowMapArea(int shadowMap_handle,Vector3 player_pos);
+	void SetShadowMapArea(int shadowMap_handle, Vector3 player_pos);
 
 	//! @brief 描画に使用するシャドウマップの設定を解除（これを使わないとシャドーマップが使えない）
 	void UseShadowMapSet();
@@ -85,6 +85,10 @@ public:
 	//! @brief フェードアウトを描画する処理
 	void FadeDraw();
 
+	//! @brief プレイヤーの読み込み処理
+	//! @param 使用したいキャラクター番号
+	//! @param hero : 女剣士、bot：ボット戦士
+	void PlayerInit(int character_num);
 
 public:
 	//! 一秒何フレームかの変換用定数
@@ -156,4 +160,18 @@ private:
 	Transform m_sky_transform;
 	// 空用のモデル
 	Model m_sky_model;
+public:
+	// フィールドオブジェクト
+	TitleField m_field_1;
+	// フィールドオブジェクト
+	Field m_field_2;
+	// プレイヤーのオブジェクト
+	CharacterBase* m_player;
+	enum CharacterNum
+	{
+		hero,
+		bot,
+	};
+	// キャラクター番号
+	int m_character_num = hero;
 };

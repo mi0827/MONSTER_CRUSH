@@ -2,11 +2,30 @@
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
-#include "src/Model/Model.h"
 
+#include "src/Model/Model.h"
+#include "src/Animation/Animation.h"
+
+#include "src/Collision/BoxCollision.h"
+#include "src/Collision/CapsuleCollision.h"
+
+#include "src/System/UIBar.h"
+#include "src/Effect/Effect.h"
+#include "src/Sound/Sound.h"
+
+#include "src/Action/Combo.h"
+#include "src/System/Move.h"
+
+#include "src/Character/CharacterBase.h"
+#include "src/Character/SamplePlayer.h"
+#include "src/Character/Hero.h"
+
+#include "src/Field/FieldBase.h"
+#include "src/Field/HitField.h" 
+#include "src/Field/TitleField.h"
+#include "src/Field/Field.h"
 
 #include "src/System/Text.h"
-
 #include "Scene_Base.h"
 
 Scene_Base::Scene_Base()
@@ -34,7 +53,7 @@ void Scene_Base::BaseInit()
 {
 	// テキストデータの読み込み
 	m_text.LoadText("Data/Text/Option.txt", TEXT_MAX);
-	
+
 	// 空の設定
 	// 空データの読み込み
 	m_sky_model.LoadModel("Data/Model/Sky/sky.mqoz");
@@ -273,4 +292,20 @@ void Scene_Base::FadeDraw()
 		break;
 	}
 
+}
+
+// --------------------------------------------------------------------------
+// プレイヤーの読み込み処理
+// --------------------------------------------------------------------------
+void Scene_Base::PlayerInit(int character_num)
+{
+	switch (m_character_num)
+	{
+	case hero: // 女剣士
+		m_player = new Hero;
+		break;
+	case bot: // ボット戦士
+		//m_player = new SamplePlayer;
+		break;
+	}
 }

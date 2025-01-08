@@ -47,10 +47,10 @@ private:
 	Camera camera;
 
 	//! フィールドオブジェクト
-	TitleField field;
+	// TitleField field;
 
 	//! プレイヤーのオブジェクト
-	CharacterBase* player;
+	// CharacterBase* player;
 
 	//! 受付嬢のオブジェクト
 	Receptionist receptionist;

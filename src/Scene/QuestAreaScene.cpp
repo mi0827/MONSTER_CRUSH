@@ -25,6 +25,7 @@
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
 #include "src/Field/TitleField.h"
+#include "src/Field/Field.h"
 
 #include "src/Camera.h"
 #include "src/System/Text.h"
@@ -57,23 +58,21 @@ void QuestAreaScene::Init()
 	BaseInit();
 
 	// フィールドの初期化
-	field.Init();
+	m_field_1.Init();
 
 	// カメラの初期設定
 	camera.PlayFieldInit();
 
-	// プレイヤーの設定
-	player = new Hero;
-
+	PlayerInit(hero);
 	// プレイヤーの初期設定 
-	player->Init();
+	m_player->Init();
 	// プレイヤーの座標の設定
-	player->SetCharacterPos({ 0.0f, 0.0f,250.0f });
+	m_player->SetCharacterPos({ 0.0f, 0.0f,250.0f });
 	// プレイヤーの向きの設定
-	player->SetCharacterRot({ 0.0f,-180.0f,0.0f });
+	m_player->SetCharacterRot({ 0.0f,-180.0f,0.0f });
 
 	// カメラの向きの設定
-	camera.SetCameraRot(player->m_transform.rot);
+	camera.SetCameraRot(m_player->m_transform.rot);
 
 	// 受付嬢の初期設定
 	receptionist.Init();
@@ -106,22 +105,22 @@ void QuestAreaScene::Update()
 		m_camera_rot = camera.GetCameraRot();
 
 		// プレイヤーの更新処理
-		player->Update(&m_camera_rot);
+		m_player->Update(&m_camera_rot);
 
 		// 受付嬢のの更新処理
 		receptionist.Update();
 
 		// 受付嬢とプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(receptionist.m_hit_body, player->m_body))
+		if (CheckCapsuleHit(receptionist.m_hit_body, m_player->m_body))
 		{
-			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &receptionist.m_hit_body);
+			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
 		}
 		// フィールドとキャラクターの当たり判定
 		HitField();
 
 
 		// プレイヤーが受付嬢と話せる範囲に入ったかの確認
-		if (CheckCapsuleHit(m_area, player->m_body))
+		if (CheckCapsuleHit(m_area, m_player->m_body))
 		{
 			// Xキーを押された時にシーンの変更をする（今だけの仮）
 			if (PushHitKey(KEY_INPUT_F))
@@ -142,7 +141,7 @@ void QuestAreaScene::Update()
 		}
 
 		// カメラの更新処理
-		camera.MouseCamera(&player->m_transform.pos);
+		camera.MouseCamera(&m_player->m_transform.pos);
 
 		// 文字列の描画のための設定
 		for (int i = 0; i < text_max; i++)
@@ -202,14 +201,6 @@ void QuestAreaScene::Update()
 		FadeOutSceneChange(Battle);
 		break;
 	}
-
-
-
-
-
-
-
-
 }
 
 //------------------------------------------
@@ -218,7 +209,7 @@ void QuestAreaScene::Update()
 void QuestAreaScene::Draw()
 {
 	// シャドーマップのエリアのセット
-	SetShadowMapArea(m_shadowMap_handle_1, player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1, m_player->m_transform.pos);
 	SetShadowMapArea(m_shadowMap_handle_2, receptionist.m_transform.pos);
 	//-------------------------------------------------------------
 		// シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
@@ -227,7 +218,7 @@ void QuestAreaScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle_1);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle_2);
 	{
@@ -236,7 +227,7 @@ void QuestAreaScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// フィールドの描画
-		field.Draw();
+		m_field_1.Draw();
 	}
 
 	// シャドウマップへの描画を終了
@@ -257,7 +248,7 @@ void QuestAreaScene::Draw()
 	// 描画に使用するシャドウマップを設定
 	SetUseShadowMap(1, m_shadowMap_handle_1);
 	{
-		player->Draw();
+		m_player->Draw();
 		// 受付嬢の描画
 		receptionist.Draw();
 	}
@@ -268,22 +259,15 @@ void QuestAreaScene::Draw()
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// プレイヤーの描画処理
-		player->Draw();
+		m_player->Draw();
 
 		// 受付嬢の描画
 		receptionist.Draw();
 		// シャドウマップへキャラクターモデルの描画
-		field.Draw();
+		m_field_1.Draw();
 
 	}
 	UseShadowMapSet();
-
-
-	// エリアを描画（仮後で消す）
-	// m_area.Draw();
-
-
-	
 
 	//int a = CreateFontToHandle("MS:明朝",40,10,10);
 		// フォントサイズの設定
@@ -321,8 +305,6 @@ void QuestAreaScene::Draw()
 		m_quest_area_text.TextDraw(i, { text_draw_pos.x, (text_draw_pos.y + h * i) }, m_quest_area_text.TITLE_BACK_SIZE);
 	} 
 
-	
-
 	// フェードの描画処理
 	FadeDraw();
 }
@@ -335,6 +317,8 @@ void QuestAreaScene::Exit()
 	//　シャドーマップの削除
 	ExitShadowMap();
 
+	// プレイヤーの終了処理
+	m_player->Exit();
 }
 
 //------------------------------------------
@@ -344,29 +328,29 @@ void QuestAreaScene::HitField()
 {
 
 	// フィールドの地面モデルとプレイヤーの当たり判定
-	HitGroundCharacter(&player->m_transform.pos, &field.m_field_model);
+	HitGroundCharacter(&m_player->m_transform.pos, &m_field_1.m_field_model);
 	// 受付嬢
-	HitGroundCharacter(&receptionist.m_transform.pos, &field.m_field_model);
+	HitGroundCharacter(&receptionist.m_transform.pos, &m_field_1.m_field_model);
 
 
 	// 木のオブジェクトとプレイヤーの当たり判定
 	// なぜか２本だけ当たり判定がどうしない
-	for (int i = 0; i < field.TREE_MAX; i++)
+	for (int i = 0; i < m_field_1.TREE_MAX; i++)
 	{
 		// モンスターとプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(field.m_hit_tree[i], player->m_body))
+		if (CheckCapsuleHit(m_field_1.m_hit_tree[i], m_player->m_body))
 		{
-			player->m_move.Move_Hit_Capsule(&player->m_transform.pos, player->m_body.m_capsule.radius, &field.m_hit_tree[i]);
+			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_1.m_hit_tree[i]);
 		}
 	}
 
 	// プレイヤーとフィールドを囲ってる四角との当たり判定
-	for (int i = 0; i < field.AROUND_MAX; i++)
+	for (int i = 0; i < m_field_1.AROUND_MAX; i++)
 	{
-		if (CheckBoxHit3D(player->m_transform.pos, player->m_move_hit_size,
-			field.m_hit_around[i].m_box.hit_pos, field.m_hit_around[i].m_box.half_size))
+		if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
+			m_field_1.m_hit_around[i].m_box.hit_pos, m_field_1.m_hit_around[i].m_box.half_size))
 		{
-			player->MoveHitUpdate(&field.m_hit_around[i]);
+			m_player->MoveHitUpdate(&m_field_1.m_hit_around[i]);
 		}
 	}
 
@@ -380,7 +364,7 @@ void QuestAreaScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// カメラの感度設定
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
-	player->m_se.SetSoundVolume(se);
+	m_player->m_se.SetSoundVolume(se);
 
 }
 
