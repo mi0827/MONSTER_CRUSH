@@ -196,7 +196,6 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		// 移動処理
 		MoveAction(run_anim);
 
-
 		// 走っている間のフレームを加算する
 		m_running_frame_count++;
 
@@ -252,6 +251,12 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		if (m_now_attack_anim == rolling_anim)
 		{
 			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
+		   // ローリングアクションのあとにプレイヤーが攻撃範囲にはいていなかったら
+			if (m_rolling_flag == false && HitAttackRange() == false)
+			{
+			
+				break;
+			}
 		}
 
 		// 攻撃用の関数
@@ -266,7 +271,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		// 攻撃のエフェクトがキック以外の時
 		// 攻撃時のエフェクトは攻撃とタイミングを合わせる
 		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
-			m_effect.m_play_effect_flag == true)
+			m_effect.m_play_effect_flag == true 
+			/*m_rolling_flag == false*/ )
 		{
 			if (m_now_attack == attack_punch_1)
 			{
@@ -279,11 +285,18 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 				EffectUpdate(sword_attack_effect, m_now_attack);
 			}
 		}
-		// 攻撃にあったサウンドを再生
-		if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
+		
+		// SEが設定されていない攻撃の時は再生しない
+		if (m_rolling_flag == false&&m_jump_flag == false)
 		{
-			SEUpdate(m_now_attack);
+			// 攻撃にあったサウンドを再生
+			if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
+			{
+
+				SEUpdate(m_now_attack);
+			}
 		}
+		
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
 			// 攻撃アニメーションが終わったから

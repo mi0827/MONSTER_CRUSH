@@ -493,12 +493,19 @@ void GameScene::CharacterUpdate()
 {
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
-
+	
 	// プレイヤーの更新処理
 	m_player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
 	monster->Update(&m_player->m_transform, m_player->m_hit_r);
+	// なぜかうまう行かない
+	//if (monster->m_run_flag)
+	//{
+	//	// カメラシェイクを行う
+	//	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
+	//}
+
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, m_player->m_body))
 	{

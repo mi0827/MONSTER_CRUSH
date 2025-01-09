@@ -93,7 +93,7 @@ void MonsterBase::ActionRolling(const int rolling_speed, float rolling_start_fra
 		// ローリングフラグを下す
 		m_rolling_flag = false;
 		// Run状態に変更
-		m_monster_mode = RUN;
+		m_monster_mode = IDLE;
 		// アニメーション変更フラグを立てておく
 		m_animation.m_anim_change_flag = true;
 	}

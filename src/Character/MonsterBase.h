@@ -125,6 +125,7 @@ public:
 	void ComboPatternInfoInit(int pattern_num, int combo_num_max, int rear_crevice_frame, int* anim_num);
 
 	//! @brief UŒ‚”ÍˆÍ‚ÉN“ü‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’f‚·‚é
+	//! @return true : UŒ‚”ÍˆÍ‚É“ü‚Á‚½Afalse : UŒ‚”ÍˆÍŠO
 	bool HitAttackRange();
 
 	//! @brief Å‰‚ÌUŒ‚‚ğs‚¤—pŠÖ”
