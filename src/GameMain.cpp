@@ -59,17 +59,6 @@ Scene_Base* scene;
 
 Option option;
 
-// ライトとシャドーマップの設定はゲームメインで行う
-
-
-// 影に使うやつ
-//! プレイヤー用のシャドウマップ
-//int player_shadowmap_hanndle;
-////! シャドーマップ用の変数
-//int ShadowMapHandle;
-//float Angle;
-//VECTOR LightDirection;
-
 
 int light_handle;
 
@@ -191,8 +180,6 @@ void GameUpdate()
 		option.option_menu[option.MOUSE].m_value);
 
 
-	// ３：子の変数の値をシェーダーに渡します
-	//SetPSConstF(25, shader_base_pos);
 }
 
 
@@ -201,9 +188,6 @@ void GameUpdate()
 //-------------------------------------------------------------
 void GameDraw()
 {
-
-
-
 	// シーンの描画処理
 	scene->Draw();
 	// エフェクトの描画処理
@@ -214,31 +198,17 @@ void GameDraw()
 
 	scene->BaseDraw(scene->m_now_scene, { 0,100 });
 
-	////	シェーダーを使って描画します
-	//MV1SetUseOrigShader(TRUE);
-	////	頂点シェーダーのセット
-	//SetUseVertexShader(vertex_shader);
-	////	ピクセルシェーダーのセット
-	//SetUsePixelShader(pixel_shader);
 
 }
 
 // 終了処理
 void GameExit()
 {
-
-
-	////	シェーダーファイルの終了処理
-	//DeleteShader(vertex_shader);
-	//DeleteShader(pixel_shader);
-
 	// シーンの終了処理
 	scene->Exit();
 
 	// シーンベースクラスの削除
 	delete scene;
-	// ライトの削除
-	//DeleteLightHandle(light_handle);
 
 }
 

@@ -34,9 +34,6 @@
     <Filter Include="ソース ファイル\Action">
       <UniqueIdentifier>{4ece2998-fd4b-4439-b1f2-efb581f52171}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shader">
-      <UniqueIdentifier>{8e1080ea-81df-489f-a54e-1d7cbf7d43e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Collision">
       <UniqueIdentifier>{59d958f1-1372-4c09-b8a5-5c34de60f5af}</UniqueIdentifier>
     </Filter>
@@ -320,13 +317,5 @@
     <ClInclude Include="src\Sound\Sound.h">
       <Filter>ソース ファイル\Sound</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="shader\SamplePS.fx">
-      <Filter>shader</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\SampleVS.fx">
-      <Filter>shader</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
