@@ -53,26 +53,18 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	// -32768 ～ 32767 を-1.0f　～　1.0fにします
 	m_mov /= 32768.0f;
 
-
 	if (m_mov.GetLength() > 0.5f)
 	{
 		Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
 	}
 
 
-	// 押された瞬間に振り向きようの保管用カウントを初期化
-	if (PushHitKey((KEY_INPUT_W)) || PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
-	{
-		m_rot_complementation = 0;
-		// 一度押されたら振り向き保管を入れながらゆっくりキャラの向きを変える
-	}
-
+	
 
 	// WASDキーでプレイヤーの移動
 	// 右上移動
 	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
 	{
-
 		Move_Diagonally_Up_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
 	else //左上移動
@@ -111,11 +103,40 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 									Move_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 								}
 
-	// この移動用ベクトルの大きさがある程度大きい時だけ移動させようと思います
 
+	// 押された瞬間に振り向きようの保管用カウントを初期化
+	if (/*PushHitKey((KEY_INPUT_W)) ||*/ PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
+	{
+		// 補完の値をリセットする
+		m_rot_complementation = 0;
+		// 一度押されたら振り向き保管を入れながらゆっくりキャラの向きを変える
+		m_complementation_flag = true;
+	}
+	// 補完状態なら
+	if (m_complementation_flag)
+	{
+		m_rot_complementation += 8.0f;
+		// 補完の値を増やす
+		if (m_rot_flag)
+		{
+			// 補完されている値をプレイヤーの向きを変更する
+			player_rot->y = camera_rot->y + m_rot_complementation;
+		}
+		else
+		{
+			// 補完されている値をプレイヤーの向きを変更する
+			player_rot->y = camera_rot->y - m_rot_complementation;
+		}
 
-	//*player_pos = m_pos;
+		// 補完の値が一定の値以上になったら
+		if (m_rot_complementation >= m_rot_complementation_max)
+		{
+			//補完完了したのでフラグを下げる
+			m_complementation_flag = false;
+			m_rot_complementation = 0;
+		}
 
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -204,6 +225,8 @@ void Move::Move_Front(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 画面手前（カメラのある方向）
+	m_rot_flag = true;
+	m_rot_complementation_max = 180.0f;
 	player_rot->y = camera_rot->y + 180.0f;
 	// 動いていい
 	*m_check_move = true;
@@ -219,7 +242,9 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 {
 
 	// 画面から見て：左
-	player_rot->y = camera_rot->y - 90;
+	m_rot_flag = false;
+	m_rot_complementation_max = 90.0f;
+	//player_rot->y = camera_rot->y - 90;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
@@ -232,13 +257,10 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 //---------------------------------------------------------------------------
 void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	m_rot_complementation += 10;
-	if (m_rot_complementation >= 90)
-	{
-		m_rot_complementation = 90;
-	}
 	// 画面から見て：右
-	player_rot->y = camera_rot->y + m_rot_complementation;
+	m_rot_flag = true;
+	m_rot_complementation_max = 90.0f;
+	// player_rot->y = camera_rot->y +90;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動	
@@ -253,7 +275,8 @@ void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 void Move::Move_Diagonally_Up_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 画面から見て：右
-	player_rot->y = camera_rot->y + 45;
+	m_rot_flag = true;
+	//player_rot->y = camera_rot->y + 45;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動		
@@ -266,8 +289,9 @@ void Move::Move_Diagonally_Up_Right(bool* m_check_move, Vector3* camera_rot, Vec
 //---------------------------------------------------------------------------
 void Move::Move_Diagonally_Up_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面から見て：右
-	player_rot->y = camera_rot->y - 45;
+	// 画面から見て：左
+	m_rot_flag = false;
+	// player_rot->y = camera_rot->y - 45;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動		

@@ -150,6 +150,17 @@ public:
 	////! カメラの向きを入れておくもの
 	//Vector3 m_camera_rot = { 0.0f,0.0f,0.0f };
 private:
+
+
+	//-------------------------------------
+	// キャラの補完関連
+	//-------------------------------------
 	// キャラクターの振り向き補完用変数
 	float m_rot_complementation = 0;
+	// 振り向き補完フラグ
+	bool m_complementation_flag = false;
+	// 補完する値のマックス
+	float m_rot_complementation_max = 0;
+	// どちらの向きを向くかフラグ true : 右周り、 false : 左周り
+	bool m_rot_flag = false;
 };
