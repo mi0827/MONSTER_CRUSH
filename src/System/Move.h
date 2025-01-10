@@ -42,7 +42,7 @@ public:
 	//! @param 当たり判定をとりたいボックスの情報
 	//! @detail 移動の壁擦り用関数
 	void Move_Hit_Capsule(Vector3* player_pos, float r, CapsuleCollision* capsule);
-	
+
 	//! @fn
 	//! @brief ゲームパッドでの移動用関数
 	//! @param 動いていいのかの変数
@@ -149,4 +149,7 @@ public:
 
 	////! カメラの向きを入れておくもの
 	//Vector3 m_camera_rot = { 0.0f,0.0f,0.0f };
+private:
+	// キャラクターの振り向き補完用変数
+	float m_rot_complementation = 0;
 };

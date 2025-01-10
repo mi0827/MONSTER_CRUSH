@@ -56,51 +56,61 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 
 	if (m_mov.GetLength() > 0.5f)
 	{
-		Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot,  player_pos, mov_speed);
+		Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
 	}
+
+
+	// 押された瞬間に振り向きようの保管用カウントを初期化
+	if (PushHitKey((KEY_INPUT_W)) || PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
+	{
+		m_rot_complementation = 0;
+		// 一度押されたら振り向き保管を入れながらゆっくりキャラの向きを変える
+	}
+
 
 	// WASDキーでプレイヤーの移動
 	// 右上移動
-	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W)) 
+	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
 	{
+
 		Move_Diagonally_Up_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
 	else //左上移動
-    if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W)) 
-    {
-		Move_Diagonally_Up_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-    }
-	else // 右下移動
-	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S)) 
-	{
-		Move_Oblique_Lower_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	}
-	else // 左下移動
-	if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S)) 
-	{
-		Move_Oblique_Lower_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	}
-	else // 上移動
-	if (CheckHitKey(KEY_INPUT_W))
-	{
-		Move_Front(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	}
-	else // 下移動
-	if (CheckHitKey(KEY_INPUT_S))
-	{
-		Move_Dhindo(m_check_move, camera_rot, player_rot, player_pos,mov_speed);
-	}
-	else // 左移動
-	if (CheckHitKey(KEY_INPUT_A)) 
-	{
-		Move_Left(m_check_move, camera_rot, player_rot, player_pos,mov_speed);
-	}
-	else // 右移動
-	if (CheckHitKey(KEY_INPUT_D)) 
-	{
-		Move_Right(m_check_move, camera_rot, player_rot, player_pos,mov_speed);
-	}
-	
+		if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W))
+		{
+			Move_Diagonally_Up_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+		}
+		else // 右下移動
+			if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S))
+			{
+				Move_Oblique_Lower_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+			}
+			else // 左下移動
+				if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S))
+				{
+					Move_Oblique_Lower_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+				}
+				else // 上移動
+					if (CheckHitKey(KEY_INPUT_W))
+					{
+						Move_Front(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+					}
+					else // 下移動
+						if (CheckHitKey(KEY_INPUT_S))
+						{
+							Move_Dhindo(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+						}
+						else // 左移動
+							if (CheckHitKey(KEY_INPUT_A))
+							{
+								Move_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+							}
+							else // 右移動
+								if (CheckHitKey(KEY_INPUT_D))
+								{
+									Move_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+								}
+
 	// この移動用ベクトルの大きさがある程度大きい時だけ移動させようと思います
 
 
@@ -111,7 +121,7 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 //---------------------------------------------------------------------------
 // キャラクターの壁擦り用関数(ボックス)
 //---------------------------------------------------------------------------
-void Move::Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision *box)
+void Move::Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box)
 {
 	if (before_pos->x + hit_size->x >= box->m_box.hit_pos.x - box->m_box.half_size.x && before_pos->x - hit_size->x <= box->m_box.hit_pos.x + box->m_box.half_size.x)
 	{
@@ -148,7 +158,7 @@ void Move::Move_Hit_Capsule(Vector3* player_pos, float r, CapsuleCollision* caps
 		dir.SetLength(in_lengef);
 		// 7：この分だけプレイヤー座標を移動させる
 		*player_pos += dir;
-	
+
 	}
 }
 
@@ -207,6 +217,7 @@ void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_
 //---------------------------------------------------------------------------
 void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
+
 	// 画面から見て：左
 	player_rot->y = camera_rot->y - 90;
 	// 動いていい
@@ -221,8 +232,13 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 //---------------------------------------------------------------------------
 void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
+	m_rot_complementation += 10;
+	if (m_rot_complementation >= 90)
+	{
+		m_rot_complementation = 90;
+	}
 	// 画面から見て：右
-	player_rot->y = camera_rot->y + 90;
+	player_rot->y = camera_rot->y + m_rot_complementation;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動	

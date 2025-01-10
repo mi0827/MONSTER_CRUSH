@@ -395,6 +395,8 @@ bool MonsterBase::HitAttackRange()
 	// 設定された値より近づいたら
 	if (distance < radius) {
 
+		// ここにモンスターの向いている方向にプレイヤーがいるがどうかを調べる
+	   // ????
 		// 攻撃範囲に侵入した
 		return true;
 	}
