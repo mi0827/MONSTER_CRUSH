@@ -223,12 +223,14 @@ void TitleScene::Draw()
 	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 
 
-	DrawFormatString(16, 300, GetColor(255, 255, 255), "now_anim : %d", m_player->m_now_attack_anim);
-	DrawFormatString(16, 400, GetColor(255, 255, 255), "combo_count : %d", m_player->m_combo_count);
-	DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %d", m_player->m_now_attack);
-	DrawFormatString(16, 600, GetColor(255, 255, 255), "aaa: %d", m_player->aaa);
-	DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", m_player->bbb);
-
+	//DrawFormatString(16, 300, GetColor(255, 255, 255), "now_anim : %d", m_player->m_now_attack_anim);
+	//DrawFormatString(16, 400, GetColor(255, 255, 255), "combo_count : %d", m_player->m_combo_count);
+	//DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %d", m_player->m_now_attack);
+	//DrawFormatString(16, 600, GetColor(255, 255, 255), "aaa: %d", m_player->aaa);
+	//DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", m_player->bbb);
+	DrawFormatString(16, 300, GetColor(255, 255, 255), "player_rot : %f", m_player->m_transform.rot.y);
+	DrawFormatString(16, 400, GetColor(255, 255, 255), "camera_rot : %f", camera.m_rot.y);
+	
 	// フェードの描画処理
 	FadeDraw();
 }

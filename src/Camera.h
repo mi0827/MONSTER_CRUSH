@@ -119,6 +119,7 @@ public:
 private:
 	//! ƒJƒƒ‰‚ÌÀ•W
 	Vector3 m_pos;
+public:
 	//! ƒJƒƒ‰‚ÌŒü‚«
 	Vector3 m_rot;
 

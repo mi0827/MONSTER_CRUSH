@@ -57,10 +57,6 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	{
 		Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
 	}
-
-
-	
-
 	// WASDキーでプレイヤーの移動
 	// 右上移動
 	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
@@ -115,7 +111,7 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	// 補完状態なら
 	if (m_complementation_flag)
 	{
-		m_rot_complementation += 8.0f;
+		m_rot_complementation += 15.0f;
 		// 補完の値を増やす
 		if (m_rot_flag)
 		{
@@ -227,7 +223,7 @@ void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_
 	// 画面手前（カメラのある方向）
 	m_rot_flag = true;
 	m_rot_complementation_max = 180.0f;
-	player_rot->y = camera_rot->y + 180.0f;
+	//player_rot->y = camera_rot->y + 180.0f;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
