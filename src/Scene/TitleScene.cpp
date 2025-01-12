@@ -230,7 +230,7 @@ void TitleScene::Draw()
 	//DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", m_player->bbb);
 	DrawFormatString(16, 300, GetColor(255, 255, 255), "player_rot : %f", m_player->m_transform.rot.y);
 	DrawFormatString(16, 400, GetColor(255, 255, 255), "camera_rot : %f", camera.m_rot.y);
-	
+	DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %f", m_player->m_transform.rot.y - camera.m_rot.y);
 	// フェードの描画処理
 	FadeDraw();
 }

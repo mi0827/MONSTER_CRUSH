@@ -101,7 +101,6 @@ public:
 	//! 
 	void Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed);
 
-
 	//! @fn
 	//! @brief カメラの方向に対して右斜め上への移動用関数
 	//! @param 動いていいのかの変数
@@ -157,10 +156,14 @@ private:
 	//-------------------------------------
 	// キャラクターの振り向き補完用変数
 	float m_rot_complementation = 0;
+	// 補完カウント用変数
+	float m_rot_complementation_count = 0;
 	// 振り向き補完フラグ
 	bool m_complementation_flag = false;
 	// 補完する値のマックス
 	float m_rot_complementation_max = 0;
+	// カメラから見た時のキャラクターの向きを保存するためのもの
+	float m_difference_rot = 0;
 	// どちらの向きを向くかフラグ true : 右周り、 false : 左周り
 	bool m_rot_flag = false;
 };

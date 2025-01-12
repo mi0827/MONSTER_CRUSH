@@ -21,6 +21,8 @@ Move::~Move()
 //---------------------------------------------------------------------------
 void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, const float* mov_speed, Vector3* player_pos, PAD_NO m_pad_no, Vector3 m_mov)
 {
+	// キャラとカメラの向きの回転の差
+	m_difference_rot = player_rot->y - camera_rot->y;
 
 	// 移動中はダッシュする
 		// ゲームパッドの入力状態をとる
@@ -57,6 +59,16 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	{
 		Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
 	}
+
+	// 押された瞬間に振り向きようの補完用カウントを初期化
+	if (/*PushHitKey((KEY_INPUT_W)) ||*/ PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
+	{
+		// 補完の値をリセットする
+		m_rot_complementation = 0;
+		// 一度押されたら振り向き保管を入れながらゆっくりキャラの向きを変える
+		m_complementation_flag = true;
+	}
+
 	// WASDキーでプレイヤーの移動
 	// 右上移動
 	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
@@ -100,18 +112,12 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 								}
 
 
-	// 押された瞬間に振り向きようの保管用カウントを初期化
-	if (/*PushHitKey((KEY_INPUT_W)) ||*/ PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
-	{
-		// 補完の値をリセットする
-		m_rot_complementation = 0;
-		// 一度押されたら振り向き保管を入れながらゆっくりキャラの向きを変える
-		m_complementation_flag = true;
-	}
+	
 	// 補完状態なら
 	if (m_complementation_flag)
 	{
-		m_rot_complementation += 15.0f;
+		m_rot_complementation += 5.0f;
+
 		// 補完の値を増やす
 		if (m_rot_flag)
 		{
@@ -129,10 +135,10 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 		{
 			//補完完了したのでフラグを下げる
 			m_complementation_flag = false;
-			m_rot_complementation = 0;
+			//m_rot_complementation = 0;
 		}
-
 	}
+
 }
 
 //---------------------------------------------------------------------------
@@ -238,9 +244,22 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 {
 
 	// 画面から見て：左
-	m_rot_flag = false;
-	m_rot_complementation_max = 90.0f;
-	//player_rot->y = camera_rot->y - 90;
+	
+	// 画面から見て：右
+	if (m_difference_rot <= 90 && m_difference_rot >= -90)
+	{
+		m_rot_flag = false;
+		m_rot_complementation_max = 90.0f;
+	}
+	else
+	{
+		m_rot_flag = true;
+		m_rot_complementation_max = 90.0f;
+	}
+	if (m_complementation_flag == false)
+	{
+		player_rot->y = camera_rot->y - 90;
+	}
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
@@ -254,9 +273,21 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 画面から見て：右
-	m_rot_flag = true;
-	m_rot_complementation_max = 90.0f;
-	// player_rot->y = camera_rot->y +90;
+	if (m_difference_rot < 90 && m_difference_rot > -90)
+	{
+		m_rot_flag = true;
+		m_rot_complementation_max = 90.0f;
+	}
+	else
+	{
+		m_rot_flag = false;
+		m_rot_complementation_max = 90.0f;
+	}
+	if (m_complementation_flag == false)
+	{
+		player_rot->y = camera_rot->y +90;
+	}
+	
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動	

@@ -116,6 +116,15 @@ void Camera::MouseCamera(Vector3* target_pos)
 	m_rot.y += move.x;
 	m_rot.x += move.y;
 
+	// カメラのY軸回転の範囲を決める
+	if (m_rot.y > 360)
+	{
+		m_rot.y = 0;
+	}
+	if (m_rot.y < 0)
+	{
+		m_rot.y = 360;
+	}
 
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します

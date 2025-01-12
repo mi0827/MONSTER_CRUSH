@@ -65,7 +65,8 @@ void CharacterBase::MoveAction(int run_anim_no, const float move_speed, Vector3*
 		// プレイヤーモードの切り替えをする
 		m_player_mode = RUN;
 	}
-
+	// モデルのY軸回転に制限をかけている
+	m_model.RotationYLimits();
 }
 
 //---------------------------------------------------------------------------

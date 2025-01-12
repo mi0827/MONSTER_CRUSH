@@ -69,21 +69,29 @@ public:
 	//---------------------------------
 	//! @brief マテリアルの各情報を確保する
 	void GetMaterilaInfo();
+
 	//! @brief マテリアルのDiffuseの設定用関数
 	//! @param 設定したいカラー（0.0f ～ 1.0f）
 	void SetMaterialDiffuse(COLOR_F color);
+
 	//! @brief マテリアルのAmbientの設定用関数
 	//! @param 設定したいカラー（0.0f ～ 1.0f）
 	void SetMaterialAmbient(COLOR_F color);
+
 	//! @brief マテリアルのSpecularの設定用関数
 	//! @param 設定したいカラー（0.0f ～ 1.0f）
 	void SetMaterialSpecular(COLOR_F color);
+
 	//! @brief マテリアルのEmissiveの設定用関数
 	//! @param 設定したいカラー（0.0f ～ 1.0f）
     void SetMaterialEmissive(COLOR_F color);
+
 	//! @brief マテリアルのスペキュラハイライトの鮮明度の設定用関数
 	//! @param 設定したい強さ（0.0f ～ 1.0f）
 	void SetMaterialPower(float power);
+
+	//! @brief モデルのY回転に制限をつける関数
+	void RotationYLimits();
 
 public:
 

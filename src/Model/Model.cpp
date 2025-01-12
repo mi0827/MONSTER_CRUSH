@@ -36,6 +36,7 @@ void Model::LoadModel(const char data[256])
 //-----------------------------------------------
 void Model::DrawModel(Transform *transform)
 {
+	
 	// モデルのサイズの調整
 	m_transform = *transform;
 	//m_transform.scale.set(0.1f, 0.1f, 0.1f);
@@ -133,7 +134,6 @@ void Model::SetMaterialDiffuse(COLOR_F color)
 		// 受け取ってきたカラーを設定する
 		MV1SetMaterialDifColor(m_model, i, m_material[i].Diffuse);
 	}
-	
 }
 
 //-----------------------------------------------
@@ -186,5 +186,20 @@ void Model::SetMaterialPower(float power)
 		m_material[i].Power = power;
 		// 受け取ってきたスペキュラーのを設定する
 		MV1SetMaterialSpcPower(m_model, i, m_material[i].Power);
+	}
+}
+
+//-----------------------------------------------
+// モデルのY軸回転に制限をかける
+//-----------------------------------------------
+void Model::RotationYLimits()
+{
+	if (m_transform.rot.y > 360)
+	{
+		m_transform.rot.y = 0;
+	}
+	if (m_transform.rot.y < 0)
+	{
+		m_transform.rot.y = 360;
 	}
 }
