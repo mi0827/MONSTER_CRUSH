@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 //! @file Mutant.h
 //! @brief ミュータントのクラス

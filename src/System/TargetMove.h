@@ -34,6 +34,11 @@ public:
 	//! @brief 本体の向きを
 	void SetDirection();
 
+	//! @brief キャラの向いている方向にターゲットがいるかいないかを返す関数
+	//! @param 入っていてほしい範囲
+	//! @return true : 範囲内, false : 範囲外
+	bool WithinRange(int range);
+
 	//! @brief ターゲットと一定の距離に入ったかを返す関数
 	bool TargetHit();
 

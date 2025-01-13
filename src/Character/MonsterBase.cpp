@@ -104,7 +104,6 @@ void MonsterBase::ActionRolling(const int rolling_speed, float rolling_start_fra
 //---------------------------------------------------------------------------
 void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_value_max)
 {
-
 	switch (m_stun_info_num)
 	{
 	case DOWN: // スタンして倒れたはじめ
@@ -136,8 +135,8 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 			// 状態を次の変更
 			m_stun_info_num = UP;
 		}
-
 		break;
+
 	case UP: // 起き上がるとき
 		// アニメーションの再生速度に合わせてスタン値を回復させる
 		static float stun_recovery_value = sutn_value_max / m_animation.m_contexts[0].animation_total_time;
@@ -396,9 +395,16 @@ bool MonsterBase::HitAttackRange()
 	if (distance < radius) {
 
 		// ここにモンスターの向いている方向にプレイヤーがいるがどうかを調べる
-	   // ????
-		// 攻撃範囲に侵入した
-		return true;
+		if (m_move.WithinRange(RANGE))
+		{
+			// 攻撃範囲に侵入した
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	 
 	}
 	else
 	{

@@ -380,6 +380,8 @@ public:
 	int m_now_attack = -1;
 	//! コンボが何個目か
 	int m_combo_num = 0;
+	//! モンスターの視界の量
+	static constexpr int RANGE = 1000;
 
 	//------------------------------------------
 	// スタン関連
