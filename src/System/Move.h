@@ -136,34 +136,32 @@ public:
 	//! @detail カメラの方向に対して左斜め下への移動用関数
 	void Move_Oblique_Lower_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed);
 
-public:
-	////! プレイヤーの座標を入れておくもの
-	//Vector3 m_player_pos = { 0.0f,0.0f,0.0f };
+	//! @brief キャラクターの振り向き処理
+	//! @param キャラのrot(Vector3)
+	//! @param カメラのrot(Vector3)
+	void LookingUpdate(Vector3* chara_rot, Vector3* camera_rot);
 
-	////! プレイヤーの移動スピードを入れておくもの
-	//// static const float player_mov_speed;
 
-	////! プレイヤーの向きを入れておくもの
-	//Vector3 m_player_rot = { 0.0f,0.0f,0.0f };
-
-	////! カメラの向きを入れておくもの
-	//Vector3 m_camera_rot = { 0.0f,0.0f,0.0f };
 private:
 
 
 	//-------------------------------------
 	// キャラの補完関連
 	//-------------------------------------
-	// キャラクターの振り向き補完用変数
-	float m_rot_complementation = 0;
-	// 補完カウント用変数
-	float m_rot_complementation_count = 0;
 	// 振り向き補完フラグ
 	bool m_complementation_flag = false;
-	// 補完する値のマックス
-	float m_rot_complementation_max = 0;
-	// カメラから見た時のキャラクターの向きを保存するためのもの
-	float m_difference_rot = 0;
-	// どちらの向きを向くかフラグ true : 右周り、 false : 左周り
-	bool m_rot_flag = false;
+	// キャラクターのY軸行列を保存するためのもの
+	MATRIX m_character_mat; 
+	// キャラクターの前方方向ベクトル
+	Vector3 m_character_dir;
+	// 向かせたい方向のY軸回転行列
+	MATRIX m_face_mat;
+	// 向かせたい方向の方向ベクトル
+	Vector3 m_face_dir;
+	// 向いてほしい方向指定する変数
+	int m_face_num = 0;
+	// 二つのベクトルの内積を保存する
+	float inner_product;
+	// 二つのベクトルの外積を保存する
+	Vector3 cross_product;
 };

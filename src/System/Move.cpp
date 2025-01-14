@@ -20,49 +20,9 @@ Move::~Move()
 // 移動に関する更新処理用関数
 //---------------------------------------------------------------------------
 void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, const float* mov_speed, Vector3* player_pos, PAD_NO m_pad_no, Vector3 m_mov)
-{
-	// キャラのY軸回転行列
-	MATRIX mat_player = MGetRotY(TO_RADIAN(player_rot->y));
-
-	// プレイヤーの前方向のベクトル
-	Vector3 player_dir = VGet(mat_player.m[2][0], mat_player.m[2][1], mat_player.m[2][2]);
-
-	// カメラのY軸回転行列
-	MATRIX mat_camera = MGetRotY(TO_RADIAN(camera_rot->y));
-
-	// カメラの前方向のベクトル
-	VECTOR camera_dir = VGet(mat_camera.m[2][0], mat_camera.m[2][1], mat_camera.m[2][2]);
-
-	// 向かせたい方向のY軸回転行列
-	MATRIX mat_direction = MGetRotY(TO_RADIAN(camera_rot->y + 90)); // カメラから見た時の右方向
-
-	// 向かせたい方向ベクトル
-	Vector3 direction_dir = VGet(mat_direction.m[2][0], mat_direction.m[2][1], mat_direction.m[2][2]);
-
-	// キャラとキャラを向かせたい方向の二つのベクトルの内積を求める
-	float inner_product = GetVector3Dot(direction_dir, player_dir);
-
-	// キャラとキャラを向かせたい方向の二つのベクトルの外積を求める
-	Vector3 cross_product = GetVector3Cross(player_dir, direction_dir);
-
-	// 外積によって方向を変える
-	if (cross_product.y > 0)
-	{
-		if (inner_product != 1.0)
-		{
-			player_rot->y++;
-		}
-	}
-	else
-	{
-		if (inner_product != 1.0)
-		{
-			player_rot->y--;
-		}
-	}
-	
-	
-
+{	
+	// 振り向き処理
+	LookingUpdate(player_rot, camera_rot);
 	//// キャラとカメラの向きの回転の差
 	//m_difference_rot = player_rot->y - camera_rot->y;
 	//
@@ -98,12 +58,10 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	//m_mov.z = input.ThumbLY;
 	//// -32768 ～ 32767 を-1.0f　～　1.0fにします
 	//m_mov /= 32768.0f;
-
 	//if (m_mov.GetLength() > 0.5f)
 	//{
 	//	Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
 	//}
-
 	//// 押された瞬間に振り向きようの補完用カウントを初期化
 	//if (/*PushHitKey((KEY_INPUT_W)) ||*/ PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
 	//{
@@ -113,77 +71,47 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	//	m_complementation_flag = true;
 	//}
 
-	//// WASDキーでプレイヤーの移動
-	//// 右上移動
-	//if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
-	//{
-	//	Move_Diagonally_Up_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//}
-	//else //左上移動
-	//	if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W))
-	//	{
-	//		Move_Diagonally_Up_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//	}
-	//	else // 右下移動
-	//		if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S))
-	//		{
-	//			Move_Oblique_Lower_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//		}
-	//		else // 左下移動
-	//			if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S))
-	//			{
-	//				Move_Oblique_Lower_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//			}
-	//			else // 上移動
-	//				if (CheckHitKey(KEY_INPUT_W))
-	//				{
-	//					Move_Front(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//				}
-	//				else // 下移動
-	//					if (CheckHitKey(KEY_INPUT_S))
-	//					{
-	//						Move_Dhindo(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//					}
-	//					else // 左移動
-	//						if (CheckHitKey(KEY_INPUT_A))
-	//						{
-	//							Move_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//						}
-	//						else // 右移動
-	//							if (CheckHitKey(KEY_INPUT_D))
-	//							{
-	//								Move_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
-	//							}
-
-
-	//
-	//// 補完状態なら
-	//if (m_complementation_flag)
-	//{
-	//	m_rot_complementation += 5.0f;
-
-	//	// 補完の値を増やす
-	//	if (m_rot_flag)
-	//	{
-	//		// 補完されている値をプレイヤーの向きを変更する
-	//		player_rot->y = camera_rot->y + m_rot_complementation;
-	//	}
-	//	else
-	//	{
-	//		// 補完されている値をプレイヤーの向きを変更する
-	//		player_rot->y = camera_rot->y - m_rot_complementation;
-	//	}
-	//
-	//	// 補完の値が一定の値以上になったら
-	//	if (m_rot_complementation >= m_rot_complementation_max)
-	//	{
-	//		//補完完了したのでフラグを下げる
-	//		m_complementation_flag = false;
-	//		//m_rot_complementation = 0;
-	//	}
-	//}
-
-
+	// WASDキーでプレイヤーの移動
+	// 右上移動
+	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
+	{
+		Move_Diagonally_Up_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+	}
+	else //左上移動
+		if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W))
+		{
+			Move_Diagonally_Up_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+		}
+		else // 右下移動
+			if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S))
+			{
+				Move_Oblique_Lower_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+			}
+			else // 左下移動
+				if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S))
+				{
+					Move_Oblique_Lower_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+				}
+				else // 上移動
+					if (CheckHitKey(KEY_INPUT_W))
+					{
+						Move_Front(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+					}
+					else // 下移動
+						if (CheckHitKey(KEY_INPUT_S))
+						{
+							Move_Dhindo(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+						}
+						else // 左移動
+							if (CheckHitKey(KEY_INPUT_A))
+							{
+								Move_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+							}
+							else // 右移動
+								if (CheckHitKey(KEY_INPUT_D))
+								{
+									Move_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+								}
 }
 
 //---------------------------------------------------------------------------
@@ -257,8 +185,10 @@ void Move::Move_GamePad(bool* m_check_move, Vector3* mov, Vector3* camera_rot, V
 //---------------------------------------------------------------------------
 void Move::Move_Front(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	//　画面奥：カメラのある方向の逆の方向
-	player_rot->y = camera_rot->y;
+	// 向てほしい方向セット
+	m_face_num = 0.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
@@ -271,10 +201,11 @@ void Move::Move_Front(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 //---------------------------------------------------------------------------
 void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面手前（カメラのある方向）
-	m_rot_flag = true;
-	m_rot_complementation_max = 180.0f;
-	//player_rot->y = camera_rot->y + 180.0f;
+	// 向てほしい方向セット
+	m_face_num = 180.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
+
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
@@ -287,23 +218,10 @@ void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_
 //---------------------------------------------------------------------------
 void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-
-	// 画面から見て：左
-
-	if (m_difference_rot <= 90 && m_difference_rot >= -90)
-	{
-		m_rot_flag = false;
-		m_rot_complementation_max = 90.0f;
-	}
-	else
-	{
-		m_rot_flag = true;
-		m_rot_complementation_max = 90.0f;
-	}
-	if (m_complementation_flag == false)
-	{
-		player_rot->y = camera_rot->y - 90;
-	}
+	// 向てほしい方向セット
+	m_face_num = -90.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
@@ -316,22 +234,11 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 //---------------------------------------------------------------------------
 void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面から見て：右
-	if (m_difference_rot < 90 && m_difference_rot > -90)
-	{
-		m_rot_flag = true;
-		m_rot_complementation_max = 90.0f;
-	}
-	else
-	{
-		m_rot_flag = false;
-		m_rot_complementation_max = 90.0f;
-	}
-	if (m_complementation_flag == false)
-	{
-		player_rot->y = camera_rot->y + 90;
-	}
-
+	// 向てほしい方向セット
+	m_face_num = 90.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
+	
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動	
@@ -345,9 +252,10 @@ void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 //---------------------------------------------------------------------------
 void Move::Move_Diagonally_Up_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面から見て：右
-	m_rot_flag = true;
-	//player_rot->y = camera_rot->y + 45;
+	// 向てほしい方向セット
+	m_face_num = 45.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動		
@@ -360,9 +268,10 @@ void Move::Move_Diagonally_Up_Right(bool* m_check_move, Vector3* camera_rot, Vec
 //---------------------------------------------------------------------------
 void Move::Move_Diagonally_Up_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面から見て：左
-	m_rot_flag = false;
-	// player_rot->y = camera_rot->y - 45;
+	// 向てほしい方向セット
+	m_face_num = -45.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動		
@@ -375,8 +284,10 @@ void Move::Move_Diagonally_Up_Left(bool* m_check_move, Vector3* camera_rot, Vect
 //---------------------------------------------------------------------------
 void Move::Move_Oblique_Lower_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面手前（カメラのある方向）
-	player_rot->y = camera_rot->y + 135.0f;
+	// 向てほしい方向セット
+	m_face_num = 135.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
@@ -389,11 +300,62 @@ void Move::Move_Oblique_Lower_Right(bool* m_check_move, Vector3* camera_rot, Vec
 //---------------------------------------------------------------------------
 void Move::Move_Oblique_Lower_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
-	// 画面手前（カメラのある方向）
-	player_rot->y = camera_rot->y + 225.0f;
+	// 向てほしい方向セット
+	m_face_num = 225.0f;
+	// 補完フラグを上げる
+	m_complementation_flag = true;
 	// 動いていい
 	*m_check_move = true;
 	// 向いている方向に座標移動
 	player_pos->x += *mov_speed * sinf(TO_RADIAN(player_rot->y));
 	player_pos->z += *mov_speed * cosf(TO_RADIAN(player_rot->y));
+}
+
+//---------------------------------------------------------------------------
+// キャラクターの振り向き処理
+//---------------------------------------------------------------------------
+void Move::LookingUpdate(Vector3* chara_rot, Vector3* camera_rot)
+{
+	// 振り向きフラグが上がっているとき
+	if (m_complementation_flag)
+	{
+		// キャラのY軸回転行列
+		m_character_mat = MGetRotY(TO_RADIAN(chara_rot->y));
+		// プレイヤーの前方向のベクトル
+		m_character_dir = VGet(m_character_mat.m[2][0], m_character_mat.m[2][1], m_character_mat.m[2][2]);
+		// 向かせたい方向のY軸回転行列
+		m_face_mat = MGetRotY(TO_RADIAN(camera_rot->y + m_face_num)); // カメラから見た時の右方向
+		// 向かせたい方向ベクトル
+		m_face_dir = VGet(m_face_mat.m[2][0], m_face_mat.m[2][1], m_face_mat.m[2][2]);
+		// キャラの前方ベクトルと向いてほしい方向ベクトルの二つのベクトルの内積を求める
+		inner_product = GetVector3Dot(m_character_dir, m_face_dir);
+		// キャラ前方方向ベクトルと向かせたい方向の二つのベクトルの外積を求める
+		cross_product = GetVector3Cross(m_character_dir, m_face_dir);
+		// 外積によって方向を変える
+		if (cross_product.y > 0)
+		{
+			if (inner_product <= 0.99)
+			{
+				chara_rot->y += 8.0f;
+			}
+			else
+			{
+				// 振り向き処理をやめる
+				m_complementation_flag = false;
+			}
+		}
+		else
+		{
+			if (inner_product <= 0.99)
+			{
+				chara_rot->y -= 8.0f;
+			}
+			else
+			{
+				// 振り向き処理をやめる
+				m_complementation_flag = false;
+			}
+		}
+	}
+	
 }
