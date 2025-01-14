@@ -116,15 +116,15 @@ void Camera::MouseCamera(Vector3* target_pos)
 	m_rot.y += move.x;
 	m_rot.x += move.y;
 
-	// ƒJƒƒ‰‚ÌYŽ²‰ñ“]‚Ì”ÍˆÍ‚ðŒˆ‚ß‚é
-	if (m_rot.y > 360)
-	{
-		m_rot.y = 0;
-	}
-	if (m_rot.y < 0)
-	{
-		m_rot.y = 360;
-	}
+	//// ƒJƒƒ‰‚ÌYŽ²‰ñ“]‚Ì”ÍˆÍ‚ðŒˆ‚ß‚é
+	//if (m_rot.y > 360)
+	//{
+	//	m_rot.y = 0;
+	//}
+	//if (m_rot.y < 0)
+	//{
+	//	m_rot.y = 360;
+	//}
 
 	// ‚Ü‚¸‚Í‰ñ“]‘O‚ÌƒxƒNƒgƒ‹‚ð—pˆÓ‚µ‚Ü‚·
 	// ƒJƒƒ‰‚ªŒ©‚éƒvƒŒƒCƒ„[•ûŒü‚ÌƒxƒNƒgƒ‹‚ðì¬‚µ‚Ü‚·
@@ -135,7 +135,6 @@ void Camera::MouseCamera(Vector3* target_pos)
 	MATRIX mat_x = MGetRotX(TO_RADIAN(m_rot.x));
 	// YŽ²‰ñ“]s—ñ
 	MATRIX mat_y = MGetRotY(TO_RADIAN(m_rot.y));
-
 	// XŽ²‰ñ“]‚ÆYŽ²‰ñ“]‚ð‚³‚¹‚½‚¢‚Ì‚Å‚Q‚Â‚Ìs—ñ‚ð‚PŒÂ‚É‚Ü‚Æ‚ß‚Ü‚·
 	MATRIX mat = MMult(mat_x, mat_y);
 	// Œ³‚ÌƒxƒNƒgƒ‹‚ð‚wŽ²‰ñ“]‚Æ‚xŽ²‰ñ“]‚³‚¹‚Ü‚·

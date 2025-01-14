@@ -10,6 +10,10 @@ public:
 	Vector3 rot{ 0.0f,0.0f,0.0f };
 	//! 大きさ
 	Vector3 scale{ 0.1f,0.1f,0.1f };
+
+	/*MATRIX mat_player;
+	mat_player.m[0][0];*/
+
 	//! コンストラクタ
 	Transform();
 	//! デストラクタ

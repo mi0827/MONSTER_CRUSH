@@ -162,6 +162,8 @@ void Hero::Update(Vector3* camera_rot)
 //-----------------------------------------------
 void Hero::LiveUpdate(Vector3* camera_rot)
 {
+	// モデルのY軸回転に制限をかけている
+	m_model.RotationYLimits();
 	// ローリングは無敵なのでローリングの間に攻撃を受けない
 	// プレイヤーのモードがカウンターでないとき
 	// プレイヤーが攻撃を受けたかのチェック

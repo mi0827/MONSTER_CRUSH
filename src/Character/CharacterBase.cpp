@@ -65,8 +65,7 @@ void CharacterBase::MoveAction(int run_anim_no, const float move_speed, Vector3*
 		// プレイヤーモードの切り替えをする
 		m_player_mode = RUN;
 	}
-	// モデルのY軸回転に制限をかけている
-	m_model.RotationYLimits();
+	
 }
 
 //---------------------------------------------------------------------------
@@ -116,6 +115,7 @@ void CharacterBase::SetAttackInfo(const int attack_start_anim, int attack_anim_1
 // 最初の攻撃を行うための関数
 //---------------------------------------------------------------------------
 void CharacterBase::AttackFirst()
+
 {
 	// 指定のマウスボタンが押されたら
 	if (PushMouseInput(MOUSE_INPUT_LEFT) /*& MOUSE_INPUT_LEFT*/)
@@ -503,8 +503,11 @@ void CharacterBase::NEWSetAttackHitDamage(int attack_anim_max)
 //---------------------------------------------------------------------------
 void CharacterBase::BaseUpdate(bool* m_check_move, Vector3* camera_rot, const float* mov_speed)
 {
+
 	// 移動の処理
 	m_move.Update(m_check_move, camera_rot, &m_transform.rot, mov_speed, &m_transform.pos, m_pad_no, m_mov);
+	// モデルのY軸回転に制限をかけている
+	//m_model.RotationYLimits();
 }
 
 
