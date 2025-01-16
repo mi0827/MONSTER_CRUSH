@@ -1,7 +1,10 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
+
+#include "src/Model/Model.h"
 #include "src/Collision/BoxCollision.h"
+#include "src/Collision/CapsuleCollision.h"
 #include "src/System/Transform.h"
 #include "TargetMove.h"
 
@@ -34,12 +37,14 @@ void TargetMove::SetInfo(Transform* transform, const float hit_r, const float MO
 //---------------------------------------------------------------------------
 // ターゲットの情報をセットする用の関数
 //---------------------------------------------------------------------------
-void TargetMove::SetTargetInfo(Transform* target_pos, const float target_hit_r)
+void TargetMove::SetTargetInfo(Transform* target_pos, const float target_hit_r, CapsuleCollision body)
 {
 	// ターゲットの座標の設定
 	m_target_info.m_target = target_pos;
 	// ターゲットの半径のせ設定
 	m_target_info.m_target_hit_r = target_hit_r;
+	// ターゲットのbodyのカプセル情報
+	m_target_info.m_body = body;
 }
 
 //---------------------------------------------------------------------------
@@ -99,7 +104,7 @@ void TargetMove::SetDirection()
 	{
 		// そのままの座標だと線が地面に埋まってしまうのですこしあげています
 		Vector3 start = m_line_start + Vector3(0.0f, 0.1f, 0.0f);
-		Vector3 goal = m_line_goal + Vector3(0.0f, 0.1f, 0.0f);	
+		Vector3 goal = m_line_goal + Vector3(0.0f, 0.1f, 0.0f);
 	}
 }
 
@@ -119,7 +124,7 @@ bool TargetMove::WithinRange(int range)
 			// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
 			return true;
 		}
-		else 
+		else
 		{
 			// 範囲外
 			return false;

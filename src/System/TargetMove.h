@@ -25,7 +25,8 @@ public:
 	//! @ターゲットの情報を設定
 	//! @param ターゲットの座標
 	//! @param 円の半径
-	void SetTargetInfo(Transform* taregt_pos, const float target_hit_r);
+	//! @param ターゲットのbodyのカプセル情報
+	void SetTargetInfo(Transform* taregt_pos, const float target_hit_r, CapsuleCollision body);
 
 	//! @brief 移動全体の更新処理
 	//! @param 移動中かそうでないかのフラグ
@@ -72,6 +73,8 @@ private:
 		Transform* m_target;
 		//! ターゲットの半径を入れる変数
 		float m_target_hit_r;
+		//! ターゲットのbodyのカプセル情報
+		CapsuleCollision m_body;
 	};
 
 

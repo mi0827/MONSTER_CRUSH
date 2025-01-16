@@ -22,7 +22,7 @@ public:
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 更新処理
-	virtual void Update(Transform* target_pos, float target_r) = 0;
+	virtual void Update(Transform* target_pos, float target_r, CapsuleCollision body) = 0;
 	//! @brief 生きてる時の更新処理
 	//! @param ターゲットの座標
 	//! @param ターゲットの半径
@@ -126,7 +126,7 @@ public:
 
 	//! @brief 攻撃範囲に侵入したかどうかを判断する
 	//! @return true : 攻撃範囲に入った、false : 攻撃範囲外
-	bool HitAttackRange();
+	bool HitAttackArea();
 
 	//! @brief 最初の攻撃を行う用関数
 	void FirstAttackAction();
@@ -160,7 +160,8 @@ public:
 	//! @brief モンスターの移動に関するターゲットの設定
 	//! @param ターゲットの座標
 	//! @param ターゲットのカプセルの当たり判定の半径
-	void BaseSetTarget(Transform* target_pos, const float m_target_hit_r);
+	//! @param ターゲットのbodyのカプセル
+	void BaseSetTarget(Transform* target_pos, const float m_target_hit_r, CapsuleCollision body);
 
 	//! @brief 移動の更新処理
 	//! @param  歩いている状態かのフラグ
@@ -296,6 +297,46 @@ public:
 	bool m_rolling_flag; 
 
 
+
+	//! モンスターの状態
+	enum MonsterMode
+	{
+		IDLE,        //!< 待機状態
+		RUN,         //!< 走り状態
+		ATTACK,    //!< 攻撃状態
+		STUN,       //!< スタン状態
+		DIE,          //!< 死ぬ
+	};
+	//! モンスターの状態を管理する変数
+	int m_monster_mode = 0;
+
+
+	//------------------------------------------
+	// 攻撃関連
+	//------------------------------------------
+	// 攻撃状態の管理
+	enum Attack
+	{
+		ATTACKSET,
+		UNDERATTACK,
+	};
+	//! 攻撃状態を保存する変数
+	int m_attack_info_num = ATTACKSET;
+	//! 今のアニメーション番号を保存する用の変数
+	int m_now_attack_anim = 0;
+	//! モンスターの現在行っている攻撃アニメーション番号を保存する
+	int m_now_attack = -1;
+	//! コンボが何個目か
+	int m_combo_num = 0;
+	//! モンスターの前方方向の攻撃エリア（このエリアに入ったら攻撃をする）
+	CapsuleCollision m_attack_area;
+	Vector3 m_attack_area_1;
+	Vector3 m_attack_area_2;
+	//! どのくらい前方方向かの値
+	static constexpr int ATTACK_AREA_DISTANCE = 15 ;
+	//! 攻撃エリアに半径
+	static constexpr int ATTACK_AREA_R = 14;
+
 	//------------------------------------------
 	// 攻撃の当たり判定関連
 	//------------------------------------------
@@ -349,39 +390,6 @@ public:
 	//! コンボをやめてほしい時のフラグ
 	bool m_stop_combo_flag = false;
 
-
-	//! モンスターの状態
-	enum MonsterMode
-	{
-		IDLE,        //!< 待機状態
-		RUN,         //!< 走り状態
-		ATTACK,    //!< 攻撃状態
-		STUN,       //!< スタン状態
-		DIE,          //!< 死ぬ
-	};
-	//! モンスターの状態を管理する変数
-	int m_monster_mode = 0;
-
-
-	//------------------------------------------
-	// 攻撃関連
-	//------------------------------------------
-	// 攻撃状態の管理
-	enum Attack
-	{
-		ATTACKSET,
-		UNDERATTACK,
-	};
-	//! 攻撃状態を保存する変数
-	int m_attack_info_num = ATTACKSET;
-	//! 今のアニメーション番号を保存する用の変数
-	int m_now_attack_anim = 0;
-	//! モンスターの現在行っている攻撃アニメーション番号を保存する
-	int m_now_attack = -1;
-	//! コンボが何個目か
-	int m_combo_num = 0;
-	//! モンスターの視界の量
-	static constexpr int RANGE = 1000;
 
 	//------------------------------------------
 	// スタン関連

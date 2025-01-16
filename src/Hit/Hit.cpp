@@ -144,3 +144,38 @@ bool CheckCapsuleHit(CapsuleCollision capsule1, CapsuleCollision capsule2)
 	return HitCheck_Capsule_Capsule(capsule1.m_capsule.pos1.VGet(), capsule1.m_capsule.pos2.VGet(), capsule1.m_capsule.radius,
 		capsule2.m_capsule.pos2.VGet(), capsule2.m_capsule.pos2.VGet(), capsule2.m_capsule.radius);
 }
+
+//---------------------------------------------------------------------------------
+//	円同士の当たり判定
+//---------------------------------------------------------------------------------
+bool CheckCircleHit(Vector3 pos1, int radius1, Vector3 pos2, int radius2)
+{
+	// 互いの円の半径同士を足した距離を出す
+	int  radius_distance = radius1 + radius2;
+	float pos_x = (pos1.x) - (pos2.x);
+	// マイナスになるとどこでも当たっている判定になるのでプラスにする
+	if (pos_x < 0)
+	{
+		pos_x * -1;
+	}
+	
+	float pos_z = pos1.z - pos2.z;
+	// マイナスになるとどこでも当たっている判定になるのでプラスにする
+	if (pos_z < 0)
+	{
+		pos_z * -1;
+	}
+	// 互いの座標の距離が上で求めた距離より短くなったら円に入ったことになる
+	// X座標の場合を調べる
+	if (pos_x <= radius_distance)
+	{
+		// Z座標の場合を調べる
+		if (pos_z <= radius_distance)
+		{
+			// 条件を満たしたので当たっている
+			return true;
+		}
+	}
+	// 条件に満たなかったので当たっていない
+	return false;
+}

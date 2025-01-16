@@ -498,7 +498,7 @@ void GameScene::CharacterUpdate()
 	m_player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
-	monster->Update(&m_player->m_transform, m_player->m_hit_r);
+	monster->Update(&m_player->m_transform, m_player->m_hit_r,m_player->m_body);
 	// なぜかうまう行かない
 	//if (monster->m_run_flag)
 	//{

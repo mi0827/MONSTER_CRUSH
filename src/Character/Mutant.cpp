@@ -8,7 +8,7 @@
 
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
-
+#include "src/Hit/Hit.h"
 
 #include "src/Effect/Effect.h"
 #include "src/System/UIBar.h"
@@ -95,7 +95,7 @@ void Mutant::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Mutant::Update(Transform* target_pos, float target_r)
+void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body)
 {
 
 	// プレイヤーではこれがないとバグるが
@@ -114,7 +114,7 @@ void Mutant::Update(Transform* target_pos, float target_r)
 
 	case alive: // 生きいるとき
 		// 移動先のターゲットの設定
-		BaseSetTarget(target_pos, target_r);
+		BaseSetTarget(target_pos, target_r,body);
 		LiveUpdate(target_pos, target_r);
 		// モンスターのHPがより多いい時
 		if (m_hp_value > 0)
@@ -252,9 +252,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
 		   // ローリングアクションのあとにプレイヤーが攻撃範囲にはいていなかったら
-			if (m_rolling_flag == false && HitAttackRange() == false)
+			if (m_rolling_flag == false && HitAttackArea() == false)
 			{
-			
 				break;
 			}
 		}
@@ -372,6 +371,7 @@ void Mutant::Draw()
 	m_model.DrawModel(&m_transform);
 	m_left_hand.Draw();
 	m_right_hand.Draw();
+	m_attack_area.Draw();
 }
 
 //-----------------------------------------------

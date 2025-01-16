@@ -74,10 +74,10 @@ void Monster::Init()
 //-----------------------------------------------
 // XVˆ—
 //-----------------------------------------------
-void Monster::Update(Transform* traget_pos, float target_r)
+void Monster::Update(Transform* traget_pos, float target_r,CapsuleCollision body)
 {
 	clsDx();
-	BaseSetTarget(traget_pos, target_r);
+	BaseSetTarget(traget_pos, target_r,body);
 
 	// ‘Ò‹@ó‘Ô‚Ü‚½‚Í‘–‚è‚Ì‚¾‚¯‚—
 	// ˆÚ“®ˆ—

@@ -21,7 +21,8 @@ public:
 	//! @brief 更新処理
 	//! @param 移動の時のターゲットの座標
 	//! @param ターゲットの半径
-	void Update(Transform* target_pos, float target_r) override;
+	//! @param ターゲットのbodyのカプセル
+	void Update(Transform* target_pos, float target_r, CapsuleCollision body) override;
 	//! @brief 生きてる時の更新処理
 	void LiveUpdate(Transform* target_pos, float target_r) override;
 	//! @brief 死んだときの更新処理 

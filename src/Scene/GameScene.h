@@ -18,8 +18,6 @@ public:
 	void Init()override;
 
 	//! @brief 更新処理
-	//! @param BGMの音量
-	//! @param SEの音量
 	void Update()override;
 
 	//! @brief モンスターの登場演出

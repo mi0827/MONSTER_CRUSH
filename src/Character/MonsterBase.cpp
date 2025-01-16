@@ -8,6 +8,7 @@
 
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
+#include "src/Hit/Hit.h"
 
 #include "src/Effect/Effect.h"
 #include "src/System/UIBar.h"
@@ -179,10 +180,10 @@ void MonsterBase::BaseInit(int hp_num)
 //---------------------------------------------------------------------------
 // モンスターの移動に関するターゲットの設定
 //---------------------------------------------------------------------------
-void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_r)
+void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_r, CapsuleCollision body)
 {
 	// 移動の際のターゲットのの設定
-	m_move.SetTargetInfo(target_pos, m_target_hit_r);
+	m_move.SetTargetInfo(target_pos, m_target_hit_r,  body);
 	// 自身の情報を設定
 	m_move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 }
@@ -196,12 +197,7 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 
 	// 移動処理
 	m_move.Update(run_flag);
-	// 移動制限がかかったらまた攻撃範囲に侵入したら
-	if (!m_move.m_hit || HitAttackRange())
-	{
-		// モンスターの状態を攻撃に変更
-		m_monster_mode = ATTACK;
-	}
+	
 }
 
 
@@ -228,7 +224,7 @@ bool MonsterBase::AttackHitGoodTiming(int attack_num)
 	int end_time = m_attack_hit_damage[attack_num]->end_time;
 	// アニメーションの現在のフレーム
 	int play_anim_time = m_animation.m_contexts[0].play_time;
-	if (play_anim_time >= start_time   && play_anim_time <= end_time)
+	if (play_anim_time >= start_time && play_anim_time <= end_time)
 	{
 		return true;
 	}
@@ -324,7 +320,7 @@ void MonsterBase::IdleActionUpdate(int idle_anim_num)
 //---------------------------------------------------------------------------
 // 移動処理関数
 //---------------------------------------------------------------------------
-void MonsterBase::MoveAction(int ran_anim)
+void MonsterBase::MoveAction(int run_anim)
 {
 	// 毎回リセット
 	m_run_flag = false;
@@ -335,13 +331,18 @@ void MonsterBase::MoveAction(int ran_anim)
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている
 	MoveUpdate(&m_run_flag);
-
+	// 移動制限がかかったらまた攻撃範囲に侵入したら
+	if (!m_move.m_hit || HitAttackArea())
+	{
+		// モンスターの状態を攻撃に変更
+		m_monster_mode = ATTACK;
+	}
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時
 	if (m_run_flag && m_animation.m_anim_change_flag == false)
 	{
 		// 走りアニメーションに変更
-		m_animation.ChangeAnimation(&m_model, ran_anim, true);
+		m_animation.ChangeAnimation(&m_model, run_anim, true);
 		// アニメーションの切り替えフラグを上げる
 		m_animation.m_anim_change_flag = true;
 	}
@@ -384,33 +385,26 @@ void MonsterBase::ComboPatternInfoInit(int pattern_num, int combo_num_max, int r
 //---------------------------------------------------------------------------
 // 攻撃範囲に入ったかどうか判断する関数
 //---------------------------------------------------------------------------
-bool MonsterBase::HitAttackRange()
+bool MonsterBase::HitAttackArea()
 {
-	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
-	// 本体とターゲットの距離を求める
-	float distance = m_move.GetTargetDistance();
-	// 基準の距離を求める（攻撃対象の半径とモンスターの攻撃範囲分足したもの）
-	float radius = m_hit_r + M_ATTACK_HIT_RANGE + m_move.m_target_info.m_target_hit_r;
-	// 設定された値より近づいたら
-	if (distance < radius) {
-
-		// ここにモンスターの向いている方向にプレイヤーがいるがどうかを調べる
-		if (m_move.WithinRange(RANGE))
-		{
-			// 攻撃範囲に侵入した
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	 
-	}
-	else
+	// モンスターの前方方向に攻撃範囲の円を置きそこにプリえやーが入ったら攻撃をする
+	// モンスターの前方方向の座標
+	m_attack_area_1.x = (m_transform.pos.x+sinf(TO_RADIAN(m_transform.rot.y))* ATTACK_AREA_DISTANCE);
+	m_attack_area_1.y = m_transform.pos.y + 10;
+	m_attack_area_1.z = (m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y))* ATTACK_AREA_DISTANCE);
+	// カプセル二つ目の座標(はモンスターの座標
+	m_attack_area_2.x = (m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE);
+	m_attack_area_2.y = m_transform.pos.y + 10;
+	m_attack_area_2.z = (m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE); 
+	
+	// 前方方向攻撃エリア用カプセル
+	m_attack_area.CreateCapsuleCoordinatePos(m_attack_area_1, m_attack_area_2, ATTACK_AREA_R);
+	// カプセルと当たり判定があったら
+	if (CheckCapsuleHit(m_attack_area, m_move.m_target_info.m_body))
 	{
-		// 攻撃範囲外
-		return false;
+		return true;
 	}
+	return false;
 }
 
 //---------------------------------------------------------------------------
@@ -478,7 +472,7 @@ void MonsterBase::AttackActionComboUpdate()
 			}
 
 			// 移動制限が外れたら(攻撃範囲から出たら)
-			if (!HitAttackRange())
+			if (!HitAttackArea())
 			{
 				// 次の攻撃番号が-1ならコンボが続かないからbreakして
 				// モンスターの状態をIdle状態に変更する
