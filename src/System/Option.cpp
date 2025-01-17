@@ -39,7 +39,10 @@ Option::~Option()
 //----------------------------------------------
 void Option::Init()
 {
-	m_image_box = LoadGraph("Data/Option/OptionMenu.png");
+	// 画像類の読み込み
+	m_image_box = LoadGraph("Data/Option/OptionMenu.png"); // 背景
+	m_operation_instructions_image = LoadGraph("Data/Option/Operationinstructions.jpg"); // 操作説明書
+	
 	// 各バーの設定
 	SetOptionMenu();
 	// 各オプションの値の設定
@@ -192,12 +195,6 @@ void Option::MenuSelect()
 //----------------------------------------------
 void Option::OpenMenuUpdate()
 {
-	// SE再生可能にしておく
-	//m_se.m_playing_flag = true;
-	// 現在再生中のSEを止める
-	//m_se.StopSound();
-	//// SEの再生
-	//SoundPlay(close_menu_se);
 
 	// どのメニューを操作するかの選択
 	MenuSelect();
@@ -295,8 +292,9 @@ void Option::Draw()
 	// 描画する
 	if (m_option_flag)
 	{
+		// 背景画像
 		DrawExtendGraphF(m_option_box_pos.x, m_option_box_pos.y, m_option_box_pos.x + BOX_SIZE_X, m_option_box_pos.y + BOX_SIZE_Y, m_image_box, TRUE);  // オプションメニューの背景
-
+		
 
 		// デフォルトの文字の大きさを保存しておく
 		int original_font_size = GetFontSize();
@@ -307,6 +305,9 @@ void Option::Draw()
 			m_bra[i].Draw();
 		}
 		SetFontSize(original_font_size); // フォントサイズを戻す
+		// 操作説明(仮で描画)
+		DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
+			m_operation_instructions_pos.x + BOX_SIZE_X, m_operation_instructions_pos.y + BOX_SIZE_Y, m_operation_instructions_image, TRUE);
 	}
 
 }

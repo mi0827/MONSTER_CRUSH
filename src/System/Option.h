@@ -76,10 +76,13 @@ public:
 	};
 
 	// 操作説明をはぶいたメニューの最大数
-	static constexpr int MENU_MAX = MOUSE + 1;
+	static constexpr int MENU_MAX = MAX;
 
 	//! オプションメニュー画面の背景の中心座標
 	Vector2 m_option_box_pos = { SCREEN_W / 2 - BOX_SIZE_HARF_X, SCREEN_H / 2 - BOX_SIZE_HARF_Y };
+	
+	// 操作説明書の描画座標
+	Vector2 m_operation_instructions_pos = { SCREEN_W / 2 - BOX_SIZE_HARF_X, SCREEN_H / 2 - BOX_SIZE_HARF_Y };
 	// 各バーのX座標
 	static constexpr float BRA_X_STRAT = SCREEN_W / 2 - BOX_SIZE_HARF_X + BRA_X_DIVISION;
 
@@ -102,8 +105,9 @@ public:
 		//! SE用
 		{{ BRA_X_STRAT , m_option_box_pos.y + BRA_Y_DIVISION * 2}, VOLUME_MAX , "SE"},
 		//! マウス感度用
-		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  MOUSE_SENSI_MAX, "マウス感度"}
-
+		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  MOUSE_SENSI_MAX, "マウス感度"},
+		//! 操作説明
+		{ { BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 4},  MOUSE_SENSI_MAX, "操作説明"}
 	};
 private:
 	// それぞれで描画するバー
@@ -143,9 +147,12 @@ private:
 
 	// 現在どのメニューが選択させているかを保存する
 	int m_selection_menu = BGM;
-
-
-	int m_image_box = 0; // 背景画像用の入れ物
-	int m_menu_count = 0; // メニューボタンが押されてから閉じるまでにかかる最低時間をカウントするための物
-	int m_select = 0; // SEかBGMを洗濯するためのもの
+	// 背景画像用の入れ物
+	int m_image_box = 0;
+	// 操作説明の画像用の入れ物
+	int m_operation_instructions_image = 0;
+	// メニューボタンが押されてから閉じるまでにかかる最低時間をカウントするための物
+	int m_menu_count = 0; 
+	// SEかBGMを洗濯するためのもの
+	int m_select = 0; 
 };
