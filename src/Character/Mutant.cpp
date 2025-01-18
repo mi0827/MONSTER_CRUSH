@@ -59,9 +59,6 @@ Mutant::~Mutant()
 //-----------------------------------------------
 void Mutant::Init()
 {
-
-	// aaaaa
-
 	// モデル画像の読み込み
 	m_model.LoadModel("Data/Model/Mutant/Mutant.mv1");
 	// キャラクターのマテリアル調整

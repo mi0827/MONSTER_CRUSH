@@ -59,10 +59,12 @@ private:
 	//! 話せるエリアに入ったか入っていないかのフラグ
 	bool m_area_hit = false;
 
-	//! @brief クエストメニューテキスト
+	//! クエストメニューテキスト
 	Text m_quest_text;
-	//! @brief クエストエリアでのテキスト
+	//! クエストエリアのテキスト
 	Text m_quest_area_text;
+	//! クエスト受付嬢のテキスト
+	Text m_reception_text;
 
 	//　エリアでのテキストの数
 	enum StoryText
@@ -77,7 +79,19 @@ private:
 	{
 		quest1,
 		quest2,
+		yes,
+		no,
 		quest_max
+	};
+
+	// 受付嬢のテキストの数
+	enum ReceptionText
+	{
+		convo1,
+		convo2,
+		convo3,
+		convo4,
+		teception_max
 	};
 
 	//! 描画するテキストの番号として管理

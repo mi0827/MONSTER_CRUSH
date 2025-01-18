@@ -29,12 +29,6 @@ public:
 	//! @brief ƒGƒŠƒABOX‚Ì‰Šúİ’è
 	void SetAeraBoxSet();
 
-
-public:
-	
-
-	
-
 private:
 	enum Title_se
 	{

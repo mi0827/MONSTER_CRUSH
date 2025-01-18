@@ -51,6 +51,9 @@ void Text::LoadText(const char file_path[256], const int line_max)
 //---------------------------------------------------------------------------
 void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 {
+	// 今テキストが一行づつ一気に出てくるから
+	// 一文字一文字出てくるようにする
+
 	// フォントサイズをとって文字列の背景バーの大きさを決める
 	int font_size = GetFontSize();
 	Vector2 box_size;

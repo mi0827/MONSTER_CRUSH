@@ -20,10 +20,6 @@ Option::Option()
 {
 	m_menu_count = 0; // ０からスタート
 
-	// 座標設定
-	//m_option_box_pos.set(SCREEN_W / 2 - BOX_SIZE_HARF_X, SCREEN_H / 2 - BOX_SIZE_HARF_Y); // 背景
-	//m_bgm_box_pos.set(SCREEN_W / 2 - BAR_SPACE_X, SCREEN_H / 2 + BAR_Y);
-	//m_se_box_pos.set(SCREEN_W / 2 + BAR_SPACE_X - BAR_SIZE, SCREEN_H / 2 + BAR_Y);
 	m_option_flag = false; // 最初はオプションメニューは閉じている
 	m_bgm_Volume = 5;
 	m_se_Volume = 5;

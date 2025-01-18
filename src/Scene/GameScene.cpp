@@ -279,7 +279,6 @@ void GameScene::EndUpdate()
 		// ¶‰ñ“]
 		camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 		break;
-
 	}
 
 }

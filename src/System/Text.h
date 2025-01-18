@@ -22,6 +22,7 @@ public:
 	//! @brief テキストの描画
 	//! @param 描画したいテキストの行番号
 	//! @param 描画したい座標
+	//! @param 文字のところの背景のサイズ
 	void TextDraw(int line_num, Vector2 draw_pos, int back_size);
 
 	//void Exit();

@@ -86,7 +86,7 @@ void QuestAreaScene::Init()
 	// テキストの読み込み
 	m_quest_text.LoadText("Data/Text/Quest.txt", quest_max);
 	m_quest_area_text.LoadText("Data/Text/QuestAreaStory.txt", story_max);
-
+	m_reception_text.LoadText("Data/Text/QuestReception.txt", teception_max);
 }
 
 

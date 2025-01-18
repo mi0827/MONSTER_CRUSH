@@ -21,6 +21,7 @@ Field::Field()
 
 Field::~Field()
 {
+
 }
 
 //---------------------------------------------------------------------------
@@ -69,9 +70,7 @@ void Field::Draw()
 	for (int i = 0; i < MODEL_MAX; i++)
 	{
 		m_field_object[i].model.DrawModel(&m_field_object[i].transform);
-		//m_field_object[i].box_hit.Draw(255, 255);
 	}
-
 	
 }
 
@@ -359,14 +358,14 @@ void Field::StoneInit()
 	m_field_object[stone1].transform.scale.set(0.05f, 0.02f, 0.01f);
 	m_field_object[stone2].transform.scale.set(0.03f, 0.015f, 0.03f);
 	m_field_object[stone3].transform.scale.set(0.03f, 0.015f, 0.02f);
-	m_field_object[stone4].transform.scale.set(0.03f, 0.01f, 0.01f);
+	m_field_object[stone4].transform.scale.set(0.03f, 0.015f, 0.01f);
 	m_field_object[stone5].transform.scale.set(0.03f, 0.015f, 0.01f);
 
 	// “–‚½‚è”»’è‚ÌÝ’è
-	m_hit_stone[stone1 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone1].transform.pos, { 15.0f,20.0f,60.f });
-	m_hit_stone[stone2 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone2].transform.pos, { 17.0f, 20.0f,87.0f });
-	m_hit_stone[stone3 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone3].transform.pos, { 50.0f , 20.0f,15.0f });
-	m_hit_stone[stone4 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone4].transform.pos, { 10.0f , 20.0f,30.0f });
-	m_hit_stone[stone5 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone5].transform.pos, { 40.0f , 20.0f,10.0f });
+	m_hit_stone[stone1 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone1].transform.pos, { 15.0f , 30.0f, 70.0f });
+	m_hit_stone[stone2 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone2].transform.pos, { 17.0f , 20.0f, 87.0f });
+	m_hit_stone[stone3 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone3].transform.pos, { 50.0f , 20.0f, 15.0f });
+	m_hit_stone[stone4 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone4].transform.pos, { 15.0f , 20.0f, 30.0f });
+	m_hit_stone[stone5 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone5].transform.pos, { 40.0f , 20.0f, 10.0f });
 
 }
