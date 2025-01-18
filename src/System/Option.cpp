@@ -150,8 +150,8 @@ void Option::SetOptionMenu()
 //----------------------------------------------
 void Option::MenuSelect()
 {
-	// 上キーを押された時
-	if (PushHitKey(KEY_INPUT_UP))
+	// Wキーを押された時
+	if (PushHitKey(KEY_INPUT_W))
 	{
 		// SEの再生
 		SoundPlay(selection_menu_se);
@@ -162,7 +162,8 @@ void Option::MenuSelect()
 			m_selection_menu = MOUSE;
 		}
 	}
-	if (PushHitKey(KEY_INPUT_DOWN))
+	// Sキーを押された時
+	if (PushHitKey(KEY_INPUT_S))
 	{
 		// SEの再生
 		SoundPlay(selection_menu_se);
@@ -200,7 +201,7 @@ void Option::OpenMenuUpdate()
 	MenuSelect();
 	m_menu_count++; // カウントを増やす
 	// 選択されたメニューバーの値を増やす
-	if (PushHitKey(KEY_INPUT_RIGHT))
+	if (PushHitKey(KEY_INPUT_D))
 	{
 		// SEが再生中でなければ
 		if (m_se.PlayingSound())
@@ -235,7 +236,7 @@ void Option::OpenMenuUpdate()
 		}
 	}
 	// 選択されたメニューバーの値を減らす
-	if (PushHitKey(KEY_INPUT_LEFT))
+	if (PushHitKey(KEY_INPUT_A))
 	{
 		// SEの再生
 		SoundPlay(change_value_se);
@@ -307,7 +308,7 @@ void Option::Draw()
 		SetFontSize(original_font_size); // フォントサイズを戻す
 		// 操作説明(仮で描画)
 		DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
-			m_operation_instructions_pos.x + BOX_SIZE_X, m_operation_instructions_pos.y + BOX_SIZE_Y, m_operation_instructions_image, TRUE);
+			SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_operation_instructions_image, TRUE);
 	}
 
 }

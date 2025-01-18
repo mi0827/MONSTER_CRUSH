@@ -38,16 +38,17 @@ private:
 	static constexpr int MOUSE_SENSI_MAX = 50; // マウス感度の最大値
 	static constexpr int MOUSE_SENSI_MIN = 5; // マウス感度の最低値
 	static constexpr int MOUSE_SENSI_VALUE = 5; // マウス感度が一つ変わると変わる値
+	static constexpr int MARGIN = 50;
 	// メニューボタンが押されてから閉じるまでにかかる最低時間
 	static constexpr int MENU_COUNT = 10;
 
-	static constexpr int BOX_SIZE_X = SCREEN_W / 2;         // 四角の背景X方向のサイズ
+	static constexpr int BOX_SIZE_X = SCREEN_W / 2 - 100;         // 四角の背景X方向のサイズ
 	static constexpr int BOX_SIZE_Y = SCREEN_H / 2;        // 四角の背景Y方向のサイズ
 	static constexpr int BOX_SIZE_HARF_X = BOX_SIZE_X / 2; // 背景X方向の半分のサイズ
 	static constexpr int BOX_SIZE_HARF_Y = BOX_SIZE_Y / 2; // 背景Y方向の半分のサイズ
 	// 各バーの設定で使う
-	static constexpr int BRA_X_DIVISION = BOX_SIZE_X / 5;  // 背景画像用X座標指定の分割で分けた時の大きさ
-	static constexpr int BRA_Y_DIVISION = BOX_SIZE_Y / 5;  // 背景画像用Y座標指定の分割で分けた時の大きさ
+	static constexpr int BRA_X_DIVISION = BOX_SIZE_X / 4 + 30;  // 背景画像用X座標指定の分割で分けた時の大きさ
+	static constexpr int BRA_Y_DIVISION = BOX_SIZE_Y / 4 - 20;  // 背景画像用Y座標指定の分割で分けた時の大きさ
 
 
 	static constexpr int BAR_X_SIZE = 550;                 // バーのX座標のサイズ
@@ -70,7 +71,6 @@ public:
 		BGM,     // 音量
 		SE,        // 音量
 		MOUSE, //マウスの感度
-		OP,        // 操作説明
 
 		MAX
 	};
@@ -79,12 +79,13 @@ public:
 	static constexpr int MENU_MAX = MAX;
 
 	//! オプションメニュー画面の背景の中心座標
-	Vector2 m_option_box_pos = { SCREEN_W / 2 - BOX_SIZE_HARF_X, SCREEN_H / 2 - BOX_SIZE_HARF_Y };
+	Vector2 m_option_box_pos = { MARGIN , 0 + BOX_SIZE_HARF_Y };
 	
 	// 操作説明書の描画座標
-	Vector2 m_operation_instructions_pos = { SCREEN_W / 2 - BOX_SIZE_HARF_X, SCREEN_H / 2 - BOX_SIZE_HARF_Y };
+	Vector2 m_operation_instructions_pos = { SCREEN_W / 2 + MARGIN,  +MARGIN };
+
 	// 各バーのX座標
-	static constexpr float BRA_X_STRAT = SCREEN_W / 2 - BOX_SIZE_HARF_X + BRA_X_DIVISION;
+	static constexpr float BRA_X_STRAT = 0 + BOX_SIZE_HARF_X - BRA_X_DIVISION;
 
 	// 各ステータスで使うもの
 	struct Information
@@ -97,17 +98,16 @@ public:
 		// バーの色
 		int m_color;
 	};
-	// 操作説明以外の３つ分を用意
+	// オプションメニューの３つ分を用意
 	Information option_menu[MENU_MAX]
 	{
 		//! BGM用
-		{{ BRA_X_STRAT ,  m_option_box_pos.y + BRA_Y_DIVISION},  VOLUME_MAX , "BGM"},
+		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION},  VOLUME_MAX , "BGM"},
 		//! SE用
-		{{ BRA_X_STRAT , m_option_box_pos.y + BRA_Y_DIVISION * 2}, VOLUME_MAX , "SE"},
+		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 2}, VOLUME_MAX , "SE"},
 		//! マウス感度用
 		{{ BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 3},  MOUSE_SENSI_MAX, "マウス感度"},
-		//! 操作説明
-		{ { BRA_X_STRAT ,m_option_box_pos.y + BRA_Y_DIVISION * 4},  MOUSE_SENSI_MAX, "操作説明"}
+		
 	};
 private:
 	// それぞれで描画するバー

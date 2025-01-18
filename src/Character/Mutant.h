@@ -79,7 +79,7 @@ public:
 
 	static constexpr float CHANGE_JUMP_RUNNIG_FRAME = 150;   //! Runからジャンプ,ローリングに移るのに何フレームかかるか
 
-	static constexpr float JUMP_TARGET_DISTANCE = 60.0f;     //! ジャンプするとき相手と離れててほしい最低限の距離
+	static constexpr float JUMP_TARGET_DISTANCE = 25.0f;     //! ジャンプするとき相手と離れててほしい最低限の距離
 	static constexpr float JUMP_MOV_SPEED = 1.0f;            //! ジャンプ中の移動スピード
 	static constexpr float JUMP_DEVIATION_POS = 26.0f;       //! ジャンプ攻撃をしたときにズレを直す値
 	static constexpr float JUMP_STRAT_FRAME = 34.0f;         //! ジャンプの移動開始のフレーム

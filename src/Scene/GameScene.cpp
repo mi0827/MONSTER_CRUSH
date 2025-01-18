@@ -364,7 +364,7 @@ void GameScene::Draw()
 
 
 	//SetFontSize(50);
-	static constexpr int color = 255;
+	/*static constexpr int color = 255;
 	DrawStringF(16, 250, "player_flag", color, 0);
 	DrawFormatString(16, 300, color, "Idle : %d", m_player->m_idle_flag);
 	DrawFormatString(16, 350, color, "Run : %d", m_player->m_run_flag);
@@ -379,7 +379,7 @@ void GameScene::Draw()
 	DrawFormatString(1500, 400, color, "Attack : %d", monster->m_attack_flag);
 	DrawFormatString(1500, 450, color, "Stun : %d", monster->m_stun_flag);
 	DrawFormatString(1500, 500, color, "StunNum : %3d", monster->m_stun_value);
-	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);
+	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);*/
 
 }
 
