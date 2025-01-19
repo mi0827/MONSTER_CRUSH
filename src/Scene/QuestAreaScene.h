@@ -36,21 +36,48 @@ public:
 	//! @brief 話せるようになるエリアの設定
 	void InitArea();
 
+	//! @brief 受付嬢の目印の更新処理
+	void LandMarkUpdate();
+
+	//! @brief クエストエリアの更新処理
+	void QuestAreaUpdate();
+
+	//! @brief 会話していない状態の更新処理
+	void ModeNormalUpdate();
+
+	//! @brief 会話パートの更新処理
+	void ConvoUpdate();
+
+	//! @breif クエストを受けているときの更新処理
+	void AcceptingQuestUpdate();
+
+	//! @brief 会話していない状態の描画処理
+	void ModeNormalDraw();
+
+	//! @brief 会話パートの描画処理
+	void ConvoDraw();
+
+	//! @breif クエストを受けているときの描画処理
+	void AcceptingQuestDraw();
 
 
 private:
+	// このシーンの状態を管理
+	enum SecenNum
+	{
+		normal, // 会話をしていないとき
+		convo,  // 会話中
+		accepting_quest, // クエスト受付中
 
+		secen_max
+	};
+	// クエストシーンがどの状態化を補完する
+	int secen_mode_num = normal;
 
 	bool m_start_flag = false; // タイトル画面でボタンが押されたかどうかのフラグ
 
 	//! カメラクラスのオブジェクト
 	Camera camera;
-
-	//! フィールドオブジェクト
-	// TitleField field;
-
-	//! プレイヤーのオブジェクト
-	// CharacterBase* player;
 
 	//! 受付嬢のオブジェクト
 	Receptionist receptionist;
@@ -65,15 +92,17 @@ private:
 	Text m_quest_area_text;
 	//! クエスト受付嬢のテキスト
 	Text m_reception_text;
-
+	//! 各テキストのフォントサイズ
+	static constexpr int TEXT_FONT_SIZE = 60;
+	//! 各テキストの何行目を呼んでいるのかを保存するための変数
+	int m_text_line_num;
 	//　エリアでのテキストの数
-	enum StoryText
+	enum PlayerText
 	{
 		story1,
-		story2,
 		story_max
 	};
-	
+
 	// クエストテキストの数
 	enum QuestText
 	{
@@ -95,12 +124,12 @@ private:
 	};
 
 	//! 描画するテキストの番号として管理
-	enum Text
+	enum LandMarkText
 	{
 		f_text,                // Fボタンをしたらのメッセージ
 		excamation_pos, // ビックリマーク
 
-		text_max
+		landmark_text_max
 	};
 
 	//! 文字列スクリーン座標に描画するための構造体
@@ -118,11 +147,47 @@ private:
 		bool draw_flag;
 	};
 	// 描画したい文字列の数分作成
-	TextState m_text[text_max]
+	TextState m_landmark_text[landmark_text_max]
 	{
 		{	/*100,*/"F : 話す", {0.0f,0.0f,0.0f},{-8.0f,10.0f,0.0f},false},
 		{	/*100,*/" ! ", {0.0f,0.0f,0.0f},{0.0f,20.0f,0.0f},false},
 	};
+	// 目印の文字の大きさ
 	static constexpr int FONT_SIZE = 100;
+
+	// 現在どのテキストを描画するのかを管理するための列挙体
+	enum TextNum
+	{
+		landmark_text, // 目印となっているテキスト
+		player_text,      // プレイヤーが話しているときに出てくるテキスト
+		reception_text, // 受付嬢が話しているときに出てくるテキスト
+		quest_text,
+
+		text_max 
+	};
+
+	// 誰が話しているのかを描画するためのもの
+	struct TextName
+	{
+		//! 誰が話しているのかの名前
+		const char* name;
+		//! 描画したい座標
+		Vector2 draw_pos;
+	};
+
+	TextName m_text_info[text_max]
+	{
+		{"Player", {0.0f,0.0f}},
+		{"Player", {0.0f,0.0f}},
+		{"謎の女", {0.0f,0.0f}},
+		{"クエスト", {0.0f,0.0f}},
+	};
+	static constexpr int MANE_FONT_SIZE = 30;
+	// テキストの描画座用
+	Vector2 m_text_draw_pos;
+	// 目印の描画座標
+	Vector2 m_landmark_draw_pos;
+
+	
 
 };

@@ -46,7 +46,7 @@ QuestAreaScene::QuestAreaScene()
 QuestAreaScene::~QuestAreaScene()
 {
 
-	delete[] m_text;
+	delete[] m_landmark_text;
 }
 
 //------------------------------------------
@@ -97,104 +97,12 @@ void QuestAreaScene::Update()
 {
 	switch (m_turn)
 	{
-		/*case FadeIn:
-			FadeInUpdate();
-			break;*/
 	case Main:
-		// カメラの向きを取得する
-		m_camera_rot = camera.GetCameraRot();
-
-		// プレイヤーの更新処理
-		m_player->Update(&m_camera_rot);
-
-		// 受付嬢のの更新処理
-		receptionist.Update();
-
-		// 受付嬢とプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(receptionist.m_hit_body, m_player->m_body))
-		{
-			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
-		}
-		// フィールドとキャラクターの当たり判定
-		HitField();
-
-
-		// プレイヤーが受付嬢と話せる範囲に入ったかの確認
-		if (CheckCapsuleHit(m_area, m_player->m_body))
-		{
-			// Xキーを押された時にシーンの変更をする（今だけの仮）
-			if (PushHitKey(KEY_INPUT_F))
-			{
-				//// 次に行ってほしいシーンに移動(バトルシーン)
-				//SetNextScene(Battle);
-				//m_scene_change_judge = true;
-				// フェード嘔吐のターンに変更
-				m_turn = FadeOut;
-			}
-			// 話せるエリアに入ったからフラグを上げる
-			m_area_hit = true;
-		}
-		else
-		{
-			// 範囲外にいるときはフラグを下げる
-			m_area_hit = false;
-		}
-
 		// カメラの更新処理
 		camera.MouseCamera(&m_player->m_transform.pos);
+		// メインで行う処理をこのシーンの状態に合わせて処理を分け実行する関数
+		QuestAreaUpdate();
 
-		// 文字列の描画のための設定
-		for (int i = 0; i < text_max; i++)
-		{
-			// 座標変換
-			VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_text[i].shift_pos);
-			// 描画座用に変換
-			m_text[i].draw_pos.VSet(pos);
-
-			// 変換したスクリーン座標のZの値が0.0 ~ 1.0 なら描画していい
-			if (i == f_text)
-			{
-				// 描画したい文字列がF : 話すの場合
-				// 話していいエリアに入っていないと描画できないようにする
-				if (m_area_hit)
-				{
-					// カメラの画角内稼働かによって描画しない
-					// 画角内
-					if (pos.z > 0.0f && pos.z < 1.0f)
-					{
-						// 描画する
-						m_text[i].draw_flag = true;
-					}
-					else // 画面がい
-					{
-						// 描画しない
-						m_text[i].draw_flag = false;
-					}
-				}
-				else // 範囲がいでも描画できない
-				{
-					m_text[i].draw_flag = false;
-				}
-
-			}
-			else // 指定のテキスト以外は
-			{
-				// カメラの画角内稼働かによって描画しない
-				if (pos.z > 0.0f && pos.z < 1.0f)
-				{
-					// 描画する
-					m_text[i].draw_flag = true;
-				}
-				else
-				{
-					// 描画しない
-					m_text[i].draw_flag = false;
-				}
-			}
-		}
-		{
-
-		}
 		break;
 	case FadeOut:
 		// フェードアウトの処理
@@ -269,42 +177,20 @@ void QuestAreaScene::Draw()
 	}
 	UseShadowMapSet();
 
-	//int a = CreateFontToHandle("MS:明朝",40,10,10);
-		// フォントサイズの設定
-	SetFontSize(FONT_SIZE);
-
-	// 文字列の高さの取得
-	float h = GetFontSize();
 
 
-	for (int i = 0; i < text_max; i++)
+	switch (secen_mode_num)
 	{
-		
-		if (m_text[i].draw_flag)
-		{
-			// 描画幅の取得
-			float w = GetDrawStringWidth(m_text[i].text, -1);
-
-			// 描画座標
-			Vector2 draw_pos = { m_text[i].draw_pos.x - w / 2,  m_text[i].draw_pos.y - h };
-			// 文字列の描画
-			DrawString(draw_pos.x, draw_pos.y, m_text[i].text, GetColor(255, 128, 50));
-
-		}
-
+	case normal:// 会話していない状態
+		ModeNormalDraw();
+		break;
+	case convo: // 会話中
+		ConvoDraw();
+		break;
+	case accepting_quest: // クエストを受けている状態
+		AcceptingQuestDraw();
+		break;
 	}
-
-
-	// テキストを描画
-	SetFontSize(40);
-	h = GetFontSize();
-	Vector2 text_draw_pos;
-	text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - h * story_max - m_quest_area_text.CREVICE_SIZE));
-	for (int i = 0; i < story_max; i++)
-	{
-		m_quest_area_text.TextDraw(i, { text_draw_pos.x, (text_draw_pos.y + h * i) }, m_quest_area_text.TITLE_BACK_SIZE);
-	} 
-
 	// フェードの描画処理
 	FadeDraw();
 }
@@ -365,7 +251,6 @@ void QuestAreaScene::OptionValuesReflect(int bgm, int se, int mouse)
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
-
 }
 
 //------------------------------------------
@@ -381,3 +266,209 @@ void QuestAreaScene::InitArea()
 	// カプセルの作成
 	m_area.CreateCapsule(pos, pos2, r);
 }
+
+//------------------------------------------
+// 話せるようになるエリアの設定
+//------------------------------------------
+void QuestAreaScene::LandMarkUpdate()
+{
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
+
+	// 文字列の描画のための設定
+	for (int i = 0; i < text_max; i++)
+	{
+		// 座標変換
+		VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_landmark_text[i].shift_pos);
+		// 描画座用に変換
+		m_landmark_text[i].draw_pos.VSet(pos);
+
+		// 変換したスクリーン座標のZの値が0.0 ~ 1.0 なら描画していい
+		if (i == f_text)
+		{
+			// 描画したい文字列がF : 話すの場合
+			// 話していいエリアに入っていないと描画できないようにする
+			if (m_area_hit)
+			{
+				// カメラの画角内稼働かによって描画しない
+				// 画角内
+				if (pos.z > 0.0f && pos.z < 1.0f)
+				{
+					// 描画する
+					m_landmark_text[i].draw_flag = true;
+				}
+				else // 画面がい
+				{
+					// 描画しない
+					m_landmark_text[i].draw_flag = false;
+				}
+			}
+			else // 範囲がいでも描画できない
+			{
+				m_landmark_text[i].draw_flag = false;
+			}
+		}
+		else // 指定のテキスト以外は
+		{
+			// カメラの画角内稼働かによって描画しない
+			if (pos.z > 0.0f && pos.z < 1.0f)
+			{
+				// 描画する
+				m_landmark_text[i].draw_flag = true;
+			}
+			else
+			{
+				// 描画しない
+				m_landmark_text[i].draw_flag = false;
+			}
+		}
+	}
+
+}
+
+//------------------------------------------
+// このシーンの状態に合わせて適切な処理をさせる関数
+//------------------------------------------
+void QuestAreaScene::QuestAreaUpdate()
+{
+	switch (secen_mode_num)
+	{
+	case normal:// 会話していない状態
+		ModeNormalUpdate();
+		break;
+	case convo: // 会話中
+
+		break;
+	case accepting_quest: // クエストを受けている状態
+
+		break;
+	}
+}
+
+//------------------------------------------
+// 会話していない状態の更新処理
+//------------------------------------------
+void QuestAreaScene::ModeNormalUpdate()
+{
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
+
+	// プレイヤーの更新処理
+	m_player->Update(&m_camera_rot);
+
+	// 受付嬢のの更新処理
+	receptionist.Update();
+
+	// 受付嬢とプレイヤーの移動の当たり判定
+	if (CheckCapsuleHit(receptionist.m_hit_body, m_player->m_body))
+	{
+		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
+	}
+	// フィールドとキャラクターの当たり判定
+	HitField();
+	// 目印をを写すかのの処理
+	LandMarkUpdate();
+	// プレイヤーが受付嬢と話せる範囲に入ったかの確認
+	if (CheckCapsuleHit(m_area, m_player->m_body))
+	{
+		// Xキーを押された時にシーンの変更をする（今だけの仮）
+		if (PushHitKey(KEY_INPUT_F))
+		{
+			// このシーンの状態を会話パートに移動する
+			secen_mode_num = convo;
+			// テキストの行をリセットする
+			m_text_line_num = 0;
+		}
+		// 話せるエリアに入ったからフラグを上げる
+		m_area_hit = true;
+	}
+	else
+	{
+		// 範囲外にいるときはフラグを下げる
+		m_area_hit = false;
+	}
+}
+
+//------------------------------------------
+// 会話パートの更新処理
+//------------------------------------------
+void QuestAreaScene::ConvoUpdate()
+{
+
+	//if (? ? ? )
+	{
+		// このシーンの状態をクエスト受注に移動する
+		secen_mode_num = accepting_quest;
+	}
+}
+
+//------------------------------------------
+// クエストを受けているときの更新処理
+//------------------------------------------
+void QuestAreaScene::AcceptingQuestUpdate()
+{
+
+
+
+	//if (? ? ? )
+	{
+		// このシーンの状態を最初の状態しておく
+		secen_mode_num = normal;
+	}
+}
+
+//------------------------------------------
+// 会話していない状態の描画処理
+//------------------------------------------
+void QuestAreaScene::ModeNormalDraw()
+{
+	// フォントサイズの設定
+	SetFontSize(FONT_SIZE);
+
+	// 文字列の高さの取得
+	float h = GetFontSize();
+	// 目印の描画
+	for (int i = 0; i < landmark_text_max; i++)
+	{
+		if (m_landmark_text[i].draw_flag)
+		{
+			// 描画幅の取得
+			float w = GetDrawStringWidth(m_landmark_text[i].text, -1);
+			// 描画座標
+			m_landmark_draw_pos = { m_landmark_text[i].draw_pos.x - w / 2,  m_landmark_text[i].draw_pos.y - h };
+			// 文字列の描画
+			DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[i].text, GetColor(255, 128, 50));
+		}
+	}
+	// プレイヤーのテキストの描画
+	SetFontSize(TEXT_FONT_SIZE);
+	h = GetFontSize();
+	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
+
+	m_quest_area_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
+
+}
+
+//------------------------------------------
+// 会話パートの描画処理
+//------------------------------------------
+void QuestAreaScene::ConvoDraw()
+{
+	// 文字列の高さの取得
+	float h = GetFontSize();
+
+	h = GetFontSize();
+	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
+	m_reception_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_BACK_SIZE);
+
+
+}
+
+//------------------------------------------
+// クエストを受けているときの描画処理
+//------------------------------------------
+void QuestAreaScene::AcceptingQuestDraw()
+{
+}
+
+

@@ -57,11 +57,14 @@ void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 	// フォントサイズをとって文字列の背景バーの大きさを決める
 	int font_size = GetFontSize();
 	Vector2 box_size;
-	box_size.set(draw_pos.x + back_size, draw_pos.y + font_size);
+	box_size.set(draw_pos.x + back_size+ MARGIN* 2, draw_pos.y + font_size+ MARGIN*2);
+
+	// 文字の後ろを描画
+	DrawBox(draw_pos.x - MARGIN*2, draw_pos.y - MARGIN*2, box_size.x + MARGIN, box_size.y+ MARGIN, GetColor(0, 0, 0), TRUE);
 	// 文字の後ろのところを半透明にする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 	// 文字の後ろを描画
-	DrawBox(draw_pos.x, draw_pos.y, box_size.x, box_size.y, GetColor(255, 255, 255), TRUE);
+	DrawBox(draw_pos.x - MARGIN, draw_pos.y - MARGIN, box_size.x, box_size.y, GetColor(255, 255, 255), TRUE);
 	// 透明度をもとにもどす
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
@@ -70,8 +73,6 @@ void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 	const char* text = 0;
 	text = lines[line_num].data();
 	// 描画処理
-	DrawString(draw_pos.x, draw_pos.y, text, GetColor(0, 0, 0));
-
-
+	DrawString(draw_pos.x, draw_pos.y + MARGIN, text, GetColor(0, 0, 0));
 
 }
