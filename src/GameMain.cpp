@@ -75,6 +75,8 @@ void GameInit()
 	// とりあえず今はタイトルシーンをつけておく
 	//scene = new TitleScene;
 	scene = new QuestAreaScene;
+	//scene = new GameScene;
+
 	// キャラクターのせってい
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
 
@@ -196,7 +198,7 @@ void GameDraw()
 	option.Draw();
 
 
-	scene->BaseDraw(scene->m_now_scene, { 0,100 });
+	scene->BaseDraw(scene->m_now_scene, { 0,200 });
 
 
 }

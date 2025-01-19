@@ -69,10 +69,8 @@ void Scene_Base::BaseInit()
 //---------------------------------------------------------------------------
 void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 {
-	// 現在のフォントサイズをゲット
-	int default_size = GetFontSize();
 	// あたらたなフォントサイズをせてい
-	SetFontSize(40);
+	SetFontSize(30);
 	float h = GetFontSize();
 	// 描画する座標を設定
 	Vector2 draw_pos = { draw_pos_.x,draw_pos_.y };
@@ -81,11 +79,10 @@ void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 	// 指定のシーンでだけ描画内容を増やす
 	if (scene_num == Battle)
 	{
-		draw_pos = { draw_pos_.x,draw_pos_.y + h };
+		draw_pos = { draw_pos_.x, draw_pos_.y + h * 2 + 10 };
 		m_text.TextDraw(1, draw_pos, m_text.OPTION_BACK_SIZE);
 	}
-	// フォントサイズをリセット
-	SetFontSize(default_size);
+
 }
 
 // --------------------------------------------------------------------------

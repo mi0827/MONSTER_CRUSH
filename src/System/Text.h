@@ -37,7 +37,7 @@ public:
 	// 文字列の背景の大きさ
 	static constexpr int TITLE_BACK_SIZE = 1000; //タイトルストーリー (クエストエリアでも使っている)
 	static constexpr int QUEST_BACK_SIZE = 1400;
-	static constexpr int OPTION_BACK_SIZE = 500; // オプションメニュー
+	static constexpr int OPTION_BACK_SIZE = 350; // オプションメニュー
 	static constexpr int END_BACK_SIZE = 650;    // エンドシーン
 	// 半分のサイズ
 	static constexpr int  TITLE_BACK_HALF_SIZE = TITLE_BACK_SIZE / 2; //タイトルバージョン (クエストエリアでも使っている)

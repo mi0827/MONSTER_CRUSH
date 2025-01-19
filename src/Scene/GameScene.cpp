@@ -312,7 +312,6 @@ void GameScene::Draw()
 		m_field_2.Draw();
 			
 	}
-
 	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 

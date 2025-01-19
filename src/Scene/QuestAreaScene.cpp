@@ -323,7 +323,6 @@ void QuestAreaScene::LandMarkUpdate()
 			}
 		}
 	}
-
 }
 
 //------------------------------------------
@@ -337,10 +336,11 @@ void QuestAreaScene::QuestAreaUpdate()
 		ModeNormalUpdate();
 		break;
 	case convo: // 会話中
+		ConvoUpdate();
 
 		break;
 	case accepting_quest: // クエストを受けている状態
-
+		AcceptingQuestUpdate();
 		break;
 	}
 }
@@ -366,7 +366,7 @@ void QuestAreaScene::ModeNormalUpdate()
 	}
 	// フィールドとキャラクターの当たり判定
 	HitField();
-	// 目印をを写すかのの処理
+	// 目印を写すかの処理
 	LandMarkUpdate();
 	// プレイヤーが受付嬢と話せる範囲に入ったかの確認
 	if (CheckCapsuleHit(m_area, m_player->m_body))
@@ -394,11 +394,23 @@ void QuestAreaScene::ModeNormalUpdate()
 //------------------------------------------
 void QuestAreaScene::ConvoUpdate()
 {
+	// マウスの右クリックかスペースキーで会話を進める
+	if (PushMouseInput(MOUSE_INPUT_LEFT)|| PushHitKey(KEY_INPUT_SPACE))
+	{
+		m_text_line_num++;
+	}
+	// テキストが一行進んだら
+	if (m_text_line_num == 1)
+	{
+		// クエストモードに移行する
+		secen_mode_num = accepting_quest;
+		m_text_line_num = 0;
+	}
 
 	//if (? ? ? )
 	{
 		// このシーンの状態をクエスト受注に移動する
-		secen_mode_num = accepting_quest;
+		//secen_mode_num = accepting_quest;
 	}
 }
 
@@ -408,12 +420,15 @@ void QuestAreaScene::ConvoUpdate()
 void QuestAreaScene::AcceptingQuestUpdate()
 {
 
-
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
+	{
+		m_text_line_num++;
+	}
 
 	//if (? ? ? )
 	{
 		// このシーンの状態を最初の状態しておく
-		secen_mode_num = normal;
+		//secen_mode_num = normal;
 	}
 }
 
@@ -444,9 +459,8 @@ void QuestAreaScene::ModeNormalDraw()
 	SetFontSize(TEXT_FONT_SIZE);
 	h = GetFontSize();
 	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
-
 	m_quest_area_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
-
+	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
 }
 
 //------------------------------------------
@@ -469,6 +483,13 @@ void QuestAreaScene::ConvoDraw()
 //------------------------------------------
 void QuestAreaScene::AcceptingQuestDraw()
 {
+	// 文字列の高さの取得
+	float h = GetFontSize();
+
+	h = GetFontSize();
+	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE)));
+	m_quest_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_text.QUEST_BACK_SIZE);
+
 }
 
 
