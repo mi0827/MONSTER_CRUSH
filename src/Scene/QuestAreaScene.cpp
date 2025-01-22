@@ -38,6 +38,8 @@
 //------------------------------------------
 QuestAreaScene::QuestAreaScene()
 {
+	
+
 }
 
 //------------------------------------------
@@ -54,6 +56,8 @@ QuestAreaScene::~QuestAreaScene()
 //------------------------------------------
 void QuestAreaScene::Init()
 {
+	m_select_num = 0;
+
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
 
@@ -395,7 +399,7 @@ void QuestAreaScene::ModeNormalUpdate()
 void QuestAreaScene::ConvoUpdate()
 {
 	// マウスの右クリックかスペースキーで会話を進める
-	if (PushMouseInput(MOUSE_INPUT_LEFT)|| PushHitKey(KEY_INPUT_SPACE))
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
 		m_text_line_num++;
 	}
@@ -420,10 +424,68 @@ void QuestAreaScene::ConvoUpdate()
 void QuestAreaScene::AcceptingQuestUpdate()
 {
 
+	if (PushHitKey(KEY_INPUT_W))
+	{
+		m_select_num--;
+		if (m_select_num < 0)
+		{
+			m_select_num = 0;
+		}
+		
+	}
+	if (PushHitKey(KEY_INPUT_S))
+	{
+		m_select_num++;
+		if (m_select_num > 1)
+		{
+			m_select_num = 1;
+		}
+	}
+
+
+	// クエスト選択画面の状態別の処理
+	switch (m_quest_selection_num)
+	{
+	case quest_selection:
+		m_quest_num = m_select_num;
+		break;
+	case reply_selection:
+		m_reply_num = m_select_num;
+		break;
+	}
+
+	// 次に進む
 	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
-		m_text_line_num++;
+		// ここだけ行を二列ずつ進める
+		m_text_line_num += 2;
+
+		if (m_quest_selection_num == reply_selection)
+		{
+			if (m_reply_num == 1)
+			{
+				// 返答がいいえならクエスト選択に戻す
+				m_text_line_num = 0;
+			}
+		}
+	
+		if (m_text_line_num <= 2)
+		{
+			// 選択が画面を次に進める
+			m_quest_selection_num = quest_selection;
+		}
+		if (m_text_line_num >= 2 && m_text_line_num < 4)
+		{
+			// 選択が画面を返答画面進める
+			m_quest_selection_num = reply_selection;
+			
+		}
+
+		
+		
 	}
+
+
 
 	//if (? ? ? )
 	{
@@ -460,8 +522,11 @@ void QuestAreaScene::ModeNormalDraw()
 	h = GetFontSize();
 	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
 	m_quest_area_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
+
+	// 誰が話しているかの描画
 	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
 }
+
 
 //------------------------------------------
 // 会話パートの描画処理
@@ -475,7 +540,8 @@ void QuestAreaScene::ConvoDraw()
 	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
 	m_reception_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_BACK_SIZE);
 
-
+	// 誰が話しているかの描画
+	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
 }
 
 //------------------------------------------
@@ -487,9 +553,30 @@ void QuestAreaScene::AcceptingQuestDraw()
 	float h = GetFontSize();
 
 	h = GetFontSize();
-	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE)));
-	m_quest_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_text.QUEST_BACK_SIZE);
+
+	float aa = (float(m_select_num) * 100);
+	if (aa != 30)
+	{
+		aa = 0;
+	}
+	Vector2 box_pos = { (230), 890 + (float(m_select_num) * 100) };
+	DrawCircle(box_pos.x, box_pos.y, 30, GetColor(255, 0, 0), TRUE);
+
+
+	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+	m_quest_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+
+	if (m_text_line_num <= 3)
+	{
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_quest_text.TextDraw(m_text_line_num + 1, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+	}
+
+
+
 
 }
+
+
 
 

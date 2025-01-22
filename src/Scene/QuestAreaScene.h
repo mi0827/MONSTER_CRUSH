@@ -163,8 +163,39 @@ private:
 		reception_text, // 受付嬢が話しているときに出てくるテキスト
 		quest_text,
 
-		text_max 
+		text_max
 	};
+
+	//---------------------------------------------
+	// クエスト関連
+	//---------------------------------------------
+	// クエスト選択画面の状態
+	enum QuestSelectionMode
+	{
+		quest_selection,
+		reply_selection,
+	};
+	// クエスト選択画面の状態
+	int m_quest_selection_num;
+	// どのクエストを選んだか保存する変数
+	int m_quest_num;
+	// 返答がどちらかなのかを保存する変数
+	int m_reply_num;
+	// 選択画面で選択しているものを示すための変数
+	int m_select_num = 0;
+	
+	Vector2 m_quest_draw_pos[quest_max] =
+	{
+		{SCREEN_W / 2, SCREEN_H / 2},
+		{SCREEN_W / 2, SCREEN_H / 2},
+		{SCREEN_W / 2, SCREEN_H / 2},
+		{SCREEN_W / 2, SCREEN_H / 2},
+		
+	};
+
+
+
+
 
 	// 誰が話しているのかを描画するためのもの
 	struct TextName
@@ -188,6 +219,6 @@ private:
 	// 目印の描画座標
 	Vector2 m_landmark_draw_pos;
 
-	
+
 
 };
