@@ -108,8 +108,10 @@ private:
 	{
 		quest1,
 		quest2,
+		confirmatio1,
 		yes,
 		no,
+		confirmation2,
 		quest_max
 	};
 
@@ -183,14 +185,15 @@ private:
 	int m_reply_num;
 	// ‘I‘ğ‰æ–Ê‚Å‘I‘ğ‚µ‚Ä‚¢‚é‚à‚Ì‚ğ¦‚·‚½‚ß‚Ì•Ï”
 	int m_select_num = 0;
-	
+
 	Vector2 m_quest_draw_pos[quest_max] =
 	{
 		{SCREEN_W / 2, SCREEN_H / 2},
 		{SCREEN_W / 2, SCREEN_H / 2},
 		{SCREEN_W / 2, SCREEN_H / 2},
 		{SCREEN_W / 2, SCREEN_H / 2},
-		
+		{SCREEN_W / 2, SCREEN_H / 2},
+		{SCREEN_W / 2, SCREEN_H / 2},
 	};
 
 

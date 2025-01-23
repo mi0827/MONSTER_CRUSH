@@ -38,7 +38,7 @@
 //------------------------------------------
 QuestAreaScene::QuestAreaScene()
 {
-	
+
 
 }
 
@@ -411,6 +411,29 @@ void QuestAreaScene::ConvoUpdate()
 		m_text_line_num = 0;
 	}
 
+	// 選択しの変更
+	if (PushHitKey(KEY_INPUT_W))
+	{
+		m_select_num--;
+		if (m_select_num < 0)
+		{
+			m_select_num = 0;
+		}
+
+	}
+	if (PushHitKey(KEY_INPUT_S))
+	{
+		m_select_num++;
+		if (m_select_num > 1)
+		{
+			m_select_num = 1;
+		}
+	}
+	 
+	// はいが選ばれた時の処理
+	// いいえが選ばれた時の処理を分ける
+
+
 	//if (? ? ? )
 	{
 		// このシーンの状態をクエスト受注に移動する
@@ -423,7 +446,7 @@ void QuestAreaScene::ConvoUpdate()
 //------------------------------------------
 void QuestAreaScene::AcceptingQuestUpdate()
 {
-
+	// 選択しの変更
 	if (PushHitKey(KEY_INPUT_W))
 	{
 		m_select_num--;
@@ -431,7 +454,7 @@ void QuestAreaScene::AcceptingQuestUpdate()
 		{
 			m_select_num = 0;
 		}
-		
+
 	}
 	if (PushHitKey(KEY_INPUT_S))
 	{
@@ -441,7 +464,6 @@ void QuestAreaScene::AcceptingQuestUpdate()
 			m_select_num = 1;
 		}
 	}
-
 
 	// クエスト選択画面の状態別の処理
 	switch (m_quest_selection_num)
@@ -458,39 +480,41 @@ void QuestAreaScene::AcceptingQuestUpdate()
 	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
 		// ここだけ行を二列ずつ進める
-		m_text_line_num += 2;
+		m_text_line_num += 3;
 
+		// 返答状態
 		if (m_quest_selection_num == reply_selection)
 		{
+			// 返答がいいえだった時
 			if (m_reply_num == 1)
 			{
 				// 返答がいいえならクエスト選択に戻す
 				m_text_line_num = 0;
 			}
+			else
+			{
+				// はいだった時
+				// このシーンの状態を会話パートの状態しておく
+		        secen_mode_num = convo;
+				// 前回の会話の途中から始める
+				m_text_line_num = 2;
+				
+			}
+		}
+		if (secen_mode_num == accepting_quest)
+		{
+			if (m_text_line_num <= 3)
+			{
+				// 選択が画面を次に進める
+				m_quest_selection_num = quest_selection;
+			}
+			if (m_text_line_num >= 3 && m_text_line_num < 5)
+			{
+				// 選択が画面を返答画面進める
+				m_quest_selection_num = reply_selection;
+			}
 		}
 	
-		if (m_text_line_num <= 2)
-		{
-			// 選択が画面を次に進める
-			m_quest_selection_num = quest_selection;
-		}
-		if (m_text_line_num >= 2 && m_text_line_num < 4)
-		{
-			// 選択が画面を返答画面進める
-			m_quest_selection_num = reply_selection;
-			
-		}
-
-		
-		
-	}
-
-
-
-	//if (? ? ? )
-	{
-		// このシーンの状態を最初の状態しておく
-		//secen_mode_num = normal;
 	}
 }
 
@@ -537,8 +561,32 @@ void QuestAreaScene::ConvoDraw()
 	float h = GetFontSize();
 
 	h = GetFontSize();
-	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
-	m_reception_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_BACK_SIZE);
+	Vector2 box_pos;
+	if (m_quest_selection_num == reply_selection)
+	{
+		if (m_select_num == 0)
+		{
+			box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30);
+		}
+		else
+		{
+			box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE));
+		}
+		//DrawCircle(box_pos.x, box_pos.y, 30, GetColor(255, 0, 0), TRUE);
+		DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
+		// クエスト１
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
+		m_quest_text.TextDraw(3, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+
+		// クエスト２ 
+		// Y座標はずれてほしい分を足す
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_quest_text.TextDraw(4, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+
+	}
+	
+	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
+	m_reception_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_STORY_BACK_SIZE);
 
 	// 誰が話しているかの描画
 	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
@@ -554,27 +602,54 @@ void QuestAreaScene::AcceptingQuestDraw()
 
 	h = GetFontSize();
 
-	float aa = (float(m_select_num) * 100);
-	if (aa != 30)
+	Vector2 box_pos;
+	if (m_select_num == 0)
 	{
-		aa = 0;
+		// box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 + 15);
+
+		box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30);
 	}
-	Vector2 box_pos = { (230), 890 + (float(m_select_num) * 100) };
-	DrawCircle(box_pos.x, box_pos.y, 30, GetColor(255, 0, 0), TRUE);
-
-
-	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
-	m_quest_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
-
-	if (m_text_line_num <= 3)
+	else
 	{
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE)));
-		m_quest_text.TextDraw(m_text_line_num + 1, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+		box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 -30 + (h * 2 + m_quest_text.CREVICE_SIZE));
+	}
+	//DrawCircle(box_pos.x, box_pos.y, 30, GetColor(255, 0, 0), TRUE);
+	DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
+
+	if (m_quest_selection_num == quest_selection)
+	{
+		
+		// クエスト１
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 ));
+		m_quest_text.TextDraw(0, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+	
+		// クエスト２ 
+		// Y座標はずれてほしい分を足す
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_quest_text.TextDraw(1, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
+
+		// 確認文言1
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+		m_quest_text.TextDraw(2, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
 
 
+	if (m_quest_selection_num == reply_selection)
+	{
+		
+		// YES
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
+		m_quest_text.TextDraw(3, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
+		// NO
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_quest_text.TextDraw(4, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
+		// 確認文言2
+		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+		m_quest_text.TextDraw(5, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
+	}
+	
 }
 
 
