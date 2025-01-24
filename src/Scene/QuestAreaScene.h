@@ -86,6 +86,9 @@ private:
 	//! 話せるエリアに入ったか入っていないかのフラグ
 	bool m_area_hit = false;
 
+	//! プレイヤーが会話中かどうか
+	bool m_convo_flag = false;
+
 	//! クエストメニューテキスト
 	Text m_quest_text;
 	//! クエストエリアのテキスト
@@ -118,10 +121,10 @@ private:
 	// 受付嬢のテキストの数
 	enum ReceptionText
 	{
-		convo1,
-		convo2,
-		convo3,
-		convo4,
+		convo_text_1,
+		convo_text_2,
+		convo_text_3,
+		convo_text_4,
 		teception_max
 	};
 
@@ -163,7 +166,7 @@ private:
 		landmark_text, // 目印となっているテキスト
 		player_text,      // プレイヤーが話しているときに出てくるテキスト
 		reception_text, // 受付嬢が話しているときに出てくるテキスト
-		quest_text,
+		quest_text,      // クエスト画面を描画しているときの処理
 
 		text_max
 	};
@@ -198,8 +201,19 @@ private:
 	};
 
 
+	//---------------------------------------------
+    // 会話関連(謎の女、受付嬢)
+    //---------------------------------------------
+	// 受付嬢の会話がどの状態なのかを管理
+	enum ConvoMode
+	{
+		convo_mode_1, // クエストを見せる前
+		convo_mode_2, // クエスト出発確認
+		convo_mode_3, // 後ほど声をかけるように促す
 
-
+		convo_mode_max
+	};
+	int m_convo_mode_num = convo_mode_1;
 
 	// 誰が話しているのかを描画するためのもの
 	struct TextName
