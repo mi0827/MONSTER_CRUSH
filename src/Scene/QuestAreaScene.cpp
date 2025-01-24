@@ -278,9 +278,10 @@ void QuestAreaScene::LandMarkUpdate()
 {
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
-
+	/*(TextState& landmark: m_landmark_text)*/
+	
 	// 文字列の描画のための設定
-	for (int i = 0; i < text_max; i++)
+	for (int i = 0; i < landmark_text_max; i++)	
 	{
 		// 座標変換
 		VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_landmark_text[i].shift_pos);
@@ -616,9 +617,11 @@ void QuestAreaScene::AcceptingQuestDraw()
 	//DrawCircle(box_pos.x, box_pos.y, 30, GetColor(255, 0, 0), TRUE);
 	DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
 
+
+
 	if (m_quest_selection_num == quest_selection)
 	{
-		
+		m_text_draw_pos.set(m_quest_draw_pos[0].x, m_quest_draw_pos[0].y);
 		// クエスト１
 		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 ));
 		m_quest_text.TextDraw(0, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);

@@ -186,6 +186,7 @@ private:
 	// 選択画面で選択しているものを示すための変数
 	int m_select_num = 0;
 
+
 	Vector2 m_quest_draw_pos[quest_max] =
 	{
 		{SCREEN_W / 2, SCREEN_H / 2},
@@ -215,6 +216,7 @@ private:
 		{"Player", {0.0f,0.0f}},
 		{"謎の女", {0.0f,0.0f}},
 		{"クエスト", {0.0f,0.0f}},
+
 	};
 	static constexpr int MANE_FONT_SIZE = 30;
 	// テキストの描画座用

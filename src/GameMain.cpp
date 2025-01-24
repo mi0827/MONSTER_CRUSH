@@ -73,8 +73,8 @@ void GameInit()
 	option.Init();
 
 	// とりあえず今はタイトルシーンをつけておく
-	//scene = new TitleScene;
-	scene = new QuestAreaScene;
+	scene = new TitleScene;
+	//scene = new QuestAreaScene;
 	//scene = new GameScene;
 
 	// キャラクターのせってい
