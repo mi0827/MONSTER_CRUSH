@@ -405,15 +405,6 @@ void CharacterBase::ComboActionUpdate()
 		break;
 
 	}
-	
-
-	//// コンボフラグが上がっているとき
-	//if (m_combo_flag)
-	//{
-
-	//	
-
-	//}
 }
 
 //---------------------------------------------------------------------------
@@ -503,7 +494,6 @@ void CharacterBase::NEWSetAttackHitDamage(int attack_anim_max)
 //---------------------------------------------------------------------------
 void CharacterBase::BaseUpdate(bool* m_check_move, Vector3* camera_rot, const float* mov_speed)
 {
-
 	// 移動の処理
 	m_move.Update(m_check_move, camera_rot, &m_transform.rot, mov_speed, &m_transform.pos, m_pad_no, m_mov);
 	// モデルのY軸回転に制限をかけている

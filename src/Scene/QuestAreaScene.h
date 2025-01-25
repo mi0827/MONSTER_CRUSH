@@ -45,14 +45,20 @@ public:
 	//! @brief 会話していない状態の更新処理
 	void ModeNormalUpdate();
 
+	//! @brief 会話はじめの処理
+	void Talk_Start();
+
 	//! @brief 会話パートの更新処理
-	void ConvoUpdate();
+	void TalkUpdate();
 
 	//! @breif クエストを受けているときの更新処理
 	void AcceptingQuestUpdate();
 
 	//! @brief 会話していない状態の描画処理
 	void ModeNormalDraw();
+
+	//! @brief 会話スタート時の描画処理
+	void TalkStartDraw();
 
 	//! @brief 会話パートの描画処理
 	void ConvoDraw();
@@ -63,16 +69,17 @@ public:
 
 private:
 	// このシーンの状態を管理
-	enum SecenNum
+	enum SceneNum
 	{
 		normal, // 会話をしていないとき
-		convo,  // 会話中
+		talk_start, // 話始め
+		receptionist_talk,  // 受付嬢が会話中
 		accepting_quest, // クエスト受付中
 
-		secen_max
+		scene_max
 	};
 	// クエストシーンがどの状態化を補完する
-	int secen_mode_num = normal;
+	int scene_mode_num = normal;
 
 	bool m_start_flag = false; // タイトル画面でボタンが押されたかどうかのフラグ
 
@@ -81,21 +88,21 @@ private:
 
 	//! 受付嬢のオブジェクト
 	Receptionist receptionist;
-	//! エリア用のカプセル
+	//! 話せるエリア用のカプセル
 	CapsuleCollision m_area;
 	//! 話せるエリアに入ったか入っていないかのフラグ
 	bool m_area_hit = false;
 
 	//! プレイヤーが会話中かどうか
-	bool m_convo_flag = false;
+	bool m_talk_flag = false;
 
 	
 	
 	
 	//! 各テキストのフォントサイズ
 	static constexpr int TEXT_FONT_SIZE = 60;
-	//! 各テキストの何行目を呼んでいるのかを保存するための変数
-	int m_text_line_num;
+	////! 各テキストの何行目を呼んでいるのかを保存するための変数
+	//int m_reception_text_line;
 	//　クエストエリアでのテキストの数
 
 	//-------------------------------------------------
@@ -131,7 +138,7 @@ private:
 	//! クエストメニューテキスト
 	Text m_quest_text;
 	//! クエスト選択テキストの何行目かを保存するための
-	int m_quest_text_line;
+	int m_quest_text_line = 0;
 
 
 
@@ -234,15 +241,15 @@ private:
     // 会話関連(謎の女、受付嬢)
     //---------------------------------------------
 	// 受付嬢の会話がどの状態なのかを管理
-	enum ConvoMode
+	enum TalkMode
 	{
-		convo_mode_1, // クエストを見せる前
-		convo_mode_2, // クエスト出発確認
-		convo_mode_3, // 後ほど声をかけるように促す
+		quest_before_accepting, // クエストを受ける前
+		quest_confirmation,     // クエスト出発確認
+		quest_after_accepting,  // クエストを受けた後　(後ほど声をかけるように促す)
 
-		convo_mode_max
+		talk_mode_max
 	};
-	int m_convo_mode_num = convo_mode_1;
+	int m_quest_acception_num = quest_before_accepting;
 
 	// 誰が話しているのかを描画するためのもの
 	struct TextName

@@ -89,8 +89,8 @@ void QuestAreaScene::Init()
 
 	// テキストの読み込み
 	m_quest_text.LoadText("Data/Text/Quest.txt", quest_max);
-	m_quest_area_text.LoadText("Data/Text/QuestAreaStory.txt", story_max);
-	m_reception_text.LoadText("Data/Text/QuestReception.txt", teception_max);
+	m_quest_area_text.LoadText("Data/Text/QuestAreaStory.txt", palyer_story_max);
+	m_reception_text.LoadText("Data/Text/QuestReception.txt", recept_teception_max);
 }
 
 
@@ -177,30 +177,27 @@ void QuestAreaScene::Draw()
 		receptionist.Draw();
 		// シャドウマップへキャラクターモデルの描画
 		m_field_1.Draw();
-
 	}
 	UseShadowMapSet();
 
 
-
-	switch (secen_mode_num)
+	// 会話内容に応じて処理を変更
+	switch (scene_mode_num)
 	{
 	case normal:// 会話していない状態
 		ModeNormalDraw();
 		break;
-	case convo: // 会話中
-		// 会話中だけ描画する
-		if (m_convo_flag == true)
-		{
-			ConvoDraw();
-		}
+
+	case talk_start:
+
+		break;
+
+	case receptionist_talk: // 会話中
+
+		ConvoDraw();
 		break;
 	case accepting_quest: // クエストを受けている状態
-		// 会話中だけ描画する
-		if (m_convo_flag == true)
-		{
-			AcceptingQuestDraw();
-		}
+		AcceptingQuestDraw();
 		break;
 	}
 
@@ -344,13 +341,17 @@ void QuestAreaScene::LandMarkUpdate()
 //------------------------------------------
 void QuestAreaScene::QuestAreaUpdate()
 {
-	switch (secen_mode_num)
+	switch (scene_mode_num)
 	{
 	case normal:// 会話していない状態
 		ModeNormalUpdate();
 		break;
-	case convo: // 会話中
-		ConvoUpdate();
+	case talk_start:
+		Talk_Start();
+		break;
+
+	case receptionist_talk: // 会話中
+		TalkUpdate();
 
 		break;
 	case accepting_quest: // クエストを受けている状態
@@ -364,53 +365,36 @@ void QuestAreaScene::QuestAreaUpdate()
 //------------------------------------------
 void QuestAreaScene::ModeNormalUpdate()
 {
-	// 会話していない状態で
-	if (m_convo_flag == false)
+
+	// カメラの向きを取得する
+	m_camera_rot = camera.GetCameraRot();
+
+	// プレイヤーの更新処理
+	m_player->Update(&m_camera_rot);
+
+	// 受付嬢のの更新処理
+	receptionist.Update();
+
+	// 受付嬢とプレイヤーの移動の当たり判定
+	if (CheckCapsuleHit(receptionist.m_hit_body, m_player->m_body))
 	{
-		// カメラの向きを取得する
-		m_camera_rot = camera.GetCameraRot();
-
-		// プレイヤーの更新処理
-		m_player->Update(&m_camera_rot);
-
-		// 受付嬢のの更新処理
-		receptionist.Update();
-
-		// 受付嬢とプレイヤーの移動の当たり判定
-		if (CheckCapsuleHit(receptionist.m_hit_body, m_player->m_body))
-		{
-			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
-		}
-		// フィールドとキャラクターの当たり判定
-		HitField();
-		// 目印を写すかの処理
-		LandMarkUpdate();
+		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
 	}
+	// フィールドとキャラクターの当たり判定
+	HitField();
+	// 目印を写すかの処理
+	LandMarkUpdate();
+
 	// プレイヤーが受付嬢と話せる範囲に入ったかの確認
 	if (CheckCapsuleHit(m_area, m_player->m_body))
 	{
-		
-			// Xキーを押された時にシーンの変更をする（今だけの仮）
-			if (PushHitKey(KEY_INPUT_F))
-			{
-				// このシーンの状態を会話パートに移動する
-				secen_mode_num = convo;
-				// 会話が始まったのでフラグを上げる
-				m_convo_flag = true;
 
-				// クエスト出発確認でいいえを選択し再度話しかけられている場合
-				if (m_convo_mode_num == convo_mode_2)
-				{
-					// 先ほどの会話の続き空にする
-					m_text_line_num = 2;
-				}
-				else
-				{
-					// テキストの行をリセットする
-					m_text_line_num = 0;
-				}
-			
-			}
+		// Xキーを押された時にシーンの変更をする（今だけの仮）
+		if (PushHitKey(KEY_INPUT_F))
+		{
+			// このシーンの状態を会話パートに移動する
+			scene_mode_num = talk_start;
+		}
 		// 話せるエリアに入ったからフラグを上げる
 		m_area_hit = true;
 	}
@@ -422,38 +406,50 @@ void QuestAreaScene::ModeNormalUpdate()
 }
 
 //------------------------------------------
+// 会話はじめの処理
+//------------------------------------------
+void QuestAreaScene::Talk_Start()
+{
+	// クエスト出発確認でいいえを選択し再度話しかけられている場合	
+	if (m_quest_acception_num == quest_confirmation)
+	{
+		// 先ほどの会話の続きからになるように受付嬢のテキストの行を設定する
+		m_quest_text_line = 1;
+	}
+	
+	// シーンの状態を会話中に移動
+	scene_mode_num = receptionist_talk;
+
+}
+
+//------------------------------------------
 // 会話パートの更新処理
 //------------------------------------------
-void QuestAreaScene::ConvoUpdate()
+void QuestAreaScene::TalkUpdate()
 {
 	// マウスの右クリックかスペースキーで会話を進める
 	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
-		m_text_line_num++;
-		//// テキストの最大数を超えた時
-		//if (m_text_line_num <= teception_max)
-		//{
-		//	// 増やされた分戻しておく
-		//	m_text_line_num--;
-		//}
+		// 描画するテキストを一つ進める
+		m_quest_text_line++;
 	}
 
 	// 受付嬢の会話がどこまで進んでいるのかで内容を変更するためのもの
-	switch (m_convo_mode_num)
+	switch (m_quest_acception_num)
 	{
-	case convo_mode_1:
+	case quest_before_accepting:
 
 		// テキストが一行進んだら
-		if (m_text_line_num == 1)
+		if (m_quest_text_line == 1)
 		{
 			// 次の会話モードに移動させておく
-			m_convo_mode_num = convo_mode_2;
-			// クエストモードに移行する
-			secen_mode_num = accepting_quest;
-			m_text_line_num = 0;
+			m_quest_acception_num = quest_confirmation;
+			// シーンの状態をクエスト選択状態に移行する
+			scene_mode_num = accepting_quest;
+			m_quest_text_line = 0;
 		}
 		break;
-	case convo_mode_2:
+	case quest_confirmation:
 		// 選択しの変更
 		if (PushHitKey(KEY_INPUT_W))
 		{
@@ -472,13 +468,13 @@ void QuestAreaScene::ConvoUpdate()
 				m_select_num = 1;
 			}
 		}
-		if (m_text_line_num == 3)
+		if (m_quest_text_line == 3)
 		{
 			// 次の会話モードに移動させておく
-			m_convo_mode_num = convo_mode_3;
+			m_quest_acception_num = quest_after_accepting;
 		}
 		break;
-	case convo_mode_3:
+	case quest_after_accepting:
 		// はいが選ばれた時の処理
 		if (m_select_num == 0)
 		{
@@ -487,24 +483,21 @@ void QuestAreaScene::ConvoUpdate()
 			// シーン変更フラグを立てる
 			m_scene_change_judge = true;
 			// テキスト番号も初期化しておく
-			m_text_line_num = 0;
+			m_quest_text_line = 0;
 			break;
-		}
-		// いいえが選ばれた時の処理を分ける
-		if (m_select_num == 1)
+		} 
+		else // いいえが選ばれた時の処理を分ける
 		{
 			// マウスの右クリックかスペースキーで会話を進める
 			if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 			{
 				// 会話シーンに戻す
-				m_convo_mode_num = convo_mode_2;
+				m_quest_acception_num = quest_confirmation;
 				// 会話を一つ巻き戻しておく
-				m_text_line_num -= 1;
+				m_quest_text_line -= 1;
 
 				// プレイヤーとの会話をいったん終わる
-				secen_mode_num = normal;
-				// 会話が終わったのでフラグを下げる
-				m_convo_flag = false;
+				scene_mode_num = normal;
 			}
 		}
 		break;
@@ -550,7 +543,7 @@ void QuestAreaScene::AcceptingQuestUpdate()
 	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
 		// ここだけ行を二列ずつ進める
-		m_text_line_num += 3;
+		m_reception_text_line += 3;
 
 		// 返答状態
 		if (m_quest_selection_num == reply_selection)
@@ -559,32 +552,31 @@ void QuestAreaScene::AcceptingQuestUpdate()
 			if (m_reply_num == 1)
 			{
 				// 返答がいいえならクエスト選択に戻す
-				m_text_line_num = 0;
+				m_reception_text_line = 0;
 			}
 			else
 			{
 				// はいだった時
 				// このシーンの状態を会話パートの状態しておく
-				secen_mode_num = convo;
-				// 前回の会話の途中から始める
-				m_text_line_num = 2;
+				scene_mode_num = receptionist_talk;
+				// 受付嬢の会話の途中からやり直す
+				m_reception_text_line = 2;
 
 			}
 		}
-		if (secen_mode_num == accepting_quest)
+		if (scene_mode_num == accepting_quest)
 		{
-			if (m_text_line_num <= 3)
+			if (m_reception_text_line <= 3)
 			{
 				// 選択が画面を次に進める
 				m_quest_selection_num = quest_selection;
 			}
-			if (m_text_line_num >= 3 && m_text_line_num < 5)
+			if (m_reception_text_line >= 3 && m_reception_text_line < 5)
 			{
 				// 選択が画面を返答画面進める
 				m_quest_selection_num = reply_selection;
 			}
 		}
-
 	}
 }
 
@@ -615,10 +607,18 @@ void QuestAreaScene::ModeNormalDraw()
 	SetFontSize(TEXT_FONT_SIZE);
 	h = GetFontSize();
 	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
-	m_quest_area_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
+	m_quest_area_text.TextDraw(m_quset_area_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
 
 	// 誰が話しているかの描画
 	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
+}
+
+//------------------------------------------
+// 会話スタート時の描画処理
+//------------------------------------------
+void QuestAreaScene::TalkStartDraw()
+{
+
 }
 
 
@@ -634,7 +634,7 @@ void QuestAreaScene::ConvoDraw()
 	// 外枠の描画座標
 	Vector2 box_pos;
 	// クエスト出発確認中だけ描画する
-	if (m_convo_mode_num == convo_mode_2)
+	if (m_quest_acception_num == quest_confirmation)
 	{
 		// どちらを選択しているかの外枠
 		if (m_select_num == 0)
@@ -660,7 +660,7 @@ void QuestAreaScene::ConvoDraw()
 
 	// 会話内容の描画
 	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
-	m_reception_text.TextDraw(m_text_line_num, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_STORY_BACK_SIZE);
+	m_reception_text.TextDraw(m_reception_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_STORY_BACK_SIZE);
 
 	// 誰が話しているかの描画
 	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
