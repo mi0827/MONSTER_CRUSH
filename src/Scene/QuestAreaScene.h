@@ -89,44 +89,72 @@ private:
 	//! プレイヤーが会話中かどうか
 	bool m_convo_flag = false;
 
-	//! クエストメニューテキスト
-	Text m_quest_text;
-	//! クエストエリアのテキスト
-	Text m_quest_area_text;
-	//! クエスト受付嬢のテキスト
-	Text m_reception_text;
+	
+	
+	
 	//! 各テキストのフォントサイズ
 	static constexpr int TEXT_FONT_SIZE = 60;
 	//! 各テキストの何行目を呼んでいるのかを保存するための変数
 	int m_text_line_num;
-	//　エリアでのテキストの数
+	//　クエストエリアでのテキストの数
+
+	//-------------------------------------------------
+	// プレイヤーに何をしたらいいかを促すテキスト関連
+	//-------------------------------------------------
 	enum PlayerText
 	{
-		story1,
-		story_max
+		palyer_story1,
+		palyer_story2,
+		palyer_story_max
 	};
+	//! クエストエリアのテキスト
+	Text m_quest_area_text;
+	//! テキストの何行目を見ているのかを保存する変数
+	int m_quset_area_text_line; 
 
+
+
+	//-------------------------------------------------
+	// クエストメニュー関連
+	//-------------------------------------------------
 	// クエストテキストの数
 	enum QuestText
 	{
-		quest1,
-		quest2,
-		confirmatio1,
-		yes,
-		no,
-		confirmation2,
+		quest_quest1, // クエスト１
+		quest_quest2, // クエスト２
+		quest_confirmatio1, // どのクエストがいいかを聞いてくる
+		quest_yes, // 返答YES
+		quest_no,  // 返答NO
+		quest_confirmation2, // このクエストにしますか
 		quest_max
 	};
+	//! クエストメニューテキスト
+	Text m_quest_text;
+	//! クエスト選択テキストの何行目かを保存するための
+	int m_quest_text_line;
 
+
+
+	//-------------------------------------------------
+	// 受付嬢会話関連
+	//-------------------------------------------------
 	// 受付嬢のテキストの数
 	enum ReceptionText
 	{
-		convo_text_1,
-		convo_text_2,
-		convo_text_3,
-		convo_text_4,
-		teception_max
+		recept_convo_text_1, // 受付嬢の感謝
+		recept_yes, // 返答YES
+		recept_no,  // 返答NO
+		recept_convo_text_2, // 出発するのかの確認
+		recept_convo_text_3, // ボットの存在を知らせてくれる
+		recept_convo_text_4, // 返答でNOが返ってきたとき
+		recept_teception_max
 	};
+	//! クエスト受付嬢のテキスト
+	Text m_reception_text;
+	//! 受付嬢のテキストの何行目かを保存するための
+	int m_reception_text_line;
+
+
 
 	//! 描画するテキストの番号として管理
 	enum LandMarkText
@@ -159,6 +187,7 @@ private:
 	};
 	// 目印の文字の大きさ
 	static constexpr int FONT_SIZE = 100;
+
 
 	// 現在どのテキストを描画するのかを管理するための列挙体
 	enum TextNum
