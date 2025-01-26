@@ -95,7 +95,7 @@ public:
 	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
 
 	static constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
-	static constexpr float LOWER_ANGLE = 0.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
+	static constexpr float LOWER_ANGLE = 5.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
 	static constexpr float BOX_SIZE = 4.0f;                     // ボックスのサイズ
 	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
 

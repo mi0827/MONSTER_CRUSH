@@ -189,12 +189,9 @@ void QuestAreaScene::Draw()
 		break;
 
 	case talk_start:
-
 		break;
-
 	case receptionist_talk: // 会話中
-
-		ConvoDraw();
+		TalkDraw();
 		break;
 	case accepting_quest: // クエストを受けている状態
 		AcceptingQuestDraw();
@@ -347,7 +344,7 @@ void QuestAreaScene::QuestAreaUpdate()
 		ModeNormalUpdate();
 		break;
 	case talk_start:
-		Talk_Start();
+		TalkStart();
 		break;
 
 	case receptionist_talk: // 会話中
@@ -408,13 +405,13 @@ void QuestAreaScene::ModeNormalUpdate()
 //------------------------------------------
 // 会話はじめの処理
 //------------------------------------------
-void QuestAreaScene::Talk_Start()
+void QuestAreaScene::TalkStart()
 {
 	// クエスト出発確認でいいえを選択し再度話しかけられている場合	
 	if (m_quest_acception_num == quest_confirmation)
 	{
 		// 先ほどの会話の続きからになるように受付嬢のテキストの行を設定する
-		m_quest_text_line = 1;
+		m_reception_text_line = 3;
 	}
 	
 	// シーンの状態を会話中に移動
@@ -431,7 +428,7 @@ void QuestAreaScene::TalkUpdate()
 	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
 		// 描画するテキストを一つ進める
-		m_quest_text_line++;
+		m_reception_text_line++;
 	}
 
 	// 受付嬢の会話がどこまで進んでいるのかで内容を変更するためのもの
@@ -440,13 +437,14 @@ void QuestAreaScene::TalkUpdate()
 	case quest_before_accepting:
 
 		// テキストが一行進んだら
-		if (m_quest_text_line == 1)
+		if (m_reception_text_line >= 1)
 		{
 			// 次の会話モードに移動させておく
 			m_quest_acception_num = quest_confirmation;
 			// シーンの状態をクエスト選択状態に移行する
 			scene_mode_num = accepting_quest;
-			m_quest_text_line = 0;
+			// タイミングを
+			m_reception_text_line = 3;
 		}
 		break;
 	case quest_confirmation:
@@ -468,10 +466,12 @@ void QuestAreaScene::TalkUpdate()
 				m_select_num = 1;
 			}
 		}
-		if (m_quest_text_line == 3)
+	
+		if (m_reception_text_line >= 4)
 		{
 			// 次の会話モードに移動させておく
 			m_quest_acception_num = quest_after_accepting;
+			//m_reception_text_line = 3;
 		}
 		break;
 	case quest_after_accepting:
@@ -483,21 +483,22 @@ void QuestAreaScene::TalkUpdate()
 			// シーン変更フラグを立てる
 			m_scene_change_judge = true;
 			// テキスト番号も初期化しておく
-			m_quest_text_line = 0;
+			m_reception_text_line = 0;
 			break;
 		} 
 		else // いいえが選ばれた時の処理を分ける
 		{
-			// マウスの右クリックかスペースキーで会話を進める
-			if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
+			if (m_reception_text_line >= 6)
 			{
-				// 会話シーンに戻す
-				m_quest_acception_num = quest_confirmation;
-				// 会話を一つ巻き戻しておく
-				m_quest_text_line -= 1;
-
-				// プレイヤーとの会話をいったん終わる
-				scene_mode_num = normal;
+				// マウスの右クリックかスペースキーで会話を進める
+				if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
+				{
+					// 会話シーンに戻す
+					m_quest_acception_num = quest_confirmation;
+					// 会話を一つ巻き戻しておく
+					// プレイヤーとの会話をいったん終わる
+					scene_mode_num = normal;
+				}
 			}
 		}
 		break;
@@ -517,7 +518,6 @@ void QuestAreaScene::AcceptingQuestUpdate()
 		{
 			m_select_num = 0;
 		}
-
 	}
 	if (PushHitKey(KEY_INPUT_S))
 	{
@@ -543,7 +543,7 @@ void QuestAreaScene::AcceptingQuestUpdate()
 	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
 	{
 		// ここだけ行を二列ずつ進める
-		m_reception_text_line += 3;
+		m_quest_text_line += 3;
 
 		// 返答状態
 		if (m_quest_selection_num == reply_selection)
@@ -552,7 +552,7 @@ void QuestAreaScene::AcceptingQuestUpdate()
 			if (m_reply_num == 1)
 			{
 				// 返答がいいえならクエスト選択に戻す
-				m_reception_text_line = 0;
+				m_quest_text_line = 0;
 			}
 			else
 			{
@@ -560,18 +560,18 @@ void QuestAreaScene::AcceptingQuestUpdate()
 				// このシーンの状態を会話パートの状態しておく
 				scene_mode_num = receptionist_talk;
 				// 受付嬢の会話の途中からやり直す
-				m_reception_text_line = 2;
+				m_quest_text_line = 2;
 
 			}
 		}
 		if (scene_mode_num == accepting_quest)
 		{
-			if (m_reception_text_line <= 3)
+			if (m_quest_text_line <= 3)
 			{
 				// 選択が画面を次に進める
 				m_quest_selection_num = quest_selection;
 			}
-			if (m_reception_text_line >= 3 && m_reception_text_line < 5)
+			if (m_quest_text_line >= 3 && m_quest_text_line < 5)
 			{
 				// 選択が画面を返答画面進める
 				m_quest_selection_num = reply_selection;
@@ -607,7 +607,7 @@ void QuestAreaScene::ModeNormalDraw()
 	SetFontSize(TEXT_FONT_SIZE);
 	h = GetFontSize();
 	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
-	m_quest_area_text.TextDraw(m_quset_area_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
+	m_quest_area_text.TextDraw(m_quest_area_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
 
 	// 誰が話しているかの描画
 	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
@@ -625,7 +625,7 @@ void QuestAreaScene::TalkStartDraw()
 //------------------------------------------
 // 会話パートの描画処理
 //------------------------------------------
-void QuestAreaScene::ConvoDraw()
+void QuestAreaScene::TalkDraw()
 {
 	// 文字列の高さの取得
 	float h = GetFontSize();
@@ -655,7 +655,6 @@ void QuestAreaScene::ConvoDraw()
 		// Y座標はずれてほしい分を足す
 		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(4, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
-
 	}
 
 	// 会話内容の描画
@@ -679,18 +678,14 @@ void QuestAreaScene::AcceptingQuestDraw()
 	Vector2 box_pos;
 	if (m_select_num == 0)
 	{
-		// box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 + 15);
-
 		box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30);
 	}
 	else
 	{
 		box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE));
 	}
-	//DrawCircle(box_pos.x, box_pos.y, 30, GetColor(255, 0, 0), TRUE);
+	// どちらを選んでいるかがわかる用のボックス
 	DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
-
-
 
 	if (m_quest_selection_num == quest_selection)
 	{
@@ -725,7 +720,6 @@ void QuestAreaScene::AcceptingQuestDraw()
 		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
 		m_quest_text.TextDraw(5, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
-
 }
 
 

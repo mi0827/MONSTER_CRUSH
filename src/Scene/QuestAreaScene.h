@@ -46,7 +46,7 @@ public:
 	void ModeNormalUpdate();
 
 	//! @brief 会話はじめの処理
-	void Talk_Start();
+	void TalkStart();
 
 	//! @brief 会話パートの更新処理
 	void TalkUpdate();
@@ -61,9 +61,9 @@ public:
 	void TalkStartDraw();
 
 	//! @brief 会話パートの描画処理
-	void ConvoDraw();
+	void TalkDraw();
 
-	//! @breif クエストを受けているときの描画処理
+	//! @brief クエストを受けているときの描画処理
 	void AcceptingQuestDraw();
 
 
@@ -117,7 +117,7 @@ private:
 	//! クエストエリアのテキスト
 	Text m_quest_area_text;
 	//! テキストの何行目を見ているのかを保存する変数
-	int m_quset_area_text_line; 
+	int m_quest_area_text_line; 
 
 
 
@@ -250,6 +250,8 @@ private:
 		talk_mode_max
 	};
 	int m_quest_acception_num = quest_before_accepting;
+
+
 
 	// 誰が話しているのかを描画するためのもの
 	struct TextName
