@@ -287,7 +287,7 @@ void QuestAreaScene::LandMarkUpdate()
 	for (int i = 0; i < landmark_text_max; i++)
 	{
 		// À•W•ÏŠ·
-		VECTOR pos = DrawStringWrold(receptionist.m_transform.pos, m_landmark_text[i].shift_pos);
+		VECTOR pos = DrawStringWorld(receptionist.m_transform.pos, m_landmark_text[i].shift_pos);
 		// •`‰æÀ—p‚É•ÏŠ·
 		m_landmark_text[i].draw_pos.VSet(pos);
 

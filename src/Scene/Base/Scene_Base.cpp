@@ -162,7 +162,7 @@ void Scene_Base::ExitShadowMap()
 // --------------------------------------------------------------------------
 // 文字列をスクリーン座標に描画するための値を返す関数
 // --------------------------------------------------------------------------
-VECTOR Scene_Base::DrawStringWrold(Vector3 pos, Vector3 shift_pos)
+VECTOR Scene_Base::DrawStringWorld(Vector3 pos, Vector3 shift_pos)
 {
 	// 設定された座標に文字列を描画するための準備
 	// ３D空間座標を２Dの画面座標に変換
@@ -171,7 +171,6 @@ VECTOR Scene_Base::DrawStringWrold(Vector3 pos, Vector3 shift_pos)
 	// ずらしたい分ずらす
 	wpos.x += shift_pos.x;
 	wpos.y += shift_pos.y;
-
 
 	// この座標（wpos）を関数に渡してスクリーン座標（２D画面座標 : pos2d）を取得
 	VECTOR pos2d = ConvWorldPosToScreenPos(wpos);
@@ -195,7 +194,6 @@ void Scene_Base::SetNextScene(int next_scene)
 // --------------------------------------------------------------------------
 void Scene_Base::FadeOutUpdate()
 {
-
 	// フレームカウントが指定の値以上になったら
 	if (m_frame_count >= FLAME_MAX)
 	{

@@ -3,7 +3,6 @@
 //! @brief タイトルシーンのクラス
 class TitleScene : public Scene_Base
 {
-	//int effeckt_h;
 public:
 	// 初期処理
 	void Init()override;
@@ -26,10 +25,19 @@ public:
 	//! @param マウス感度
 	void OptionValuesReflect(int bgm, int se, int mouse)override;
 
-	//! @brief エリアBOXの初期設定
-	void SetAeraBoxSet();
+	//! @brief タイトルの更新処理
+	void TitleUpdate();
 
 private:
+	//! タイトル描画時間
+	static constexpr int TITLE_TIME_MAX = 5;
+	//! フレームカウントのマックス
+	static constexpr int  FLAME_MAX = 60;
+	//! フレームカウント用変数
+	int m_count_flame = 0;
+	//! フレームから実際の時間を割り出して入れる用の変数
+	int m_count_time = 0;
+
 	enum Title_se
 	{
 		DECISION, // タイトル画面で指定のボタンを押された時
@@ -50,54 +58,23 @@ private:
 		TITLE, // タイトル画面
 		MOVIE, // 動画画面
 	};
-
-	// 一定間隔で存在するエリアをまとめたもの（このエリアでテキストの進行も進める）
-	enum Area
-	{
-
-		story1, // ストーリー１
-		story2, // ストーリー２
-		story3, // ストーリー３
-		story4, // ストーリー４
-		story5, // ストーリー５
-		story6, // ストーリー6
-		next_scene, // 次のシーンに行くためのエリア
-
-		Area_Max
-	};
-
-	// ストーリーの数
-	static constexpr int STORY_NUM_MAX = next_scene;
-
-	// 画面切り替え用の変数
-	int m_title_scene = 0;
+	// タイトルシーンの状態を保存する変数（最初はタイトル状態から始める）
+	int m_title_mode_num = Title;
 
 	bool m_start_flag = false; // タイトル画面でボタンが押されたかどうかのフラグ
 
 	//! カメラクラスのオブジェクト
 	Camera camera;
+	
 
-	// エリア用のBOX
-	BoxCollision m_area_box[Area_Max];
-	// BOXの座標
-	Vector3 m_box_pos[Area_Max]
-	{
-		{0.0f, 50.0f, 750},
-		{0.0f, 50.0f, 650},
-		{0.0f, 30.0f, 550},
-		{0.0f, 30.0f, 450},
-		{0.0f, 0.0f, 350},
-		{0.0f, 0.0f, 250},
-		{0.0f, 0.0f, 150},
-	};
-	// BOXのサイズ（全部一緒）
-	Vector3 m_box_size;
-
-	// テキストオブジェクト
+	//! テキストオブジェクト
 	Text m_text;
-	// どのテキストファイルを開くか
+	//! どのテキストファイルを開くか
 	int m_text_num = 0;
 
-	// 何番のエリアと当たり判定があったかを保存する
-	int hit_area = 0;
+
+	//! プレイヤー動画用変数
+	int m_movie = 0;
+	//! 背景画像用の変数
+	int m_background_image = 0;
 };

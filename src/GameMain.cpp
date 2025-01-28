@@ -46,6 +46,7 @@
 
 #include "src/Scene/Base/Scene_Base.h"
 #include "src/Scene/TitleScene.h"
+#include "src/Scene/StoryScene.h"
 #include "src/Scene/QuestAreaScene.h"
 #include "src/Scene/GameScene.h"
 #include "src/Scene/EndScene.h"
@@ -71,7 +72,7 @@ void GameInit()
 
 	// オプションメニューの初期処理
 	option.Init();
-
+	
 	// とりあえず今はタイトルシーンをつけておく
 	scene = new TitleScene;
 	//scene = new QuestAreaScene;
@@ -102,6 +103,22 @@ void GameUpdate()
 			// シーンの変更フラグが立っていれば
 			if (scene->m_scene_change_judge) {
 				// 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
+				if (scene->m_next_scene == scene->Story)
+				{
+					scene->Exit();              // delete前に終了処理を回す
+					delete scene;               // 現在のシーンの削除
+					scene = new StoryScene; // 次のシーンをnewしておく
+					scene->Init();              // 次のシーンの初期処理もここで済ます
+				}
+
+			}
+			break;
+
+		case scene->Story:
+			scene->Update();
+			// シーンの変更フラグが立っていれば
+			if (scene->m_scene_change_judge) {
+				// 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
 				if (scene->m_next_scene == scene->QuestArea)
 				{
 					scene->Exit();              // delete前に終了処理を回す
@@ -109,7 +126,6 @@ void GameUpdate()
 					scene = new QuestAreaScene; // 次のシーンをnewしておく
 					scene->Init();              // 次のシーンの初期処理もここで済ます
 				}
-
 			}
 			break;
 

@@ -68,7 +68,7 @@ public:
 	//! @brief スクリーン座標に文字を描画するための座標を設定する関数
 	//! @param 設定したい座標
 	//! @param 設定した座標からどれだけずらしたいかの値(デフォルトでずらさないように設定しておく)
-	VECTOR DrawStringWrold(Vector3 pos, Vector3 shift_pos = { 0.0f,0.0f,0.0f });
+	VECTOR DrawStringWorld(Vector3 pos, Vector3 shift_pos = { 0.0f,0.0f,0.0f });
 
 	//! @brief 次に行いたいシーンをセットする関数
 	//! @param 次に行いたいシーン番号
@@ -122,15 +122,18 @@ public:
 	// すべてのシーン番号
 	enum Scene
 	{
-		Title,
-		QuestArea,
-		Battle,
-		End
+		Title, // タイトルシーン
+		Story, // ストーリーシーン
+		QuestArea, // クエスト受注シーン
+		Battle, // バトルシーン
+		End // エンドシーン
 	};
 	//! 現在のシーン
 	int m_now_scene = Title;
+
 	//! 次に行いたいシーン
 	int m_next_scene = -1;
+
 	//! 各シーンで行われる順番
 	enum SceneTurn
 	{

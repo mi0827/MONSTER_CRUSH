@@ -193,6 +193,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClCompile Include="src\Scene\EndScene.cpp" />
     <ClCompile Include="src\Scene\GameScene.cpp" />
     <ClCompile Include="src\Scene\QuestAreaScene.cpp" />
+    <ClCompile Include="src\Scene\StoryScene.cpp" />
     <ClCompile Include="src\Scene\TitleScene.cpp" />
     <ClCompile Include="src\Sound\BGM.cpp" />
     <ClCompile Include="src\Sound\SE.cpp" />
@@ -254,6 +255,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\Scene\EndScene.h" />
     <ClInclude Include="src\Scene\GameScene.h" />
     <ClInclude Include="src\Scene\QuestAreaScene.h" />
+    <ClInclude Include="src\Scene\StoryScene.h" />
     <ClInclude Include="src\Scene\TitleScene.h" />
     <ClInclude Include="src\Sound\BGM.h" />
     <ClInclude Include="src\Sound\SE.h" />
