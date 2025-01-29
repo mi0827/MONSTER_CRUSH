@@ -478,10 +478,8 @@ void QuestAreaScene::TalkUpdate()
 		// はいが選ばれた時の処理
 		if (m_select_num == 0)
 		{
-			// 次に行ってほしいシーンに移動
-			SetNextScene(Battle);
-			// シーン変更フラグを立てる
-			m_scene_change_judge = true;
+			// フェードアウト状態にする
+			m_turn = FadeOut;
 			// テキスト番号も初期化しておく
 			m_reception_text_line = 0;
 			break;

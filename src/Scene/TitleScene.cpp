@@ -72,27 +72,14 @@ void TitleScene::Update()
 	switch (m_turn)
 	{
 	case Main:
-		// カメラの向きを取得する
-		//m_camera_rot = camera.GetCameraRot();
-
-		// プレイヤーの更新処理
-		//m_player->Update(&m_camera_rot);
-
-		// フィールドとの当たり判定
-		//HitField();
-
-		// カメラの更新処理
-		//camera.MouseCamera(&m_player->m_transform.pos);
 
 		// タイトルシーンの更新処理
 		TitleUpdate();
 
-
-
 		break;
 	case FadeOut:
 		// フェードアウトの処理
-		FadeOutSceneChange(QuestArea);
+		FadeOutSceneChange(Story);
 		break;
 	}
 
@@ -249,10 +236,8 @@ void TitleScene::TitleUpdate()
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_RETURN))
 		{
-			// 次に行ってほしいシーンに移動
-			SetNextScene(Story);
-			// シーン変更フラグを立てる
-			m_scene_change_judge = true;
+			// フェードアウト状態する
+			m_turn = FadeOut;
 		}
 		break;
 
