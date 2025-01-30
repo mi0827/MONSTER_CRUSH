@@ -58,7 +58,7 @@ void TitleScene::Init()
 	// シャドーマップの設定
 	//ShadowMapInit();
 
-	m_background_image = LoadGraph("Data/Title/Title.jpg");
+	m_background_image = LoadGraph("Data/Title/Title.png");
 	// 現在のシーンの設定(タイトルシーン)
 	m_now_scene = Title;
 }
