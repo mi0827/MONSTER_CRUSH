@@ -343,32 +343,32 @@ void Mutant::DieUpdate()
 //-----------------------------------------------
 void Mutant::Draw()
 {
-	if (m_attack_flag)
-	{
-		if (AttackHitGoodTiming(m_now_attack))
-		{
-			//m_right_hand.Draw();
-			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-		}
-	}
+	//if (m_attack_flag)
+	//{
+	//	if (AttackHitGoodTiming(m_now_attack))
+	//	{
+	//		//m_right_hand.Draw();
+	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+	//	}
+	//}
 
-	if (m_jump_flag)
-	{
-		DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f,
-			GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
-	}
+	//if (m_jump_flag)
+	//{
+	//	DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f,
+	//		GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+	//}
 
 
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
-	m_body.Draw();
+	//m_body.Draw();
 	/*m_body.Draw();
 	m_left_hand.Draw();
 	m_right_hand.Draw();*/
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ (•`‰æ‚ðŒã‚É‚µ‚È‚¢‚Æ“–‚½‚è”»’è‚ª‚¿‚©‚¿‚©‚·‚é)
 	m_model.DrawModel(&m_transform);
-	m_left_hand.Draw();
+	/*m_left_hand.Draw();
 	m_right_hand.Draw();
-	m_attack_area.Draw();
+	m_attack_area.Draw();*/
 }
 
 //-----------------------------------------------

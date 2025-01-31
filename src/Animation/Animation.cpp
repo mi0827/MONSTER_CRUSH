@@ -149,7 +149,7 @@ void Animation::AttachAnimation(Model* model, int anim_num, bool loop)
 		m_contexts[0].animation_attach_index
 	);
 	// ブレンド率をゼロからスタートする
-	m_contexts[0].m_blend_ratio = 0.2;
+	m_contexts[0].m_blend_ratio = 0.2f;
 	// ループするかどうか
 	m_contexts[0].is_loop = loop;
 

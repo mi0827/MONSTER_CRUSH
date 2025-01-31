@@ -65,7 +65,7 @@ void Hero::Init()
 	// 向きの設定
 	SetCharacterRot({ 0,180.0f,0 });
 	// モデルのスケールの設定
-	m_transform.scale.set(0.1f, 0.1, 0.1);
+	m_transform.scale.set(0.1f, 0.1f, 0.1f);
 
 	// キャラクターモデル画像の読み込み
 	m_model.LoadModel("Data/Model/Hero/Hero.mv1");
@@ -258,7 +258,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 	case ROLLING: // ローリングアクションをしている時
 
 		// ローリングの更新処理
-		RollingActionUpdate(rolling, PLAYER_ROLLING_SPEED);
+		RollingActionUpdate(rolling, static_cast<int>(PLAYER_ROLLING_SPEED));
 		//SEUpdate(rolling_se_info);
 
 		//if (m_animation.m_contexts[0].is_playing == false /*m_rolling_flag == false*/)
@@ -508,10 +508,10 @@ void Hero::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 2.0f); //!< 剣攻撃１ 
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 2.0f); //!< 剣攻撃２
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 2.0f); //!< 剣攻撃３
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.7); //!< 剣攻撃４
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.7); //<! キック攻撃１
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.7); //<! キック攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.0);     //<! カウンター攻撃
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.7f); //!< 剣攻撃４
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.7f); //<! キック攻撃１
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.7f); //<! キック攻撃２
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.0f);     //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
