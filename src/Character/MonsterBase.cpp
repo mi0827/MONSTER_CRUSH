@@ -13,10 +13,12 @@
 #include "src/Effect/Effect.h"
 #include "src/System/UIBar.h"
 #include "src/Sound/Sound.h"
+#include "src/Camera.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/TargetMove.h"
 #include "src/Character/MonsterBase.h"
+
 
 
 // モンスター専用のキャラベースクラス
@@ -492,6 +494,39 @@ void MonsterBase::AttackActionComboUpdate()
 
 		break;
 	}
+}
+
+
+
+//---------------------------------------------------------------------------
+// 一定のダメージを受けた時に相手との距離をとる用の関数(咆哮攻撃)
+//---------------------------------------------------------------------------
+void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
+{
+	// HPがいって定数減ったら咆哮フラグを立てる
+
+	// フラグが立っている間だけ下の処理を行う
+	// 登場アニメーションのセット(ループさせない)
+	if (m_animation.ChangeFlag(true))
+	{
+		// 咆哮アニメーションをつける
+		m_animation.ChangeAnimation(&m_model, anim_num, false);
+	}
+	// 画面シェイクをする
+	camera->CameraShakeLimited(4.0f, 3.0f);
+	
+	// 咆哮用のSEの再生
+	SEUpdate(se_num);
+	// アニメーションが終わったら画面シェイクを終わる
+	if (m_animation.m_contexts[0].is_playing == false)
+	{
+		// 咆哮フラグを下げる
+
+	}
+
+	// 咆哮フラグが立っているときはほかの処理をできないようにする必要がある
+
+
 }
 
 

@@ -13,12 +13,15 @@
 #include "src/Effect/Effect.h"
 #include "src/System/UIBar.h"
 #include "src/Sound/Sound.h"
+#include "src/Camera.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/TargetMove.h"
 #include "src/Character/MonsterBase.h"
 
 #include "Mutant.h"
+
+
 
 namespace
 {

@@ -20,6 +20,7 @@
 #include "src/System/UIBar.h"
 #include "src/Effect/Effect.h"
 #include "src/Sound/Sound.h"
+#include "src/Camera.h"
 
 #include "src/Action/Combo.h"
 #include "src/System/Move.h"
@@ -41,7 +42,6 @@
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
 
-#include "src/Camera.h"
 
 #include "src/System/Text.h"
 

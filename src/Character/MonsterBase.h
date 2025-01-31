@@ -1,4 +1,7 @@
 #pragma once
+
+
+
 // モンスター専用のキャラベースクラス
 
 //! 
@@ -133,6 +136,12 @@ public:
 
 	//! @brief 攻撃関連の更新処理
 	void AttackActionComboUpdate();
+
+	//! @brief 一定のダメージを受けた時に相手との距離をとる用の関数(咆哮攻撃)
+	//! param 咆哮攻撃用のアニメーション番号
+	//! param seの番号
+	//! param カメラシェイクのためのカメラ
+	void RoarAction(int anim_num, int se_num, Camera* camera);
 
 	//! @brief ジャンプ攻撃開始の処理
 	//! @param ジャンプ用のアニメーション番号
