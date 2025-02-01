@@ -149,7 +149,7 @@ public:
 
 		attack_max
 	};
-
+	
 	//! コンボパターンの数
 	static const int M_COMBO_PATTERN_MAX = 6;
 	//! 各パターンのコンボの最大数
@@ -207,7 +207,7 @@ public:
 	//! 各攻撃のダメージ
 	int m_attack_damage[attack_max]
 	{
-		100,100,100,100,100,100,100,100,
+		50,50,50,50,50,50,50,50,
 	};
 
 	//! エフェクトの種類用の列挙体

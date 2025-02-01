@@ -173,6 +173,8 @@ void MonsterBase::BaseInit(int hp_num)
 {
 	// HP設定
 	m_hp_value = hp_num;
+	// HPの最大値
+	m_hp_max = hp_num;
 	// ジャンプ関連の設定
 	/*m_up_speed = up_speed;
 	m_down_speed = down_speed;*/
@@ -504,10 +506,10 @@ void MonsterBase::AttackActionComboUpdate()
 void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 {
 
-	int constant_hp = m_hp_max % 5;
+	int constant_hp = m_hp_max / 4;
 
 	// HPがいって定数減ったら咆哮フラグを立てる
-	if(m_hp_value <= constant_hp * m_roar_count)
+	if(m_hp_value < constant_hp * m_roar_count)
 	{
 		// 咆哮攻撃のカウントを下げる
 		m_roar_count--;
@@ -516,28 +518,35 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 		// ダメージを入れたいので攻撃フラグを立てる
 		m_attack_flag = true;
 		// モンスターの状態を攻撃状態にする
-		m_monster_mode = ATTACK;
+		//m_monster_mode = ATTACK;
+		// アニメーションが変更できるようにする
+		m_animation.m_anim_change_flag = true;
+		if (m_animation.ChangeFlag(true))
+		{
+			// 咆哮アニメーションをつける
+			m_animation.ChangeAnimation(&m_model, anim_num, false);
+		}
+		// 咆哮用のSEの再生
+		SEUpdate(se_num);
 	}
 
-
-
-	// フラグが立っている間だけ下の処理を行う
-	// 登場アニメーションのセット(ループさせない)
-	if (m_animation.ChangeFlag(true))
+	if (m_roar_flag)
 	{
-		// 咆哮アニメーションをつける
-		m_animation.ChangeAnimation(&m_model, anim_num, false);
-	}
-	// 画面シェイクをする
-	camera->CameraShakeLimited(4.0f, 3.0f);
+		// フラグが立っている間だけ下の処理を行う
+	    // 登場アニメーションのセット(ループさせない)
+		
+		// 画面シェイクをする
+		camera->CameraShakeLimited(4.0f, 3.0f);
 	
-	// 咆哮用のSEの再生
-	SEUpdate(se_num);
+	}
+
 	// アニメーションが終わったら画面シェイクを終わる
 	if (m_animation.m_contexts[0].is_playing == false)
 	{
 		// 咆哮フラグを下げる
-
+		m_roar_flag == false;
+		// モンスターの状態を攻撃状態にする
+		//m_monster_mode = IDLE;
 	}
 
 	// 咆哮フラグが立っているときはほかの処理をできないようにする必要がある

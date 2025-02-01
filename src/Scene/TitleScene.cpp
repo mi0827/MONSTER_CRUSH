@@ -249,10 +249,9 @@ void TitleScene::TitleUpdate()
 		// 指定の動画の再生状態を取得
 		if (GetMovieStateToGraph(m_movie))
 		{
-			// 画面の状態をタイトル状態にする
+		    // 画面の状態をタイトル状態にする
 			m_title_mode_num = TITLE;
-			// 再生中の動画を停止する
-			PauseMovieToGraph(m_movie);
+		
 		}
 	
 

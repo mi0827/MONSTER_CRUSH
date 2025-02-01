@@ -177,7 +177,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		m_animation.m_anim_change_flag = true;
 	}
 
-
+	// 咆哮攻撃の処理
+	RoarAction(shout_anim, roar_se_info, camera);
 
 	switch (m_monster_mode)
 	{
@@ -235,8 +236,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		}
 
 
-		// 咆哮攻撃の処理
-		RoarAction();
+		
+		if (m_roar_flag == true)
+		{
+			break;
+		}
 
 
 		// ジャンプフラグが立っているとき
@@ -271,6 +275,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			// 攻撃を始める
 			AttackActionComboUpdate();
 		}
+
 		// 攻撃のあったエフェクトの再生
 		// 攻撃のエフェクトがキック以外の時
 		// 攻撃時のエフェクトは攻撃とタイミングを合わせる

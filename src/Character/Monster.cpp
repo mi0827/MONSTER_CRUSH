@@ -76,7 +76,7 @@ void Monster::Init()
 //-----------------------------------------------
 // XVˆ—
 //-----------------------------------------------
-void Monster::Update(Transform* traget_pos, float target_r,CapsuleCollision body)
+void Monster::Update(Transform* traget_pos, float target_r,CapsuleCollision body, Camera* camera)
 {
 	clsDx();
 	BaseSetTarget(traget_pos, target_r,body);

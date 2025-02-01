@@ -76,7 +76,9 @@ public:
 	//! @brief 更新処理
 	//! @param 移動の時のターゲットの座標
 	//! @param ターゲットの半径
-	void Update(Transform* traget_pos, float target_r, CapsuleCollision body) override;
+	//! @param カメラオブジェクト
+	void Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera) override;
+
 	//! @brief 描画処理
 	void Draw() override;
 	//! @brief 終了処理

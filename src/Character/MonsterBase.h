@@ -348,7 +348,7 @@ public:
 	//! 咆哮攻撃用のフラグ
 	bool m_roar_flag = false;
 	//! 咆哮攻撃を何度したか
-	int m_roar_count= 5;
+	int m_roar_count= 3;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! モンスターの前方方向の攻撃エリア（このエリアに入ったら攻撃をする）

@@ -160,7 +160,7 @@ void GameScene::EntryUpdate()
 	// カメラの更新処理
 	camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 	monster->EntryUpdate();
-	// カメラシェイクを行う
+	// カメラシェイクを行う(カメラの更新処理の後でないとできない)
 	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
 
 	// フレームのカウントを増やす
@@ -194,6 +194,9 @@ void GameScene::EntryUpdate()
 //---------------------------------------------------------------------------
 void GameScene::GameUpdate()
 {
+	// カメラの更新処理
+	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
+
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
 	{
@@ -214,8 +217,7 @@ void GameScene::GameUpdate()
 		}
 	}
 
-	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
+	
 	// プレイヤーのHPが０になったら
 	if (m_player->m_hp_value <= 0)
 	{
@@ -362,7 +364,7 @@ void GameScene::Draw()
 
 
 	//SetFontSize(50);
-	/*static constexpr int color = 255;
+	static constexpr int color = 255;
 	DrawStringF(16, 250, "player_flag", color, 0);
 	DrawFormatString(16, 300, color, "Idle : %d", m_player->m_idle_flag);
 	DrawFormatString(16, 350, color, "Run : %d", m_player->m_run_flag);
@@ -377,7 +379,7 @@ void GameScene::Draw()
 	DrawFormatString(1500, 400, color, "Attack : %d", monster->m_attack_flag);
 	DrawFormatString(1500, 450, color, "Stun : %d", monster->m_stun_flag);
 	DrawFormatString(1500, 500, color, "StunNum : %3d", monster->m_stun_value);
-	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);*/
+	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);
 
 }
 
@@ -496,7 +498,7 @@ void GameScene::CharacterUpdate()
 	m_player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
-	monster->Update(&m_player->m_transform, m_player->m_hit_r,m_player->m_body);
+	monster->Update(&m_player->m_transform, m_player->m_hit_r,m_player->m_body, &camera);
 	// なぜかうまう行かない
 	//if (monster->m_run_flag)
 	//{
