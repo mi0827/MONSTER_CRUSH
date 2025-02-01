@@ -503,7 +503,23 @@ void MonsterBase::AttackActionComboUpdate()
 //---------------------------------------------------------------------------
 void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 {
+
+	int constant_hp = m_hp_max % 5;
+
 	// HPがいって定数減ったら咆哮フラグを立てる
+	if(m_hp_value <= constant_hp * m_roar_count)
+	{
+		// 咆哮攻撃のカウントを下げる
+		m_roar_count--;
+		// 咆哮攻撃フラグを上げる
+		m_roar_flag = true;
+		// ダメージを入れたいので攻撃フラグを立てる
+		m_attack_flag = true;
+		// モンスターの状態を攻撃状態にする
+		m_monster_mode = ATTACK;
+	}
+
+
 
 	// フラグが立っている間だけ下の処理を行う
 	// 登場アニメーションのセット(ループさせない)

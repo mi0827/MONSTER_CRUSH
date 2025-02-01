@@ -21,10 +21,16 @@ public:
 	//! @brief 更新処理
 	//! @param 移動の時のターゲットの座標
 	//! @param ターゲットの半径
-	//! @param ターゲットのbodyのカプセル
-	void Update(Transform* target_pos, float target_r, CapsuleCollision body) override;
+	//! @param ターゲットのbodyのカプセル（当たり判定）
+	//! @param カメラオブジェクト
+	void Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera) override;
+	
 	//! @brief 生きてる時の更新処理
-	void LiveUpdate(Transform* target_pos, float target_r) override;
+	//! @param ターゲットの座標
+	//! @param ターゲットの半径
+	//! @param カメラオブジェクト
+	void LiveUpdate(Transform* target_pos, float target_r,Camera* camera) override;
+	
 	//! @brief 死んだときの更新処理 
 	void DieUpdate() override;
 	//! @brief 描画処理

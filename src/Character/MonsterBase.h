@@ -25,11 +25,17 @@ public:
 	//! @brief 描画処理
 	virtual void Draw() = 0;
 	//! @brief 更新処理
-	virtual void Update(Transform* target_pos, float target_r, CapsuleCollision body) = 0;
+	//! @param 移動の時のターゲットの座標
+	//! @param ターゲットの半径
+	//! @param ターゲットのbodyのカプセル（当たり判定）
+	//! @param カメラオブジェクト
+	virtual void Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera) = 0;
+	
 	//! @brief 生きてる時の更新処理
 	//! @param ターゲットの座標
 	//! @param ターゲットの半径
-	virtual void LiveUpdate(Transform* target_pos, float target_r) = 0;
+	//! @param カメラオブジェクト
+	virtual void LiveUpdate(Transform* target_pos, float target_r, Camera* camera) = 0;
 
 	//! @brief 登場演出用の更新処理
 	virtual void EntryUpdate() = 0;
@@ -67,6 +73,7 @@ public:
 	//! @param ローリングアニメーション番号
 	//! @param ターゲットローリングアクションを行う
 	void SetRollingAction(int rolling_anim, int target_distance);
+
 	//! @brief ローリングアクション用の関数（回避）
 	//! @param ローリングしたときの移動スピード
     void ActionRolling(const int rolling_speed,float rolling_start_frame,float rolling_end_frame);
@@ -92,12 +99,15 @@ public:
 
 	//! @brief エフェクトの読み込みをまとめる関数
 	virtual void EffectLoadInit() = 0;
+
 	//! @brief エフェクトの更新処理
     //! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
 	virtual void EffectUpdate(int effect_num, int effect_info_num) = 0;
+
 	//! @brief SEの読み込み
 	virtual void SELoadInit() = 0;
+	
 	//! @brief SEの更新処理
 	//! @param 行いたいSE番号
 	virtual void SEUpdate(int se_num) = 0;
@@ -202,6 +212,20 @@ public:
 
 public:
 
+
+
+	//! モンスターの状態
+	enum MonsterMode
+	{
+		IDLE,      //!< 待機状態
+		RUN,       //!< 走り状態
+		ATTACK,    //!< 攻撃状態
+		STUN,      //!< スタン状態
+		DIE,       //!< 死ぬ
+	};
+	//! モンスターの状態を管理する変数
+	int m_monster_mode = 0;
+
 	//-----------------------------------------------
 	// 列挙体で管理
 	//-----------------------------------------------
@@ -218,15 +242,9 @@ public:
 	//! モンスターのに使用するフラグ
 	//! アイドル状態かのフラグ
 	bool m_idle_flag = false;
-	//! 走っていい以下のフラグ
-	bool m_run_flag = false;
-	//! 攻撃状態かどおかのフラグ
-	bool m_attack_flag = false;
 	//! 1フレーム前の攻撃フラグの状態を保存しておく
 	bool m_past_attack_flag = m_attack_flag;
-	//! 攻撃を受けた時のアニメーションを設定するための変数
-	//! なんかいもダメージを受けた時のアニメーションセットに入ってほしくないので作った
-	//! 本来はもっといい方法があると思う見つけたらそちらに変更
+	//! ダメージを受けた時用のフラグ
 	bool m_damage_anim_flag = false;
 	//! 当たり判定をとっていいかのフラグ
 	bool m_can_hit_damage_flag;
@@ -250,6 +268,8 @@ public:
 	//------------------------------------------
 	// Run関連
 	//------------------------------------------
+	//! 走っていい以下のフラグ
+	bool m_run_flag = false;
 	//! 壁擦り判定のためにいったん座標を保存しておく変数
 	Vector3 m_before_pos = { 0.0f,0.0f,0.0f };
 	//! 移動の際の当たり判定用のサイズ
@@ -266,6 +286,8 @@ public:
 	//------------------------------------------
 	// ステータス関連
 	//------------------------------------------
+	// HPの最大値
+	int m_hp_max;
 	// HPの残量
 	int m_hp_value;
 	// HP用のバー
@@ -306,20 +328,6 @@ public:
 	bool m_rolling_flag; 
 
 
-
-	//! モンスターの状態
-	enum MonsterMode
-	{
-		IDLE,        //!< 待機状態
-		RUN,         //!< 走り状態
-		ATTACK,    //!< 攻撃状態
-		STUN,       //!< スタン状態
-		DIE,          //!< 死ぬ
-	};
-	//! モンスターの状態を管理する変数
-	int m_monster_mode = 0;
-
-
 	//------------------------------------------
 	// 攻撃関連
 	//------------------------------------------
@@ -337,6 +345,12 @@ public:
 	int m_now_attack = -1;
 	//! コンボが何個目か
 	int m_combo_num = 0;
+	//! 咆哮攻撃用のフラグ
+	bool m_roar_flag = false;
+	//! 咆哮攻撃を何度したか
+	int m_roar_count= 5;
+	//! 攻撃状態かどおかのフラグ
+	bool m_attack_flag = false;
 	//! モンスターの前方方向の攻撃エリア（このエリアに入ったら攻撃をする）
 	CapsuleCollision m_attack_area;
 	Vector3 m_attack_area_1;

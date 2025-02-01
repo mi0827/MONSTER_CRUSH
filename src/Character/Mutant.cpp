@@ -95,7 +95,7 @@ void Mutant::Init()
 //-----------------------------------------------
 // 更新処理
 //-----------------------------------------------
-void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body)
+void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera)
 {
 
 	// プレイヤーではこれがないとバグるが
@@ -115,7 +115,7 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 	case alive: // 生きいるとき
 		// 移動先のターゲットの設定
 		BaseSetTarget(target_pos, target_r,body);
-		LiveUpdate(target_pos, target_r);
+		LiveUpdate(target_pos, target_r,camera);
 		// モンスターのHPがより多いい時
 		if (m_hp_value > 0)
 		{
@@ -162,7 +162,7 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 //-----------------------------------------------
 // 生きているときの更新処理
 //-----------------------------------------------
-void Mutant::LiveUpdate(Transform* target_pos, float target_r)
+void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 {
 
 	// スタン状態になるかならないか
@@ -233,6 +233,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r)
 		{
 			break;
 		}
+
+
+		// 咆哮攻撃の処理
+		RoarAction();
+
 
 		// ジャンプフラグが立っているとき
 		if (m_jump_flag)
