@@ -165,24 +165,30 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 {
 
-	// スタン状態になるかならないか
-	if (m_stun_value <= 0 && m_stun_flag == false)
-	{
-		// スタン状態に移動
-		m_monster_mode = STUN;
-		// スタンフラグを上げる
-		m_stun_flag = true;
-		m_attack_flag = false;
-		// アニメーション変更フラグを立てる
-		m_animation.m_anim_change_flag = true;
-	}
+	//// スタン状態になるかならないか
+	//if (m_stun_value <= 0 && m_stun_flag == false)
+	//{
+	//	// スタン状態に移動
+	//	m_monster_mode = STUN;
+	//	// スタンフラグを上げる
+	//	m_stun_flag = true;
+	//	m_attack_flag = false;
+	//	// アニメーション変更フラグを立てる
+	//	m_animation.m_anim_change_flag = true;
+	//}
 
 	// 咆哮攻撃の処理
-	RoarAction(shout_anim, roar_se_info, camera);
+	 RoarAction(shout_anim, roar_se_info, camera);
 
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+
+			// モンスターの状態を攻撃状態にする
+			m_monster_mode = IDLE;
+		}
 		IdleActionUpdate(idle_anim);
 		// カウントをリセットする
 		m_running_frame_count = 0;
@@ -234,14 +240,11 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		{
 			break;
 		}
-
-
 		
 		if (m_roar_flag == true)
 		{
 			break;
 		}
-
 
 		// ジャンプフラグが立っているとき
 		if (m_jump_flag)

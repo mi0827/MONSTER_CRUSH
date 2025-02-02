@@ -289,7 +289,7 @@ void MonsterBase::SetAttackAnimInfo(int attack_anim_start, int attack_anim_max, 
 void MonsterBase::IdleActionUpdate(int idle_anim_num)
 {
 	//Player_Mode(IDLE);
-			// アニメーション変更が可能な時に
+	// アニメーション変更が可能な時に
 	if (m_animation.ChangeFlag(m_idle_flag))
 	{
 		// アニメーションを停止に変更する
@@ -505,6 +505,24 @@ void MonsterBase::AttackActionComboUpdate()
 //---------------------------------------------------------------------------
 void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 {
+	if (m_roar_flag)
+	{
+		// フラグが立っている間だけ下の処理を行う
+		// 登場アニメーションのセット(ループさせない)
+
+		// 画面シェイクをする
+		camera->CameraShakeLimited(4.0f, 3.0f);
+
+		// アニメーションが終わったら画面シェイクを終わる
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+			// 咆哮フラグを下げる
+			m_roar_flag = false;
+			// モンスターの状態を攻撃状態にする
+			m_monster_mode = IDLE;
+		}
+	}
+
 
 	int constant_hp = m_hp_max / 4;
 
@@ -524,34 +542,13 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 		if (m_animation.ChangeFlag(true))
 		{
 			// 咆哮アニメーションをつける
-			m_animation.ChangeAnimation(&m_model, anim_num, false);
+		m_animation.ChangeAnimation(&m_model, anim_num, false);
 		}
 		// 咆哮用のSEの再生
 		SEUpdate(se_num);
 	}
 
-	if (m_roar_flag)
-	{
-		// フラグが立っている間だけ下の処理を行う
-	    // 登場アニメーションのセット(ループさせない)
-		
-		// 画面シェイクをする
-		camera->CameraShakeLimited(4.0f, 3.0f);
 	
-	}
-
-	// アニメーションが終わったら画面シェイクを終わる
-	if (m_animation.m_contexts[0].is_playing == false)
-	{
-		// 咆哮フラグを下げる
-		m_roar_flag == false;
-		// モンスターの状態を攻撃状態にする
-		//m_monster_mode = IDLE;
-	}
-
-	// 咆哮フラグが立っているときはほかの処理をできないようにする必要がある
-
-
 }
 
 
