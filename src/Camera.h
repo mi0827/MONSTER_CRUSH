@@ -28,6 +28,8 @@ public:
 	//! @param カメラの手毎側にいるターゲットの座標
 	//! @param カメラの奥側にいるターゲットの座標
 	void TargetCamera(Vector3* target_pos1, Vector3* target_pos2);
+	bool target_camera_on = false;
+
 
 	//! @brief どちらのカメラを使用するかの変更をか用の関数
 	//! @param どちらのカメラを使うか true : マウスカメラ、false : ターゲットカメラ
@@ -102,7 +104,7 @@ public:
 	// ターゲットカメラの振り向き速度
 	static constexpr float TARGET_ROT_SPEED = 2.5f;
 	// ターゲットカメラの振り向き可能範囲
-	static constexpr float RANGE = 200;
+	static constexpr float RANGE = 500;
 
 	//---------------
 	// 変数の定義

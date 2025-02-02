@@ -523,7 +523,7 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 		}
 	}
 
-
+	// モンスターのHPが一定数減ったら咆哮させたいので一定の値で割る
 	int constant_hp = m_hp_max / 4;
 
 	// HPがいって定数減ったら咆哮フラグを立てる
