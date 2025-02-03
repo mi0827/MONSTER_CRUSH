@@ -259,21 +259,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 
 		// ローリングの更新処理
 		RollingActionUpdate(rolling, static_cast<int>(PLAYER_ROLLING_SPEED));
-		//SEUpdate(rolling_se_info);
-
-		//if (m_animation.m_contexts[0].is_playing == false /*m_rolling_flag == false*/)
-		//{
-		//
-		//	// 次のSEを再生できるようにする
-		//	m_se.m_playing_flag = true;
-		//	// 再生中のSEを終わらせる
-		//	m_se.StopSe();
-		//}
-		// ローリングエf稀有と自体に問題があるかの可能性があるので一旦置いておく
-		//// エフェクト再生可能状態にしておく
-		//m_effect.m_play_effect_flag = true;
-		//// ローリング時のエフェクト
-		//EffectUpdate(rolling_effect, rolling_effect_info);
+		
 
 		break;
 	case COUNTER:
@@ -622,6 +608,7 @@ void Hero::PlayerMode(int mode)
 		break;
 	case ROLLING:
 		m_idle_flag = false;
+		m_attack_flag = false;
 		break;
 	case HIT_DAMAGE:
 		m_idle_flag = false;

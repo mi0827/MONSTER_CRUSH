@@ -241,6 +241,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			break;
 		}
 		
+		// ™ôšKUŒ‚’†‚Í‚Ù‚©‚Ìˆ—‚ğ‚µ‚Ä‚Ù‚µ‚­‚È‚¢
 		if (m_roar_flag == true)
 		{
 			break;

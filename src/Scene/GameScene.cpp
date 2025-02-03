@@ -653,7 +653,7 @@ void GameScene::CharacterKeepAway()
 	// 本来プレイヤーの移動スピードに対し少し早いスピードに使用と思っていた
 	// float keepaway_speed = m_player.MOVE + 1;
 
-	float keepaway_speed = 100.0f;
+	float keep_away_speed = 2.5f;
 
 	// モンスターとターゲット（プレイヤーとの距離）
 	float distance = monster->m_move.GetTargetDistance();
@@ -663,12 +663,10 @@ void GameScene::CharacterKeepAway()
 	if (monster->m_roar_flag)
 	{
 		// 一定の距離内の間だけ後退させる
-		if (distance <= 20.0f)
+		if (distance <= 120.0f)
 		{
- 			m_player->m_transform.pos.x += keepaway_speed * sinf(TO_RADIAN(m_player->m_transform.rot.y + 180));
-			m_player->m_transform.pos.z += keepaway_speed * cosf(TO_RADIAN(m_player->m_transform.rot.y + 180));
+ 			m_player->m_transform.pos.x += keep_away_speed * sinf(TO_RADIAN(m_player->m_transform.rot.y + 180));
+			m_player->m_transform.pos.z += keep_away_speed * cosf(TO_RADIAN(m_player->m_transform.rot.y + 180));
 		}
 	}
-
-
 }
