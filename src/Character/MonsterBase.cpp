@@ -544,6 +544,10 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 			// 咆哮アニメーションをつける
 		m_animation.ChangeAnimation(&m_model, anim_num, false);
 		}
+		// 再生中のSEを終わらせる
+		m_se.StopSound();
+		// 次のSEを再生できるようにする
+		m_se.m_playing_flag = true;
 		// 咆哮用のSEの再生
 		SEUpdate(se_num);
 	}

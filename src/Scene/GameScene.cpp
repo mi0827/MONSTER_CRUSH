@@ -197,12 +197,15 @@ void GameScene::GameUpdate()
 	// カメラの更新処理
 	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
 
+	
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
 	{
 		// キャラクターの更新処理
 		CharacterUpdate();
 	}
+
+	CharacterKeepAway();
 
 	// Tキーを押されたらカメラを変更する
 	if (PushHitKey(KEY_INPUT_T))
@@ -217,7 +220,7 @@ void GameScene::GameUpdate()
 		}
 	}
 
-	
+
 	// プレイヤーのHPが０になったら
 	if (m_player->m_hp_value <= 0)
 	{
@@ -291,7 +294,7 @@ void GameScene::EndUpdate()
 void GameScene::Draw()
 {
 	// 指定のシャドーマップのエリアを設定
-	SetShadowMapArea(m_shadowMap_handle_1,m_player->m_transform.pos);
+	SetShadowMapArea(m_shadowMap_handle_1, m_player->m_transform.pos);
 	SetShadowMapArea(m_shadowMap_handle_2, monster->m_transform.pos);
 
 	//-------------------------------------------------------------
@@ -312,7 +315,7 @@ void GameScene::Draw()
 	{
 		// フィールドの描画
 		m_field_2.Draw();
-			
+
 	}
 	// シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
@@ -493,12 +496,12 @@ void GameScene::CharacterUpdate()
 {
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
-	
+
 	// プレイヤーの更新処理
 	m_player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
-	monster->Update(&m_player->m_transform, m_player->m_hit_r,m_player->m_body, &camera);
+	monster->Update(&m_player->m_transform, m_player->m_hit_r, m_player->m_body, &camera);
 	// なぜかうまう行かない
 	//if (monster->m_run_flag)
 	//{
@@ -569,11 +572,11 @@ void GameScene::AttackUpdate()
 	}
 
 	//モンスターの攻撃
-	if (monster->m_monster_mode == monster->ATTACK&& monster->m_attack_flag)
+	if (monster->m_monster_mode == monster->ATTACK && monster->m_attack_flag)
 	{
 		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
 		int num = monster->m_now_attack;
-	
+
 		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
 		if (monster->AttackHitGoodTiming(num))
 		{
@@ -599,9 +602,9 @@ void GameScene::AttackUpdate()
 					// モンスターの当たり判定とダメージの設定はアニメーションがもっといいのが見つかったら
 					DamageCount(monster->m_attack_hit_damage[num]->attack_damage, 5, &m_player->m_hp_value);
 					// プレイヤーが攻撃受けた時の処理
-					m_player-> ComeAttackUpdate();
+					m_player->ComeAttackUpdate();
 					//--------------------------------------------
-					
+
 					// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 					hit_stop.StopCountReset();
 				}
@@ -639,4 +642,33 @@ void GameScene::VDMessage()
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
+}
+
+//---------------------------------------------------------------------------
+// モンスターの咆哮攻撃の際にプレイヤーを遠ざけるための処理
+//---------------------------------------------------------------------------
+void GameScene::CharacterKeepAway()
+{
+	// プレイヤーの移動速度より少し早いくらい
+	// 本来プレイヤーの移動スピードに対し少し早いスピードに使用と思っていた
+	// float keepaway_speed = m_player.MOVE + 1;
+
+	float keepaway_speed = 100.0f;
+
+	// モンスターとターゲット（プレイヤーとの距離）
+	float distance = monster->m_move.GetTargetDistance();
+
+
+	// モンスターが咆哮中に一定のスピードでキャラの座標を遠ざける
+	if (monster->m_roar_flag)
+	{
+		// 一定の距離内の間だけ後退させる
+		if (distance <= 20.0f)
+		{
+ 			m_player->m_transform.pos.x += keepaway_speed * sinf(TO_RADIAN(m_player->m_transform.rot.y + 180));
+			m_player->m_transform.pos.z += keepaway_speed * cosf(TO_RADIAN(m_player->m_transform.rot.y + 180));
+		}
+	}
+
+
 }

@@ -309,9 +309,9 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			}
 		}
 		
+		// 攻撃アニメーションが終わったから
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
-			// 攻撃アニメーションが終わったから
 			// 次のエフェクトが再生できるようにする
 			m_effect.m_play_effect_flag = true;
 			// 次のSEを再生できるようにする

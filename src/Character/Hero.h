@@ -84,11 +84,11 @@ public:
 	//-----------------------------------------------
 	// 定数の宣言
 	//-----------------------------------------------
-	static constexpr float  PLAYER_MOVE_SPEED = 2.0f; //! 移動スピード
-	static constexpr float  HERO_R = 5.0f;                   //! 回転スピード
+	static constexpr float  PLAYER_MOVE_SPEED = 2.0f;     //! 移動スピード
+	static constexpr float  HERO_R = 5.0f;                //! 回転スピード
 	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
-	static constexpr int HP_MAX = 100;                               //! HPの最大値
-	static constexpr int PLAYER_HIT_R = 1;                         //! プレイヤーの円の当たり半径の半径
+	static constexpr int HP_MAX = 100;                    //! HPの最大値
+	static constexpr int PLAYER_HIT_R = 1;                //! プレイヤーの円の当たり半径の半径
 	//-----------------------------------------------
 	// 列挙体の宣言
 	//-----------------------------------------------

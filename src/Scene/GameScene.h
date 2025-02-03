@@ -67,14 +67,23 @@ public:
 	//! @brief 勝敗が付いたらそれを知らせるメッセージを描画するための関数
 	void VDMessage();
 
-	
+	////! @brief モンスターの咆哮攻撃の際にプレイヤーを遠ざけるための処理
+	////! @param モンスターの咆哮中華のフラグ
+	////! @param モンスターの座標と向き
+	////! @param 遠ざけたいキャラの向きと座標
+	////! @param キャラクターの移動スピード
+	//void CharacterKeepAway(bool moster_roar_flag, Transform monster,Transform character,float character_move_speed);
+
+	//! @brief モンスターの咆哮攻撃の際にプレイヤーを遠ざけるための処理
+	void CharacterKeepAway();
+
 public:
 
 	//! カメラクラスのオブジェクト
 	Camera camera;
 
 	//! プレイヤーキャラ用のオブジェクト
-	//CharacterBase* player;
+	// CharacterBase* player;
 
 	//! モンスター用のオブジェクト
 	MonsterBase* monster;
@@ -144,6 +153,4 @@ public:
 	};
 	//! メッセージの描画座標
 	Vector2 m_massage_pos{ 0.0f,0.0f };
-
-
 };
