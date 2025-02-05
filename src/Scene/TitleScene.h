@@ -9,7 +9,6 @@ public:
 
 	// 更新処理
 	void Update()override;
-
 	// 描画処理
 	void Draw()override;
 
@@ -27,6 +26,8 @@ public:
 
 	//! @brief タイトルの更新処理
 	void TitleUpdate();
+
+	
 
 private:
 	//! タイトル描画時間

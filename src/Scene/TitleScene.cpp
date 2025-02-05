@@ -41,22 +41,10 @@ void TitleScene::Init()
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
 	// フィールドの初期化
-	m_field_1.Init();
+	// m_field_1.Init();
 
 	// カメラの初期設定
 	camera.PlayFieldInit();
-
-	//PlayerInit(hero);
-	//// プレイヤーの初期設定 
-	//m_player->Init();
-	//m_player->SetCharacterPos({ 0,0,750 });
-	//m_player->SetCharacterRot({ 0.0f,180.0f,0.0f });
-
-	// カメラの向きの設定
-	//camera.SetCameraRot(m_player->m_transform.rot);
-
-	// シャドーマップの設定
-	//ShadowMapInit();
 
 	m_background_image = LoadGraph("Data/Title/Title.png");
 	// 現在のシーンの設定(タイトルシーン)
@@ -91,77 +79,32 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 
-	//// プレイヤーのシャドーマップのエリアのセット
-	//SetShadowMapArea(m_shadowMap_handle_1, m_player->m_transform.pos);
-	////-------------------------------------------------------------
- //   // シャドウマップの作成（ここで各オブジェクトのシャドーマップの設定）
- //   //-------------------------------------------------------------
- //   // シャドウマップへの描画の準備
-	//ShadowMap_DrawSetup(m_shadowMap_handle_1);
-	//{
-	//	// プレイヤーの描画処理
-	//	m_player->Draw();
-	//}
-	//ShadowMap_DrawSetup(m_shadowMap_handle);
-	//{
-	//	// シャドウマップへキャラクターモデルの描画
-	//	m_field_1.Draw();
-	//}
-	//// シャドウマップへの描画を終了
-	//ShadowMap_DrawEnd();
-	////-------------------------------------------------------------
-	//// 各モデルの描画
-	////-------------------------------------------------------------
-	//// バックバッファに描画する
-	//SetDrawScreen(DX_SCREEN_BACK);
-	//
-	//// カメラの描画処理
-	//camera.Draw();
-	//
-	//// 空の描画
-	//SkyDraw();
-	//
-	//SetUseShadowMap(1, m_shadowMap_handle_1);
-	//{
-	//	// プレイヤーの描画処理
-	//	m_player->Draw();
-	//}
-	//// 描画に使用するシャドウマップを設定
-	//SetUseShadowMap(0, m_shadowMap_handle);
-	//{
-	//	// プレイヤーの描画処理
-	//	m_player->Draw();
-	//	// シャドウマップへキャラクターモデルの描画
-	//	m_field_1.Draw();
-	//}
-	//
-	//
-	//UseShadowMapSet();
-
-
 
 	//=============================================
 	// 仮でタイトルを描画
 	//=============================================
-
+	// 背景の描画
 	DrawExtendGraphF(0, 0, SCREEN_W, SCREEN_H, m_background_image, TRUE);
 
 	// フォントサイズの設定
-	//SetFontSize(80);
-	//const char* name = "モンスタークラッシュ" /*:: RENTER*/;
-	//// 描画幅の取得
-	//float w = GetDrawStringWidth(name, -1);
-	//// 文字列の高さの取得
-	//float h = GetFontSize();
-	// 描画座標
-	/*Vector2 draw_pos = { SCREEN_W / 2 - w / 2, 0 };
-	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));*/
-	/*name = "Push : W";
-	w = GetDrawStringWidth(name, -1);*/
-	//h = GetFontSize();
-	//draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
-	//// テキストファイルからのストーリーの描画
-	//m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
+	SetFontSize(150);
+	// タイトルの描画
+	const char* name = "モンスタークラッシュ";
+	// 描画幅の取得
+	float w = GetDrawStringWidth(name, -1);
+	// 文字列の高さの取得
+	float h = GetFontSize();
+	 // 描画座標
+	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h  };
+	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+
+	// どのボタンを押せば始まるかを描画
+	SetFontSize(100);
+	name = "SPACE";
+	w = GetDrawStringWidth(name, -1);
+	h = GetFontSize();
+	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2  + h* 2};
+	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 	// フェードの描画処理
 	FadeDraw();
 
@@ -253,10 +196,8 @@ void TitleScene::TitleUpdate()
 			m_title_mode_num = TITLE;
 		
 		}
-	
-
-	
 		break;
 	}
 }
+
 

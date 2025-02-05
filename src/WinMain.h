@@ -18,6 +18,9 @@
 #define SCREEN_W	1920//800//1280//1920
 #define SCREEN_H	1080//450//720 //1080
 
+
+
+
 #include "System/InputPad.h" // ゲームパッド
 
 // EffekseerForDXLib.hをインクルードします。
@@ -39,6 +42,10 @@ int GetMouseMoveY(); // Y座標
 // 固定されたマウスの移動量を取得
 int GetFixedMouseMoveX();// X座標
 int GetFixedMouseMoveY();// Y座標
+
+//! @brief  マウスの位置を固定するかを変動できるかを切り替えれる
+//! @param true : 変動可能、false : 固定化
+void ChangeMousePosMove(bool mouse_pos_flag);
 
 // 度をラジアンに変換する関数
 float TO_RADIAN(float degree);

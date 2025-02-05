@@ -69,6 +69,10 @@ void Option::Update()
 	// ボタンを押されたら
 	if (PushHitKey(KEY_INPUT_TAB))
 	{
+		// マウスの表示状態の設定
+		SetMouseDispFlag(TRUE);
+		// マウスの固定を解除する
+		ChangeMousePosMove(TRUE);
 		// オプションメニューを開く
 		m_option_flag = true;
 		// SE再生可能にしておく
@@ -80,6 +84,7 @@ void Option::Update()
 	// オプションメニューが開いているとき
 	if (m_option_flag)
 	{
+		
 		// SEの再生
 		if (m_se.m_playing_flag)
 		{
@@ -106,6 +111,11 @@ void Option::Update()
 			m_se.StopSound();
 			// SEの再生
 			SoundPlay(close_menu_se);
+
+			// マウスの表示状態の設定
+			SetMouseDispFlag(FALSE);
+			// マウスの固定を解除する
+			ChangeMousePosMove(FALSE);
 		}
 	}
 	// バーの更新処理

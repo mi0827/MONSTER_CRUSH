@@ -20,6 +20,10 @@ int NowMouseY;
 int BeforeMouseX;
 int BeforeMouseY;
 
+//! @brief  マウスを画面の真ん中に固定するかどうかのフラグ
+//! @brief true : 変動可能、 false : 固定する
+bool mouse_pos_middle_flag = false;
+
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -154,8 +158,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		BeforeMouseX = NowMouseX;
 		BeforeMouseY = NowMouseY;
-		//	マウス座標を設定する（画面の真ん中に固定する）
-		SetMousePoint(SCREEN_W/ 2, SCREEN_H / 2);
+
+		if (mouse_pos_middle_flag == false)
+		{
+			//	マウス座標を設定する（画面の真ん中に固定する）
+			SetMousePoint(SCREEN_W / 2, SCREEN_H / 2);
+		}
+		
 		
 		// １２：描画が完了したものを画面に映します
 		ScreenFlip();
@@ -295,6 +304,14 @@ int GetFixedMouseMoveY()
 	int fixed_y = SCREEN_H / 2;
 	move_y = GetMouseY() - fixed_y;
 	return move_y;
+}
+
+//---------------------------------------------------------------------------------
+//	マウスの位置を固定するかを変動できるかを切り替えれる
+//---------------------------------------------------------------------------------
+void ChangeMousePosMove(bool mouse_pos_flag)
+{
+	mouse_pos_middle_flag = mouse_pos_flag;
 }
 
 //---------------------------------------------------------------------------------
