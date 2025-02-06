@@ -11,7 +11,6 @@
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
 
-
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
@@ -502,12 +501,7 @@ void GameScene::CharacterUpdate()
 
 	// モンスターの更新処理
 	monster->Update(&m_player->m_transform, m_player->m_hit_r, m_player->m_body, &camera);
-	// なぜかうまう行かない
-	//if (monster->m_run_flag)
-	//{
-	//	// カメラシェイクを行う
-	//	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
-	//}
+	
 
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, m_player->m_body))
@@ -557,7 +551,7 @@ void GameScene::AttackUpdate()
 					{
 						// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 						hit_stop.StopCountReset();
-						// ヒットストップを受ける攻撃を受けたときにモンスターに方向をさせてプレイヤーを遠ざけるためのフラグが必要
+						// ヒットストップを受ける攻撃を受けたときにモンスターに咆哮をさせてプレイヤーを遠ざけるためのフラグが必要
 						//????
 
 					}

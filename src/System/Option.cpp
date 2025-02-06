@@ -1,5 +1,9 @@
 #include "src/WinMain.h"
-#include "Vector2.h"
+#include "src/System/Vector2.h"
+#include "src/System/Vector3.h"
+
+#include "src/Collision/CapsuleCollision.h"
+#include "src/Collision/BoxCollision.h"
 #include "UIBar.h"
 #include "src/Sound/Sound.h"
 #include "Option.h"
@@ -38,7 +42,7 @@ void Option::Init()
 	// 画像類の読み込み
 	m_image_box = LoadGraph("Data/Option/OptionMenu.png"); // 背景
 	m_operation_instructions_image = LoadGraph("Data/Option/Operationinstructions.jpg"); // 操作説明書
-	
+
 	// 各バーの設定
 	SetOptionMenu();
 	// 各オプションの値の設定
@@ -84,7 +88,6 @@ void Option::Update()
 	// オプションメニューが開いているとき
 	if (m_option_flag)
 	{
-		
 		// SEの再生
 		if (m_se.m_playing_flag)
 		{
@@ -195,6 +198,28 @@ void Option::MenuSelect()
 		}
 	}
 
+	// マウスでもメニューを選択できるようにする
+	if (CheckMouseInput(MOUSE_INPUT_LEFT))
+	{
+		// SEの再生
+		SoundPlay(selection_menu_se);
+
+		// マウスの座標を取得
+		float mouse_pos_x = float(GetMouseX());
+		float mouse_pos_y = float(GetMouseY());
+
+		// どのメニューと当たっているかを調べる
+		for (int i = 0; i < MENU_MAX; i++)
+		{
+			// 当たっていたもの選択状態にする
+			if (m_bra[i].HitPointBra(mouse_pos_x, mouse_pos_y))
+			{
+				m_selection_menu = i;
+			}
+		}
+	}
+
+
 }
 
 //----------------------------------------------
@@ -202,9 +227,9 @@ void Option::MenuSelect()
 //----------------------------------------------
 void Option::OpenMenuUpdate()
 {
-
 	// どのメニューを操作するかの選択
 	MenuSelect();
+
 	m_menu_count++; // カウントを増やす
 	// 選択されたメニューバーの値を増やす
 	if (PushHitKey(KEY_INPUT_D))
@@ -301,7 +326,6 @@ void Option::Draw()
 	{
 		// 背景画像
 		DrawExtendGraphF(m_option_box_pos.x, m_option_box_pos.y, m_option_box_pos.x + BOX_SIZE_X, m_option_box_pos.y + BOX_SIZE_Y, m_image_box, TRUE);  // オプションメニューの背景
-		
 
 		// デフォルトの文字の大きさを保存しておく
 		int original_font_size = GetFontSize();

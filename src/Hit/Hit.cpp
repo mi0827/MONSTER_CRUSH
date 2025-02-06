@@ -1,4 +1,5 @@
 #include "src/WinMain.h"
+#include "src/System/Vector2.h"
 #include "src/System/Vector3.h"
 #include "src/Model/Model.h"
 #include "src/Collision/CapsuleCollision.h"
@@ -40,18 +41,19 @@
 //	}
 //	return false;
 //}
-////---------------------------------------------------------------------------------
-////	“_‚ÆŽlŠp‚Ì“–‚½‚è”»’è
-////---------------------------------------------------------------------------------
-//bool CheckPointBoxHit(Vector2& point, Vector2& box_pos, Vector2& box_size)
-//{
-//	if (point.x >= box_pos.x && point.x <= box_pos.x + box_size.x) {
-//		if (point.y >= box_pos.y && point.y <= box_pos.y + box_size.y) {
-//			return true;
-//		}
-//	}
-//	return false;
-//}
+
+//---------------------------------------------------------------------------------
+//	“_‚ÆŽlŠp‚Ì“–‚½‚è”»’è
+//---------------------------------------------------------------------------------
+bool CheckPointBoxHit(Vector2& point, Vector2& box_pos, Vector2& box_size)
+{
+	if (point.x >= box_pos.x && point.x <= box_pos.x + box_size.x) {
+		if (point.y >= box_pos.y && point.y <= box_pos.y + box_size.y) {
+			return true;
+		}
+	}
+	return false;
+}
 
 //---------------------------------------------------------------------------------
 //	‹…“¯Žm‚Ì“–‚½‚è”»’è

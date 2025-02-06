@@ -10,6 +10,7 @@
 
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Collision/BoxCollision.h"
+#include "src/Hit/Hit.h"
 
 #include "src/System/UIBar.h"
 #include "src/Effect/Effect.h"

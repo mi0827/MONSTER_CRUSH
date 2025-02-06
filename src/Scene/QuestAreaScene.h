@@ -51,7 +51,7 @@ public:
 	//! @brief 会話パートの更新処理
 	void TalkUpdate();
 
-	//! @breif クエストを受けているときの更新処理
+	//! @brief クエストを受けているときの更新処理
 	void AcceptingQuestUpdate();
 
 	//! @brief 会話していない状態の描画処理
@@ -66,6 +66,8 @@ public:
 	//! @brief クエストを受けているときの描画処理
 	void AcceptingQuestDraw();
 
+	//! @brief ボット関連の更新処理
+	void BotUpdate();
 
 private:
 	// このシーンの状態を管理
@@ -96,9 +98,9 @@ private:
 	//! プレイヤーが会話中かどうか
 	bool m_talk_flag = false;
 
-	
-	
-	
+
+
+
 	//! 各テキストのフォントサイズ
 	static constexpr int TEXT_FONT_SIZE = 60;
 	////! 各テキストの何行目を呼んでいるのかを保存するための変数
@@ -117,7 +119,7 @@ private:
 	//! クエストエリアのテキスト
 	Text m_quest_area_text;
 	//! テキストの何行目を見ているのかを保存する変数
-	int m_quest_area_text_line; 
+	int m_quest_area_text_line;
 
 
 
@@ -238,8 +240,8 @@ private:
 
 
 	//---------------------------------------------
-    // 会話関連(謎の女、受付嬢)
-    //---------------------------------------------
+	// 会話関連(謎の女、受付嬢)
+	//---------------------------------------------
 	// 受付嬢の会話がどの状態なのかを管理
 	enum TalkMode
 	{
@@ -275,7 +277,9 @@ private:
 	Vector2 m_text_draw_pos;
 	// 目印の描画座標
 	Vector2 m_landmark_draw_pos;
-
-
-
+private:
+	//! ボットのオブジェクト
+	Bot m_bot;
+	//! ヒットストップ
+	HitStop m_hit_stop;
 };

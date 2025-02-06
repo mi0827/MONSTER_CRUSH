@@ -10,6 +10,7 @@
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/Hit/Hit.h"
+#include "src/Hit/HitStop.h"
 
 #include "src/System/UIBar.h"
 #include "src/Effect/Effect.h"
@@ -21,11 +22,15 @@
 #include "src/Character/SamplePlayer.h"
 #include "src/Character/Hero.h"
 #include "src/Character/Receptionist.h"
+#include "src/Character/Bot.h"
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h" 
 #include "src/Field/TitleField.h"
 #include "src/Field/Field.h"
+
+#include "src/System/DamageAction.h"
+#include "src/Action/Attack.h"
 
 #include "src/Camera.h"
 #include "src/System/Text.h"
@@ -82,6 +87,10 @@ void QuestAreaScene::Init()
 	receptionist.Init();
 	// 受付嬢と話せるエリアの設定
 	InitArea();
+
+	// ボットの初期化
+	m_bot.Init();
+
 	// シャドーマップの設定
 	ShadowMapInit();
 	// 現在のシーンの設定(クエスト受注シーン)
@@ -106,6 +115,7 @@ void QuestAreaScene::Update()
 		camera.MouseCamera(&m_player->m_transform.pos);
 		// メインで行う処理をこのシーンの状態に合わせて処理を分け実行する関数
 		QuestAreaUpdate();
+
 
 		break;
 	case FadeOut:
@@ -163,6 +173,8 @@ void QuestAreaScene::Draw()
 		m_player->Draw();
 		// 受付嬢の描画
 		receptionist.Draw();
+		// ボット
+		m_bot.Draw();
 	}
 	SetUseShadowMap(2, m_shadowMap_handle_2);
 	{
@@ -366,9 +378,13 @@ void QuestAreaScene::ModeNormalUpdate()
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
 
-	// プレイヤーの更新処理
-	m_player->Update(&m_camera_rot);
-
+	
+	// ヒットストップのタイミング以外
+	if (m_hit_stop.CheckHitStop() == false)
+	{
+		// プレイヤーの更新処理
+		m_player->Update(&m_camera_rot);
+	}
 	// 受付嬢のの更新処理
 	receptionist.Update();
 
@@ -377,6 +393,10 @@ void QuestAreaScene::ModeNormalUpdate()
 	{
 		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
 	}
+	
+	// ボットの更新処理
+	BotUpdate();
+
 	// フィールドとキャラクターの当たり判定
 	HitField();
 	// 目印を写すかの処理
@@ -385,7 +405,6 @@ void QuestAreaScene::ModeNormalUpdate()
 	// プレイヤーが受付嬢と話せる範囲に入ったかの確認
 	if (CheckCapsuleHit(m_area, m_player->m_body))
 	{
-
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_F))
 		{
@@ -719,6 +738,57 @@ void QuestAreaScene::AcceptingQuestDraw()
 		m_quest_text.TextDraw(5, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
 }
+
+//------------------------------------------
+// ボット関連の更新処理
+//------------------------------------------
+void QuestAreaScene::BotUpdate()
+{
+	// ボットとプレイヤーの移動の当たり判定
+	if (CheckCapsuleHit(m_bot.m_body, m_player->m_body))
+	{
+		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_bot.m_body);
+	}
+
+	// プレイヤーが攻撃してきた時
+	if (m_player->m_attack_flag)
+	{
+		// playerの攻撃の時に取りたい当たり判定とモンスターの体との当たり判定をとる
+		int num = m_player->m_now_attack;
+		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
+		if (m_player->AttackHitGoodTiming(num))
+		{
+			// モンスターのボディーとの当たり判定をとる
+			if (HitAttack(m_bot.m_body, m_player->m_attack_hit_damage[num]->attack_hit) == true)
+			{
+				// 当たり判定があったら一回だけこの処理を通るようにする
+				// ダメージ処理を行っていいフラグが上がっていたら
+				if (m_player->m_can_hit_damage_flag)
+				{
+					// 一回だけ通ってほしいからフラグを下げる
+					m_player->m_can_hit_damage_flag = false;
+
+					// ボットが攻撃受けた時の処理
+					m_bot.Update();
+					
+					// ヒットストップを行っていいいタイミングだけ行う
+					if (m_player->m_attack_hit_damage[num]->can_hit_stop)
+					{
+						// ダメージが入ったタイミングでヒットストップのカウントをリセットする
+						m_hit_stop.StopCountReset();
+					}
+				}
+			}
+		}
+		else
+		{
+			// 当たり判定をとれないときにフラグを戻す
+			m_player->m_can_hit_damage_flag = true;
+		}
+	}
+
+}
+
 
 
 

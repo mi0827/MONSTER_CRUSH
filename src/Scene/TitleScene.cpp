@@ -177,7 +177,7 @@ void TitleScene::TitleUpdate()
 		//	title_bgm.Play_BGM(DX_PLAYTYPE_LOOP, true, TITLE_BGM);
 		//}
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_RETURN))
+		if (PushHitKey(KEY_INPUT_SPACE))
 		{
 			// フェードアウト状態する
 			m_turn = FadeOut;

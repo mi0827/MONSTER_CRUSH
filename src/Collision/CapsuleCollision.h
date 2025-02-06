@@ -2,7 +2,7 @@
 
 //! @file CapsuleCollision.h
 //! @brief カプセルコンポーネントのクラス
-
+#include "src/Model/Model.h"
 
 class CapsuleCollision
 {

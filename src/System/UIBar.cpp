@@ -1,5 +1,11 @@
 #include "src/WinMain.h"
 #include "src/System/Vector2.h"
+#include "src/System/Vector3.h"
+#include "src/System/Transform.h"
+#include "src/Model/Model.h"
+#include "src/Collision/CapsuleCollision.h"
+#include "src/Collision/BoxCollision.h"
+#include "src/Hit/Hit.h"
 #include "UIBar.h"
 
 //-----------------------------------------------
@@ -124,5 +130,19 @@ void UIBra::Draw()
 		DrawString(m_back_pos1.x + 5, m_back_pos1.y, m_name, m_character_color);
 		// フォントのサイズをもとのサイズに戻す
 		SetFontSize(font_size);
+	}
+}
+
+bool UIBra::HitPointBra(float pos_x, float pos_y)
+{
+	// ポイントの座標
+	Vector2 point_pos = { pos_x,pos_y };
+	if (CheckPointBoxHit(point_pos, m_line_pos1, m_line_pos2))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }

@@ -33,6 +33,12 @@ public:
 	//! @brief 描画用関数
 	void Draw();
 
+	//! @brief バーと点との当たり判定を返す
+	//! @param x座標
+	//! @param y座標
+	//! @return true : ヒットしている、false : ヒットしていない
+	bool HitPointBra(float pos_x, float pos_y);
+
 public:
 	//! 設定したい数値を保存する変数
 	int m_value = 0;

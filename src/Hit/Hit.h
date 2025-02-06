@@ -1,4 +1,13 @@
 #pragma once
+#include "src/System/Vector2.h"
+
+//! @brief 点と四角の当たり判定
+//! @param 点の座標
+//! @param ボックスの座標
+//! @param ボックスのサイズ
+//! @return true : 当たった、false : 当たっていない
+bool CheckPointBoxHit(Vector2& point, Vector2& box_pos, Vector2& box_size);
+
 
 //! @brief 球同士の当たり判定
 //! @param 球の座標１
