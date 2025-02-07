@@ -204,6 +204,7 @@ void GameScene::GameUpdate()
 		CharacterUpdate();
 	}
 
+	// モンスターが咆哮攻撃をしてきたときにプレイヤーを遠ざけるための処理
 	CharacterKeepAway();
 
 	// Tキーを押されたらカメラを変更する

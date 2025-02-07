@@ -350,6 +350,42 @@ void QuestAreaScene::LandMarkUpdate()
 //------------------------------------------
 void QuestAreaScene::QuestAreaUpdate()
 {
+	// ゲームが進んでいる間フレームをカウントし続ける
+
+	if (m_blend_flag)
+	{
+		m_frame_count++;
+		if (m_frame_count >= 10)
+		{
+			m_frame_count = 0;
+			m_blend_flag = false;
+		}
+	}
+	else
+	{
+		if (m_blend_change_flag)
+		{
+			m_text_blend_value += 10;
+			if (m_text_blend_value >= TEXT_BLEND_MAX)
+			{
+				m_blend_flag = true;
+				m_blend_change_flag = false;
+			}
+		}
+		else
+		{
+			m_text_blend_value -= 10;
+			if (m_text_blend_value <= TEXT_BLEND_MIN)
+			{
+				m_blend_flag = true;
+				m_blend_change_flag = true;
+			}
+		}
+	}
+
+
+
+
 	switch (scene_mode_num)
 	{
 	case normal:// 会話していない状態
@@ -378,7 +414,7 @@ void QuestAreaScene::ModeNormalUpdate()
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
 
-	
+
 	// ヒットストップのタイミング以外
 	if (m_hit_stop.CheckHitStop() == false)
 	{
@@ -393,7 +429,7 @@ void QuestAreaScene::ModeNormalUpdate()
 	{
 		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
 	}
-	
+
 	// ボットの更新処理
 	BotUpdate();
 
@@ -432,7 +468,7 @@ void QuestAreaScene::TalkStart()
 		// 先ほどの会話の続きからになるように受付嬢のテキストの行を設定する
 		m_reception_text_line = 3;
 	}
-	
+
 	// シーンの状態を会話中に移動
 	scene_mode_num = receptionist_talk;
 
@@ -485,7 +521,7 @@ void QuestAreaScene::TalkUpdate()
 				m_select_num = 1;
 			}
 		}
-	
+
 		if (m_reception_text_line >= 4)
 		{
 			// 次の会話モードに移動させておく
@@ -502,7 +538,7 @@ void QuestAreaScene::TalkUpdate()
 			// テキスト番号も初期化しておく
 			m_reception_text_line = 0;
 			break;
-		} 
+		}
 		else // いいえが選ばれた時の処理を分ける
 		{
 			if (m_reception_text_line >= 6)
@@ -678,6 +714,17 @@ void QuestAreaScene::TalkDraw()
 	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
 	m_reception_text.TextDraw(m_reception_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_STORY_BACK_SIZE);
 
+	// ストーリーを進行キーの描画
+	const char text[256] = "SPACE";
+	float x = GetDrawStringWidth(text, -1);
+	// テキストバーの端っこからテキスト分引いた位置に設定
+	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
+	// このキーを描画するのだけ透明度を変更し続ける
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
+	DrawString(draw_pos_x, m_text_draw_pos.y + h, "SPACE", GetColor(255, 128, 50));
+	// 暗さの変更
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
+
 	// 誰が話しているかの描画
 	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
 }
@@ -737,6 +784,18 @@ void QuestAreaScene::AcceptingQuestDraw()
 		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
 		m_quest_text.TextDraw(5, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
+
+	// ストーリーを進行キーの描画
+	const char text[256] = "SPACE";
+	float x = GetDrawStringWidth(text, -1);
+	// テキストバーの端っこからテキスト分引いた位置に設定
+	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
+	// このキーを描画するのだけ透明度を変更し続ける
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
+	DrawString(draw_pos_x, m_text_draw_pos.y , "SPACE", GetColor(255, 128, 50));
+	// 暗さの変更
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
+
 }
 
 //------------------------------------------
@@ -770,7 +829,7 @@ void QuestAreaScene::BotUpdate()
 
 					// ボットが攻撃受けた時の処理
 					m_bot.Update();
-					
+
 					// ヒットストップを行っていいいタイミングだけ行う
 					if (m_player->m_attack_hit_damage[num]->can_hit_stop)
 					{

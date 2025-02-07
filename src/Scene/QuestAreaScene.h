@@ -94,18 +94,24 @@ private:
 	CapsuleCollision m_area;
 	//! 話せるエリアに入ったか入っていないかのフラグ
 	bool m_area_hit = false;
-
 	//! プレイヤーが会話中かどうか
 	bool m_talk_flag = false;
-
-
-
-
 	//! 各テキストのフォントサイズ
-	static constexpr int TEXT_FONT_SIZE = 60;
-	////! 各テキストの何行目を呼んでいるのかを保存するための変数
-	//int m_reception_text_line;
-	//　クエストエリアでのテキストの数
+	static constexpr int TEXT_FONT_SIZE = 30;
+	//! フォントの透明度の最大値
+	static constexpr int TEXT_BLEND_MAX = 255;
+	//! フォントの透明度の最小値
+	static constexpr int TEXT_BLEND_MIN = 0;
+	//! ブレンド率を変更するための変数
+	int m_text_blend_value = 0;
+	//! フレームをカウントするためのもの
+	int m_frame_count = 0;
+	//! ブレンド率が上限、下限に達したときを判断するためのフラグ
+	//! true : 達した、false : 達していない
+	bool m_blend_flag = false;
+	//! ブレンド率を上げるか下げるかのフラグ
+	//! true : 増やす、false : 減らす
+	bool m_blend_change_flag = true;
 
 	//-------------------------------------------------
 	// プレイヤーに何をしたらいいかを促すテキスト関連
@@ -278,8 +284,10 @@ private:
 	// 目印の描画座標
 	Vector2 m_landmark_draw_pos;
 private:
+
 	//! ボットのオブジェクト
 	Bot m_bot;
+
 	//! ヒットストップ
 	HitStop m_hit_stop;
 };
