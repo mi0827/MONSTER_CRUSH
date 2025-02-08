@@ -118,9 +118,7 @@ void GameScene::Init()
 void GameScene::Update()
 {
 
-	// フィールドとの当たり判定
-	// 一旦当たり判定を切っておく
-	HitField();
+	
 
 	// ゲームシーンの中でどの場面かによって処理を変える
 	switch (m_what_scene)
@@ -138,7 +136,9 @@ void GameScene::Update()
 		EndUpdate();
 		break;
 	}
-
+	// フィールドとの当たり判定
+	// 一旦当たり判定を切っておく
+	HitField();
 
 	// Xキーを押された時にシーンの変更をする（今だけの仮）
 	if (PushHitKey(KEY_INPUT_RETURN))
@@ -647,7 +647,6 @@ void GameScene::CharacterKeepAway()
 	// プレイヤーの移動速度より少し早いくらい
 	// 本来プレイヤーの移動スピードに対し少し早いスピードに使用と思っていた
 	// float keepaway_speed = m_player.MOVE + 1;
-
 	float keep_away_speed = 2.5f;
 
 	// モンスターとターゲット（プレイヤーとの距離）

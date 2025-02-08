@@ -72,6 +72,12 @@ void Field::Draw()
 		m_field_object[i].model.DrawModel(&m_field_object[i].transform);
 	}
 	
+
+	/*for (int i = 0; i < STONE_MAX; i++)
+	{
+		m_hit_stone[i].Draw(GetColor(255, 0, 0), GetColor(255, 0, 0));
+	}
+	*/
 }
 
 //---------------------------------------------------------------------------
@@ -314,18 +320,18 @@ void Field::FenceInit()
 
 
 	// “–‚½‚è”»’è‚ÌÝ’è
-	m_hit_fence[fence1 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence1].transform.pos, { 5.0f,20.0f,60.0f });
+	m_hit_fence[fence1 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence1].transform.pos, { 7.0f,20.0f,60.0f });
 
-	m_hit_fence[fence2 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence2].transform.pos, { 70.0f, 20.0f,5.0f });
-	m_hit_fence[fence3 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence3].transform.pos, { 70.0f, 20.0f,5.0f });
+	m_hit_fence[fence2 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence2].transform.pos, { 70.0f, 20.0f,7.0f });
+	m_hit_fence[fence3 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence3].transform.pos, { 70.0f, 20.0f,7.0f });
 
-	m_hit_fence[fence4 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence4].transform.pos, { 5.0f,20.0f,40.0f });
-	m_hit_fence[fence5 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence5].transform.pos, { 5.0f,20.0f,60.0f });
-	m_hit_fence[fence6 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence6].transform.pos, { 5.0f,20.0f,60.0f });
+	m_hit_fence[fence4 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence4].transform.pos, { 7.0f,20.0f,40.0f });
+	m_hit_fence[fence5 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence5].transform.pos, { 7.0f,20.0f,60.0f });
+	m_hit_fence[fence6 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence6].transform.pos, { 7.0f,20.0f,60.0f });
 
-	m_hit_fence[fence7 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence7].transform.pos, { 40.0f,20.0f,5.0f });
-	m_hit_fence[fence8 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence8].transform.pos, { 60.0f,20.0f,5.0f });
-	m_hit_fence[fence9 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence9].transform.pos, { 60.0f,20.0f,5.0f });
+	m_hit_fence[fence7 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence7].transform.pos, { 40.0f,20.0f,7.0f });
+	m_hit_fence[fence8 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence8].transform.pos, { 60.0f,20.0f,7.0f });
+	m_hit_fence[fence9 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence9].transform.pos, { 60.0f,20.0f,7.0f });
 }
 
 //---------------------------------------------------------------------------

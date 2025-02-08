@@ -104,13 +104,13 @@ public:
 	//! @brief 終了処理
 	void Exit()override;
 
-	//! @brinf オブジェクトの座標、サイズの初期設定
+	//! @brief オブジェクトの座標、サイズの初期設定
 	void ObjectInit()override;
-	//! @brinf 木のオブジェクトの初期設定関数
+	//! @brief 木のオブジェクトの初期設定関数
 	void TreeInit();
-	//! @brinf フェンスのオブジェクトの初期設定
+	//! @brief フェンスのオブジェクトの初期設定
 	void FenceInit();
-	//! @brinf 石のオブジェクトの初期設定
+	//! @brief 石のオブジェクトの初期設定
 	void StoneInit();
 
 	//---------------

@@ -137,7 +137,7 @@ bool UIBra::HitPointBra(float pos_x, float pos_y)
 {
 	// ポイントの座標
 	Vector2 point_pos = { pos_x,pos_y };
-	if (CheckPointBoxHit(point_pos, m_line_pos1, m_line_pos2))
+	if (CheckPointBoxHit(point_pos, m_pos1, m_size))
 	{
 		return true;
 	}

@@ -79,7 +79,14 @@ void EndScene::Init()
 	// エンドシーンで使う用のテキストの読み込み
 	m_text.LoadText("Data/Text/End.txt", text_max);
 
+	// マウスの表示状態の設定
+	SetMouseDispFlag(TRUE);
+	// マウスの固定を解除する
+	ChangeMousePosMove(TRUE);
 
+	// SEの初期化
+	m_se.NewArraySecureSound(se_max);
+	m_se.LoadSound("Data/SE/menu_selection.mp3", se_1); // 各メニューを選択しているとき
 }
 
 
@@ -88,9 +95,14 @@ void EndScene::Init()
 //------------------------------------------
 void EndScene::Update()
 {
+	// プレイヤーの少し上にカメラを配置するための変数
+	Vector3 target_pos;
 
+	// マウスの座標を取得
+	Vector2 mouse_pos = { float(GetMouseX()),float(GetMouseY()) };
 
-
+	// どのメニューと当たっているかを調べる
+	Vector2 pos2;
 	switch (m_turn)
 	{
 	case Main:
@@ -99,34 +111,65 @@ void EndScene::Update()
 		// プレイヤーの更新処理
 		m_player->Update(&m_camera_rot);
 		// カメラの更新処理
-		camera.MouseCamera(&m_player->m_transform.pos);
+		target_pos = { m_player->m_transform.pos.x,m_player->m_transform.pos.y + 20,m_player->m_transform.pos.z };
+		camera.MoveCamera(&target_pos, 10, true);
 
-		// エンターを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_RSHIFT))
+		for (int i = 0; i < text_max; i++)
 		{
-			// 次の移動先のシーンをタイトルシーン設定
-			m_change_scene = Title;
-			m_turn = FadeOut;
+			pos2 = { m_text_draw_pos[i].x + m_text.END_BACK_SIZE,  m_text_draw_pos[i].y + GetFontSize() };
+			// 当たっていたもの選択状態にする
+			if (CheckPointBoxHit(mouse_pos, m_text_draw_pos[i], pos2))
+			{
+				// 当たり判定のあったほうを選択状態する
+				m_select_num = i;
+				// あったているフラグを立てる
+				m_hit_select_flag = true;
+				break;
+			}
+			else
+			{
+				m_hit_select_flag = false;
+			}
 		}
-
-		// エンターを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_RETURN) && CheckHitKey(KEY_INPUT_LSHIFT))
+		
+		// マウスが選択マスにあったているとき
+		if (m_hit_select_flag)
 		{
-			// 次の移動先のシーンをクエスト受付エリアに設定
-			m_change_scene = QuestArea;
-			m_turn = FadeOut;
+			if (CheckMouseInput(MOUSE_INPUT_LEFT))
+			{
+				// SEの再生
+				SoundPlay(se_1);
+				// 選択完了フラグを上げる
+				m_start_flag = true;
+			}
+		}
+		// 選択したら
+		if (m_start_flag)
+		{
+			switch (m_select_num)
+			{
+			case text1: // タイトルに戻る
+				m_change_scene = Title;
+				m_turn = FadeOut;
+				m_start_flag = false;
+				break;
+			case text2: // クエスト選択画面にい戻る
+				m_change_scene = QuestArea;
+				m_turn = FadeOut;
+				m_start_flag = false;
+				break;
+			}
 		}
 		break;
 	case FadeOut:
+
 		// フェードアウトの処理
 		FadeOutSceneChange(m_change_scene);
 		break;
 	}
 
-
 	// フィールドとキャラクターのあたい判定
 	HitField();
-
 }
 
 //------------------------------------------
@@ -149,7 +192,7 @@ void EndScene::Draw()
 	}
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
-		
+
 		// シャドウマップへキャラクターモデルの描画
 		m_field_2.Draw();
 	}
@@ -187,20 +230,26 @@ void EndScene::Draw()
 	}
 	UseShadowMapSet();
 
-	
+
 	// フォントサイズの設定
 	SetFontSize(60);
 
 	// 文字列の高さの取得
 	float h = GetFontSize();
 	// 描画座標
-	Vector2 draw_pos = { (SCREEN_W / 2 - m_text.END_BACK_HALF_SIZE),(SCREEN_H - h * text_max - m_text.CREVICE_SIZE) };
-
+	Vector2 box_pos;
+	// どちらを選択しているかの外枠
+	box_pos.set(m_text_draw_pos[m_select_num].x - 30, m_text_draw_pos[m_select_num].y - 30);
+	if (m_hit_select_flag)
+	{
+		DrawBox(box_pos.x, box_pos.y, box_pos.x + m_text.END_BACK_SIZE + 70, box_pos.y + h + 70, GetColor(255, 255, 0), TRUE);
+	}
+	
+	// テキストの描画
 	for (int i = 0; i < text_max; i++)
 	{
-		m_text.TextDraw(i, { draw_pos.x,draw_pos.y + h * i }, m_text.END_BACK_SIZE);
+		m_text.TextDraw(i, m_text_draw_pos[i], m_text.END_BACK_SIZE);
 	}
-
 
 	// フェードの描画
 	FadeDraw();
@@ -214,10 +263,15 @@ void EndScene::Exit()
 {
 	//　シャドーマップの削除
 	ExitShadowMap();
-	
+
 	m_player->Exit();
 	// プレイヤークラスはポインタなので最後に開放する
 	delete m_player;
+
+	// マウスの表示状態の設定
+	SetMouseDispFlag(FALSE);
+	// マウスの固定する
+	ChangeMousePosMove(FALSE);
 }
 
 //------------------------------------------
@@ -269,5 +323,25 @@ void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
+}
+
+//----------------------------------------------
+// サウンドの再生
+//----------------------------------------------
+void EndScene::SoundPlay(int se_num)
+{
+	// メニュー画面ではボタン連打があるため
+	// 再生中にからならないために再生中のものを消してい空付きのを鳴らす
+	// SEが再生中でなければ
+	if (m_se.PlayingSound())
+	{
+		// SE再生可能にしておく
+		m_se.m_playing_flag = true;
+		// 現在再生中のSEを止める
+		m_se.StopSound();
+	}
+	// SEの再生
+	m_se.PlaySound_(se_num, DX_PLAYTYPE_BACK, true);
+	m_se.m_playing_flag = false;
 }
 

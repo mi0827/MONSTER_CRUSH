@@ -201,8 +201,7 @@ void Option::MenuSelect()
 	// マウスでもメニューを選択できるようにする
 	if (CheckMouseInput(MOUSE_INPUT_LEFT))
 	{
-		// SEの再生
-		SoundPlay(selection_menu_se);
+		
 
 		// マウスの座標を取得
 		float mouse_pos_x = float(GetMouseX());
@@ -215,6 +214,8 @@ void Option::MenuSelect()
 			if (m_bra[i].HitPointBra(mouse_pos_x, mouse_pos_y))
 			{
 				m_selection_menu = i;
+				// SEの再生
+				SoundPlay(selection_menu_se);
 			}
 		}
 	}

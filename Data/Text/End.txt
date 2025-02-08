@@ -1,5 +1,3 @@
 タイトルに戻る
-RightShift + Enter 
 クエストエリアに戻る
- LeftShift + Enter
 これがないとエラーになる
