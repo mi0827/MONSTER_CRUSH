@@ -165,17 +165,27 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 {
 
-	//// スタン状態になるかならないか
-	//if (m_stun_value <= 0 && m_stun_flag == false)
-	//{
-	//	// スタン状態に移動
-	//	m_monster_mode = STUN;
-	//	// スタンフラグを上げる
-	//	m_stun_flag = true;
-	//	m_attack_flag = false;
-	//	// アニメーション変更フラグを立てる
-	//	m_animation.m_anim_change_flag = true;
-	//}
+	// スタン状態になるかならないか
+	if (m_stun_value <= 0 && m_stun_flag == false)
+	{
+		// スタン状態に移動
+		m_monster_mode = STUN;
+		// スタンフラグを上げる
+		m_stun_flag = true;
+		m_attack_flag = false;
+		// アニメーション変更フラグを立てる
+		m_animation.m_anim_change_flag = true;
+	}
+	// スタン値が条件以内でなおかつ攻撃を受けていないときにスタン値を回復させる
+	else if (m_stun_value > 0 && m_stun_value < STUN_VALUE_MAX && m_damage_anim_flag== false)
+	{
+		m_not_damaged_frame++;
+		if (m_not_damaged_frame % STUN_VALUE_RECOVERY_FRAME == 0)
+		{
+			m_stun_value += RECOVERY_STUN_VALUE;
+		}
+		
+	}
 
 	// 咆哮攻撃の処理
 	 RoarAction(shout_anim, roar_se_info, camera);

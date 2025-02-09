@@ -30,7 +30,7 @@ public:
 	//! @param ターゲットのbodyのカプセル（当たり判定）
 	//! @param カメラオブジェクト
 	virtual void Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera) = 0;
-	
+
 	//! @brief 生きてる時の更新処理
 	//! @param ターゲットの座標
 	//! @param ターゲットの半径
@@ -42,7 +42,7 @@ public:
 
 	//! @brief HPが一定まで減ったときのレベルアップ処理
 	virtual void ReinforceUpdate() = 0;
-	
+
 	//! @brief 攻撃を受けた時の更新処理
 	virtual void ComeAttackUpdate() = 0;
 
@@ -76,7 +76,7 @@ public:
 
 	//! @brief ローリングアクション用の関数（回避）
 	//! @param ローリングしたときの移動スピード
-    void ActionRolling(const int rolling_speed,float rolling_start_frame,float rolling_end_frame);
+	void ActionRolling(const int rolling_speed, float rolling_start_frame, float rolling_end_frame);
 
 	//! @brief 攻撃に関することの初期関数
 	//! 当たり判定を行ってほしいタイミングを保存する
@@ -101,13 +101,13 @@ public:
 	virtual void EffectLoadInit() = 0;
 
 	//! @brief エフェクトの更新処理
-    //! @param 行いたいエフェクト番号
+	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
 	virtual void EffectUpdate(int effect_num, int effect_info_num) = 0;
 
 	//! @brief SEの読み込み
 	virtual void SELoadInit() = 0;
-	
+
 	//! @brief SEの更新処理
 	//! @param 行いたいSE番号
 	virtual void SEUpdate(int se_num) = 0;
@@ -206,8 +206,8 @@ public:
 	//! @param 攻撃アニメーションの最大数
 	void SetAttackHitDamage(int attack_anim_max);
 
-	
-	
+
+
 
 
 public:
@@ -264,7 +264,20 @@ private:
 	//! ランダムで攻撃を選ぶ際にはぶいてほしいアニメーション番号
 	int M_ATTACK_ANIM_EXCEPT = 0;
 
+
+
+
 public:
+	//------------------------------------------
+	// ステータス関連
+	//------------------------------------------
+	// HPの最大値
+	int m_hp_max;
+	// HPの残量
+	int m_hp_value;
+	// HP用のバー
+	UIBra m_hp_bra;
+
 	//------------------------------------------
 	// Run関連
 	//------------------------------------------
@@ -282,20 +295,6 @@ public:
 	static constexpr float M_ROT_SPEED = 5.0f;
 	//! どのくらいのフレームの間は走っているのかをカウントするための関数
 	int m_running_frame_count = 0;
-
-	//------------------------------------------
-	// ステータス関連
-	//------------------------------------------
-	// HPの最大値
-	int m_hp_max;
-	// HPの残量
-	int m_hp_value;
-	// HP用のバー
-	UIBra m_hp_bra;
-	// スタン値の残量
-	int m_stun_value;
-	// スタン用のバー
-	UIBra m_stun_bra;
 
 private:
 	//------------------------------------------
@@ -320,12 +319,12 @@ public:
 	float m_jump_move;
 	//! ジャンプフラグ
 	bool m_jump_flag = false;
-	 
+
 	//------------------------------------------
 	// ローリング関連
 	//------------------------------------------
 	//! ローリングフラグ
-	bool m_rolling_flag; 
+	bool m_rolling_flag;
 
 
 	//------------------------------------------
@@ -348,7 +347,7 @@ public:
 	//! 咆哮攻撃用のフラグ
 	bool m_roar_flag = false;
 	//! 咆哮攻撃を何度したか
-	int m_roar_count= 3;
+	int m_roar_count = 3;
 	//! 攻撃状態かどおかのフラグ
 	bool m_attack_flag = false;
 	//! モンスターの前方方向の攻撃エリア（このエリアに入ったら攻撃をする）
@@ -356,7 +355,7 @@ public:
 	Vector3 m_attack_area_1;
 	Vector3 m_attack_area_2;
 	//! どのくらい前方方向かの値
-	static constexpr int ATTACK_AREA_DISTANCE = 15 ;
+	static constexpr int ATTACK_AREA_DISTANCE = 15;
 	//! 攻撃エリアに半径
 	static constexpr int ATTACK_AREA_R = 14;
 
@@ -426,7 +425,19 @@ public:
 	};
 	//! スタンの状態を保存する変数
 	int m_stun_info_num = DOWN;
+	//! スタン値の残量
+	int m_stun_value;
 
+	//! スタン値の回復量
+	static constexpr int RECOVERY_STUN_VALUE = 1;
+	//! 何フレーム攻撃を受けていなければスタン値を回復するか
+	static constexpr int STUN_VALUE_RECOVERY_FRAME = 60;
+	// スタン用のバー
+	UIBra m_stun_bra;
+protected:
+	//! 攻撃を受けていないフレームをカウント
+	int m_not_damaged_frame = 0;
+public:
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言
 	//-----------------------------------------------

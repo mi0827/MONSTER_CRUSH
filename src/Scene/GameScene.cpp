@@ -92,6 +92,7 @@ void GameScene::Init()
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
 
+
 	GameSceneInit();
 
 	// カメラの初期設定
@@ -391,6 +392,7 @@ void GameScene::Draw()
 //---------------------------------------------------------------------------
 void GameScene::Exit()
 {
+
 	//　シャドーマップの削除
 	ExitShadowMap();
 	// プレイヤーの終了処理
@@ -475,6 +477,7 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 	m_player->m_se.SetSoundVolume(se);
 	// モンスターのサウンドの調整
 	monster->m_se.SetSoundVolume(se);
+	
 }
 
 //---------------------------------------------------------------------------

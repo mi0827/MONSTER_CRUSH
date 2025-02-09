@@ -40,6 +40,7 @@ void TitleScene::Init()
 {
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
+
 	// フィールドの初期化
 	// m_field_1.Init();
 
@@ -115,6 +116,7 @@ void TitleScene::Draw()
 //------------------------------------------
 void TitleScene::Exit()
 {
+	
 
 	//　シャドーマップの削除
 	ExitShadowMap();
@@ -141,7 +143,7 @@ void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// キャラクターのサウンドの調整
 	//m_player->m_se.SetSoundVolume(se);
 
-	// BGMのサウンドの調整
+	
 }
 
 //------------------------------------------
@@ -170,12 +172,7 @@ void TitleScene::TitleUpdate()
 			// 動画モードに移行する
 			m_title_mode_num = MOVIE;
 		}
-		// BGMが終わったら
-		//if (!title_bgm.Playing_BGM(TITLE_BGM))
-		//{
-		//	// BGMの再生
-		//	title_bgm.Play_BGM(DX_PLAYTYPE_LOOP, true, TITLE_BGM);
-		//}
+		
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_SPACE))
 		{

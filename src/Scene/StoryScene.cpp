@@ -40,6 +40,8 @@ void StoryScene::Init()
 {
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
+	
+
 	// フィールドの初期化
 	m_field_1.Init();
 
@@ -241,7 +243,7 @@ void StoryScene::Draw()
 //------------------------------------------
 void StoryScene::Exit()
 {
-
+	
 	//　シャドーマップの削除
 	ExitShadowMap();
 
@@ -290,7 +292,7 @@ void StoryScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
 
-	// BGMのサウンドの調整
+	
 }
 
 //------------------------------------------

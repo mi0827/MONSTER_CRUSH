@@ -126,7 +126,9 @@ public:
 		Story, // ストーリーシーン
 		QuestArea, // クエスト受注シーン
 		Battle, // バトルシーン
-		End // エンドシーン
+		End, // エンドシーン
+
+		scene_max
 	};
 	//! 現在のシーン
 	int m_now_scene = Title;
@@ -177,4 +179,6 @@ public:
 	};
 	// キャラクター番号
 	int m_character_num = hero;
+
+	
 };

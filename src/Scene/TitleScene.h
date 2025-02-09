@@ -46,12 +46,12 @@ private:
 		SE_MAX,   // SEの最大数
 	};
 
-	enum BGM
-	{
-		TITLE_BGM,  // タイトル画面で流すBGM
+	//enum BGM
+	//{
+	//	TITLE_BGM,  // タイトル画面で流すBGM
 
-		BGM_MAX // BGMの最大数
-	};
+	//	BGM_MAX // BGMの最大数
+	//};
 
 	// タイトル画面での切り替え用
 	enum Title_SCENES

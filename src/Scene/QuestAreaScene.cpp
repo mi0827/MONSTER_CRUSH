@@ -65,7 +65,7 @@ void QuestAreaScene::Init()
 
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
-
+	
 	// フィールドの初期化
 	m_field_1.Init();
 
@@ -219,6 +219,8 @@ void QuestAreaScene::Draw()
 //------------------------------------------
 void QuestAreaScene::Exit()
 {
+	
+
 	//　シャドーマップの削除
 	ExitShadowMap();
 
@@ -270,6 +272,7 @@ void QuestAreaScene::OptionValuesReflect(int bgm, int se, int mouse)
 	camera.SetCameraSensi(mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
+
 }
 
 //------------------------------------------

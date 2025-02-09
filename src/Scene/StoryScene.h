@@ -38,12 +38,12 @@ private:
 		SE_MAX,   // SEの最大数
 	};
 
-	enum BGM
-	{
-		Story_BGM,  // タイトル画面で流すBGM
+	//enum BGM
+	//{
+	//	Story_BGM,  // タイトル画面で流すBGM
 
-		BGM_MAX // BGMの最大数
-	};
+	//	BGM_MAX // BGMの最大数
+	//};
 
 	
 

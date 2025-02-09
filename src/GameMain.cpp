@@ -41,8 +41,6 @@
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
 
-
-
 #include <fstream>
 #include <string>
 #include "src/System/Text.h"
@@ -62,6 +60,8 @@ using namespace std;
 Scene_Base* scene;
 
 Option option;
+// BGM
+Sound m_bgm;
 
 
 int light_handle;
@@ -75,7 +75,7 @@ void GameInit()
 
 	// オプションメニューの初期処理
 	option.Init();
-	
+
 	// とりあえず今はタイトルシーンをつけておく
 	scene = new TitleScene;
 	//scene = new QuestAreaScene;
@@ -88,6 +88,17 @@ void GameInit()
 
 	// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
 	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
+
+	// BGMをシーンの数用意する
+	m_bgm.NewArraySecureSound(scene->scene_max);
+	// BGMの初期設定
+	m_bgm.LoadSound("Data/BGM/Title.mp3", scene->Title);
+	m_bgm.LoadSound("Data/BGM/Story.mp3", scene->Story);
+	m_bgm.LoadSound("Data/BMG/questarea.mp3", scene->QuestArea);
+	m_bgm.LoadSound("Data/BGM/Battle_1.mp3", scene->Battle);
+	m_bgm.LoadSound("Data/BGM/End.mp3", scene->End);
+
+	m_bgm.PlaySound_(scene->Title,DX_PLAYTYPE_BACK,true);
 }
 
 //-------------------------------------------------------------
@@ -95,6 +106,8 @@ void GameInit()
 //-------------------------------------------------------------
 void GameUpdate()
 {
+	
+
 	// オプションメニューが開いていないときだけ
 	if (!option.m_option_flag)
 	{
@@ -112,6 +125,8 @@ void GameUpdate()
 					delete scene;               // 現在のシーンの削除
 					scene = new StoryScene; // 次のシーンをnewしておく
 					scene->Init();              // 次のシーンの初期処理もここで済ます
+
+					ChangeBgm(scene->m_now_scene);
 				}
 
 			}
@@ -128,6 +143,7 @@ void GameUpdate()
 					delete scene;               // 現在のシーンの削除
 					scene = new QuestAreaScene; // 次のシーンをnewしておく
 					scene->Init();              // 次のシーンの初期処理もここで済ます
+					ChangeBgm(scene->m_now_scene);
 				}
 			}
 			break;
@@ -144,6 +160,7 @@ void GameUpdate()
 					delete scene;          // 現在のシーンの削除
 					scene = new GameScene; // 次のシーンをnewしておく
 					scene->Init();         // 次のシーンの初期処理もここで済ます
+					ChangeBgm(scene->m_now_scene);
 				}
 			}
 			break;
@@ -160,6 +177,7 @@ void GameUpdate()
 					delete scene;         // 現在のシーンの削除
 					scene = new EndScene; // 次のシーンをnewしておく
 					scene->Init();        // 次のシーンの初期処理もここで済ます
+					ChangeBgm(scene->m_now_scene);
 				}
 			}
 			break;
@@ -176,6 +194,7 @@ void GameUpdate()
 					delete scene;              // 現在のシーンの削除
 					scene = new TitleScene;    // 次のシーンをnewしておく
 					scene->Init();             // 次のシーンの初期処理もここで済ます
+					ChangeBgm(scene->m_now_scene);
 				}
 				// 次に行ってほしいシーンがクエスト受注シーンだったら　
 				if (scene->m_next_scene == scene->QuestArea)
@@ -184,13 +203,18 @@ void GameUpdate()
 					delete scene;               // 現在のシーンの削除
 					scene = new QuestAreaScene; // 次のシーンをnewしておく
 					scene->Init();              // 次のシーンの初期処理もここで済ます
+					ChangeBgm(scene->m_now_scene);
 				}
 			}
 			break;
 		}
 
 	}
-
+	// BGMが途切れた時は同じのを再生する
+	if (m_bgm.PlayingSound() == false)
+	{
+		m_bgm.PlaySound_(scene->m_now_scene, DX_PLAYTYPE_BACK, true);
+	}
 	// オプションメニューの更新処理
 	option.Update();
 
@@ -199,7 +223,8 @@ void GameUpdate()
 		option.option_menu[option.BGM].m_value,
 		option.option_menu[option.SE].m_value,
 		option.option_menu[option.MOUSE].m_value);
-
+	// BGMの音量調整
+	m_bgm.SetSoundVolume(option.option_menu[option.BGM].m_value);
 
 }
 
@@ -231,6 +256,18 @@ void GameExit()
 	// シーンベースクラスの削除
 	delete scene;
 
+}
+
+
+//----------------------------------------------
+// 今のシーンから次のシーンに切り替える関数
+//----------------------------------------------
+void ChangeBgm(int bgm_num)
+{
+	// 現在再生中のBGMを止める
+	m_bgm.StopSound();
+	// 次に再生したいBGMを再生する
+	m_bgm.PlaySound_(bgm_num, DX_PLAYTYPE_BACK, true);
 }
 
 //----------------------------------------------

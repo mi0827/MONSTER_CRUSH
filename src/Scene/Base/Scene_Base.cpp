@@ -62,6 +62,8 @@ void Scene_Base::BaseInit()
 	m_sky_transform.rot.set(0.0f, 0.0f, 0.0f);
 	m_sky_transform.scale.set(20.0f, 20.0f, 20.0f);
 
+	
+	
 }
 
 // --------------------------------------------------------------------------

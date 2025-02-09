@@ -57,6 +57,7 @@ void EndScene::Init()
 {
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
+	
 
 	// フィールドの初期化
 	m_field_2.Init();
@@ -79,10 +80,7 @@ void EndScene::Init()
 	// エンドシーンで使う用のテキストの読み込み
 	m_text.LoadText("Data/Text/End.txt", text_max);
 
-	// マウスの表示状態の設定
-	SetMouseDispFlag(TRUE);
-	// マウスの固定を解除する
-	ChangeMousePosMove(TRUE);
+
 
 	// SEの初期化
 	m_se.NewArraySecureSound(se_max);
@@ -95,6 +93,10 @@ void EndScene::Init()
 //------------------------------------------
 void EndScene::Update()
 {
+	// マウスの表示状態の設定
+	SetMouseDispFlag(TRUE);
+	// マウスの固定を解除する
+	ChangeMousePosMove(TRUE);
 	// プレイヤーの少し上にカメラを配置するための変数
 	Vector3 target_pos;
 
@@ -261,6 +263,7 @@ void EndScene::Draw()
 //------------------------------------------
 void EndScene::Exit()
 {
+
 	//　シャドーマップの削除
 	ExitShadowMap();
 

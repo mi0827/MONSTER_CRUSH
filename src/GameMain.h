@@ -11,8 +11,9 @@ void GameDraw();
 //! 終了処理
 void GameExit();
 
-
-
+//! @brief BGMを変更する関数
+//! @parma BGMが保存されている番号 
+void ChangeBgm(int bgm_num);
 
 //
 ////! ステータスバー描画用の関数
@@ -26,7 +27,3 @@ void GameExit();
 //
 ////! ピクセルシェーダー用の変数
 //int pixel_shader;
-
-
-
-
