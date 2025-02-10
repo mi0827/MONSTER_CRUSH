@@ -303,11 +303,12 @@ void Monster::Attack_First()
 	{
 		// アニメーションの切り替えフラグを上げる
 		m_animation.m_anim_change_flag = true;
-
 	}
+
 	// 攻撃モードにしておく
 	m_monster_mode = ATTACK;
 	m_animation.ChangeAnimation(&m_model, attack_1, false);
+
 	// 攻撃アニメーション番号の保存
 	m_now_attack_anim = attack_1;
 	// 現在の攻撃番号を保存する

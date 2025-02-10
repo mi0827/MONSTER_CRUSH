@@ -74,7 +74,6 @@ void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 	text = lines[line_num].data();
 	// •`‰æˆ—
 	DrawString(draw_pos.x, draw_pos.y + MARGIN, text, GetColor(0, 0, 0));
-
 }
 
 

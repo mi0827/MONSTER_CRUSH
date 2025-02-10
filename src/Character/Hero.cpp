@@ -492,13 +492,13 @@ void Hero::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Rolling.mv1", rolling, 0, 1.5f);   //!< ƒ[ƒŠƒ“ƒO
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Hit_damage.mv1", hit_damage, 0, 1.0f);   //!< UŒ‚‚ª“–‚½‚Á‚½‚Æ‚«‚Ìƒ_ƒ[ƒW
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Die.mv1", die, 0, 1.0f);   //!< Ž€‚ñ‚¾‚Æ‚«
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 2.0f); //!< Œ•UŒ‚‚P 
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 2.0f); //!< Œ•UŒ‚‚Q
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 2.0f); //!< Œ•UŒ‚‚R
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.7f); //!< Œ•UŒ‚‚S
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.7f); //<! ƒLƒbƒNUŒ‚‚P
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.7f); //<! ƒLƒbƒNUŒ‚‚Q
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.0f);     //<! ƒJƒEƒ“ƒ^[UŒ‚
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword1.mv1", attack_sword_anim_1, 0, 2.2f); //!< Œ•UŒ‚‚P 
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword2.mv1", attack_sword_anim_2, 0, 2.2f); //!< Œ•UŒ‚‚Q
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword3.mv1", attack_sword_anim_3, 0, 2.2f); //!< Œ•UŒ‚‚R
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 1.9f); //!< Œ•UŒ‚‚S
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 1.9f); //<! ƒLƒbƒNUŒ‚‚P
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 1.9f); //<! ƒLƒbƒNUŒ‚‚Q
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.2f);     //<! ƒJƒEƒ“ƒ^[UŒ‚
 	// Å‰‚ÍƒfƒtƒHƒ‹ƒgƒAƒjƒ[ƒVƒ‡ƒ“‚ð‚Â‚¯‚Ä‚¨‚­
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }

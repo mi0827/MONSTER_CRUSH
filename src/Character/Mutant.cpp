@@ -385,7 +385,6 @@ void Mutant::Draw()
 	//		GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 	//}
 
-
 	// カプセルの描画(当たり判定)
 	//m_body.Draw();
 	/*m_body.Draw();
@@ -623,7 +622,7 @@ void Mutant::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim, 0, 1.5f);  //!< スタンを食らった時のダウン
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up_anim, 0, 2.0f);          //!< スタンを食らった時の起き上がり
 
-	// もっとモンスターっぽい攻撃を探してこい
+	// 攻撃アニメー所ん
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", punch_attack_1_anim, 0, 1.5f); //!< パンチ攻撃１
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_1.mv1", sword_attack_1_anim, 0, 1.0f); //!< ソード攻撃１
 	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_2.mv1", sword_attack_2_anim, 0, 1.3f); //!< ソード攻撃２
