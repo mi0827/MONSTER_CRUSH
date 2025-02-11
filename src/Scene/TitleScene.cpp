@@ -50,6 +50,10 @@ void TitleScene::Init()
 	m_background_image = LoadGraph("Data/Title/Title.png");
 	// 現在のシーンの設定(タイトルシーン)
 	m_now_scene = Title;
+
+	// SEの初期化
+	m_sound.NewArraySecureSound(SE_MAX);
+	m_sound.LoadSound("Data/SE/Title/Title_start.mp3", decision);
 }
 
 //------------------------------------------
@@ -95,8 +99,8 @@ void TitleScene::Draw()
 	float w = GetDrawStringWidth(name, -1);
 	// 文字列の高さの取得
 	float h = GetFontSize();
-	 // 描画座標
-	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h  };
+	// 描画座標
+	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h };
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
 	// どのボタンを押せば始まるかを描画
@@ -104,8 +108,13 @@ void TitleScene::Draw()
 	name = "SPACE";
 	w = GetDrawStringWidth(name, -1);
 	h = GetFontSize();
-	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2  + h* 2};
+	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 + h * 2 };
+	// このキーを描画するのだけ透明度を変更し続ける
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
 	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	// 暗さの変更
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
+
 	// フェードの描画処理
 	FadeDraw();
 
@@ -116,12 +125,12 @@ void TitleScene::Draw()
 //------------------------------------------
 void TitleScene::Exit()
 {
-	
+	// 再生中のSEを止める
+	m_sound.StopSound();
 
 	//　シャドーマップの削除
 	ExitShadowMap();
 
-	//m_player->Exit();
 }
 
 //------------------------------------------
@@ -143,7 +152,7 @@ void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// キャラクターのサウンドの調整
 	//m_player->m_se.SetSoundVolume(se);
 
-	
+
 }
 
 //------------------------------------------
@@ -172,26 +181,53 @@ void TitleScene::TitleUpdate()
 			// 動画モードに移行する
 			m_title_mode_num = MOVIE;
 		}
-		
+
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_SPACE))
 		{
 			// フェードアウト状態する
 			m_turn = FadeOut;
+			// SEの再生
+			m_sound.PlaySound_(decision, DX_PLAYTYPE_BACK, true);
+		}
+
+
+		// ゲームが進んでいる間フレームをカウントし続ける
+		// ストーリーを進める際のスペースキーの文字をちかちかさせるためのもの
+		if (m_count_time % 1 == 0)
+		{
+			if (m_blend_change_flag)
+			{
+				m_text_blend_value += 10;
+				if (m_text_blend_value >= TEXT_BLEND_MAX)
+				{
+					m_blend_flag = true;
+					m_blend_change_flag = false;
+				}
+			}
+			else
+			{
+				m_text_blend_value -= 10;
+				if (m_text_blend_value <= TEXT_BLEND_MIN)
+				{
+					m_blend_flag = true;
+					m_blend_change_flag = true;
+				}
+			}
 		}
 		break;
 
 	case MOVIE:
 
 		// プレイ動画の再生
-		m_movie = PlayMovie("Data/Movie/02.mp4", 1, DX_MOVIEPLAYTYPE_BCANCEL);
+		m_movie = PlayMovie("Data/Movie/03.mp4", 1, DX_MOVIEPLAYTYPE_BCANCEL);
 		//GetMovieStateToGraph(m_movie);
 		// 指定の動画の再生状態を取得
 		if (GetMovieStateToGraph(m_movie))
 		{
-		    // 画面の状態をタイトル状態にする
+			// 画面の状態をタイトル状態にする
 			m_title_mode_num = TITLE;
-		
+
 		}
 		break;
 	}

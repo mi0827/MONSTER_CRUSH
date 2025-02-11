@@ -96,4 +96,8 @@ private:
 
 	// 何番のエリアと当たり判定があったかを保存する
 	int hit_area = 0;
+
+private:
+	// 三角形を描画する座標
+	Vector3 m_triangle_pos;
 };

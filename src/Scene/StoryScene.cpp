@@ -200,40 +200,15 @@ void StoryScene::Draw()
 	UseShadowMapSet();
 
 
-
-	//=============================================
-	// 仮でタイトルを描画
-	//=============================================
-
 	// フォントサイズの設定
 	SetFontSize(80);
 	// 文字列の高さの取得
 	float h = GetFontSize();
-	//const char* name = "モンスタークラッシュ" /*:: RENTER*/;
-	//// 描画幅の取得
-	//float w = GetDrawStringWidth(name, -1);
-	
-	//// 描画座標
-	//Vector2 draw_pos = { SCREEN_W / 2 - w / 2, 0 };
-	//DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
 
-
-	/*name = "Push : W";
-	w = GetDrawStringWidth(name, -1);*/
-	//h = GetFontSize();
 	Vector2 draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
 	// テキストファイルからのストーリーの描画
 	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
 
-
-	//DrawFormatString(16, 300, GetColor(255, 255, 255), "now_anim : %d", m_player->m_now_attack_anim);
-	//DrawFormatString(16, 400, GetColor(255, 255, 255), "combo_count : %d", m_player->m_combo_count);
-	//DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %d", m_player->m_now_attack);
-	//DrawFormatString(16, 600, GetColor(255, 255, 255), "aaa: %d", m_player->aaa);
-	//DrawFormatString(16, 700, GetColor(255, 255, 255), "bbb: %d", m_player->bbb);
-	/*DrawFormatString(16, 300, GetColor(255, 255, 255), "player_rot : %f", m_player->m_transform.rot.y);
-	DrawFormatString(16, 400, GetColor(255, 255, 255), "camera_rot : %f", camera.m_rot.y);
-	DrawFormatString(16, 500, GetColor(255, 255, 255), "now_attack : %f", m_player->m_transform.rot.y - camera.m_rot.y);*/
 	// フェードの描画処理
 	FadeDraw();
 }

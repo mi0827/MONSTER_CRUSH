@@ -242,6 +242,13 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_se.StopSound();
 			m_se.m_playing_flag = true;
 		}
+		// ƒ‚ƒ“ƒXƒ^[‚Ìó‘Ô‚ªUŒ‚ó‘Ô‚É‚È‚Á‚Ä‚¢‚½‚ç
+		if (m_monster_mode == ATTACK)
+		{
+			// Ä¶’†‚ÌSE‚ğ~‚ß‚é
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
+		}
 
 		break;
 	case ATTACK:

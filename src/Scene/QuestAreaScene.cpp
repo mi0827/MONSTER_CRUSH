@@ -354,7 +354,7 @@ void QuestAreaScene::LandMarkUpdate()
 void QuestAreaScene::QuestAreaUpdate()
 {
 	// ゲームが進んでいる間フレームをカウントし続ける
-
+	// ストーリーを進める際のスペースキーの文字をちかちかさせるためのもの
 	if (m_blend_flag)
 	{
 		m_frame_count++;

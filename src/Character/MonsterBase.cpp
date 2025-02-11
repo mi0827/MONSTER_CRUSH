@@ -338,6 +338,8 @@ void MonsterBase::MoveAction(int run_anim)
 	// 移動制限がかかったらまた攻撃範囲に侵入したら
 	if (!m_move.m_hit || HitAttackArea())
 	{
+		// 走っているアニメーションが鳴っているのでそれを止める
+		m_se.StopSound();
 		// モンスターの状態を攻撃に変更
 		m_monster_mode = ATTACK;
 	}

@@ -99,6 +99,9 @@ void GameInit()
 	m_bgm.LoadSound("Data/BGM/End.mp3", scene->End);
 
 	m_bgm.PlaySound_(scene->Title,DX_PLAYTYPE_BACK,true);
+
+
+	
 }
 
 //-------------------------------------------------------------

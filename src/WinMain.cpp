@@ -112,11 +112,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeLightTypeDir(VGet(0.8f, -1.2f, 1.0f));
 
 	//InputPadInit();
+	// ゲームメインの初期処理
 	GameInit();
 
 	// マウスの表示状態の設定
 	SetMouseDispFlag(FALSE);
 	
+	// フォントの変更
+	ChangeFont("ＭＳ 明朝");
+	// フォントを見やすくしている
+	ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
+
 	// ４：メインループ
 	while (TRUE) {
 		//// DXライブラリのカメラとEffekseerのカメラを同期する。
@@ -179,7 +185,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		// ５：エスケープキーを押したら終了
-		if (CheckHitKey(KEY_INPUT_ESCAPE))
+		if (CheckHitKey(KEY_INPUT_RSHIFT))
 		{
 			break;
 		}
