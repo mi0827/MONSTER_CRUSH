@@ -16,9 +16,6 @@
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{23f2f697-b72d-466d-b25b-b9e32d7316f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Hit">
-      <UniqueIdentifier>{9620e34e-0fab-437e-bf67-5db6cdec132f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Effect">
       <UniqueIdentifier>{5931ef11-42fb-4e17-a237-181593b9b571}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Field">
       <UniqueIdentifier>{f894d956-5f53-48ea-adc0-23e8cfd0b1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Field\Hit">
+      <UniqueIdentifier>{9620e34e-0fab-437e-bf67-5db6cdec132f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -85,10 +85,10 @@
       <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
     <ClCompile Include="src\Hit\HitStop.cpp">
-      <Filter>ソース ファイル\Hit</Filter>
+      <Filter>ソース ファイル\Field\Hit</Filter>
     </ClCompile>
     <ClCompile Include="src\Hit\Hit.cpp">
-      <Filter>ソース ファイル\Hit</Filter>
+      <Filter>ソース ファイル\Field\Hit</Filter>
     </ClCompile>
     <ClCompile Include="src\Model\Model.cpp">
       <Filter>ソース ファイル\Model</Filter>
@@ -225,10 +225,10 @@
       <Filter>ソース ファイル\Effect</Filter>
     </ClInclude>
     <ClInclude Include="src\Hit\Hit.h">
-      <Filter>ソース ファイル\Hit</Filter>
+      <Filter>ソース ファイル\Field\Hit</Filter>
     </ClInclude>
     <ClInclude Include="src\Hit\HitStop.h">
-      <Filter>ソース ファイル\Hit</Filter>
+      <Filter>ソース ファイル\Field\Hit</Filter>
     </ClInclude>
     <ClInclude Include="src\Model\Model.h">
       <Filter>ソース ファイル\Model</Filter>

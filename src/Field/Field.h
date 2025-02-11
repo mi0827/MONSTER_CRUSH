@@ -138,5 +138,9 @@ public:
 
 	//! 石の当たり判定
 	BoxCollision m_hit_stone[STONE_MAX];
+
+	//! フィールドを囲む四角の当たり判定
+	static constexpr int FIELD_HIT_MAX = 4;
+	BoxCollision m_hit_field[FIELD_HIT_MAX];
 	
 };

@@ -73,11 +73,11 @@ void Field::Draw()
 	}
 	
 
-	/*for (int i = 0; i < STONE_MAX; i++)
+	for (int i = 0; i < STONE_MAX; i++)
 	{
 		m_hit_stone[i].Draw(GetColor(255, 0, 0), GetColor(255, 0, 0));
 	}
-	*/
+	
 }
 
 //---------------------------------------------------------------------------
@@ -231,22 +231,22 @@ void Field::TreeInit()
 
 
 	// “–‚½‚è”»’è‚ÌÝ’è
-	m_hit_tree[tree1].CreateCapsule(m_field_object[tree1].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree2].CreateCapsule(m_field_object[tree2].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree3].CreateCapsule(m_field_object[tree3].transform.pos, { 0.0f,20.0f,0.0f }, 15.0f);
+	m_hit_tree[tree1].CreateCapsule(m_field_object[tree1].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree2].CreateCapsule(m_field_object[tree2].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree3].CreateCapsule(m_field_object[tree3].transform.pos, { 0.0f,20.0f,0.0f }, 17.0f);
 
-	m_hit_tree[tree4].CreateCapsule(m_field_object[tree4].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree5].CreateCapsule(m_field_object[tree5].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree6].CreateCapsule(m_field_object[tree6].transform.pos, { 0.0f,20.0f,0.0f }, 18.0f);
+	m_hit_tree[tree4].CreateCapsule(m_field_object[tree4].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree5].CreateCapsule(m_field_object[tree5].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree6].CreateCapsule(m_field_object[tree6].transform.pos, { 0.0f,20.0f,0.0f }, 20.0f);
 
-	m_hit_tree[tree7].CreateCapsule(m_field_object[tree7].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree8].CreateCapsule(m_field_object[tree8].transform.pos, { 0.0f,20.0f,0.0f }, 15.0f);
-	m_hit_tree[tree9].CreateCapsule(m_field_object[tree9].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree10].CreateCapsule(m_field_object[tree10].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
+	m_hit_tree[tree7].CreateCapsule(m_field_object[tree7].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree8].CreateCapsule(m_field_object[tree8].transform.pos, { 0.0f,20.0f,0.0f }, 17.0f);
+	m_hit_tree[tree9].CreateCapsule(m_field_object[tree9].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree10].CreateCapsule(m_field_object[tree10].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
 
-	m_hit_tree[tree11].CreateCapsule(m_field_object[tree11].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree12].CreateCapsule(m_field_object[tree12].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
-	m_hit_tree[tree13].CreateCapsule(m_field_object[tree13].transform.pos, { 0.0f,20.0f,0.0f }, 10.0f);
+	m_hit_tree[tree11].CreateCapsule(m_field_object[tree11].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree12].CreateCapsule(m_field_object[tree12].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
+	m_hit_tree[tree13].CreateCapsule(m_field_object[tree13].transform.pos, { 0.0f,20.0f,0.0f }, 12.0f);
 
 }
 
@@ -320,18 +320,18 @@ void Field::FenceInit()
 
 
 	// “–‚½‚è”»’è‚ÌÝ’è
-	m_hit_fence[fence1 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence1].transform.pos, { 7.0f,20.0f,60.0f });
+	m_hit_fence[fence1 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence1].transform.pos, { 15.0f,20.0f,60.0f });
 
-	m_hit_fence[fence2 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence2].transform.pos, { 70.0f, 20.0f,7.0f });
-	m_hit_fence[fence3 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence3].transform.pos, { 70.0f, 20.0f,7.0f });
+	m_hit_fence[fence2 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence2].transform.pos, { 70.0f, 20.0f,15.0f });
+	m_hit_fence[fence3 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence3].transform.pos, { 70.0f, 20.0f,15.0f });
 
-	m_hit_fence[fence4 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence4].transform.pos, { 7.0f,20.0f,40.0f });
-	m_hit_fence[fence5 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence5].transform.pos, { 7.0f,20.0f,60.0f });
-	m_hit_fence[fence6 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence6].transform.pos, { 7.0f,20.0f,60.0f });
+	m_hit_fence[fence4 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence4].transform.pos, { 15.0f,20.0f,40.0f });
+	m_hit_fence[fence5 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence5].transform.pos, { 15.0f,20.0f,60.0f });
+	m_hit_fence[fence6 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence6].transform.pos, { 15.0f,20.0f,60.0f });
 
-	m_hit_fence[fence7 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence7].transform.pos, { 40.0f,20.0f,7.0f });
-	m_hit_fence[fence8 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence8].transform.pos, { 60.0f,20.0f,7.0f });
-	m_hit_fence[fence9 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence9].transform.pos, { 60.0f,20.0f,7.0f });
+	m_hit_fence[fence7 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence7].transform.pos, { 40.0f,20.0f,15.0f });
+	m_hit_fence[fence8 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence8].transform.pos, { 60.0f,20.0f,15.0f });
+	m_hit_fence[fence9 - FENCE_INDEX_STRAT].CreateBox(m_field_object[fence9].transform.pos, { 60.0f,20.0f,15.0f });
 }
 
 //---------------------------------------------------------------------------
@@ -368,10 +368,10 @@ void Field::StoneInit()
 	m_field_object[stone5].transform.scale.set(0.03f, 0.015f, 0.01f);
 
 	// “–‚½‚è”»’è‚ÌÝ’è
-	m_hit_stone[stone1 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone1].transform.pos, { 15.0f , 30.0f, 70.0f });
-	m_hit_stone[stone2 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone2].transform.pos, { 17.0f , 20.0f, 87.0f });
-	m_hit_stone[stone3 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone3].transform.pos, { 50.0f , 20.0f, 15.0f });
-	m_hit_stone[stone4 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone4].transform.pos, { 15.0f , 20.0f, 30.0f });
-	m_hit_stone[stone5 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone5].transform.pos, { 40.0f , 20.0f, 10.0f });
+	m_hit_stone[stone1 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone1].transform.pos, { 20.0f , 30.0f, 70.0f });
+	m_hit_stone[stone2 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone2].transform.pos, { 20.0f , 20.0f, 90.0f });
+	m_hit_stone[stone3 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone3].transform.pos, { 50.0f , 20.0f, 20.0f });
+	m_hit_stone[stone4 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone4].transform.pos, { 20.0f , 20.0f, 30.0f });
+	m_hit_stone[stone5 - STONE_INDEX_STRAT].CreateBox(m_field_object[stone5].transform.pos, { 40.0f , 20.0f, 20.0f });
 
 }
