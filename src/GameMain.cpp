@@ -94,7 +94,7 @@ void GameInit()
 	// BGM‚Ì‰Šúİ’è
 	m_bgm.LoadSound("Data/BGM/Title.mp3", scene->Title);
 	m_bgm.LoadSound("Data/BGM/Story.mp3", scene->Story);
-	m_bgm.LoadSound("Data/BMG/questarea.mp3", scene->QuestArea);
+	m_bgm.LoadSound("Data/BGM/questarea.mp3", scene->QuestArea);
 	m_bgm.LoadSound("Data/BGM/Battle_1.mp3", scene->Battle);
 	m_bgm.LoadSound("Data/BGM/End.mp3", scene->End);
 

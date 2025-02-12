@@ -155,6 +155,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// ゲーム更新処理
 		GameUpdate();
+
 		// Effekseer更新処理
 		UpdateEffekseer3D();
 
