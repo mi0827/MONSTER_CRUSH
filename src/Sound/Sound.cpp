@@ -47,7 +47,7 @@ void Sound::PlaySound_(int no, int type, bool loop)
 	// 再生中のサウンド番号を保存する
 	m_now_playing_se_num = no;
 	// サウンドの再生
-	PlaySoundMem(m_sound_handle[no], type, loop);
+	int i = PlaySoundMem(m_sound_handle[no], type, loop);
 }
 
 //---------------------------------------------------------------------------

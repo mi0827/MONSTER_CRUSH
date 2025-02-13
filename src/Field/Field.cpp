@@ -73,10 +73,10 @@ void Field::Draw()
 	}
 	
 
-	for (int i = 0; i < STONE_MAX; i++)
-	{
-		m_hit_stone[i].Draw(GetColor(255, 0, 0), GetColor(255, 0, 0));
-	}
+	//for (int i = 0; i < STONE_MAX; i++)
+	//{
+	//	m_hit_stone[i].Draw(GetColor(255, 0, 0), GetColor(255, 0, 0));
+	//}
 	
 }
 

@@ -109,7 +109,10 @@ void GameInit()
 //-------------------------------------------------------------
 void GameUpdate()
 {
-	
+	if (CheckHitKey(KEY_INPUT_RSHIFT))
+	{
+		delete scene->m_player;
+	}
 
 	// オプションメニューが開いていないときだけ
 	if (!option.m_option_flag)
@@ -117,6 +120,7 @@ void GameUpdate()
 		switch (scene->m_now_scene)
 		{
 		case scene->Title: // タイトルシーン
+		
 
 			scene->Update();
 			// シーンの変更フラグが立っていれば
@@ -131,7 +135,6 @@ void GameUpdate()
 
 					ChangeBgm(scene->m_now_scene);
 				}
-
 			}
 			break;
 
@@ -163,7 +166,7 @@ void GameUpdate()
 					delete scene;          // 現在のシーンの削除
 					scene = new GameScene; // 次のシーンをnewしておく
 					scene->Init();         // 次のシーンの初期処理もここで済ます
-					ChangeBgm(scene->m_now_scene);
+ 					ChangeBgm(scene->m_now_scene);
 				}
 			}
 			break;
@@ -183,6 +186,7 @@ void GameUpdate()
 					ChangeBgm(scene->m_now_scene);
 				}
 			}
+
 			break;
 
 		case scene->End:  // エンドシーン
@@ -190,6 +194,7 @@ void GameUpdate()
 			// シーンの変更フラグが立っていれば
 			if (scene->m_scene_change_judge)
 			{
+				
 				// 次に行ってほしいシーンがタイトルシーンだったら
 				if (scene->m_next_scene == scene->Title)
 				{
@@ -211,7 +216,6 @@ void GameUpdate()
 			}
 			break;
 		}
-
 	}
 	// BGMが途切れた時は同じのを再生する
 	if (m_bgm.PlayingSound() == false)

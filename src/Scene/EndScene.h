@@ -111,4 +111,9 @@ private:
 private:
 	//! シーン変更でどちらのシーンに移動するかを保存する
 	int m_change_scene = 0;
+
+	//! エンドシーンで何フレーム進んでいるのかを保存するための変数
+	int m_frame_count;
+	//! エンドシーンで指定のフレーム過ぎると勝手にシーンを変える
+	static constexpr int END_SCENE_FRAME_MAX = 480; // 現在のゲームが６０フレームなので１０秒
 };

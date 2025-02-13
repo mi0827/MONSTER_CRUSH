@@ -185,7 +185,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			break;
 		}
 
-		// ５：エスケープキーを押したら終了
+		// ５：右シフトキーを押したら終了
 		if (CheckHitKey(KEY_INPUT_RSHIFT))
 		{
 			break;

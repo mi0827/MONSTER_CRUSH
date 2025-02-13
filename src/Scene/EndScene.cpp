@@ -108,6 +108,20 @@ void EndScene::Update()
 	switch (m_turn)
 	{
 	case Main:
+		// 経過フレームを進める
+		m_frame_count++;
+		// 指定のフレームに達したら
+		if (m_frame_count >= END_SCENE_FRAME_MAX)
+		{
+			// フレームリセット
+			m_frame_count = 0;
+			// タイトルに移動するようにする
+			m_change_scene = Title;
+			m_turn = FadeOut;
+			m_start_flag = false;
+		}
+
+
 		// カメラの向きを取得する
 		m_camera_rot = camera.GetCameraRot();
 		// プレイヤーの更新処理
@@ -269,7 +283,7 @@ void EndScene::Exit()
 
 	m_player->Exit();
 	// プレイヤークラスはポインタなので最後に開放する
-	delete m_player;
+	//delete m_player;
 
 	// マウスの表示状態の設定
 	SetMouseDispFlag(FALSE);
