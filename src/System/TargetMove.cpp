@@ -141,7 +141,8 @@ bool TargetMove::TargetHit()
 	// 本体とターゲットの距離を求める
 	float distance = GetTargetDistance();
 	// 基準の距離を求める（それぞれの半径）
-	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r;
+	// プレイヤーが壁際でスタックしないようにお互いの半径プラスプリイヤーの半径の半分分の距離をとる
+	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r + m_target_info.m_target_hit_r / 2;
 	// 回転していいときだけ回転する
 	if (m_can_rot)
 	{

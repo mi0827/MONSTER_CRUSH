@@ -98,13 +98,12 @@ void Mutant::Init()
 void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera)
 {
 
-	// プレイヤーではこれがないとバグるが
-	// モンスターではこれがあるとバグる
-	// モンスターのほうがフラグ管理に失敗した
+	
+	// モンスターの状態によってのフラグ管理
 	MonsterMode(m_monster_mode);
 
-	//clsDx();
-	// HPの値が減ったかどうか
+
+	// ステータスバーの値が減ったかどうか
 	m_hp_bra.Update(m_hp_value);
 	m_stun_bra.Update(m_stun_value);
 

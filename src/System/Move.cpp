@@ -75,49 +75,49 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 	// 右上移動
 	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))
 	{
-		Move_Diagonally_Up_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+		MoveDiagonallyUpRight(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 	}
 	else //左上移動
 		if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_W))
 		{
-			Move_Diagonally_Up_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+			MoveDiagonallyUpLeft(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 		}
 		else // 右下移動
 			if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_S))
 			{
-				Move_Oblique_Lower_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+				MoveObliqueLowerRight(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 			}
 			else // 左下移動
 				if (CheckHitKey(KEY_INPUT_A) && CheckHitKey(KEY_INPUT_S))
 				{
-					Move_Oblique_Lower_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+					MoveObliqueLowerLeft(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 				}
 				else // 上移動
 					if (CheckHitKey(KEY_INPUT_W))
 					{
-						Move_Front(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+						MoveFront(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 					}
 					else // 下移動
 						if (CheckHitKey(KEY_INPUT_S))
 						{
-							Move_Dhindo(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+							MoveDhindo(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 						}
 						else // 左移動
 							if (CheckHitKey(KEY_INPUT_A))
 							{
-								Move_Left(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+								MoveLeft(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 							}
 							else // 右移動
 								if (CheckHitKey(KEY_INPUT_D))
 								{
-									Move_Right(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
+									MoveRight(m_check_move, camera_rot, player_rot, player_pos, mov_speed);
 								}
 }
 
 //---------------------------------------------------------------------------
 // キャラクターの壁擦り用関数(ボックス)
 //---------------------------------------------------------------------------
-void Move::Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box)
+void Move::MoveHit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size, BoxCollision* box)
 {
 	if (before_pos->x + hit_size->x >= box->m_box.hit_pos.x - box->m_box.half_size.x && before_pos->x - hit_size->x <= box->m_box.hit_pos.x + box->m_box.half_size.x)
 	{
@@ -135,7 +135,7 @@ void Move::Move_Hit(Vector3* player_pos, Vector3* before_pos, Vector3* hit_size,
 //---------------------------------------------------------------------------
 // キャラクターの壁擦り用関数(円)
 //---------------------------------------------------------------------------
-void Move::Move_Hit_Capsule(Vector3* player_pos, float r, CapsuleCollision* capsule)
+void Move::MoveHitCapsule(Vector3* player_pos, float r, CapsuleCollision* capsule)
 {
 	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
 	// １：プレイヤーとNPCの距離を求める
@@ -161,7 +161,7 @@ void Move::Move_Hit_Capsule(Vector3* player_pos, float r, CapsuleCollision* caps
 //---------------------------------------------------------------------------
 // ゲームパッドの移動用関数(ゲームパッド用)
 //---------------------------------------------------------------------------
-void Move::Move_GamePad(bool* m_check_move, Vector3* mov, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveGamePad(bool* m_check_move, Vector3* mov, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 
 	*m_check_move = true; // 動いていい
@@ -183,7 +183,7 @@ void Move::Move_GamePad(bool* m_check_move, Vector3* mov, Vector3* camera_rot, V
 //---------------------------------------------------------------------------
 // 前移動
 //---------------------------------------------------------------------------
-void Move::Move_Front(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveFront(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = 0.0f;
@@ -199,7 +199,7 @@ void Move::Move_Front(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 //---------------------------------------------------------------------------
 // 後ろ移動
 //---------------------------------------------------------------------------
-void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveDhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = 180.0f;
@@ -216,7 +216,7 @@ void Move::Move_Dhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_
 //---------------------------------------------------------------------------
 // 左移動
 //---------------------------------------------------------------------------
-void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = -90.0f;
@@ -232,7 +232,7 @@ void Move::Move_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 //---------------------------------------------------------------------------
 // 右移動
 //---------------------------------------------------------------------------
-void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = 90.0f;
@@ -250,7 +250,7 @@ void Move::Move_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 //---------------------------------------------------------------------------
 // 右斜め上への移動
 //---------------------------------------------------------------------------
-void Move::Move_Diagonally_Up_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveDiagonallyUpRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = 45.0f;
@@ -266,7 +266,7 @@ void Move::Move_Diagonally_Up_Right(bool* m_check_move, Vector3* camera_rot, Vec
 //---------------------------------------------------------------------------
 // 左斜め上への移動
 //---------------------------------------------------------------------------
-void Move::Move_Diagonally_Up_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveDiagonallyUpLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = -45.0f;
@@ -282,7 +282,7 @@ void Move::Move_Diagonally_Up_Left(bool* m_check_move, Vector3* camera_rot, Vect
 //---------------------------------------------------------------------------
 // 右斜め下への移動
 //---------------------------------------------------------------------------
-void Move::Move_Oblique_Lower_Right(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveObliqueLowerRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = 135.0f;
@@ -298,7 +298,7 @@ void Move::Move_Oblique_Lower_Right(bool* m_check_move, Vector3* camera_rot, Vec
 //---------------------------------------------------------------------------
 // 左斜め下への移動
 //---------------------------------------------------------------------------
-void Move::Move_Oblique_Lower_Left(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
+void Move::MoveObliqueLowerLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
 	m_face_num = 225.0f;

@@ -241,7 +241,7 @@ void StoryScene::HitField()
 		// モンスターとプレイヤーの移動の当たり判定
 		if (CheckCapsuleHit(m_field_1.m_hit_tree[i], m_player->m_body))
 		{
-			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_1.m_hit_tree[i]);
+			m_player->m_move.MoveHitCapsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_1.m_hit_tree[i]);
 		}
 	}
 

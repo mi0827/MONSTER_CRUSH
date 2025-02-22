@@ -99,6 +99,9 @@ void Hero::Init()
 //-----------------------------------------------
 void Hero::Update(Vector3* camera_rot)
 {
+
+	// ˆÚ“®‘O‚ÌÀ•Wˆê’U•Û‘¶‚µ‚Ä‚¨‚­
+	m_before_pos = m_transform.pos;
 	// HP‚Ì’l‚ªŒ¸‚Á‚½‚©‚Ç‚¤‚©
 	m_hp.Update(m_hp_value);
 	// ¶‚«‚Ä‚é‚©€‚ñ‚Å‚é‚©‚Åˆ—‚ğ•Ï‚¦‚é

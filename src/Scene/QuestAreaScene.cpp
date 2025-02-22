@@ -247,7 +247,7 @@ void QuestAreaScene::HitField()
 		// モンスターとプレイヤーの移動の当たり判定
 		if (CheckCapsuleHit(m_field_1.m_hit_tree[i], m_player->m_body))
 		{
-			m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_1.m_hit_tree[i]);
+			m_player->m_move.MoveHitCapsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_1.m_hit_tree[i]);
 		}
 	}
 
@@ -430,7 +430,7 @@ void QuestAreaScene::ModeNormalUpdate()
 	// 受付嬢とプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(receptionist.m_hit_body, m_player->m_body))
 	{
-		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
+		m_player->m_move.MoveHitCapsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &receptionist.m_hit_body);
 	}
 
 	// ボットの更新処理
@@ -809,7 +809,7 @@ void QuestAreaScene::BotUpdate()
 	// ボットとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(m_bot.m_body, m_player->m_body))
 	{
-		m_player->m_move.Move_Hit_Capsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_bot.m_body);
+		m_player->m_move.MoveHitCapsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_bot.m_body);
 	}
 
 	// プレイヤーが攻撃してきた時

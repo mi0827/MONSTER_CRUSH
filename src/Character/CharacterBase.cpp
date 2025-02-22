@@ -41,8 +41,8 @@ void CharacterBase::MoveAction(int run_anim_no, const float move_speed, Vector3*
 	// 毎回リセット
 	m_run_flag = false;
 
-	// 移動前の座標一旦保存しておく
-	m_before_pos = m_transform.pos;
+	//// 移動前の座標一旦保存しておく
+	//m_before_pos = m_transform.pos;
 
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている
@@ -75,7 +75,7 @@ void CharacterBase::MoveHitUpdate(BoxCollision* box)
 {
 	// 当たり判定の
 	m_move_hit_box.CreateBox(m_transform.pos, m_move_hit_size);
-	m_move.Move_Hit(&m_transform.pos, &m_before_pos, &m_move_hit_size, box);
+	m_move.MoveHit(&m_transform.pos, &m_before_pos, &m_move_hit_size, box);
 }
 
 
