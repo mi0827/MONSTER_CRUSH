@@ -221,7 +221,6 @@ void GameScene::GameUpdate()
 		}
 	}
 
-
 	// ƒvƒŒƒCƒ„[‚ÌHP‚ª‚O‚É‚È‚Á‚½‚ç
 	if (m_player->m_hp_value <= 0)
 	{

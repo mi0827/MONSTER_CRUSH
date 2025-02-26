@@ -65,11 +65,6 @@ public:
 	//! @param どれくらいの時間揺れて欲しいか
 	void CameraShakeLimited(float power, float time);
 
-	//! @breif カメラシェイクを行う(一生揺れる)関数
-	//! @param カメラの振動するパワー
-	//void CameraShakeInfinite(float power);
-
-
 
 	//! @brief カメラの向きの設定
 	//! @param 設定したい向き
@@ -86,7 +81,7 @@ public:
 	};
 
 	// カメラと移す標的との距離
-	static constexpr float CAMERA_LENGTH = 50.0f;          // プレイヤー
+	static constexpr float CAMERA_LENGTH = 70.0f;          // プレイヤー
 	static constexpr float CAMERA_MONSER_LENGTH = 100.0f;  // モンスター
 	// カメラが移すしたいものからy座標分変化させる値
 	static constexpr float CAMERA_HEIGHT_PLAYER = 5.0f;    // プレイヤー
