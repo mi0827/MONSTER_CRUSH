@@ -11,9 +11,6 @@
 #define FIXED_X		(SCREEN_W/2)	//	Ｘ座標
 #define FIXED_Y		(SCREEN_H/2)	//	Ｙ座標
 
-
-
-
 //---------------------------------------
 // コンストラクタ(初期化)
 //---------------------------------------
@@ -61,6 +58,10 @@ void Camera::PlayFieldInit()
 //---------------------------------------------------------------------------------
 void Camera::MouseCamera(Vector3* target_pos)
 {
+	// マウスホイールでカメラの距離の変更
+	ChangeDistance();
+
+
 	//m_before_pos.set(m_pos); //< 移動前の座標の設定
 	// プレイヤーの後ろに付いて動く
 	m_look.set(target_pos->x, target_pos->y + m_look_height, target_pos->z);
@@ -115,15 +116,6 @@ void Camera::MouseCamera(Vector3* target_pos)
 	m_rot.y += move.x;
 	m_rot.x += move.y;
 
-	//// カメラのY軸回転の範囲を決める
-	//if (m_rot.y > 360)
-	//{
-	//	m_rot.y = 0;
-	//}
-	//if (m_rot.y < 0)
-	//{
-	//	m_rot.y = 360;
-	//}
 
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
@@ -149,74 +141,142 @@ void Camera::MouseCamera(Vector3* target_pos)
 //---------------------------------------------------------------------------------
 void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 {
+	// マウスホイールでカメラの距離の変更
+	ChangeDistance();
+
 	// 見たいターゲットの設定（今回は奥のターゲットを見る）
 	m_look.set(target_pos1->x, target_pos1->y + m_look_height, target_pos1->z);
 
-	// 手前のターゲットも見たいので
-	m_look_2.set(target_pos2->x, target_pos2->y, target_pos2->z);
+	// カメラのY軸回転行列
+	MATRIX  camera_mat = MGetRotY(TO_RADIAN(m_rot.y));
+	// カメラの前方方向ベクトル
+	Vector3 camera_dir = VGet(camera_mat.m[2][0], camera_mat.m[2][1], camera_mat.m[2][2]);
+	camera_dir.normalize();
+	// 向かせたい方向ベクトル
+	// カメラから見たターゲットがどっちの咆哮にいるのかのベクトル
+	//Vector3 camera_pos =  m_pos.x,m_pos.z };
+	//Vector3 target_pos = { target_pos2->x, target_pos2->z };
+	Vector3  target_dir = *target_pos2 - m_pos;
+	target_dir.normalize();
+	// カメラの前方方向ベクトルと向いてほしい方向ベクトルの二つのベクトルの内積を求める
+	 inner_product = GetVector3Dot(camera_dir, target_dir);
 
-	Vector3 start;
-	start.set(m_pos);
-	Vector3 goal;
-	goal.set(0.0f, 0.0f, 0.0f);
-	Vector3 m_cross;
-	m_cross.set(0.0f, 0.0f, 0.0f);
-
-	// 基準のベクトル作成
-	// ｚの値をいじると振り向きのがたがたがましになる
-	Vector3 base(0.0f, 0.0f, 50.0f);
-	// 線の本体の向きに合わせたいので回転行列を作成
-	MATRIX mat = MGetRotY(TO_RADIAN(m_rot.y));
-	// 上で作成した基準のベクトルを行列で変換
-	Vector3 change = GetVector3VTransform(base, mat);
-	// ゴール座標は開始座標から変更したベクトル文先のとこ
-	goal = start + change;
-	// スタート座標とゴール座標が確定したので開始座標かそれぞれのベクトルを作成
-	// 線の開始座標からゴール座標へのベクトル
-	Vector3 line_dir = goal - start;
-	line_dir.y = 0;
-	// 線の開始座標からプレイヤー座標へのベクトル
-	Vector3 target_dir = *target_pos2 - start;
-	target_dir.y = 0;
-	// 外積を使った判断をしたいので上で作った２つのベクトルの外積を求めます
-	m_cross = GetVector3Cross(line_dir, target_dir);
-	// 上で作成したラインを見えるようにする
+	// カメラの前方方向ベクトルと向けせたい咆哮の二つのベクトルの内積を求める
+	 cross_product = GetVector3Cross(camera_dir, target_dir);
+	// 外積によって方向を変える
+	if (cross_product.y > 0)
 	{
-		// そのままの座標だと線が地面に埋まってしまうのですこしあげています
-		Vector3 start = start + Vector3(0.0f, 1.0f, 0.0f);
-		Vector3 goal = goal + Vector3(0.0f, 1.0f, 0.0f);
-		// 開始座標とゴール座標を結んで線の描画
-		DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
-
-		// 開始座標の場所とくろいたま
-		DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
-		// ゴール座標の黄色い玉
-		DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
-	}
-
-	// 一定の範囲に入ったら振り向きをやめる
-	if (m_cross.y > RANGE) {
-		// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
-		m_rot.y += TARGET_ROT_SPEED;
+		if (inner_product <=0.95f)
+		{
+			m_rot.y += TARGET_ROT_SPEED;
+		}
+	
+		//m_rot.y += 5.0f;
 	}
 	else
-		if (m_cross.y < -RANGE)
+	{
+		if (inner_product <= 0.95f)
 		{
-			// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
 			m_rot.y -= TARGET_ROT_SPEED;
 		}
+			//m_rot.y -= 5.0f;
+	}
+
+	//// 手前のターゲットも見たいので
+	//m_look_2.set(target_pos2->x, target_pos2->y, target_pos2->z);
+	//// カメラの向いている前方方向
+	//Vector2 camera_front;
+	//camera_front.x = 1.0f * cosf(TO_RADIAN(m_rot.y));
+	//camera_front.y = 1.0f * cosf(TO_RADIAN(m_rot.y));
+	//// カメラから見たターゲットがどっちの咆哮にいるのかのベクトル
+	//Vector2 camera_pos = { m_pos.x,m_pos.z };
+	//Vector2 target_pos = { target_pos2->x, target_pos2->z };
+	//Vector2  target = target_pos - camera_pos;
+	//// 上で求めた２つのべくとのない席を取得します
+	//float front_dot = GetVector2Dot(camera_front, target);
+	//// この取得した内積の値がプラスだった場合、プレイヤーはNPCの前にいると判断します
+	//	// プレイヤーの方向に向きを変える
+	//	// プレイヤーがNPCから見てみぎにいるのかを判断したい
+	//	// その判断をするためにNPCの右方向のベクトルを作成
+	//	Vector2 right;
+	//	// NPCの右向きの：NPCの向き（m_rot）に90度たした方向
+	//	right.x = 1.0f * cosf(TO_RADIAN(m_rot.y + 90.0f));
+	//	right.y = 1.0f * sinf(TO_RADIAN(m_rot.y + 90.0f));
+	//	// 今作った右ベクトルとプレイヤーまでのベクトルの２つのベクトルの内積を取得
+	//	float right_dot = GetVector2Dot(right, target);
+	//	// この内積の値がプラスだったらプレイヤーはNPCからみて右にいる
+	//	if (right_dot > 0.0f) {
+	//		m_rot.y += 1.0f;
+	//	}
+	//	// マイナスだった場合は左に回転
+	//	if (right_dot < 0.0f) {
+	//		m_rot.y -= 1.0f;
+	//	}
+
+
+	//Vector3 start;
+	//start.set(m_pos);
+	//Vector3 goal;
+	//goal.set(0.0f, 0.0f, 0.0f);
+	//Vector3 m_cross;
+	//m_cross.set(0.0f, 0.0f, 0.0f);
+	//// 基準のベクトル作成
+	//// ｚの値をいじると振り向きのがたがたがましになる
+	//Vector3 base(0.0f, 0.0f, 50.0f);
+	//// 線の本体の向きに合わせたいので回転行列を作成
+	//MATRIX mat = MGetRotY(TO_RADIAN(m_rot.y));
+	//// 上で作成した基準のベクトルを行列で変換
+	//Vector3 change = GetVector3VTransform(base, mat);
+	//// ゴール座標は開始座標から変更したベクトル文先のとこ
+	//goal = start + change;
+	//// スタート座標とゴール座標が確定したので開始座標かそれぞれのベクトルを作成
+	//// 線の開始座標からゴール座標へのベクトル
+	//Vector3 line_dir = goal - start;
+	//line_dir.y = 0;
+	//// 線の開始座標からプレイヤー座標へのベクトル
+	//Vector3 target_dir = *target_pos2 - start;
+	//target_dir.y = 0;
+	//// 外積を使った判断をしたいので上で作った２つのベクトルの外積を求めます
+	//m_cross = GetVector3Cross(line_dir, target_dir);
+	//// 上で作成したラインを見えるようにする
+	//{
+	//	// そのままの座標だと線が地面に埋まってしまうのですこしあげています
+	//	Vector3 start = start + Vector3(0.0f, 10.0f, 0.0f);
+	//	Vector3 goal = goal + Vector3(0.0f, 10.0f, 0.0f);
+	//	// 開始座標とゴール座標を結んで線の描画
+	//	DrawLine3D(start.VGet(), goal.VGet(), GetColor(255, 255, 0));
+	//	// 開始座標の場所とくろいたま
+	//	DrawSphere3D(start.VGet(), 0.3f, 100, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+	//	// ゴール座標の黄色い玉
+	//	DrawSphere3D(goal.VGet(), 0.3f, 100, GetColor(255, 255, 0), GetColor(255, 255, 0), TRUE);
+	//}
+	//// 移動してほしいタイミングだけ
+	//// 一定の範囲に入ったら振り向きをやめる
+	//if (m_cross.y > RANGE) {
+	//	// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
+	//	m_rot.y += TARGET_ROT_SPEED;
+	//}
+	//else
+	//	if (m_cross.y < -RANGE)
+	//	{
+	//		// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
+	//		m_rot.y -= TARGET_ROT_SPEED;
+	//	}
+
+
+
 	// まずは回転前のベクトルを用意します
    // カメラが見るプレイヤー方向のベクトルを作成します
 	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);
 
 	// 行列を用意します
 	// X軸回転行列
-//	MATRIX mat_x = MGetRotX(TO_RADIAN(target1->rot.y));
+    //	MATRIX mat_x = MGetRotX(TO_RADIAN(target1->rot.y));
 	// Y軸回転行列
 	MATRIX mat_y = MGetRotY(TO_RADIAN(m_rot.y));
 
 	// X軸回転とY軸回転をさせたいので２つの行列を１個にまとめます
-//	MATRIX mat = MMult(mat_x, mat_y);
+	//	MATRIX mat = MMult(mat_x, mat_y);
 	// 元のベクトルをＸ軸回転とＹ軸回転させます
 	// 簡単に言ったら一定の距離の棒を作っている
 	VECTOR change_dir = VTransform(base_dir, mat_y);
@@ -271,8 +331,6 @@ void Camera::DrawSet()
 //---------------------------------------------------------------------------------
 void Camera::Draw()
 {
-	
-
 	//	カメラの設定
 	SetCameraNearFar(0.1f, 3000.0f);
 	SetupCamera_Perspective(TO_RADIAN(45.0f));
@@ -411,9 +469,30 @@ void Camera::SetCameraRot(Vector3 rot)
 }
 
 //-------------------------------------------------------------------------------- -
-// カメラん向きを取得する関数
+// カメラの向きを取得する関数
 //---------------------------------------------------------------------------------
 Vector3 Camera::GetCameraRot()
 {
 	return m_rot;
+}
+
+//-------------------------------------------------------------------------------- -
+// カメラとターゲットとの距離をマウスホイールで変更する
+//---------------------------------------------------------------------------------
+void Camera::ChangeDistance()
+{
+	m_mouse_wheel = GetMouseWheelRotVol();
+
+	m_length += m_mouse_wheel * 1.5f;
+	// 上限
+	if (m_length >= CAMERA_LENGTH_MAX)
+	{
+		m_length = CAMERA_LENGTH_MAX;
+	};
+	// 下限
+	if (m_length <= CAMERA_LENGTH_MIN)
+	{
+		m_length = CAMERA_LENGTH_MIN;
+	};
+
 }

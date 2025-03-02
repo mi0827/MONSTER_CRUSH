@@ -77,7 +77,7 @@ void GameInit()
 	option.Init();
 
 	// とりあえず今はタイトルシーンをつけておく
-	scene = new TitleScene;
+	scene = new GameScene;
 	//scene = new QuestAreaScene;
 	//scene = new GameScene;
 

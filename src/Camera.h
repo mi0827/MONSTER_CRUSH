@@ -52,7 +52,7 @@ public:
 	//! @brief カメラの高さ距離などを設定する関数
 	//! @param カメラの見る座標の高さの(デフォルトでプレイヤー時の値を入れておく)
 	//! @param カメラから目標までの距離(デフォルトでプレイヤー時の値を入れておく)
-	void SetCamera(float height = CAMERA_HEIGHT_PLAYER, float length = CAMERA_LENGTH);
+	void SetCamera(float height = CAMERA_HEIGHT_PLAYER, float length = CAMERA_LENGTH_MAX);
 
 	//! @brief 移したい目標をまわるようにカメラの移動処理
 	//! @param 移したいターゲット
@@ -73,6 +73,8 @@ public:
 	//! @brief カメラの向き取得する関数
 	Vector3 GetCameraRot();
 
+	//! @brief カメラとターゲットとの距離をマウスホイールで変更できるようにする
+	void ChangeDistance();
 
 	enum Direction
 	{
@@ -81,7 +83,8 @@ public:
 	};
 
 	// カメラと移す標的との距離
-	static constexpr float CAMERA_LENGTH = 70.0f;          // プレイヤー
+	static constexpr float CAMERA_LENGTH_MAX = 75.0f;      // プレイヤーとの最大値
+	static constexpr float CAMERA_LENGTH_MIN = 50.0f;       // プレイヤーとの最小値
 	static constexpr float CAMERA_MONSER_LENGTH = 100.0f;  // モンスター
 	// カメラが移すしたいものからy座標分変化させる値
 	static constexpr float CAMERA_HEIGHT_PLAYER = 5.0f;    // プレイヤー
@@ -97,7 +100,7 @@ public:
 	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
 
 	// ターゲットカメラの振り向き速度
-	static constexpr float TARGET_ROT_SPEED = 2.5f;
+	static constexpr float TARGET_ROT_SPEED = 2.3f;
 	// ターゲットカメラの振り向き可能範囲
 	static constexpr float RANGE = 500;
 
@@ -120,14 +123,11 @@ public:
 	//! カメラの向き
 	Vector3 m_rot;
 
-public:
-	//--------------------
-	//! 画面分割用の変数
-	int m_screen_field = 0;   // 描画する画面を入れる画像用変数
-	Vector2 m_field_pos = { 0.0f, 0.0f };  // 描画する座標
-	Vector2 m_field_size = { 0.0f, 0.0f, }; // 描画するサイズ
-
+	//! マウスカーソル用変数
+	float m_mouse_wheel = 0;
 private:
+	
+
 	//! マウスの移動量用の変数
 	float m_mouse_move_x = 0.0f; //! X座標の移動量
 	float m_mouse_move_y = 0.0f; //! Y座標の移動量
@@ -151,6 +151,13 @@ public:
 	{
 		pad_no = no;
 	}
+
+	// 下の二つの変数はあとで消す予定
+	// ターゲットカメラに使用する内積保存用変数
+	float inner_product;
+	// ターゲットカメラに使用する外積保存用の変数
+	Vector3 cross_product;
+
 
 
 

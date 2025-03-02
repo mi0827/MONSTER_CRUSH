@@ -110,7 +110,7 @@ void GameScene::Init()
 	m_now_scene = Battle;
 
 	// カメラの設定
-	camera.SetCamera(camera.CAMERA_HEIGHT_MONSTER, camera.CAMERA_LENGTH);
+	camera.SetCamera(camera.CAMERA_HEIGHT_MONSTER, camera.CAMERA_LENGTH_MAX);
 }
 
 //---------------------------------------------------------------------------
@@ -364,8 +364,11 @@ void GameScene::Draw()
 
 	// フェードの描画処理
 	FadeDraw();
-
-
+	SetFontSize(50);
+	static constexpr int color = 255;
+	DrawFormatString(16, 400, color, "内積 : %f", camera.inner_product);
+	DrawFormatString(16, 350, color, "外積 : %f", camera.cross_product.y);
+	DrawFormatString(16, 450, color, "外積 : %f", camera.m_mouse_wheel);
 	//SetFontSize(50);
 	/*static constexpr int color = 255;
 	DrawStringF(16, 250, "player_flag", color, 0);
