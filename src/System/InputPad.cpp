@@ -2,43 +2,43 @@
 //!	@file	InputPad.cpp
 //! @brief	パッド入力管理
 //---------------------------------------------------------------------------
-#include "dxlib/DxLib.h"
+#include "DxLib.h"
 #include "InputPad.h"
 #include <vector>
 #include <array>
 
 namespace
 {
-constexpr unsigned int	 MAX_PAD_NUM			= static_cast<unsigned int>(PAD_NO::PAD_NO_MAX); //<! PAD接続最大数
-constexpr unsigned int	 MAX_PAD_TYPE			= static_cast<unsigned int>(PAD_ID::PAD_ID_MAX); //<! 上下左右/A B C X Y Z L R START Mボタン
-constexpr unsigned int	 MIN_PAD_TYPE		    = static_cast<unsigned int>(PAD_ID::PAD_A);		 //<! 上下左右/A B C X Y Z L R START Mボタン
-constexpr unsigned int	 MAX_PAD_DIRECT_NUM		= 4;											 //<! 方向キーの方向最大値
-constexpr	       float MAX_ANALOG_INPUT_VALUE = 1000.0f;										 //<! アナログスティックの入力値の最大値
-constexpr unsigned int   PAD_BUTTON_NUM			= static_cast<unsigned int>(PAD_ID::PAD_R_PUSH) - static_cast<unsigned int>(PAD_ID::PAD_A) + 1;
+	constexpr unsigned int	 MAX_PAD_NUM = static_cast<unsigned int>(PAD_NO::PAD_NO_MAX); //<! PAD接続最大数
+	constexpr unsigned int	 MAX_PAD_TYPE = static_cast<unsigned int>(PAD_ID::PAD_ID_MAX); //<! 上下左右/A B C X Y Z L R START Mボタン
+	constexpr unsigned int	 MIN_PAD_TYPE = static_cast<unsigned int>(PAD_ID::PAD_A);		 //<! 上下左右/A B C X Y Z L R START Mボタン
+	constexpr unsigned int	 MAX_PAD_DIRECT_NUM = 4;											 //<! 方向キーの方向最大値
+	constexpr	       float MAX_ANALOG_INPUT_VALUE = 1000.0f;										 //<! アナログスティックの入力値の最大値
+	constexpr unsigned int   PAD_BUTTON_NUM = static_cast<unsigned int>(PAD_ID::PAD_R_PUSH) - static_cast<unsigned int>(PAD_ID::PAD_A) + 1;
 
-std::vector<DINPUT_JOYSTATE>										  pad_input_states;			 //<! 詳細なパッドの状態の取得
-std::array<bool, MAX_PAD_NUM>										  use_pads;					 //<! 使用しているパッドの状態を管理
-std::array<std::array<unsigned int, PAD_BUTTON_NUM>, MAX_PAD_NUM>	  pad_buttons;				 //<! 使用しているパッドのボタンの押下状態を管理
-std::array<std::array<unsigned int, MAX_PAD_DIRECT_NUM>, MAX_PAD_NUM> pad_direct_keys;			 //<! 使用しているパッドの方向キーの押下状態を管理
-bool																  is_all_on_direct_key;		 //<! 方向キーのいずれかが押されているかどうか
+	std::vector<DINPUT_JOYSTATE>										  pad_input_states;			 //<! 詳細なパッドの状態の取得
+	std::array<bool, MAX_PAD_NUM>										  use_pads;					 //<! 使用しているパッドの状態を管理
+	std::array<std::array<unsigned int, PAD_BUTTON_NUM>, MAX_PAD_NUM>	  pad_buttons;				 //<! 使用しているパッドのボタンの押下状態を管理
+	std::array<std::array<unsigned int, MAX_PAD_DIRECT_NUM>, MAX_PAD_NUM> pad_direct_keys;			 //<! 使用しているパッドの方向キーの押下状態を管理
+	bool																  is_all_on_direct_key;		 //<! 方向キーのいずれかが押されているかどうか
 
-// パッド番号の範囲外チェック関数
-bool isOverPadNum(int pad_num)
-{
-	return (pad_num < 0 || pad_num >= MAX_PAD_NUM);
-}
-// そのパッド番号が使用中かどうか
-bool isUsePadNum(int pad_num)
-{
-	if (isOverPadNum(pad_num))
-		return false;
-	return use_pads[pad_num];
-}
-// そのパッドIDの範囲内チェック
-bool isOverPadID(unsigned int pad_id)
-{
-	return (pad_id < MIN_PAD_TYPE || pad_id >= MAX_PAD_TYPE);
-}
+	// パッド番号の範囲外チェック関数
+	bool isOverPadNum(int pad_num)
+	{
+		return (pad_num < 0 || pad_num >= MAX_PAD_NUM);
+	}
+	// そのパッド番号が使用中かどうか
+	bool isUsePadNum(int pad_num)
+	{
+		if (isOverPadNum(pad_num))
+			return false;
+		return use_pads[pad_num];
+	}
+	// そのパッドIDの範囲内チェック
+	bool isOverPadID(unsigned int pad_id)
+	{
+		return (pad_id < MIN_PAD_TYPE || pad_id >= MAX_PAD_TYPE);
+	}
 };   // namespace
 
 //---------------------------------------------------------------------------
@@ -93,7 +93,7 @@ void InputPadUpdate()
 		}
 		else
 		{
-			pov_0_index	= -1;
+			pov_0_index = -1;
 		}
 		// 方向キーの各方向の押されていないフレーム数をリセット
 		for (int j = 0; j < MAX_PAD_DIRECT_NUM; ++j)
@@ -224,7 +224,7 @@ bool IsPadOn(PAD_ID pad_id, PAD_NO pad_no)
 	unsigned int direct_id = static_cast<unsigned int>(pad_id) - static_cast<unsigned int>(PAD_ID::PAD_D_UP);
 
 	bool all_repeat_direct_key = false;
-	bool all_on_direct_key	   = false;
+	bool all_on_direct_key = false;
 	for (int i = 0; i < MAX_PAD_DIRECT_NUM; ++i)
 	{
 		if (pad_direct_keys[pad_index][i] > 1)
@@ -247,13 +247,13 @@ bool IsPadOn(PAD_ID pad_id, PAD_NO pad_no)
 			continue;
 
 		is_all_on_direct_key = true;
-		all_on_direct_key	 = true;
+		all_on_direct_key = true;
 		break;
 	}
 
 	switch (pad_id)
 	{
-	// 各ボタン
+		// 各ボタン
 	case PAD_ID::PAD_A:		case PAD_ID::PAD_B:
 	case PAD_ID::PAD_X:		case PAD_ID::PAD_Y:
 	case PAD_ID::PAD_L:		case PAD_ID::PAD_R:
@@ -261,7 +261,7 @@ bool IsPadOn(PAD_ID pad_id, PAD_NO pad_no)
 	case PAD_ID::PAD_L_PUSH:case PAD_ID::PAD_R_PUSH:
 		return pad_buttons[pad_index][id_index] == 1;
 
-	// 左アナログスティック
+		// 左アナログスティック
 	case PAD_ID::PAD_UP:
 		return input_state.Y == -1;
 	case PAD_ID::PAD_DOWN:
@@ -270,7 +270,7 @@ bool IsPadOn(PAD_ID pad_id, PAD_NO pad_no)
 		return input_state.X == -1;
 	case PAD_ID::PAD_RIGHT:
 		return input_state.X == 1;
-	// 右アナログスティック
+		// 右アナログスティック
 	case PAD_ID::PAD_R_UP:
 		return input_state.Ry == -1;
 	case PAD_ID::PAD_R_DOWN:
@@ -279,7 +279,7 @@ bool IsPadOn(PAD_ID pad_id, PAD_NO pad_no)
 		return input_state.Rx == -1;
 	case PAD_ID::PAD_R_RIGHT:
 		return input_state.Rx == 1;
-	// 方向キー
+		// 方向キー
 	case PAD_ID::PAD_D_UP:
 	case PAD_ID::PAD_D_DOWN:
 	case PAD_ID::PAD_D_LEFT:
@@ -288,12 +288,12 @@ bool IsPadOn(PAD_ID pad_id, PAD_NO pad_no)
 	case PAD_ID::PAD_D_ALL:
 		return all_on_direct_key;
 
-	// ------------------------------
-	//	以下未対応のキー
-	// ------------------------------
+		// ------------------------------
+		//	以下未対応のキー
+		// ------------------------------
 	case PAD_ID::PAD_C:
 	case PAD_ID::PAD_Z:
-	case PAD_ID::PAD_M: 
+	case PAD_ID::PAD_M:
 		return false;
 	}
 
@@ -332,7 +332,7 @@ bool IsPadRelease(PAD_ID pad_id, PAD_NO pad_no)
 
 	switch (pad_id)
 	{
-	// 各ボタン
+		// 各ボタン
 	case PAD_ID::PAD_A:		case PAD_ID::PAD_B:
 	case PAD_ID::PAD_X:		case PAD_ID::PAD_Y:
 	case PAD_ID::PAD_L:		case PAD_ID::PAD_R:
@@ -340,7 +340,7 @@ bool IsPadRelease(PAD_ID pad_id, PAD_NO pad_no)
 	case PAD_ID::PAD_L_PUSH:case PAD_ID::PAD_R_PUSH:
 		return pad_buttons[pad_index][id_index] == 0;
 
-	// 左アナログスティック
+		// 左アナログスティック
 	case PAD_ID::PAD_UP:
 		return input_state.Y == 0;
 	case PAD_ID::PAD_DOWN:
@@ -349,7 +349,7 @@ bool IsPadRelease(PAD_ID pad_id, PAD_NO pad_no)
 		return input_state.X == 0;
 	case PAD_ID::PAD_RIGHT:
 		return input_state.X == 0;
-	// 右アナログスティック
+		// 右アナログスティック
 	case PAD_ID::PAD_R_UP:
 		return input_state.Ry == 0;
 	case PAD_ID::PAD_R_DOWN:
@@ -358,8 +358,8 @@ bool IsPadRelease(PAD_ID pad_id, PAD_NO pad_no)
 		return input_state.Rx == 0;
 	case PAD_ID::PAD_R_RIGHT:
 		return input_state.Rx == 0;
-	
-	// 方向キー
+
+		// 方向キー
 	case PAD_ID::PAD_D_UP:
 	case PAD_ID::PAD_D_DOWN:
 	case PAD_ID::PAD_D_LEFT:
@@ -367,9 +367,9 @@ bool IsPadRelease(PAD_ID pad_id, PAD_NO pad_no)
 		return pad_direct_keys[pad_index][direct_id] == 1;
 	case PAD_ID::PAD_D_ALL:
 		return all_release_dirct_key;
-	// ------------------------------
-	//	以下未対応のキー
-	// ------------------------------
+		// ------------------------------
+		//	以下未対応のキー
+		// ------------------------------
 	case PAD_ID::PAD_C:
 	case PAD_ID::PAD_Z:
 	case PAD_ID::PAD_M:
@@ -388,8 +388,8 @@ bool IsPadRepeat(PAD_ID pad_id, PAD_NO pad_no)
 	unsigned int pad_index = static_cast<unsigned int>(pad_no);
 	if (isOverPadNum(pad_index))
 		return false;
-	if (!isUsePadNum(pad_index))
-		return false;
+	/*if (!isUsePadNum(pad_index))
+		return false;*/
 
 	unsigned int id_index = static_cast<unsigned int>(pad_id);
 	if (isOverPadID(id_index))
@@ -409,15 +409,15 @@ bool IsPadRepeat(PAD_ID pad_id, PAD_NO pad_no)
 	}
 	switch (pad_id)
 	{
-	// 各ボタン
+		// 各ボタン
 	case PAD_ID::PAD_A:		case PAD_ID::PAD_B:
 	case PAD_ID::PAD_X:		case PAD_ID::PAD_Y:
-	case PAD_ID::PAD_L:		case PAD_ID::PAD_R:
+	case PAD_ID::PAD_L:		    case PAD_ID::PAD_R:
 	case PAD_ID::PAD_START:	case PAD_ID::PAD_BACK:
 	case PAD_ID::PAD_L_PUSH:case PAD_ID::PAD_R_PUSH:
 		return pad_buttons[pad_index][id_index] > 1;
 
-	// 左アナログスティック
+		// 左アナログスティック
 	case PAD_ID::PAD_UP:
 		return input_state.Y >= -1;
 	case PAD_ID::PAD_DOWN:
@@ -426,7 +426,7 @@ bool IsPadRepeat(PAD_ID pad_id, PAD_NO pad_no)
 		return input_state.X >= -1;
 	case PAD_ID::PAD_RIGHT:
 		return input_state.X >= 1;
-	// 右アナログスティック
+		// 右アナログスティック
 	case PAD_ID::PAD_R_UP:
 		return input_state.Ry >= -1;
 	case PAD_ID::PAD_R_DOWN:
@@ -435,8 +435,8 @@ bool IsPadRepeat(PAD_ID pad_id, PAD_NO pad_no)
 		return input_state.Rx >= -1;
 	case PAD_ID::PAD_R_RIGHT:
 		return input_state.Rx >= 1;
-	
-	// 方向キー
+
+		// 方向キー
 	case PAD_ID::PAD_D_UP:
 	case PAD_ID::PAD_D_DOWN:
 	case PAD_ID::PAD_D_LEFT:
@@ -445,9 +445,9 @@ bool IsPadRepeat(PAD_ID pad_id, PAD_NO pad_no)
 	case PAD_ID::PAD_D_ALL:
 		return all_repeat_dirct_key;
 
-	// ------------------------------
-	//	以下未対応のキー
-	// ------------------------------
+		// ------------------------------
+		//	以下未対応のキー
+		// ------------------------------
 	case PAD_ID::PAD_C:
 	case PAD_ID::PAD_Z:
 	case PAD_ID::PAD_M:

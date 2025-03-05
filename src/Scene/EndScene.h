@@ -39,33 +39,7 @@ public:
 	void SoundPlay(int se_num);
 
 
-public:
-
-
-	enum Title_se
-	{
-		DECISION, // タイトル画面で指定のボタンを押された時
-
-		SE_MAX,   // SEの最大数
-	};
-
-	enum BGM
-	{
-		TITLE_BGM,  // タイトル画面で流すBGM
-
-		BGM_MAX // BGMの最大数
-	};
-
 private:
-	////! 描画したいテキストを番号で管理
-	//enum Text
-	//{
-	//	// end_text,             // エンドシーンというのがわかりやすくする
-	//	return_title,          // タイトルシーンに移動する
-	//	return_qusetarea, // クエスト選択エリアに移動
-
-	//	text_max
-	//};
 
 
 	// テキストオブジェクト
@@ -74,8 +48,8 @@ private:
 	// エンドシーンで描画するテキストの数
 	enum EndText
 	{
-		text1,
-		text2,
+		text1, // タイトルに戻るテキスト
+		text2, // クエストシーンに戻るテキスト
 
 		text_max
 	};

@@ -57,7 +57,7 @@ void EndScene::Init()
 {
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
-	
+
 
 	// フィールドの初期化
 	m_field_2.Init();
@@ -85,6 +85,9 @@ void EndScene::Init()
 	// SEの初期化
 	m_se.NewArraySecureSound(se_max);
 	m_se.LoadSound("Data/SE/menu_selection.mp3", se_1); // 各メニューを選択しているとき
+
+
+
 }
 
 
@@ -105,6 +108,7 @@ void EndScene::Update()
 
 	// どのメニューと当たっているかを調べる
 	Vector2 pos2;
+
 	switch (m_turn)
 	{
 	case Main:
@@ -130,28 +134,50 @@ void EndScene::Update()
 		target_pos = { m_player->m_transform.pos.x,m_player->m_transform.pos.y + 20,m_player->m_transform.pos.z };
 		camera.MoveCamera(&target_pos, 10, true);
 
-		for (int i = 0; i < text_max; i++)
+
+		// ゲームパッドのでの選択
+		if (IsPadOn(PAD_ID::PAD_D_LEFT))
 		{
-			pos2 = { m_text_draw_pos[i].x + m_text.END_BACK_SIZE,  m_text_draw_pos[i].y + GetFontSize() };
-			// 当たっていたもの選択状態にする
-			if (CheckPointBoxHit(mouse_pos, m_text_draw_pos[i], pos2))
+			m_select_num = text1;
+			// あったているフラグを立てる
+			m_hit_select_flag = true;
+		}
+		else if (IsPadOn(PAD_ID::PAD_D_RIGHT))
+		{
+			m_select_num = text2;
+			// あったているフラグを立てる
+			m_hit_select_flag = true;
+		}
+
+		// どこに戻るかを選択できるようにしている
+		// ゲームパッドの接続がなければ
+		if (GetJoypadNum() <= 0)
+		{
+			for (int i = 0; i < text_max; i++)
 			{
-				// 当たり判定のあったほうを選択状態する
-				m_select_num = i;
-				// あったているフラグを立てる
-				m_hit_select_flag = true;
-				break;
-			}
-			else
-			{
-				m_hit_select_flag = false;
+				pos2 = { m_text_draw_pos[i].x + m_text.END_BACK_SIZE,  m_text_draw_pos[i].y + GetFontSize() };
+				// 当たっていたもの選択状態にする
+				if (CheckPointBoxHit(mouse_pos, m_text_draw_pos[i], pos2))
+				{
+					// 当たり判定のあったほうを選択状態する
+					m_select_num = i;
+					// あったているフラグを立てる
+					m_hit_select_flag = true;
+					break;
+				}
+				else
+				{
+					m_hit_select_flag = false;
+				}
 			}
 		}
 		
+
+
 		// マウスが選択マスにあったているとき
 		if (m_hit_select_flag)
 		{
-			if (CheckMouseInput(MOUSE_INPUT_LEFT))
+			if (CheckMouseInput(MOUSE_INPUT_LEFT) || IsPadOn(PAD_ID::PAD_X))
 			{
 				// SEの再生
 				SoundPlay(se_1);
@@ -260,7 +286,7 @@ void EndScene::Draw()
 	{
 		DrawBox(box_pos.x, box_pos.y, box_pos.x + m_text.END_BACK_SIZE + 70, box_pos.y + h + 70, GetColor(255, 255, 0), TRUE);
 	}
-	
+
 	// テキストの描画
 	for (int i = 0; i < text_max; i++)
 	{

@@ -209,7 +209,7 @@ void GameScene::GameUpdate()
 	CharacterKeepAway();
 
 	// Tキーを押されたらカメラを変更する
-	if (PushHitKey(KEY_INPUT_T))
+	if (PushHitKey(KEY_INPUT_T)|| IsPadOn(PAD_ID::PAD_R_PUSH))
 	{
 		if (m_camera_change)
 		{

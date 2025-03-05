@@ -21,13 +21,13 @@ Combo::~Combo()
 // 指定のキー（ボタンを押されたとき）
 //---------------------------------------------------------------------------
 
-void Combo::ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, float play_anim_time, float anim_total, int* combo_count)
+void Combo::ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, PAD_ID pad_button_no, float play_anim_time, float anim_total, int* combo_count)
 {
 	// コンボフラグが下がっていたら
 	if (*combo_flag == false)
 	{
 		// 指定のマウスボタンを押していたら
-		if (PushMouseInput(key))
+		if (PushMouseInput(key)|| IsPadOn(pad_button_no))
 		{
 			// 攻撃アニメーションが終わる前だったら
 			if (play_anim_time <= anim_total)

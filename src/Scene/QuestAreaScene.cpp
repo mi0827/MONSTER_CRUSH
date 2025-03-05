@@ -445,7 +445,7 @@ void QuestAreaScene::ModeNormalUpdate()
 	if (CheckCapsuleHit(m_area, m_player->m_body))
 	{
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_F))
+		if (PushHitKey(KEY_INPUT_F)|| IsPadOn(PAD_ID::PAD_X))
 		{
 			// このシーンの状態を会話パートに移動する
 			scene_mode_num = talk_start;
@@ -483,7 +483,7 @@ void QuestAreaScene::TalkStart()
 void QuestAreaScene::TalkUpdate()
 {
 	// マウスの右クリックかスペースキーで会話を進める
-	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE)|| IsPadOn(PAD_ID::PAD_X))
 	{
 		// 描画するテキストを一つ進める
 		m_reception_text_line++;
@@ -507,7 +507,7 @@ void QuestAreaScene::TalkUpdate()
 		break;
 	case quest_confirmation:
 		// 選択しの変更
-		if (PushHitKey(KEY_INPUT_W))
+		if (PushHitKey(KEY_INPUT_W)|| IsPadOn(PAD_ID::PAD_D_UP))
 		{
 			m_select_num--;
 			if (m_select_num < 0)
@@ -516,7 +516,7 @@ void QuestAreaScene::TalkUpdate()
 			}
 
 		}
-		if (PushHitKey(KEY_INPUT_S))
+		if (PushHitKey(KEY_INPUT_S) || IsPadOn(PAD_ID::PAD_D_DOWN))
 		{
 			m_select_num++;
 			if (m_select_num > 1)
@@ -547,7 +547,7 @@ void QuestAreaScene::TalkUpdate()
 			if (m_reception_text_line >= 6)
 			{
 				// マウスの右クリックかスペースキーで会話を進める
-				if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
+				if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE) || IsPadOn(PAD_ID::PAD_X))
 				{
 					// 会話シーンに戻す
 					m_quest_acception_num = quest_confirmation;
@@ -567,7 +567,7 @@ void QuestAreaScene::TalkUpdate()
 void QuestAreaScene::AcceptingQuestUpdate()
 {
 	// 選択しの変更
-	if (PushHitKey(KEY_INPUT_W))
+	if (PushHitKey(KEY_INPUT_W) || IsPadOn(PAD_ID::PAD_D_UP))
 	{
 		m_select_num--;
 		if (m_select_num < 0)
@@ -575,7 +575,7 @@ void QuestAreaScene::AcceptingQuestUpdate()
 			m_select_num = 0;
 		}
 	}
-	if (PushHitKey(KEY_INPUT_S))
+	if (PushHitKey(KEY_INPUT_S) || IsPadOn(PAD_ID::PAD_D_DOWN))
 	{
 		m_select_num++;
 		if (m_select_num > 1)
@@ -596,7 +596,7 @@ void QuestAreaScene::AcceptingQuestUpdate()
 	}
 
 	// 次に進む
-	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE))
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE) || IsPadOn(PAD_ID::PAD_X))
 	{
 		// ここだけ行を二列ずつ進める
 		m_quest_text_line += 3;

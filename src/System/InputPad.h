@@ -32,8 +32,8 @@ enum class PAD_ID : unsigned int
 	PAD_Y,		// Yキー
 	PAD_L,		// LBボタン（左人差し指側）
 	PAD_R,		// RBボタン（右人差し指側）
-	PAD_START,	// STARTボタン
 	PAD_BACK,	// BACKボタン
+	PAD_START,	// STARTボタン
 	PAD_L_PUSH,	// 左アナログスティック押し込み
 	PAD_R_PUSH,	// 右アナログスティック押し込み
 
@@ -51,9 +51,10 @@ enum class PAD_ID : unsigned int
 
 	// 方向キー
 	PAD_D_UP,	// 上
+	PAD_D_RIGHT,// 右
 	PAD_D_DOWN,	// 下
 	PAD_D_LEFT,	// 左
-	PAD_D_RIGHT,// 右
+
 	PAD_D_ALL,	// 方向キー全て
 
 	PAD_ID_MAX,

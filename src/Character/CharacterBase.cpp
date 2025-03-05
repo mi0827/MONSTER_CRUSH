@@ -118,7 +118,7 @@ void CharacterBase::AttackFirst()
 
 {
 	// 指定のマウスボタンが押されたら
-	if (PushMouseInput(MOUSE_INPUT_LEFT) /*& MOUSE_INPUT_LEFT*/)
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || IsPadOn(PAD_ID::PAD_B))
 	{
 		// attack_flag が上がってるときかつ
 		// プレイヤーモードがATTACK以外の時
@@ -146,7 +146,7 @@ void CharacterBase::AttackFirst()
 		// m_stop_combo_flag = false;
 	}
 	// 指定のマウスボタンが押されたら
-	if (PushMouseInput(MOUSE_INPUT_RIGHT) /*& MOUSE_INPUT_LEFT*/)
+	if (PushMouseInput(MOUSE_INPUT_RIGHT) || IsPadOn(PAD_ID::PAD_Y))
 	{
 		// attack_flag が上がってるときかつ
 		// プレイヤーモードがATTACK以外の時
@@ -244,7 +244,7 @@ void CharacterBase::SetHitDamage(CapsuleCollision attack_hit, int attack_damage,
 void CharacterBase::RollingActionStart()
 {
 	// 指定のキーが押された時
-	if (PushHitKey(KEY_INPUT_SPACE))
+	if (PushHitKey(KEY_INPUT_SPACE)|| IsPadOn(PAD_ID::PAD_A))
 	{
 		// アクションモードをローリングにする
 		m_player_mode = ROLLING;
@@ -267,7 +267,7 @@ void CharacterBase::RollingActionUpdate(int rolling_anim_no, const int rolling_s
 	}
 
 	// ローリング中に攻撃ボタンを押したらカウンター攻撃に派生する
-	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushMouseInput(MOUSE_INPUT_RIGHT))
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushMouseInput(MOUSE_INPUT_RIGHT)|| IsPadOn(PAD_ID::PAD_B)|| IsPadOn(PAD_ID::PAD_Y))
 	{
 		m_counter_flag = true;
 	}
@@ -330,6 +330,7 @@ void CharacterBase::ComboActionUpdate()
 			&m_combo_flag,
 			&m_mouse_flag,
 			MOUSE_INPUT_LEFT,
+			PAD_ID::PAD_B,
 			m_animation.m_contexts[0].play_time,
 			m_animation.m_contexts[0].animation_total_time,
 			&m_combo_count
@@ -339,6 +340,7 @@ void CharacterBase::ComboActionUpdate()
 			&m_combo_flag,
 			&m_mouse_flag,
 			MOUSE_INPUT_RIGHT,
+			PAD_ID::PAD_Y,
 			m_animation.m_contexts[0].play_time,
 			m_animation.m_contexts[0].animation_total_time,
 			&m_combo_count

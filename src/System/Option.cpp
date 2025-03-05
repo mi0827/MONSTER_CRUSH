@@ -71,19 +71,24 @@ void Option::Update()
 
 	// オプションメニューを開くとき
 	// ボタンを押されたら
-	if (PushHitKey(KEY_INPUT_TAB))
+	if (
+		m_option_flag == false)
 	{
-		// マウスの表示状態の設定
-		SetMouseDispFlag(TRUE);
-		// マウスの固定を解除する
-		ChangeMousePosMove(TRUE);
-		// オプションメニューを開く
-		m_option_flag = true;
-		// SE再生可能にしておく
-		m_se.m_playing_flag = true;
-		// 現在再生中のSEを止める
-		m_se.StopSound();
+		if (PushHitKey(KEY_INPUT_TAB) || IsPadOn(PAD_ID::PAD_START))
+		{
+			// マウスの表示状態の設定
+			SetMouseDispFlag(TRUE);
+			// マウスの固定を解除する
+			ChangeMousePosMove(TRUE);
+			// オプションメニューを開く
+			m_option_flag = true;
+			// SE再生可能にしておく
+			m_se.m_playing_flag = true;
+			// 現在再生中のSEを止める
+			m_se.StopSound();
+		}
 	}
+
 
 	// オプションメニューが開いているとき
 	if (m_option_flag)
@@ -102,7 +107,7 @@ void Option::Update()
 	{
 		// オプションメニューが開いていて
 		// なおボタンが押されたら
-		if (PushHitKey(KEY_INPUT_TAB))
+		if (PushHitKey(KEY_INPUT_TAB) || IsPadOn(PAD_ID::PAD_START))
 		{
 			// オプションメニューを閉じる
 			m_option_flag = false;
@@ -159,8 +164,8 @@ void Option::SetOptionMenu()
 //----------------------------------------------
 void Option::MenuSelect()
 {
-	// Wキーを押された時
-	if (PushHitKey(KEY_INPUT_W))
+	// Wキー、ゲームパッドの上方向ボタンを押された時
+	if (PushHitKey(KEY_INPUT_W)||IsPadOn(PAD_ID::PAD_D_UP))
 	{
 		// SEの再生
 		SoundPlay(selection_menu_se);
@@ -171,8 +176,8 @@ void Option::MenuSelect()
 			m_selection_menu = MOUSE;
 		}
 	}
-	// Sキーを押された時
-	if (PushHitKey(KEY_INPUT_S))
+	// Sキー、ゲームパッドの下方向ボタンを押された時
+	if (PushHitKey(KEY_INPUT_S) || IsPadOn(PAD_ID::PAD_D_DOWN))
 	{
 		// SEの再生
 		SoundPlay(selection_menu_se);
@@ -201,8 +206,6 @@ void Option::MenuSelect()
 	// マウスでもメニューを選択できるようにする
 	if (CheckMouseInput(MOUSE_INPUT_LEFT))
 	{
-		
-
 		// マウスの座標を取得
 		float mouse_pos_x = float(GetMouseX());
 		float mouse_pos_y = float(GetMouseY());
@@ -233,7 +236,8 @@ void Option::OpenMenuUpdate()
 
 	m_menu_count++; // カウントを増やす
 	// 選択されたメニューバーの値を増やす
-	if (PushHitKey(KEY_INPUT_D))
+	// Dキー、ゲームパッドの右方向ボタンを押されたとき
+	if (PushHitKey(KEY_INPUT_D) || IsPadOn(PAD_ID::PAD_D_RIGHT))
 	{
 		// SEが再生中でなければ
 		if (m_se.PlayingSound())
@@ -268,7 +272,8 @@ void Option::OpenMenuUpdate()
 		}
 	}
 	// 選択されたメニューバーの値を減らす
-	if (PushHitKey(KEY_INPUT_A))
+	// Aキー、ゲームパッドの左方向ボタンを押されたとき
+	if (PushHitKey(KEY_INPUT_A) || IsPadOn(PAD_ID::PAD_D_LEFT))
 	{
 		// SEの再生
 		SoundPlay(change_value_se);

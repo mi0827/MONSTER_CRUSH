@@ -173,7 +173,6 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 	// プレイヤーが攻撃を受けたかのチェック
 	if (!m_rolling_flag || m_player_mode != COUNTER)
 	{
-		
 		CheckHitDamage();
 		if (m_player_mode== HIT_DAMAGE)
 		{

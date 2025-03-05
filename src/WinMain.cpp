@@ -24,7 +24,6 @@ int BeforeMouseY;
 //! @brief true : 変動可能、 false : 固定する
 bool mouse_pos_middle_flag = false;
 
-
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -111,7 +110,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	ChangeLightTypeDir(VGet(0.8f, -1.2f, 1.0f));
 
-	//InputPadInit();
+	InputPadInit();
 	// ゲームメインの初期処理
 	GameInit();
 
@@ -125,7 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// ４：メインループ
 	while (TRUE) {
-		//// DXライブラリのカメラとEffekseerのカメラを同期する。
+		// DXライブラリのカメラとEffekseerのカメラを同期する。
 		//Effekseer_Sync3DSetting();
 
 		Time = GetNowCount();
@@ -162,7 +161,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// ゲーム描画処理
 		GameDraw();
 	
-
+		// マウスの座標を移動した座標に変更
 		BeforeMouseX = NowMouseX;
 		BeforeMouseY = NowMouseY;
 

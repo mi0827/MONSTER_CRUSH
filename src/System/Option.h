@@ -40,7 +40,7 @@ private:
 	static constexpr int MOUSE_SENSI_VALUE = 5; // マウス感度が一つ変わると変わる値
 	static constexpr int MARGIN = 50;
 	// メニューボタンが押されてから閉じるまでにかかる最低時間
-	static constexpr int MENU_COUNT = 10;
+	static constexpr int MENU_COUNT = 5;
 
 	static constexpr int BOX_SIZE_X = SCREEN_W / 2 - 100;         // 四角の背景X方向のサイズ
 	static constexpr int BOX_SIZE_Y = SCREEN_H / 2;        // 四角の背景Y方向のサイズ
@@ -129,6 +129,7 @@ private:
 		se_max
 	};
 
+	// SE
 	struct SEInfo
 	{
 		// 再生するタイプ
@@ -155,4 +156,19 @@ private:
 	int m_menu_count = 0; 
 	// SEかBGMを洗濯するためのもの
 	int m_select = 0; 
+
+
+	// ゲームパッド用の変数
+	int pad_input;
+	// １番のゲームパッドをセット
+	PAD_NO pad_no = PAD_NO::PAD_NO1;
+
+	// ゲームパッドの番号をセットする
+	// DXライブラリー側でのパッドの番号も取得
+	void SetPadNo(PAD_NO no, int dx_no)
+	{
+		pad_no = no;
+		pad_input = dx_no;
+	}
+
 };

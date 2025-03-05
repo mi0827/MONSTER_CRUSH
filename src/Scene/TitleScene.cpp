@@ -183,7 +183,7 @@ void TitleScene::TitleUpdate()
 		}
 
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_SPACE))
+		if (PushHitKey(KEY_INPUT_SPACE)||IsPadOn(PAD_ID::PAD_A))
 		{
 			// フェードアウト状態する
 			m_turn = FadeOut;

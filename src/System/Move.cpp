@@ -23,54 +23,30 @@ void Move::Update(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, 
 {	
 	// 振り向き処理
 	LookingUpdate(player_rot, camera_rot);
-	//// キャラとカメラの向きの回転の差
+	// キャラとカメラの向きの回転の差
 	//m_difference_rot = player_rot->y - camera_rot->y;
-	//
-	//// モデルのY軸回転に制限をかける
-	//
-	//// 移動中はダッシュする
-	//	// ゲームパッドの入力状態をとる
-	//	//	ゲームパッドの左スティックの値を使って座標（ m_pos ）の値を変更
-	//	// 左ステックでプレイヤーの向きや座標の更新
-	//	// ゲームパッドの情報を取得（XINPUT の情報）
-	//XINPUT_STATE input = { {'\0'}, '\0','\0',0,0,0,0 };
-	//// ゲームパッドの情報を丸ごと取得
-	//// GetJoypadXInputState(DX_INPUT_PAD1, &input);
-	//// GetJoypadXInputState((int) pad_no, &input);
-	////GetJoypadXInputState((int)((PAD_NO)pad_no), &input);
-	//switch (m_pad_no)
-	//{
-	//case PAD_NO::PAD_NO1:
-	//	GetJoypadXInputState(DX_INPUT_PAD1, &input);
-	//	break;
-	//case PAD_NO::PAD_NO2:
-	//	GetJoypadXInputState(DX_INPUT_PAD2, &input);
-	//	break;
-	//case PAD_NO::PAD_NO3:
-	//	GetJoypadXInputState(DX_INPUT_PAD3, &input);
-	//	break;
-	//case PAD_NO::PAD_NO4:
-	//	GetJoypadXInputState(DX_INPUT_PAD4, &input);
-	//	break;
-	//}
-	//// 左スティックの値を設定
-	//m_mov.x = input.ThumbLX;
-	//m_mov.z = input.ThumbLY;
-	//// -32768 ～ 32767 を-1.0f　～　1.0fにします
-	//m_mov /= 32768.0f;
-	//if (m_mov.GetLength() > 0.5f)
-	//{
-	//	Move_GamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
-	//}
-	//// 押された瞬間に振り向きようの補完用カウントを初期化
-	//if (/*PushHitKey((KEY_INPUT_W)) ||*/ PushHitKey((KEY_INPUT_A)) || PushHitKey((KEY_INPUT_S)) || PushHitKey((KEY_INPUT_D)))
-	//{
-	//	// 補完の値をリセットする
-	//	m_rot_complementation = m_difference_rot;
-	//	// 一度押されたら振り向き保管を入れながらゆっくりキャラの向きを変える
-	//	m_complementation_flag = true;
-	//}
-
+	
+	// モデルのY軸回転に制限をかける
+	
+	// 移動中はダッシュする
+    // ゲームパッドの入力状態をとる
+	//	ゲームパッドの左スティックの値を使って座標（ m_pos ）の値を変更
+	// 左ステックでプレイヤーの向きや座標の更新
+	// ゲームパッドの情報を取得（XINPUT の情報）
+	XINPUT_STATE input = { {'\0'}, '\0','\0',0,0,0,0 };
+	// ゲームパッドの情報を丸ごと取得
+	GetJoypadXInputState(DX_INPUT_PAD1, &input);
+	
+	// 左スティックの値を設定
+	m_mov.x = input.ThumbLX;
+	m_mov.z = input.ThumbLY;
+	// -32768 ～ 32767 を-1.0f　～　1.0fにします
+	m_mov /= 32768.0f;
+	if (m_mov.GetLength() > 0.5f)
+	{
+		MoveGamePad(m_check_move, &m_mov, camera_rot, player_rot, player_pos, mov_speed);
+	}
+	
 	// WASDキーでプレイヤーの移動
 	// 右上移動
 	if (CheckHitKey(KEY_INPUT_D) && CheckHitKey(KEY_INPUT_W))

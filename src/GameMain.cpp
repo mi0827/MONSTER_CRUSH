@@ -77,7 +77,8 @@ void GameInit()
 	option.Init();
 
 	// とりあえず今はタイトルシーンをつけておく
-	scene = new GameScene;
+	scene = new EndScene;
+	//scene = new TitleScene;
 	//scene = new QuestAreaScene;
 	//scene = new GameScene;
 
@@ -99,9 +100,6 @@ void GameInit()
 	m_bgm.LoadSound("Data/BGM/End.mp3", scene->End);
 
 	m_bgm.PlaySound_(scene->Title,DX_PLAYTYPE_BACK,true);
-
-
-	
 }
 
 //-------------------------------------------------------------

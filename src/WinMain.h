@@ -20,11 +20,13 @@
 
 
 
-
 #include "System/InputPad.h" // ゲームパッド
 
 // EffekseerForDXLib.hをインクルードします。
 #include "EffekseerForDXLib.h"
+
+
+
 
 //------------------------
 // 関数の定義
