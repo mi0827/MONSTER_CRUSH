@@ -147,11 +147,17 @@ public:
 	//! @brief 攻撃関連の更新処理
 	void AttackActionComboUpdate();
 
-	//! @brief 一定のダメージを受けた時に相手との距離をとる用の関数(咆哮攻撃)
-	//! param 咆哮攻撃用のアニメーション番号
-	//! param seの番号
-	//! param カメラシェイクのためのカメラ
-	void RoarAction(int anim_num, int se_num, Camera* camera);
+	//! @brief 一定のダメージを受けた時に相手との距離をとる攻撃をセットする(咆哮攻撃)
+	//! @param 咆哮攻撃用のアニメーション番号
+	//! @param seの番号
+	//! @param カメラシェイクのためのカメラ
+	void RoarSet(int anim_num, int se_num, Camera* camera);
+
+	//! @brief 咆哮攻撃中の処理
+	//! @param カメラシェイクのためのカメラ
+	void RoarAction(Camera* camera);
+
+
 
 	//! @brief ジャンプ攻撃開始の処理
 	//! @param ジャンプ用のアニメーション番号
@@ -217,11 +223,12 @@ public:
 	//! モンスターの状態
 	enum MonsterMode
 	{
-		IDLE,      //!< 待機状態
+		IDLE,       //!< 待機状態
 		RUN,       //!< 走り状態
-		ATTACK,    //!< 攻撃状態
+		ATTACK,  //!< 攻撃状態
 		STUN,      //!< スタン状態
-		DIE,       //!< 死ぬ
+		ROAR,       //!< 咆哮状態
+		DIE,        //!< 死ぬ
 	};
 	//! モンスターの状態を管理する変数
 	int m_monster_mode = 0;

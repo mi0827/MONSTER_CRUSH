@@ -163,6 +163,13 @@ void GameScene::EntryUpdate()
 	// カメラシェイクを行う(カメラの更新処理の後でないとできない)
 	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
 
+	// ゲームパッドが接続されているときはゲームパッドを振動させたい
+	if (GetJoypadNum() >= 1)
+	{
+		PadVidation(DX_INPUT_PAD1, 1000, CHANGE_TIME, -1);
+	}
+	
+
 	// フレームのカウントを増やす
 	m_count_flame++;
 	// フレームが指定の値まで増えたら
@@ -583,6 +590,7 @@ void GameScene::AttackUpdate()
 			// プレイヤーのボディーとの当たり判定をとる
 			if (HitAttack(m_player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 			{
+			
 				// 当たり判定があったら一回だけこの処理を通るようにする
 				// ダメージ処理を行っていいフラグが上がっていたら
 				if (monster->m_can_hit_damage_flag)
@@ -604,6 +612,8 @@ void GameScene::AttackUpdate()
 					// プレイヤーが攻撃受けた時の処理
 					m_player->ComeAttackUpdate();
 					//--------------------------------------------
+					// ゲームパッドが接続されているときはゲームパッドを振動させたい
+					
 
 					// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 					hit_stop.StopCountReset();

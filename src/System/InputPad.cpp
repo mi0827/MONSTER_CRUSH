@@ -112,96 +112,14 @@ void PadVidation(int inputType, int power, int time, int motor)
 	StartJoypadVibration(inputType, power, time, motor);
 }
 
-void InputPadRender()
-{
-	//for (int i = 0; i < MAX_PAD_NUM; ++i)
-	//{
-	//	if (isUsePadNum(i) == false)
-	//		continue;
-	//	DINPUT_JOYSTATE input_state = pad_input_states[i];
-	//	printfDx("POV[0]: %d\n", input_state.POV[0]);
-	//	for (int j = 0; j < MAX_PAD_DIRECT_NUM; ++j)
-	//	{
-	//		printfDx("[%d]: %d\n", i, pad_direct_keys[i][j]);
-	//	}
-	//}
-	//for (int i = 0; i < MAX_PAD_NUM; ++i)
-	//{
-	//	if (isUsePadNum(i) == false)
-	//		continue;
-	//	DINPUT_JOYSTATE input_state = pad_input_states[i];
-	//	int pov_0 = input_state.POV[0];
-	//	//int deg = min(((pov_0 >= 31500) ? 35000 : 36000) / (pov_0 + 4500), 4) % 4;
-	//	//printfDx("POV0: %d(%d)\n", pov_0, deg);
-	//	//printfDx("POV0: %d(%d)\n", pov_0, 36000 / (pov_0 + 4500));
-	//	//int ans1 = pov_0 + 4500;
-	//	//int ans2 = 36000 / ans1;
-	//	//int ans3 = min(ans2, 4);
-	//	//int ans4 = ans3 % 4;
-	//	//printfDx("POV0: %d(%d, %d, %d, %d)\n", pov_0, ans1, ans2, ans3, ans4);
-	//	//printfDx("POV0: %d(%d)\n", pov_0, ((pov_0 + 4500)%36000)/9000);
-	//	printfDx("POV0: %d(%d)\n", pov_0, (((pov_0 / 4500) + 1) & 7) >> 1);
-	//}
-	//for (int i = 0; i < MAX_PAD_NUM; ++i)
-	//{
-	//	if (isUsePadNum(i) == false)
-	//		continue;
-	//	for (int j = 0; j < PAD_BUTTON_NUM; ++j)
-	//	{
-	//		printfDx("[%d]: %d, ", j, pad_buttons[i][pad_now()][j]);
-	//	}
-	//	printfDx("\n");
-	//}
-	//unsigned int Color = GetColor(255, 255, 255);
-	////for (const auto& input_state : pad_input_states)
-	//for (int i = 0; i < MAX_PAD_NUM; ++i)
-	//{
-	//	if (isUsePadNum(i) == false)
-	//		continue;
-	//	DINPUT_JOYSTATE input_state = pad_input_states[i];
-	//	// 左側アナログスティック
-	//	//	X: 左-1000 / 右1000 / 押してない0
-	//	//	Y: 上-1000 / 下1000 / 押してない0
-	//	//	Z: LT/RT(0～-1000)
-	//	DrawFormatString(0, 0, Color,  "X:%d Y:%d Z:%d", input_state.X, input_state.Y, input_state.Z);
-	//	// 右側アナログスティック
-	//	//	Rx: 左-1000 / 右1000 / 押してない0
-	//	//	Ry: 上-1000 / 下1000 / 押してない0
-	//	//	Rz: 不明
-	//	DrawFormatString(0, 16, Color, "Rx:%d Ry:%d Rz:%d",	input_state.Rx, input_state.Ry, input_state.Rz);
-	//	// 不明
-	//	DrawFormatString(0, 32, Color, "Slider 0:%d 1:%d",	input_state.Slider[0], input_state.Slider[1]);
-	//	// 左側方向キー入力
-	//	//	※ 上: 0, 右: 9000, 下: 1800, 左: 2700
-	//	//	※ PAD1の場合、POV[0]が反応。他のパッドがあるときはそれぞれが反応？
-	//	DrawFormatString(0, 48, Color, "POV 0:%d 1:%d 2:%d 3:%d", input_state.POV[0], input_state.POV[1], input_state.POV[2], input_state.POV[3]);
-	//	DrawString(0, 64, "Button", Color);
-	//	// Button[ 0]: Aボタン(0 or 128)
-	//	// Button[ 1]: Bボタン(0 or 128)
-	//	// Button[ 2]: Xボタン(0 or 128)
-	//	// Button[ 3]: Yボタン(0 or 128)
-	//	// Button[ 4]: LBボタン(左人差し指側/0 or 128)
-	//	// Button[ 5]: RBボタン(右人差し指側/0 or 128)
-	//	// Button[ 6]: BACKボタン(0 or 128)
-	//	// Button[ 7]: STARTボタン(0 or 128)
-	//	// Button[ 8]: 左アナログスティック押し込み(0 or 128)
-	//	// Button[ 9]: 右アナログスティック押し込み(0 or 128)
-	//	// Button[10] ～ Button[31]: 不明
-	//	for (int i = 0; i < 32; i++)
-	//	{
-	//		DrawFormatString(64 + i % 8 * 64, 64 + i / 8 * 16, Color,
-	//			"%2d:%d",
-	//			i, input_state.Buttons[i]);
-	//	}
-	//}
-}
+
 
 //---------------------------------------------------------------------------
 // 終了
 //---------------------------------------------------------------------------
 void InputPadExit()
 {
-	;
+	
 }
 
 //---------------------------------------------------------------------------

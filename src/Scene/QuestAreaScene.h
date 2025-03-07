@@ -174,7 +174,8 @@ private:
 	//! 描画するテキストの番号として管理
 	enum LandMarkText
 	{
-		f_text,                // Fボタンをしたらのメッセージ
+		f_text,                // Fキーを押したらのメッセージ
+		x_text,               // Xボタンを押したらのメッセージ
 		excamation_pos, // ビックリマーク
 
 		landmark_text_max
@@ -197,8 +198,9 @@ private:
 	// 描画したい文字列の数分作成
 	TextState m_landmark_text[landmark_text_max]
 	{
-		{	/*100,*/"F : 話す", {0.0f,0.0f,0.0f},{-8.0f,10.0f,0.0f},false},
-		{	/*100,*/" ! ", {0.0f,0.0f,0.0f},{0.0f,20.0f,0.0f},false},
+		{	"F : 話す", {0.0f,0.0f,0.0f},{-8.0f,10.0f,0.0f},false},
+	    {	"X : 話す", {0.0f,0.0f,0.0f},{-8.0f,10.0f,0.0f},false},
+		{	" ! ", {0.0f,0.0f,0.0f},{0.0f,20.0f,0.0f},false},
 	};
 	// 目印の文字の大きさ
 	static constexpr int FONT_SIZE = 100;

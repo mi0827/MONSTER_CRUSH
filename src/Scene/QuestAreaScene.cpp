@@ -65,7 +65,7 @@ void QuestAreaScene::Init()
 
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
-	
+
 	// フィールドの初期化
 	m_field_1.Init();
 
@@ -219,7 +219,7 @@ void QuestAreaScene::Draw()
 //------------------------------------------
 void QuestAreaScene::Exit()
 {
-	
+
 
 	//　シャドーマップの削除
 	ExitShadowMap();
@@ -307,7 +307,7 @@ void QuestAreaScene::LandMarkUpdate()
 		m_landmark_text[i].draw_pos.VSet(pos);
 
 		// 変換したスクリーン座標のZの値が0.0 ~ 1.0 なら描画していい
-		if (i == f_text)
+		if (i == f_text || i == x_text)
 		{
 			// 描画したい文字列がF : 話すの場合
 			// 話していいエリアに入っていないと描画できないようにする
@@ -445,7 +445,7 @@ void QuestAreaScene::ModeNormalUpdate()
 	if (CheckCapsuleHit(m_area, m_player->m_body))
 	{
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_F)|| IsPadOn(PAD_ID::PAD_X))
+		if (PushHitKey(KEY_INPUT_F) || IsPadOn(PAD_ID::PAD_X))
 		{
 			// このシーンの状態を会話パートに移動する
 			scene_mode_num = talk_start;
@@ -483,7 +483,7 @@ void QuestAreaScene::TalkStart()
 void QuestAreaScene::TalkUpdate()
 {
 	// マウスの右クリックかスペースキーで会話を進める
-	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE)|| IsPadOn(PAD_ID::PAD_X))
+	if (PushMouseInput(MOUSE_INPUT_LEFT) || PushHitKey(KEY_INPUT_SPACE) || IsPadOn(PAD_ID::PAD_X))
 	{
 		// 描画するテキストを一つ進める
 		m_reception_text_line++;
@@ -507,7 +507,7 @@ void QuestAreaScene::TalkUpdate()
 		break;
 	case quest_confirmation:
 		// 選択しの変更
-		if (PushHitKey(KEY_INPUT_W)|| IsPadOn(PAD_ID::PAD_D_UP))
+		if (PushHitKey(KEY_INPUT_W) || IsPadOn(PAD_ID::PAD_D_UP))
 		{
 			m_select_num--;
 			if (m_select_num < 0)
@@ -656,7 +656,22 @@ void QuestAreaScene::ModeNormalDraw()
 			// 描画座標
 			m_landmark_draw_pos = { m_landmark_text[i].draw_pos.x - w / 2,  m_landmark_text[i].draw_pos.y - h };
 			// 文字列の描画
-			DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[i].text, GetColor(255, 128, 50));
+			if (i != excamation_pos)
+			{
+				if (GetJoypadNum() >= 1)
+				{
+					DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[1].text, GetColor(255, 128, 50));
+				}
+				else
+				{
+					DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[0].text, GetColor(255, 128, 50));
+				}
+			}
+			else
+			{
+				DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[i].text, GetColor(255, 128, 50));
+			}
+
 		}
 	}
 	// プレイヤーのテキストの描画
@@ -701,7 +716,7 @@ void QuestAreaScene::TalkDraw()
 		{
 			box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE));
 		}
-		
+
 		DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
 		// YES
 		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
@@ -795,7 +810,7 @@ void QuestAreaScene::AcceptingQuestDraw()
 	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString(draw_pos_x, m_text_draw_pos.y , "SPACE", GetColor(255, 128, 50));
+	DrawString(draw_pos_x, m_text_draw_pos.y, "SPACE", GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 

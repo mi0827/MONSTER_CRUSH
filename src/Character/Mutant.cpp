@@ -187,14 +187,13 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 	}
 
 	// 咆哮攻撃の処理
-	 RoarAction(shout_anim, roar_se_info, camera);
-
+	 RoarSet(shout_anim, roar_se_info, camera);
+	 
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
-
 			// モンスターの状態を攻撃状態にする
 			m_monster_mode = IDLE;
 		}
@@ -202,7 +201,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		// カウントをリセットする
 		m_running_frame_count = 0;
 		break;
-	case RUN:
+	case RUN: // 歩いている状態
 		// 待機フラグを毎回リセット
 		m_idle_flag = false;
 		// 待機状態または走りの時だけｗ
@@ -250,7 +249,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		}
 
 		break;
-	case ATTACK:
+	case ATTACK: // 攻撃状態
 		// スタン中はほかの攻撃処理をしてほしくない
 		if (m_stun_flag == true)
 		{
@@ -340,7 +339,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		m_move.SetCanRotate(false);
 
 		break;
-	case STUN:
+	case STUN: // スタン状態
 		// ジャンプ中にスタンされてしまったとき
 		if (m_jump_flag == true)
 		{
@@ -352,6 +351,10 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		// スタンの更新処理
 		StunActionUpdate(stun_down_anim, stun_up_anim, STUN_VALUE_MAX);
 
+		break;
+	case ROAR: // 咆哮状態
+		// 咆哮攻撃時の処理
+		RoarAction(camera);
 		break;
 	}
 }
@@ -608,7 +611,15 @@ void Mutant::MonsterMode(int mode)
 		m_idle_flag = false;
 		m_run_flag = false;
 		m_attack_flag = false;
+		m_roar_flag = false;
 
+		break;
+
+	case ROAR:
+		m_idle_flag = false;
+		m_run_flag = false;
+		m_attack_flag = false;
+		m_roar_flag = true;
 		break;
 	}
 }

@@ -442,7 +442,11 @@ void CharacterBase::HitDamageUpdate(int hit_damage_anim)
 
 		}
 	}
-
+	// 攻撃を受けたらゲームパッドを揺らす
+	if (GetJoypadNum() >= 1)
+	{
+		PadVidation(DX_INPUT_PAD1, 1000, 3.0f, -1);
+	}
 	// ダメージを食らったアニメーションが終わりにかかったら
 	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10)
 	{

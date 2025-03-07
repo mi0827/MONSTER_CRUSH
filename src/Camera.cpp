@@ -403,15 +403,19 @@ void Camera::ChangeDistance()
 	m_mouse_wheel = GetMouseWheelRotVol();
 	m_length += m_mouse_wheel * 1.5f;
 
-	// ゲームパットでの変更
-	if (IsPadRepeat(PAD_ID::PAD_L))
+	if (GetJoypadNum() >= 1)
 	{
-		m_length -= 1.5f;
+		// ゲームパットでの変更
+		if (IsPadRepeat(PAD_ID::PAD_L))
+		{
+			m_length -= 1.5f;
+		}
+		if (IsPadRepeat(PAD_ID::PAD_R))
+		{
+			m_length += 1.5f;
+		}
 	}
-	if (IsPadRepeat(PAD_ID::PAD_R))
-	{
-		m_length += 1.5f;
-	}
+	
 
 	// 上限
 	if (m_length >= CAMERA_LENGTH_MAX)

@@ -105,7 +105,15 @@ void TitleScene::Draw()
 
 	// ‚Ç‚Ìƒ{ƒ^ƒ“‚ð‰Ÿ‚¹‚ÎŽn‚Ü‚é‚©‚ð•`‰æ
 	SetFontSize(100);
-	name = "SPACE";
+	if (GetJoypadNum() <= 0)
+	{
+		name = "SPACE";
+	}
+	else
+	{
+		name = " A ";
+	}
+
 	w = GetDrawStringWidth(name, -1);
 	h = GetFontSize();
 	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 + h * 2 };

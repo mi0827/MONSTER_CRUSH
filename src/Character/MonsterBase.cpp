@@ -505,8 +505,9 @@ void MonsterBase::AttackActionComboUpdate()
 //---------------------------------------------------------------------------
 // 一定のダメージを受けた時に相手との距離をとる用の関数(咆哮攻撃)
 //---------------------------------------------------------------------------
-void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
+void MonsterBase::RoarSet(int anim_num, int se_num, Camera* camera)
 {
+
 	if (m_roar_flag)
 	{
 		// フラグが立っている間だけ下の処理を行う
@@ -524,7 +525,6 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 			m_monster_mode = IDLE;
 		}
 	}
-
 	// モンスターのHPが一定数減ったら咆哮させたいので一定の値で割る
 	int constant_hp = m_hp_max / 4;
 
@@ -537,8 +537,8 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 		m_roar_flag = true;
 		// ダメージを入れたいので攻撃フラグを立てる
 		m_attack_flag = true;
-		// モンスターの状態を攻撃状態にする
-		//m_monster_mode = ATTACK;
+		// モンスターの状態を咆哮状態にする
+		m_monster_mode = ROAR;
 		// アニメーションが変更できるようにする
 		m_animation.m_anim_change_flag = true;
 		if (m_animation.ChangeFlag(true))
@@ -546,6 +546,8 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 			// 咆哮アニメーションをつける
 		m_animation.ChangeAnimation(&m_model, anim_num, false);
 		}
+		// アニメーションを一フレーム分進める
+		m_animation.PlayAnimation(&m_model,false);
 		// 再生中のSEを終わらせる
 		m_se.StopSound();
 		// 次のSEを再生できるようにする
@@ -553,9 +555,35 @@ void MonsterBase::RoarAction(int anim_num, int se_num, Camera* camera)
 		// 咆哮用のSEの再生
 		SEUpdate(se_num);
 	}
-
-	
 }
+
+void MonsterBase::RoarAction(Camera* camera)
+{
+	if (m_roar_flag)
+	{
+		// フラグが立っている間だけ下の処理を行う
+		// 登場アニメーションのセット(ループさせない)
+
+		// 画面シェイクをする
+		camera->CameraShakeLimited(4.0f, 3.0f);
+		// ゲームパッドが接続されているときはゲームパッドを振動させたい
+		if (GetJoypadNum() >= 1)
+		{
+			PadVidation(DX_INPUT_PAD1, 1000, 3.0f, -1);
+		}
+
+		// アニメーションが終わったら画面シェイクを終わる
+		if (m_animation.m_contexts[0].is_playing == false)
+		{
+			// 咆哮フラグを下げる
+			m_roar_flag = false;
+			// モンスターの状態を攻撃状態にする
+			m_monster_mode = IDLE;
+		}
+	}
+}
+
+
 
 
 //---------------------------------------------------------------------------

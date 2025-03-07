@@ -77,10 +77,10 @@ void GameInit()
 	option.Init();
 
 	// とりあえず今はタイトルシーンをつけておく
-	scene = new EndScene;
+	// scene = new EndScene;
 	//scene = new TitleScene;
-	//scene = new QuestAreaScene;
-	//scene = new GameScene;
+	// scene = new QuestAreaScene;
+	 scene = new GameScene;
 
 	// キャラクターのせってい
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
@@ -99,7 +99,7 @@ void GameInit()
 	m_bgm.LoadSound("Data/BGM/Battle_1.mp3", scene->Battle);
 	m_bgm.LoadSound("Data/BGM/End.mp3", scene->End);
 
-	m_bgm.PlaySound_(scene->Title,DX_PLAYTYPE_BACK,true);
+	m_bgm.PlaySound_(scene->Title, DX_PLAYTYPE_BACK, true);
 }
 
 //-------------------------------------------------------------
@@ -118,7 +118,7 @@ void GameUpdate()
 		switch (scene->m_now_scene)
 		{
 		case scene->Title: // タイトルシーン
-		
+
 
 			scene->Update();
 			// シーンの変更フラグが立っていれば
@@ -164,7 +164,7 @@ void GameUpdate()
 					delete scene;          // 現在のシーンの削除
 					scene = new GameScene; // 次のシーンをnewしておく
 					scene->Init();         // 次のシーンの初期処理もここで済ます
- 					ChangeBgm(scene->m_now_scene);
+					ChangeBgm(scene->m_now_scene);
 				}
 			}
 			break;
@@ -192,7 +192,7 @@ void GameUpdate()
 			// シーンの変更フラグが立っていれば
 			if (scene->m_scene_change_judge)
 			{
-				
+
 				// 次に行ってほしいシーンがタイトルシーンだったら
 				if (scene->m_next_scene == scene->Title)
 				{
