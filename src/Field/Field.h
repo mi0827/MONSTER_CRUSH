@@ -4,7 +4,7 @@
 //! @file Field.h
 //! @brief	Field(フィールド)クラス
 //! @brief フィールドベースクラスを継承
-class Field:public FieldBase
+class Field :public FieldBase
 {
 public:
 	// モデルの保存番号
@@ -24,10 +24,10 @@ public:
 		tree11,
 		tree12,
 		tree13, // フィールドの周りを囲んでいる木の番号
-		
+
 		// 外の見た目の部分の木
 		// ここから下の木には当たり判定はいらない
-		tree14, 
+		tree14,
 		tree15,
 		tree16,
 		tree17,
@@ -55,7 +55,7 @@ public:
 		fence8,
 		fence9,
 
-		
+
 
 		// 石のモデル番号
 		stone1,
@@ -142,5 +142,14 @@ public:
 	//! フィールドを囲む四角の当たり判定
 	static constexpr int FIELD_HIT_MAX = 4;
 	BoxCollision m_hit_field[FIELD_HIT_MAX];
-	
+
+private:
+	//! モデルのパスのテキスト
+	InfoText m_model_data_path;
+	//! モデルの座標の情報
+	InfoText m_object_pos_info;
+	//! モデルの向きの情報
+	InfoText m_object_rot_info;
+	//! モデルのサイズの設定
+	InfoText m_object_scale_info; 
 };

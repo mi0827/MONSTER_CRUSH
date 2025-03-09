@@ -78,9 +78,9 @@ void GameInit()
 
 	// とりあえず今はタイトルシーンをつけておく
 	// scene = new EndScene;
-	//scene = new TitleScene;
+	scene = new TitleScene;
 	// scene = new QuestAreaScene;
-	 scene = new GameScene;
+	//scene = new GameScene;
 
 	// キャラクターのせってい
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);

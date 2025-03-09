@@ -1,10 +1,14 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
+#include "src/System/InfoText.h"
+
 #include "src/System/Transform.h"
 #include "src/Model/Model.h"
+
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
+
 
 #include "src/Field/FieldBase.h"
 #include "src/Field/HitField.h"
@@ -29,6 +33,14 @@ Field::~Field()
 //---------------------------------------------------------------------------
 void Field::Init()
 {
+	// モデルのパスのデータの読み込み
+	m_model_data_path.LoadText("Data/Field/FieldText/ModelText.txt");
+	// モデルの座標のデータの読み込み
+	m_object_pos_info.LoadText("Data/Field/FieldText/ObjectPosData.txt");
+	// モデルの向きのデータの読み込み
+	m_object_rot_info.LoadText("Data/Field/FieldText/ObjectRotData.txt");
+	// モデルのサイズのデータの読み込み
+	m_object_scale_info.LoadText("Data/Field/FieldText/ObjectScaleData.txt");
 	// フィールドモデルの読み込み
 	m_field_model.LoadModel("Data/Field/ground/Stage00.mv1");
 	// 地面モデルの当たり判定の設定
