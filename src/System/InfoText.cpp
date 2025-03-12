@@ -28,7 +28,7 @@ void InfoText::LoadText(const char file_path[256])
 			string line;
 			// 一行取得する
 			getline(file, line);
-		
+
 			// 何行読み取ったのかを増やす
 			m_LINES_MAX++;
 
@@ -40,7 +40,7 @@ void InfoText::LoadText(const char file_path[256])
 			// vectorの配列に追加
 			lines.emplace_back(line);
 
-			
+
 		}
 		// ファイルを閉じる
 		file.close();
@@ -51,7 +51,7 @@ void InfoText::ConversionNumbers(int text_num, float* variable_1, float* variabl
 {
 	// string型からchar型に変更
 	// const char* text = lines[text_num].c_str();
-	
+
 	// 引数に渡された変数によって処理が少し変わる 
 	// 設定された引数が一つの時
 	if (variable_2 == nullptr && variable_3 == nullptr)
@@ -64,7 +64,7 @@ void InfoText::ConversionNumbers(int text_num, float* variable_1, float* variabl
 		sscanf_s(lines[text_num].c_str(), "%f %f", variable_1, variable_2);
 	}
 	// 設定された引数が三つの時
-	else 
+	else
 	{
 		sscanf_s(lines[text_num].c_str(), "%f %f %f", variable_1, variable_2, variable_3);
 	}

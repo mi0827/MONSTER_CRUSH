@@ -1,5 +1,6 @@
 #include "src/WinMain.h"
 #include "src/System/Vector3.h"
+#include "src/System/InfoText.h"
 #include "src/Model/Model.h"
 #include "HitField.h"
 

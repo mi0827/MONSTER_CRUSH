@@ -22,8 +22,7 @@ public:
 	//! @param 変換した数字を保存するための変数１
 	//! @param 変換した数字を保存するための変数２(なければ設定されない)
 	//! @param 変換した数字を保存するための変数３(なければ設定されない)
-	void ConversionNumbers(int text_num = 0, float* variable_1, float* variable_2 = nullptr, float* variable_3 = nullptr);
-
+	void ConversionNumbers(int text_num , float* variable_1, float* variable_2 = nullptr, float* variable_3 = nullptr);
 	//! @brief テキストに書き込むように変数
 	void UpText();
 
@@ -34,8 +33,6 @@ public:
 
 	// 何行読み取ったのかを保存するためのもの
 	int m_LINES_MAX = 0;
-
-private:
 	// テキストファイルから文字列を読み取ったものを保存するもの
 	// 文字列を入れる
 	std::vector<std::string> lines;

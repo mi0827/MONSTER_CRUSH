@@ -1,5 +1,5 @@
 #pragma once
-
+#include "src/System/InfoText.h"
 
 //! @file Field.h
 //! @brief	Field(フィールド)クラス
@@ -128,7 +128,7 @@ public:
 	};
 
 	// 置かれるオブジェクトの数分用意する
-	field m_field_object[MODEL_MAX];
+	field m_field_object[MODEL_MAX ];
 
 	//! フェンス用のあたり判定
 	BoxCollision m_hit_fence[FENCE_MAX];
@@ -144,6 +144,16 @@ public:
 	BoxCollision m_hit_field[FIELD_HIT_MAX];
 
 private:
+
+	enum ModelNum
+	{
+		field, // フィールドのモデル
+		terr,  // 木のモデル
+		fence, // フェンスのモデル
+		stone, // 石のモデル
+		model_num_max
+	};
+
 	//! モデルのパスのテキスト
 	InfoText m_model_data_path;
 	//! モデルの座標の情報
