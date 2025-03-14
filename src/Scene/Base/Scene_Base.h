@@ -146,12 +146,22 @@ public:
 	//! 現在のターン
 	int m_turn = Main;
 
-	// すべてのシーンで使うテキスト
-	Text m_text;
-	// テキストの数
-	static constexpr int TEXT_MAX = 2;
+	
 
 private:
+	enum TextNum
+	{
+		menu_text,
+		pad_menu_text,
+		target_camera_text,
+		pad_target_camera_text
+
+	};
+		// すべてのシーンで使うテキスト
+		Text m_text;
+	// テキストの数
+	static constexpr int TEXT_MAX = 4;
+
 	//! シーンでのフレームカウント
 	int m_frame_count = 0;
 	//! フェードアウト・インタイムカウント

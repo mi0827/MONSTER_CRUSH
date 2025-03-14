@@ -82,7 +82,7 @@ void TitleField::Update()
 //---------------------------------------------------------------------------
 //	ï`âÊèàóù
 //---------------------------------------------------------------------------
-void TitleField::Draw()
+void TitleField::Draw(Vector3 camera_pos, Vector3 player_pos)
 {
 
 	m_field_model.DrawModel(&m_field_transform);

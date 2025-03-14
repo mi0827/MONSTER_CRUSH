@@ -1,6 +1,15 @@
 #pragma once
 #include "src/System/Vector2.h"
 
+
+//! @brief 点と円の当たり判定
+//! @param 点の座標
+//! @param 円の中心の座標
+//! @param 円の半径
+//! @return true : 当たった、false : 当たっていない
+bool CheckPointCircleHit(Vector2& point, Vector2& center, float radius);
+
+
 //! @brief 点と四角の当たり判定
 //! @param 点の座標
 //! @param ボックスの座標

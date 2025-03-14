@@ -91,7 +91,9 @@ public:
 	//! @brief 更新処理
 	void Update()override;
 	//! @brief 描画処理
-	void Draw()override;
+	//! @param カメラ座標
+	//! @param プレイヤーの座標
+	void Draw(Vector3 camera_pos, Vector3 player_pos)override;
 	//! @brief 終了処理
 	void Exit()override;
 

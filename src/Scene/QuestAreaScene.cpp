@@ -150,7 +150,7 @@ void QuestAreaScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// フィールドの描画
-		m_field_1.Draw();
+		m_field_1.Draw(camera.m_pos, m_player->m_transform.pos);
 	}
 
 	// シャドウマップへの描画を終了
@@ -189,7 +189,7 @@ void QuestAreaScene::Draw()
 		// 受付嬢の描画
 		receptionist.Draw();
 		// シャドウマップへキャラクターモデルの描画
-		m_field_1.Draw();
+		m_field_1.Draw(camera.m_pos, m_player->m_transform.pos);
 	}
 	UseShadowMapSet();
 
@@ -297,7 +297,7 @@ void QuestAreaScene::LandMarkUpdate()
 {
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
-	/*(TextState& landmark: m_landmark_text)*/
+	
 
 	// 文字列の描画のための設定
 	for (int i = 0; i < landmark_text_max; i++)
@@ -734,13 +734,24 @@ void QuestAreaScene::TalkDraw()
 	m_reception_text.TextDraw(m_reception_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_STORY_BACK_SIZE);
 
 	// ストーリーを進行キーの描画
-	const char text[256] = "SPACE";
+	const char* text = "SPACE";
+	// ゲームパッドの接続しているかによって描画するものを変更する
+	if (GetJoypadNum() <= 0)
+	{
+		text = "SPACE";
+	}
+	else
+	{
+		text = " X ";
+	}
+
 	float x = GetDrawStringWidth(text, -1);
 	// テキストバーの端っこからテキスト分引いた位置に設定
 	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString(draw_pos_x, m_text_draw_pos.y + h, "SPACE", GetColor(255, 128, 50));
+
+	DrawString(draw_pos_x, m_text_draw_pos.y + h, text, GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 
@@ -805,13 +816,22 @@ void QuestAreaScene::AcceptingQuestDraw()
 	}
 
 	// ストーリーを進行キーの描画
-	const char text[256] = "SPACE";
+	const char* text = "SPACE";
+	// ゲームパッドの接続しているかによって描画するものを変更する
+	if (GetJoypadNum() <= 0)
+	{
+		text = "SPACE";
+	}
+	else
+	{
+		text = " X ";
+	}
 	float x = GetDrawStringWidth(text, -1);
 	// テキストバーの端っこからテキスト分引いた位置に設定
 	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString(draw_pos_x, m_text_draw_pos.y, "SPACE", GetColor(255, 128, 50));
+	DrawString(draw_pos_x, m_text_draw_pos.y, text, GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 

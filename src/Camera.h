@@ -116,7 +116,7 @@ public:
 	Vector3 m_look_2{ 0.0f,0.0f,0.0f };
 	float m_look_height = 0; // カメラが見る座標のY座標のプラス分用の変数
 
-private:
+
 	//! カメラの座標
 	Vector3 m_pos;
 public:

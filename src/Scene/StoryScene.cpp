@@ -161,7 +161,7 @@ void StoryScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		m_field_1.Draw();
+		m_field_1.Draw(camera.m_pos, m_player->m_transform.pos);
 	}
 
 	// シャドウマップへの描画を終了
@@ -193,7 +193,7 @@ void StoryScene::Draw()
 		// プレイヤーの描画処理
 		m_player->Draw();
 		// シャドウマップへキャラクターモデルの描画
-		m_field_1.Draw();
+		m_field_1.Draw(camera.m_pos, m_player->m_transform.pos);
 
 	}
 

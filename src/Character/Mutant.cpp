@@ -45,7 +45,7 @@ Mutant::Mutant()
 	// 初期座標の設定
 	m_transform.pos.set(100.0f, 0.0f, 100.0f);
 	// モデルのスケールの設定
-	m_transform.scale.set(0.2f, 0.2f, 0.2f);
+	m_transform.scale.set(0.3f, 0.3f, 0.3f);
 }
 
 
@@ -98,7 +98,6 @@ void Mutant::Init()
 void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera)
 {
 
-	
 	// モンスターの状態によってのフラグ管理
 	MonsterMode(m_monster_mode);
 

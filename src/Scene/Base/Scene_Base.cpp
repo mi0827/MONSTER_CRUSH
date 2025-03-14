@@ -78,13 +78,27 @@ void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 	// 描画する座標を設定
 	Vector2 draw_pos = { draw_pos_.x,draw_pos_.y };
 	// テキストの描画
-	m_text.TextDraw(0, draw_pos, m_text.OPTION_BACK_SIZE);
-	// 指定のシーンでだけ描画内容を増やす
-	if (scene_num == Battle)
+	// ゲームパッドが接続されているかで変更する
+	if (GetJoypadNum() >= 1)
 	{
-		draw_pos = { draw_pos_.x, draw_pos_.y + h * 2 + 10 };
-		m_text.TextDraw(1, draw_pos, m_text.OPTION_BACK_SIZE);
+		m_text.TextDraw(pad_menu_text, draw_pos, m_text.OPTION_BACK_SIZE);
+		if (scene_num == Battle)
+		{
+			draw_pos = { draw_pos_.x, draw_pos_.y + h * 2 + 10 };
+			m_text.TextDraw(pad_target_camera_text, draw_pos, m_text.OPTION_BACK_SIZE);
+		}
 	}
+	else
+	{
+		m_text.TextDraw(menu_text, draw_pos, m_text.OPTION_BACK_SIZE);
+		if (scene_num == Battle)
+		{
+			draw_pos = { draw_pos_.x, draw_pos_.y + h * 2 + 10 };
+			m_text.TextDraw(target_camera_text, draw_pos, m_text.OPTION_BACK_SIZE);
+		}
+	}
+	
+	
 
 }
 
