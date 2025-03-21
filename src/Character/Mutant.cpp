@@ -101,19 +101,21 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 	// モンスターの状態によってのフラグ管理
 	MonsterMode(m_monster_mode);
 
-
 	// ステータスバーの値が減ったかどうか
 	m_hp_bra.Update(m_hp_value);
-	m_stun_bra.Update(m_stun_value);
-
+	if (m_stun_flag == false)
+	{
+		m_stun_bra.Update(m_stun_value);
+	}
+	
 
 	switch (m_life_and_death)
 	{
 
 	case alive: // 生きいるとき
 		// 移動先のターゲットの設定
-		BaseSetTarget(target_pos, target_r,body);
-		LiveUpdate(target_pos, target_r,camera);
+		BaseSetTarget(target_pos, target_r, body);
+		LiveUpdate(target_pos, target_r, camera);
 		// モンスターのHPがより多いい時
 		if (m_hp_value > 0)
 		{
@@ -163,7 +165,7 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 {
 
-	// スタン状態になるかならないか
+	// スタン状態になるかならないかの判断
 	if (m_stun_value <= 0 && m_stun_flag == false)
 	{
 		// スタン状態に移動
@@ -175,19 +177,23 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		m_animation.m_anim_change_flag = true;
 	}
 	// スタン値が条件以内でなおかつ攻撃を受けていないときにスタン値を回復させる
-	else if (m_stun_value > 0 && m_stun_value < STUN_VALUE_MAX && m_damage_anim_flag== false)
+	else if (m_stun_value > 0 && m_stun_value < STUN_VALUE_MAX && m_damage_anim_flag == false)
 	{
 		m_not_damaged_frame++;
 		if (m_not_damaged_frame % STUN_VALUE_RECOVERY_FRAME == 0)
 		{
 			m_stun_value += RECOVERY_STUN_VALUE;
 		}
-		
+
 	}
 
 	// 咆哮攻撃の処理
-	 RoarSet(shout_anim, roar_se_info, camera);
-	 
+	if (m_stun_flag == false)
+	{
+		RoarSet(shout_anim, roar_se_info, camera);
+	}
+
+
 	switch (m_monster_mode)
 	{
 	case IDLE: // 停止状態 
@@ -218,7 +224,6 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		{
 			// ジャンプアクションをセットする
 			JumpAction(jump_anim, JUMP_TARGET_DISTANCE);
-
 		}
 		// 走っている時間が一定以上になったら
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
@@ -239,6 +244,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_se.StopSound();
 			m_se.m_playing_flag = true;
 		}
+
 		// モンスターの状態が攻撃状態になっていたら
 		if (m_monster_mode == ATTACK)
 		{
@@ -246,15 +252,16 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_se.StopSound();
 			m_se.m_playing_flag = true;
 		}
-
 		break;
+
 	case ATTACK: // 攻撃状態
 		// スタン中はほかの攻撃処理をしてほしくない
 		if (m_stun_flag == true)
 		{
+			m_monster_mode = STUN;
 			break;
 		}
-		
+
 		// 咆哮攻撃中はほかの処理をしてほしくない
 		if (m_roar_flag == true)
 		{
@@ -278,7 +285,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		if (m_now_attack_anim == rolling_anim)
 		{
 			ActionRolling(ROLLING_SPEED, ROLLING_STRAT_FRAME, ROLLING_END_FRAME);
-		   // ローリングアクションのあとにプレイヤーが攻撃範囲にはいていなかったら
+			// ローリングアクションのあとにプレイヤーが攻撃範囲にはいていなかったら
 			if (m_rolling_flag == false && HitAttackArea() == false)
 			{
 				break;
@@ -298,8 +305,8 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		// 攻撃のエフェクトがキック以外の時
 		// 攻撃時のエフェクトは攻撃とタイミングを合わせる
 		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
-			m_effect.m_play_effect_flag == true 
-			/*m_rolling_flag == false*/ )
+			m_effect.m_play_effect_flag == true
+			/*m_rolling_flag == false*/)
 		{
 			if (m_now_attack == attack_punch_1)
 			{
@@ -312,9 +319,9 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 				EffectUpdate(sword_attack_effect, m_now_attack);
 			}
 		}
-		
+
 		// SEが設定されていない攻撃の時は再生しない
-		if (m_rolling_flag == false&&m_jump_flag == false)
+		if (m_rolling_flag == false && m_jump_flag == false)
 		{
 			// 攻撃にあったサウンドを再生
 			if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
@@ -323,7 +330,7 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 				SEUpdate(m_now_attack);
 			}
 		}
-		
+
 		// 攻撃アニメーションが終わったから
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
@@ -394,10 +401,9 @@ void Mutant::Draw()
 	//}
 
 	// カプセルの描画(当たり判定)
-	//m_body.Draw();
-	/*m_body.Draw();
+	m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();*/
+	m_right_hand.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 	/*m_left_hand.Draw();
@@ -431,7 +437,7 @@ void Mutant::EntryUpdate()
 	m_animation.PlayAnimation(&m_model, m_combo_flag);
 	// 咆哮用のSEの再生
 	SEUpdate(roar_se_info);
-	
+
 }
 
 //-----------------------------------------------
@@ -474,14 +480,14 @@ void Mutant::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	// この座標をモデルのノードをでとってくるといいかも
-	m_body.CreateNodoCapsule(&m_model, 0, 7, 8.0f);
+	m_body.CreateNodoCapsule(&m_model, 0, 7, 12.0f);
 
 	// 左手のあたり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 3.5f);
+	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 6.0f);
 
 	// 右手の当たり判定
 	// 爪の部分が当たり判定がない
-	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 6.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 8.0f);
 
 	// 攻撃時の当たり当たり判定の保存
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch_1], (attack_punch_1));
@@ -586,18 +592,20 @@ void Mutant::MonsterMode(int mode)
 		m_idle_flag = true;
 		m_run_flag = false;
 		m_attack_flag = false;
+
 		break;
 	case RUN:
 		m_idle_flag = false;
 		m_run_flag = true;
 		m_attack_flag = false;
-
+		m_stun_flag = false;
 		break;
 	case ATTACK:
 
 		m_idle_flag = false;
 		m_run_flag = false;
 		m_attack_flag = true;
+
 		break;
 	case DIE:
 		m_idle_flag = false;

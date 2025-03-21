@@ -312,7 +312,7 @@ void Move::LookingUpdate(Vector3* chara_rot, Vector3* camera_rot)
 		{
 			if (inner_product <= 0.99)
 			{
-				chara_rot->y += 8.0f;
+				chara_rot->y += 10.0f;
 			}
 			else
 			{
@@ -324,7 +324,7 @@ void Move::LookingUpdate(Vector3* chara_rot, Vector3* camera_rot)
 		{
 			if (inner_product <= 0.99)
 			{
-				chara_rot->y -= 8.0f;
+				chara_rot->y -= 10.0f;
 			}
 			else
 			{

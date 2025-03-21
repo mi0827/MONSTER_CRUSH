@@ -378,22 +378,21 @@ void GameScene::Draw()
 	//DrawFormatString(16, 350, color, "ŠOÏ : %f", camera.cross_product.y);
 	//DrawFormatString(16, 450, color, "ŠOÏ : %f", camera.m_mouse_wheel);
 	//SetFontSize(50);
-	/*static constexpr int color = 255;
-	DrawStringF(16, 250, "player_flag", color, 0);
-	DrawFormatString(16, 300, color, "Idle : %d", m_player->m_idle_flag);
-	DrawFormatString(16, 350, color, "Run : %d", m_player->m_run_flag);
-	DrawFormatString(16, 400, color, "Attack : %d", m_player->m_attack_flag);
-	DrawFormatString(16, 450, color, "Damage : %d", m_player->m_damage_flag);
-	DrawFormatString(16, 500, color, "Rolling : %d", m_player->m_rolling_flag);
-	DrawFormatString(16, 550, color, "Counter : %d", m_player->m_counter_flag);
-
+	static constexpr int color = 255;
+	//DrawStringF(16, 250, "player_flag", color, 0);
+	//DrawFormatString(16, 300, color, "Idle : %d", m_player->m_idle_flag);
+	//DrawFormatString(16, 350, color, "Run : %d", m_player->m_run_flag);
+	//DrawFormatString(16, 400, color, "Attack : %d", m_player->m_attack_flag);
+	//DrawFormatString(16, 450, color, "Damage : %d", m_player->m_damage_flag);
+	//DrawFormatString(16, 500, color, "Rolling : %d", m_player->m_rolling_flag);
+	//DrawFormatString(16, 550, color, "Counter : %d", m_player->m_counter_flag);
 	DrawStringF(1500, 250, "monster_flag", color, 0);
 	DrawFormatString(1500, 300, color, "Idle : %d", monster->m_idle_flag);
 	DrawFormatString(1500, 350, color, "Run : %d", monster->m_run_flag);
 	DrawFormatString(1500, 400, color, "Attack : %d", monster->m_attack_flag);
 	DrawFormatString(1500, 450, color, "Stun : %d", monster->m_stun_flag);
 	DrawFormatString(1500, 500, color, "StunNum : %3d", monster->m_stun_value);
-	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);*/
+	DrawFormatString(1500, 550, color, "Now : %d", monster->m_now_attack);
 
 }
 

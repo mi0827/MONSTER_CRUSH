@@ -335,6 +335,7 @@ void MonsterBase::MoveAction(int run_anim)
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている
 	MoveUpdate(&m_run_flag);
+
 	// 移動制限がかかったらまた攻撃範囲に侵入したら
 	if (!m_move.m_hit || HitAttackArea())
 	{
@@ -343,6 +344,7 @@ void MonsterBase::MoveAction(int run_anim)
 		// モンスターの状態を攻撃に変更
 		m_monster_mode = ATTACK;
 	}
+
 	// run_flag が上がってるときかつ
 	// プレイヤーモードがRUN以外の時
 	if (m_run_flag && m_animation.m_anim_change_flag == false)
@@ -487,6 +489,9 @@ void MonsterBase::AttackActionComboUpdate()
 				m_animation.m_anim_change_flag = true;
 				// 最初の攻撃状態に移動
 				m_attack_info_num = ATTACKSET;
+				// 再生中のSEを止める
+				m_se.StopSound();
+				m_se.m_playing_flag = true;
 				break;
 			}
 
@@ -523,6 +528,9 @@ void MonsterBase::RoarSet(int anim_num, int se_num, Camera* camera)
 			m_roar_flag = false;
 			// モンスターの状態を攻撃状態にする
 			m_monster_mode = IDLE;
+			// 再生中のSEを止める
+			m_se.StopSound();
+			m_se.m_playing_flag = true;
 		}
 	}
 	// モンスターのHPが一定数減ったら咆哮させたいので一定の値で割る

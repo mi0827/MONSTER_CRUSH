@@ -14,23 +14,24 @@ bool FieldBase::ObjectDrawSituation(Vector3 camera_pos, float camera_radius, Vec
 {
 	// カメラの一定の範囲に入ったものを消すのもあり
 	float length = GetVector3Distance(camera_pos, obj_pos);
-	if (length <= camera_radius)
-	{
-		return false;
-	}
-	return true;
 
-	//// カメラのとプレイヤーの間にオブジェクトがあるかを調べる
-	//Vector3 obj_pos1 = { obj_pos.x + obj_size.x, obj_pos.y, obj_pos.z + obj_size.z };
-	//Vector3 obj_pos2 = { obj_pos.x - obj_size.x, obj_pos.y, obj_pos.z - obj_size.z };
-	//if ((obj_pos.x >= camera_pos.x  && obj_pos.x <= player_pos.x) || (camera_pos.x >= obj_pos.x && obj_pos.x >= player_pos.x))
-	//{
-	//	return false;
-	//}
-	//if ((obj_pos.z >= camera_pos.z && obj_pos.z <= player_pos.z) || (camera_pos.z >= obj_pos.z && obj_pos.z >= player_pos.z))
-	//{
-	//	return false;
-	//}
+	// カメラのとプレイヤーの間にオブジェクトがあるかを調べる
+	Vector3 obj_pos1 = { obj_pos.x + obj_size.x, obj_pos.y, obj_pos.z + obj_size.z };
+	Vector3 obj_pos2 = { obj_pos.x - obj_size.x, obj_pos.y, obj_pos.z - obj_size.z };
+	if ((obj_pos.x >= camera_pos.x  && obj_pos.x <= player_pos.x) || (camera_pos.x >= obj_pos.x && obj_pos.x >= player_pos.x))
+	{
+		if (length <= camera_radius)
+		{
+			return false;
+		}
+	}
+	if ((obj_pos.z >= camera_pos.z && obj_pos.z <= player_pos.z) || (camera_pos.z >= obj_pos.z && obj_pos.z >= player_pos.z))
+	{
+		if (length <= camera_radius)
+		{
+			return false;
+		}
+	}
 	// 普通に描画してよい
 	return true;
 }
