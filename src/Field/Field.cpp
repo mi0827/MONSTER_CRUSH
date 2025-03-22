@@ -113,38 +113,46 @@ void Field::Update()
 //---------------------------------------------------------------------------
 void Field::Draw(Vector3 camera_pos, Vector3 player_pos)
 {
+	// 半透明を先に描画する
 	// 描画ブレンドモードをアルファブレンド（５０％）にする
 
 	m_field_model.DrawModel(&m_field_transform);
-	/*SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);*/
+
 	for (int i = 0; i < MODEL_MAX; i++)
 	{
 
-		if (i >= stone1)
-		{
-			if (ObjectDrawSituation(camera_pos, 150.0f, player_pos, m_field_object[i].transform.pos, { 50.0f,0.0f,50.0f }))
-			{
-				m_field_object[i].model.DrawModel(&m_field_object[i].transform);
-			}
-			else
-			{
-				// 本来ここで
-
-				//SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-				/*m_field_model[i].model;*/
-				// m_field_object[i].model.DrawModel(&m_field_object[i].transform);
-
-				// 描画ブレンドモードをノーブレンドにする
-				//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-			}
-		}
-		else
+		if (ObjectDrawSituation(camera_pos, 150.0f, player_pos, m_field_object[i].transform.pos, { 50.0f,0.0f,50.0f }))
 		{
 			m_field_object[i].model.DrawModel(&m_field_object[i].transform);
 		}
 
 	}
 
+	for (int i = 0; i < MODEL_MAX; i++)
+	{
+		if (i >= stone1)
+		{
+			if (ObjectDrawSituation(camera_pos, 150.0f, player_pos, m_field_object[i].transform.pos, { 50.0f,0.0f,50.0f }) == false)
+			{
+				// 本来ここで
+				MV1SetOpacityRate(m_field_object[i].model.m_model, 0.3f);
+				// モデルの描画
+				m_field_object[i].model.DrawModel(&m_field_object[i].transform);
+				// 描画ブレンドモードをノーブレンドにする
+				MV1SetOpacityRate(m_field_object[i].model.m_model, 1.0f);
+			}
+			
+			/*if (ObjectDrawSituation(camera_pos, 150.0f, player_pos, m_field_object[i].transform.pos, { 50.0f,0.0f,50.0f }))
+			{
+				m_field_object[i].model.DrawModel(&m_field_object[i].transform);
+			}*/
+		}
+		/*else
+		{
+			m_field_object[i].model.DrawModel(&m_field_object[i].transform);
+		}*/
+	}
+	
 }
 
 //---------------------------------------------------------------------------

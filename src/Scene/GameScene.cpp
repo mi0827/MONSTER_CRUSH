@@ -202,8 +202,7 @@ void GameScene::EntryUpdate()
 //---------------------------------------------------------------------------
 void GameScene::GameUpdate()
 {
-	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
+	
 
 
 	// ヒットストップが起こってほしいときいがい
@@ -212,6 +211,8 @@ void GameScene::GameUpdate()
 		// キャラクターの更新処理
 		CharacterUpdate();
 	}
+
+
 
 	// モンスターが咆哮攻撃をしてきたときにプレイヤーを遠ざけるための処理
 	CharacterKeepAway();
@@ -245,6 +246,9 @@ void GameScene::GameUpdate()
 		// バトルが終わったころを知らせる
 		m_what_scene = result;
 	}
+
+	// カメラの更新処理
+	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
 }
 
 //---------------------------------------------------------------------------

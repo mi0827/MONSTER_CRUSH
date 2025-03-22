@@ -6,7 +6,6 @@
 #include "src/System/Transform.h"
 #include "Camera.h"
 
-
 //	この座標にマウスを固定しようと思います
 #define FIXED_X		(SCREEN_W/2)	//	Ｘ座標
 #define FIXED_Y		(SCREEN_H/2)	//	Ｙ座標
@@ -150,46 +149,51 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 	MATRIX  camera_mat = MGetRotY(TO_RADIAN(m_rot.y));
 	// カメラの前方方向ベクトル
 	Vector3 camera_dir = VGet(camera_mat.m[2][0], camera_mat.m[2][1], camera_mat.m[2][2]);
+	camera_dir.y = 0.0f;
 	camera_dir.normalize();
+
 	// 向かせたい方向ベクトル
 	// カメラから見たターゲットがどっちの咆哮にいるのかのベクトル
 	//Vector3 camera_pos =  m_pos.x,m_pos.z };
 	//Vector3 target_pos = { target_pos2->x, target_pos2->z };
 	Vector3  target_dir = *target_pos2 - m_pos;
+	target_dir.y = 0.0f;
 	target_dir.normalize();
+
+
+
 	// カメラの前方方向ベクトルと向いてほしい方向ベクトルの二つのベクトルの内積を求める
 	inner_product = GetVector3Dot(camera_dir, target_dir);
+	float inner_angle = TO_DEGREE( acosf(std::clamp(inner_product, -1.0f, 1.0f)) );
 
 	// カメラの前方方向ベクトルと向けせたい咆哮の二つのベクトルの内積を求める
 	cross_product = GetVector3Cross(camera_dir, target_dir);
+
 	// 外積によって方向を変える
 	if (cross_product.y > 0)
 	{
-		if (inner_product <= 0.95f)
+//		if (inner_product <= 0.95f)
 		{
-			m_rot.y += TARGET_ROT_SPEED;
+			m_rot.y += std::min(inner_angle, TARGET_ROT_SPEED);
 		}
-
-		//m_rot.y += 5.0f;
+		
 	}
 	else
 	{
-		if (inner_product <= 0.95f)
+//		if (inner_product <= 0.95f)
 		{
-			m_rot.y -= TARGET_ROT_SPEED;
+			m_rot.y -= std::min(inner_angle, TARGET_ROT_SPEED);
 		}
-		//m_rot.y -= 5.0f;
 	}
 
 
-
 	// まずは回転前のベクトルを用意します
-   // カメラが見るプレイヤー方向のベクトルを作成します
+	// カメラが見るプレイヤー方向のベクトルを作成します
 	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);
 
 	// 行列を用意します
 	// X軸回転行列
-	//	MATRIX mat_x = MGetRotX(TO_RADIAN(target1->rot.y));
+	// MATRIX mat_x = MGetRotX(TO_RADIAN(target1->rot.y));
 	// Y軸回転行列
 	MATRIX mat_y = MGetRotY(TO_RADIAN(m_rot.y));
 
@@ -340,7 +344,7 @@ void Camera::CameraShakeLimited(float power, float time)
 	// 揺れの強さを徐々に弱くする
 	m_power -= m_shake_time;
 	// 0より下回らないようにする
-	m_power = max(0.0f, m_power);
+	m_power = std::max(0.0f, m_power);
 
 	// 揺れがあるとき
 	if (m_power > 0.0f)
@@ -415,7 +419,7 @@ void Camera::ChangeDistance()
 			m_length += 1.5f;
 		}
 	}
-	
+
 
 	// 上限
 	if (m_length >= CAMERA_LENGTH_MAX)

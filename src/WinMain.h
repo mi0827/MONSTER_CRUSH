@@ -1,4 +1,8 @@
 #pragma once
+
+#define WIN32_LEAN_AND_MEAN		// 大半の不要なWin32 APIを除外
+#define NOMINMAX				// min/max マクロを定義させない
+
 // Windows プログラムを使うので
 #include <Windows.h>
 
@@ -8,6 +12,7 @@
 #include <math.h> // サイン、コサインや平方根など、数学的な関数です。
 
 #include <vector>
+#include <algorithm>
 
 #pragma warning (disable : 4819)
 
