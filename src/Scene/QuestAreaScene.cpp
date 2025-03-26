@@ -150,7 +150,7 @@ void QuestAreaScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// フィールドの描画
-		m_field_1.Draw(camera.m_pos, m_player->m_transform.pos);
+		m_field_1.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
 	}
 
 	// シャドウマップへの描画を終了
@@ -189,7 +189,7 @@ void QuestAreaScene::Draw()
 		// 受付嬢の描画
 		receptionist.Draw();
 		// シャドウマップへキャラクターモデルの描画
-		m_field_1.Draw(camera.m_pos, m_player->m_transform.pos);
+		m_field_1.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
 	}
 	UseShadowMapSet();
 

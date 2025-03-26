@@ -93,7 +93,7 @@ void GameScene::Init()
 	// ベースクラスで初期化しておきたいものの初期化
 	BaseInit();
 
-
+	// ゲームシーンの初期処理
 	GameSceneInit();
 
 	// カメラの初期設定
@@ -326,7 +326,7 @@ void GameScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// フィールドの描画
-		m_field_2.Draw(camera.m_pos, m_player->m_transform.pos);
+		m_field_2.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
 
 	}
 	// シャドウマップへの描画を終了
@@ -356,7 +356,7 @@ void GameScene::Draw()
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		m_field_2.Draw(camera.m_pos, m_player->m_transform.pos);
+		m_field_2.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
 		m_player->Draw();
 		// モンスターの描画
 		monster->Draw();

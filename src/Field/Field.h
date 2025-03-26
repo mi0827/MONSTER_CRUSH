@@ -53,21 +53,10 @@ public:
 		stone14,
 		stone15,
 		stone16,
+
+		// フィールドののオブジェクトの最大数
 		MODEL_MAX
 	};
-
-	//! フェンスの数(当たり判定がいる数)
-	//static constexpr int FENCE_MAX = fence9 - fence1 + 1;
-	//! フェンスの配列番号が始まる番号
-	//static constexpr int FENCE_INDEX_STRAT = fence1;
-	//! 木の数(当たり判定がいる数)
-	//static constexpr int TREE_MAX = tree13 - tree1 + 1;
-	//! 木の配列番号が始まる番号
-	//static constexpr int TREE_INDEX_STRAT = tree1;
-	//! 石の数(当たり判定がいる数)
-	//static constexpr int STONE_MAX = stone5 - stone1 + 1;
-	//! 石の配列番号が始まる番号
-	//static constexpr int STONE_INDEX_STRAT = stone1;
 
 	//---------------
 	// 関数の定義
@@ -82,10 +71,13 @@ public:
 
 	//! @brief 更新処理
 	void Update()override;
+
 	//! @brief 描画処理
-	//! //! @param カメラ座標
+	//! @param カメラ座標
+	//! @param カメラとプレイヤーとの距離
 	//! @param プレイヤーの座標
-	void Draw(Vector3 camera_pos, Vector3 player_pos)override;
+	void Draw(Vector3 camera_pos, float camera_length, Vector3 player_pos)override;
+
 	//! @brief 終了処理
 	void Exit()override;
 
@@ -116,7 +108,7 @@ public:
 	BoxCollision m_hit_wall[WALL_NUM_MAX];
 
 private:
-
+	// フィールドに存在するモデルの種類
 	enum ModelNum
 	{
 		field, // フィールドのモデル

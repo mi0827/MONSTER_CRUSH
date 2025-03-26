@@ -59,13 +59,10 @@
 using namespace std;
 // 各シーンのオブジェクト
 Scene_Base* scene;
-
+// オプションメニューのオブジェクト
 Option option;
 // BGM
 Sound m_bgm;
-
-
-int light_handle;
 
 //! ライトの座標用変数
 //-------------------------------------------------------------
@@ -77,18 +74,18 @@ void GameInit()
 	// オプションメニューの初期処理
 	option.Init();
 
-	// とりあえず今はタイトルシーンをつけておく
+	// 最初ははタイトルシーンをつけておく
 	// scene = new EndScene;
-	//scene = new TitleScene;
-	// scene = new QuestAreaScene;
-	scene = new GameScene;
+	// scene = new TitleScene;
+	 scene = new QuestAreaScene;
+	// scene = new GameScene;
 
 	// キャラクターのせってい
 	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
 
 	scene->Init();
 
-	// 例：陰の部分の明るさを0.5に設定する( デフォルトは 0.33f です )
+	// 陰の部分の明るさをを調整する( デフォルトは 0.33f です )
 	SetGlobalAmbientLight(GetColorF(0.2f, 0.2f, 0.2f, 0.0f));
 
 	// BGMをシーンの数用意する

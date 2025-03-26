@@ -13,8 +13,9 @@ public:
 
 	//! @brief 描画処理
 	//! @param カメラ座標
+	//! @param カメラとプレイヤーとの距離
 	//! @param プレイヤーの座標
-	virtual void Draw(Vector3 camera_pos, Vector3 player_pos) = 0;
+	virtual void Draw(Vector3 camera_pos, float camera_length, Vector3 player_pos) = 0;
 
 	//! @brief 終了処理
 	virtual void Exit() = 0;
@@ -30,9 +31,8 @@ public:
 	//! @param カメラからの半径
 	//! @param プレイヤーの座標
 	//! @param オブジェクトの座標
-	//! @param オブジェクトの座標
 	//! @return true : 普通に描画してよい、false : 半透明に描画する必要性がある
-	bool ObjectDrawSituation(Vector3 camera_pos, float camera_radius, Vector3 player_pos, Vector3 obj_pos, Vector3 obj_size);
+	bool ObjectDrawSituation(Vector3 camera_pos, float camera_radius, Vector3 player_pos, Vector3 obj_pos);
 
 	//フィールドモデルの入れ物
 	Model m_field_model;

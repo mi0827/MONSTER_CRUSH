@@ -236,7 +236,7 @@ void EndScene::Draw()
 	{
 
 		// シャドウマップへキャラクターモデルの描画
-		m_field_2.Draw(camera.m_pos,m_player->m_transform.pos);
+		m_field_2.Draw(camera.m_pos,camera.m_length, m_player->m_transform.pos);
 	}
 
 	// シャドウマップへの描画を終了
@@ -267,7 +267,7 @@ void EndScene::Draw()
 		// プレイヤーの描画処理
 		m_player->Draw();
 		// シャドウマップへキャラクターモデルの描画
-		m_field_2.Draw(camera.m_pos, m_player->m_transform.pos);
+		m_field_2.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
 
 	}
 	UseShadowMapSet();

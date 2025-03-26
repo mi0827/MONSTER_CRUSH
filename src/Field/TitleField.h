@@ -38,8 +38,6 @@ public:
 		tree26,
 		tree27,
 
-
-
 		// フェンスのモデル番号
 		fence1,
 		fence2,
@@ -53,16 +51,14 @@ public:
 		fence10,
 		fence11,
 	
-
-
-
+		// フィールドののオブジェクトの最大数
 		MODEL_MAX
 	};
 
-	//! フェンスの数(当たり判定がいる数)
-	static constexpr int FENCE_MAX = fence11 - fence1 + 1;
-	//! フェンスの配列番号が始まる番号
-	static constexpr int FENCE_INDEX_STRAT = fence1;
+	////! フェンスの数(当たり判定がいる数)
+	//static constexpr int FENCE_MAX = fence11 - fence1 + 1;
+	////! フェンスの配列番号が始まる番号
+	//static constexpr int FENCE_INDEX_STRAT = fence1;
 	//! 木の数(当たり判定がいる数)
 	static constexpr int TREE_MAX = tree27 - tree1 + 1;
 	//! 木の配列番号が始まる番号
@@ -80,20 +76,19 @@ public:
 	// デストラクタ
 	~TitleField();
 
-
-
-
-
 	//! @brief 初期処理
 	void Init()override;
 
 
 	//! @brief 更新処理
 	void Update()override;
+
 	//! @brief 描画処理
 	//! @param カメラ座標
+	//! @param カメラとプレイヤーとの距離
 	//! @param プレイヤーの座標
-	void Draw(Vector3 camera_pos, Vector3 player_pos)override;
+	void Draw(Vector3 camera_pos, float camera_length, Vector3 player_pos)override;
+
 	//! @brief 終了処理
 	void Exit()override;
 
@@ -105,10 +100,6 @@ public:
 	void FenceInit();
 	//! @brief 石のオブジェクトの初期設定
 	void StoneInit();
-
-	//---------------
-	// 変数の定義
-	//---------------
 
 	//--------------- 
 	// 各クラスのオブジェクトの作成
@@ -123,9 +114,7 @@ public:
 	// 置かれるオブジェクトの数分用意する
 	field m_field_object[MODEL_MAX];
 
-	//! フェンス用のあたり判定
-	BoxCollision m_hit_fence[FENCE_MAX];
-
+	
 	//! 木の当たり判定
 	CapsuleCollision m_hit_tree[TREE_MAX];
 
@@ -136,7 +125,22 @@ public:
 	Vector3 m_hit_around_pos[AROUND_MAX]; // 当たり判定の座標
 	Vector3 m_hit_around_size[AROUND_MAX]; // 当たり判定のサイズ
 
-	////フィールドモデルの入れ物
-	//Model m_field_model;
-	//Transform m_field_transform;
+	// フィールドに存在するモデルの種類
+	enum ModelNum
+	{
+		field, // フィールドのモデル
+		terr,  // 木のモデル
+		fence, // フェンスのモデル
+		
+		model_num_max
+	};
+
+	//! モデルのパスのテキスト
+	InfoText m_model_data_path;
+	//! モデルの座標の情報
+	InfoText m_object_pos_info;
+	//! モデルの向きの情報
+	InfoText m_object_rot_info;
+	//! モデルのサイズの設定
+	InfoText m_object_scale_info;
 };

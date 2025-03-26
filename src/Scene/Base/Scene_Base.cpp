@@ -2,6 +2,7 @@
 #include "src/System/Vector3.h"
 #include "src/System/Vector2.h"
 #include "src/System/Transform.h"
+#include "src/System/InfoText.h"
 
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
