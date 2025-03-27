@@ -158,17 +158,25 @@ private:
 	int m_select = 0; 
 
 
-	// ゲームパッド用の変数
-	int pad_input;
-	// １番のゲームパッドをセット
-	PAD_NO pad_no = PAD_NO::PAD_NO1;
+	//// ゲームパッド用の変数
+	//int pad_input;
+	//// １番のゲームパッドをセット
+	//PAD_NO pad_no = PAD_NO::PAD_NO1;
 
-	// ゲームパッドの番号をセットする
-	// DXライブラリー側でのパッドの番号も取得
-	void SetPadNo(PAD_NO no, int dx_no)
+	//// ゲームパッドの番号をセットする
+	//// DXライブラリー側でのパッドの番号も取得
+	//void SetPadNo(PAD_NO no, int dx_no)
+	//{
+	//	pad_no = no;
+	//	pad_input = dx_no;
+	//}
+
+	enum OperateType
 	{
-		pad_no = no;
-		pad_input = dx_no;
-	}
+		GamePad,
+		KeyboardMouse
+	};
+	// どちらの操作タイプで開かれたかを保存する変数
+	int m_operateType = 0;
 
 };

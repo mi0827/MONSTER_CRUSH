@@ -71,9 +71,19 @@ void Option::Update()
 
 	// オプションメニューを開くとき
 	// ボタンを押されたら
-	if (
-		m_option_flag == false)
+	if (m_option_flag == false)
 	{
+		// メニューを開くときにゲームパッドを押していた時
+		if (IsPadOn(PAD_ID::PAD_START))
+		{
+			m_operateType = GamePad;
+		}
+		// キーボードの時
+		else if (PushHitKey(KEY_INPUT_TAB))
+		{
+			m_operateType = KeyboardMouse;
+		}
+
 		if (PushHitKey(KEY_INPUT_TAB) || IsPadOn(PAD_ID::PAD_START))
 		{
 			// マウスの表示状態の設定
@@ -342,9 +352,19 @@ void Option::Draw()
 			m_bra[i].Draw();
 		}
 		SetFontSize(original_font_size); // フォントサイズを戻す
-		// 操作説明(仮で描画)
-		DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
-			SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_operation_instructions_image, TRUE);
+		
+		// メニュー画面をゲームパッド、キーボード開いたほうに合わせて描画する
+		if (m_operateType == GamePad)
+		{
+			
+		}
+		else
+		{
+			// 操作説明(仮で描画)
+			DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
+				SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_operation_instructions_image, TRUE);
+		}
+	
 	}
 
 }

@@ -253,7 +253,7 @@ void Animation::ActionComboChangeAnimation(Model* model, int anim_num, bool loop
 	// アニメーションが最後のフレームに差し掛かったら
 	if (combo_flag)
 	{
-		if (m_contexts[0].play_time >= m_contexts[0].animation_total_time)
+		if (m_contexts[0].play_time >= m_contexts[0].animation_total_time - 30)
 		{
 			
 			ChangeAnimation(model, anim_num, loop);

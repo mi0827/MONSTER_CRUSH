@@ -185,7 +185,7 @@ void CharacterBase::AttackFirst()
 void CharacterBase::AttackUpdate()
 {
 	// コンボ関数を呼ぶ
-		ComboActionUpdate();
+	ComboActionUpdate();
 }
 
 //---------------------------------------------------------------------------
@@ -369,11 +369,6 @@ void CharacterBase::ComboActionUpdate()
 		// コンボがアニメーションの最大と同じになったら(指定された)
 		if (m_combo_count >= m_COMBO_MAX)
 		{
-
-			// コンボをストップするようにする
-			//m_stop_combo_flag = true;
-
-			
 			// コンボの回数をリセット
 			m_combo_count = 0;
 
@@ -384,8 +379,6 @@ void CharacterBase::ComboActionUpdate()
 			break;
 
 		}
-
-
 		// コンボ用のアニメーションをつける
 		m_animation.ActionComboChangeAnimation(&m_model, m_next_anim, false, &m_combo_flag);
 

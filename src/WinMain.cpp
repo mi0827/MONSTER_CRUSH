@@ -110,6 +110,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	ChangeLightTypeDir(VGet(0.8f, -1.2f, 1.0f));
 
+	// ゲームパッドを使用する際に必要になる設定
 	InputPadInit();
 	// ゲームメインの初期処理
 	GameInit();
