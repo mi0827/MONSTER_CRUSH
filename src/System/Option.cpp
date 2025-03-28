@@ -42,7 +42,7 @@ void Option::Init()
 	// 画像類の読み込み
 	m_image_box = LoadGraph("Data/Option/OptionMenu.png"); // 背景
 	m_operation_instructions_image = LoadGraph("Data/Option/Operationinstructions.jpg"); // 操作説明書
-
+	m_gamePad_operation_explanation_image = LoadGraph("Data/Option/GamePadOperationExplanation.jpg"); // 操作説明書
 	// 各バーの設定
 	SetOptionMenu();
 	// 各オプションの値の設定
@@ -175,7 +175,7 @@ void Option::SetOptionMenu()
 void Option::MenuSelect()
 {
 	// Wキー、ゲームパッドの上方向ボタンを押された時
-	if (PushHitKey(KEY_INPUT_W)||IsPadOn(PAD_ID::PAD_D_UP))
+	if (PushHitKey(KEY_INPUT_W) || IsPadOn(PAD_ID::PAD_D_UP))
 	{
 		// SEの再生
 		SoundPlay(selection_menu_se);
@@ -352,11 +352,14 @@ void Option::Draw()
 			m_bra[i].Draw();
 		}
 		SetFontSize(original_font_size); // フォントサイズを戻す
-		
+
 		// メニュー画面をゲームパッド、キーボード開いたほうに合わせて描画する
 		if (m_operateType == GamePad)
 		{
 			
+				// 操作説明(仮で描画)
+				DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
+					SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_gamePad_operation_explanation_image, TRUE);
 		}
 		else
 		{
@@ -364,7 +367,7 @@ void Option::Draw()
 			DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
 				SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_operation_instructions_image, TRUE);
 		}
-	
+
 	}
 
 }

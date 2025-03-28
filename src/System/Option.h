@@ -151,7 +151,8 @@ private:
 	// 背景画像用の入れ物
 	int m_image_box = 0;
 	// 操作説明の画像用の入れ物
-	int m_operation_instructions_image = 0;
+	int m_operation_instructions_image = 0; // キーボードマウスの画像
+	int m_gamePad_operation_explanation_image = 0; // ゲームパッドの画像
 	// メニューボタンが押されてから閉じるまでにかかる最低時間をカウントするための物
 	int m_menu_count = 0; 
 	// SEかBGMを洗濯するためのもの

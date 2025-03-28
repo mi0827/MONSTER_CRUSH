@@ -24,6 +24,8 @@ int BeforeMouseY;
 //! @brief true : 変動可能、 false : 固定する
 bool mouse_pos_middle_flag = false;
 
+bool game_pad_flag;
+
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -132,6 +134,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// １１：描画領域をクリア
 		ClearDrawScreen();
+
+
+		
+		// ゲームパッドの更新処理
 		InputPadUpdate();
 
 		GetHitKeyStateAll(KeyBuffer); // キーボードのすべてのキーの押下状態を取得する
@@ -153,6 +159,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		NowMouseX = GetMouseX();
 		NowMouseY = GetMouseY();
 
+		
 		// ゲーム更新処理
 		GameUpdate();
 

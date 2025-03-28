@@ -455,3 +455,4 @@ float GetPadInputAnalogRY(int pad_num)
 
 	return pad_input_states[pad_num].Ry / MAX_ANALOG_INPUT_VALUE;
 }
+
