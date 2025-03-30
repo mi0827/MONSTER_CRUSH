@@ -43,9 +43,9 @@ Mutant::Mutant()
 	m_monster_mode = IDLE;
 
 	// 初期座標の設定
-	m_transform.pos.set(100.0f, 0.0f, 100.0f);
+	m_transform.pos.set(150.0f, 0.0f, 150.0f);
 	// モデルのスケールの設定
-	m_transform.scale.set(0.3f, 0.3f, 0.3f);
+	m_transform.scale.set(0.25f, 0.25f, 0.25f);
 }
 
 
@@ -385,6 +385,7 @@ void Mutant::DieUpdate()
 //-----------------------------------------------
 void Mutant::Draw()
 {
+	// 攻撃タイミングだけ当たり判定を描画
 	//if (m_attack_flag)
 	//{
 	//	if (AttackHitGoodTiming(m_now_attack))
@@ -394,21 +395,13 @@ void Mutant::Draw()
 	//	}
 	//}
 
-	//if (m_jump_flag)
-	//{
-	//	DrawCapsule3D(m_jump_pos.VGet(), m_jump_pos.VGet(), 10.0f, 8.0f,
-	//		GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
-	//}
-
 	// カプセルの描画(当たり判定)
-	m_body.Draw();
+	/*m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();
+	m_right_hand.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
-	/*m_left_hand.Draw();
-	m_right_hand.Draw();
-	m_attack_area.Draw();*/
+
 }
 
 //-----------------------------------------------

@@ -203,15 +203,17 @@ void GameScene::EntryUpdate()
 void GameScene::GameUpdate()
 {
 	
-
-
+	
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
 	{
 		// キャラクターの更新処理
 		CharacterUpdate();
 	}
+	
 
+	// カメラの更新処理
+	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
 
 
 	// モンスターが咆哮攻撃をしてきたときにプレイヤーを遠ざけるための処理
@@ -247,8 +249,7 @@ void GameScene::GameUpdate()
 		m_what_scene = result;
 	}
 
-	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
+	
 }
 
 //---------------------------------------------------------------------------
@@ -461,7 +462,7 @@ void GameScene::HitField()
 void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
-	camera.SetCameraSensi(mouse);
+	camera.SetCameraSensi((float)mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
 	// モンスターのサウンドの調整
@@ -623,12 +624,12 @@ void GameScene::VDMessage()
 	// フォントサイズの設定
 	SetFontSize(80);
 	// 描画幅の取得
-	float w = GetDrawStringWidth(m_massage[m_who_died].message, -1);
+	float w = (float)GetDrawStringWidth(m_massage[m_who_died].message, -1);
 	// 文字列の高さの取得
-	float h = GetFontSize();
+	float h = (float)GetFontSize();
 	// 描画座標
 	m_massage_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h };
-	DrawString(m_massage_pos.x, m_massage_pos.y, m_massage[m_who_died].message, GetColor(255, 128, 50));
+	DrawString((int)m_massage_pos.x, (int)m_massage_pos.y, m_massage[m_who_died].message, GetColor(255, 128, 50));
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);

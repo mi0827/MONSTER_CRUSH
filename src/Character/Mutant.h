@@ -91,7 +91,7 @@ public:
 	static constexpr float JUMP_STRAT_FRAME = 34.0f;         //! ジャンプの移動開始のフレーム
 	static constexpr float JUMP_END_FRAME = 90.0f;           //! ジャンプの移動終了のフレーム
 
-	static constexpr float ROLLING_SPEED = 1.0f;             //! ローリングスピード
+	static constexpr int ROLLING_SPEED = 1;             //! ローリングスピード
 	static constexpr float ROLLING_STRAT_FRAME = 0.0f;       //! ローリングの移動開始フレーム
 	static constexpr float ROLLING_END_FRAME = 70.0f;        //! ローリングの移動終了フレーム
 	static constexpr float ROLLING_TARGET_DISTANCE = 15.0f;  //! ローリングするとき相手と離れててほしい最低限の距離

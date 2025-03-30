@@ -93,11 +93,11 @@ public:
 
 	// ヒットストップ用のオブジェクト
 	HitStop hit_stop;
-	
+
 	//=================
 	// カメラに関しての変数
 	//! カメラの移動スピード
-	
+
 	//! ターゲットカメラを使用するかマウスでカメラを操作するかの判断用変数
 	bool m_camera_change = true;
 
@@ -114,7 +114,7 @@ public:
 		max,
 	};
 	// 誰が死んだかを保存するためのもの
-	int m_who_died;
+	int m_who_died = 0;
 
 
 	//==========================
@@ -149,7 +149,7 @@ public:
 	{
 		{ "QUEST : FAILED"}, // 失敗
 		{ "QUEST : CLEAR" } // クリア
-		
+
 	};
 	//! メッセージの描画座標
 	Vector2 m_massage_pos{ 0.0f,0.0f };

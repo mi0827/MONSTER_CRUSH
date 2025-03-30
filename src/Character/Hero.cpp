@@ -36,8 +36,6 @@ Hero::Hero()
 	// 移動の際の当たり判定のサイズの設定
 	m_move_hit_size = { 3.0f,5.0f,3.0f };
 
-	// モデルのスケールの設定
-	//m_transform.scale.set(0.1f,0.1,0.1);
 }
 
 
@@ -62,7 +60,7 @@ void Hero::Init()
 
 
 	// プレイヤーの初期座標
-	SetCharacterPos({ 170,0,170 });
+	SetCharacterPos({ 250,0,250 });
 	// 向きの設定
 	SetCharacterRot({ 0,180.0f,0 });
 	// モデルのスケールの設定
@@ -74,7 +72,6 @@ void Hero::Init()
 	// モデルのマテリアルを確保
 	// マテリアルのアンビエントをあげると自分にかかっている影が明るくなる
 	m_model.SetMaterialAmbient({ 1.0f,1.0f,1.0f,0.0f });
-	// m_model.SetMaterialEmissive({ 1.0f,1.0f,1.0f,0.0f });
 
 	// アニメーションの初期設定
 	AnimLoadInit();
@@ -307,6 +304,7 @@ void Hero::LiveUpdate(Vector3* camera_rot)
 		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
 			m_effect.m_play_effect_flag == true)
 		{
+			m_effect.StopEffect();
 			if (m_now_attack == attack_kick_1 || m_now_attack == attack_kick_2)
 			{
 				// キック攻撃の時のエフェクト
@@ -376,7 +374,7 @@ void Hero::Draw()
 	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
 	//	}
 	//}
-	//m_body.Draw();
+	// m_body.Draw();
 	/*m_right_hand.Draw();
 	m_left_hand.Draw();
 	m_right_feet.Draw();
@@ -401,7 +399,8 @@ void Hero::Exit()
 void Hero::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
-	m_body.CreateNodoCapsule(&m_model, 6, 65, 3.5f);
+	//m_body.CreateNodoCapsule(&m_model, 6, 65, 3.5f);
+	m_body.CreateCapsule(m_transform.pos, { 0.0f, 20.0f, 0.0f },3.5f);
 	// 右手のあたり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 32, 46, 2.5f);
 	// 左手の当たり判定
@@ -497,7 +496,7 @@ void Hero::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/AttackSword4.mv1", attack_sword_anim_4, 0, 2.3f); //!< 剣攻撃４
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick1.mv1", attack_kick_anim_1, 0, 2.3f); //<! キック攻撃１
 	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/Kick2.mv1", attack_kick_anim_2, 0, 2.3f); //<! キック攻撃２
-	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.2f);     //<! カウンター攻撃
+	m_animation.LoadAnimation("Data/Model/Hero/Animation/Attack/counter3.mv1", counter_anim, 0, 3.5f);     //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }

@@ -77,7 +77,7 @@ void GameInit()
 	// 最初ははタイトルシーンをつけておく
 	// scene = new EndScene;
 	// scene = new TitleScene;
-	 scene = new QuestAreaScene;
+	// scene = new QuestAreaScene;
 	// scene = new GameScene;
 
 	// キャラクターのせってい
