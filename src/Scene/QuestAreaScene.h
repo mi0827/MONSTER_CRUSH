@@ -223,8 +223,8 @@ private:
 	// クエスト選択画面の状態
 	enum QuestSelectionMode
 	{
-		quest_selection,
-		reply_selection,
+		quest_selection, // クエスト選択中
+		reply_selection,  // 返答選択
 	};
 	// クエスト選択画面の状態
 	int m_quest_selection_num;

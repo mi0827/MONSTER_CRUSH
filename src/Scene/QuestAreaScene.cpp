@@ -619,6 +619,8 @@ void QuestAreaScene::AcceptingQuestUpdate()
 				// 受付嬢の会話の途中からやり直す
 				m_quest_text_line = 2;
 
+				// 選択されたクエストナンバーの保存
+				m_monster_num = m_quest_num;
 			}
 		}
 		if (scene_mode_num == accepting_quest)

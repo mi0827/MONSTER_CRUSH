@@ -28,7 +28,7 @@ Camera::Camera()
 	m_mouse_move_y = 0.0f;
 	//! パネルの大きさ(カメラを中心として扱うため半分の大きさを使う)
 	// 今は使えてない
-	m_hit_box_size.set(BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1);
+	//m_hit_box_size.set(BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1);
 	m_before_pos.set(m_pos); //< 移動前の座標の設定
 
 	// カメラの見る位置と距離の設定

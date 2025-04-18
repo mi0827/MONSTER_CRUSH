@@ -90,6 +90,14 @@ public:
 	//! @param hero : 女剣士、bot：ボット戦士
 	void PlayerInit(int character_num);
 
+	//! @brief 受けたクエストによって戦うモンスターの番号を返す用の関数
+	//! @return 受けたクエスト番号
+	int ReturnMonsterNum();
+
+	//! @brief クエストで受けられてた番号によってモンスターを登場させるためのもの
+    //! @param 受けたクエスト番号（モンスター番号）
+	void SetMonster(int monster_num);
+
 public:
 	//! 一秒何フレームかの変換用定数
 	const int FLAME_MAX = 60;
@@ -146,7 +154,7 @@ public:
 	//! 現在のターン
 	int m_turn = Main;
 
-	
+
 
 private:
 	enum TextNum
@@ -157,8 +165,8 @@ private:
 		pad_target_camera_text
 
 	};
-		// すべてのシーンで使うテキスト
-		Text m_text;
+	// すべてのシーンで使うテキスト
+	Text m_text;
 	// テキストの数
 	static constexpr int TEXT_MAX = 4;
 
@@ -190,5 +198,5 @@ public:
 	// キャラクター番号
 	int m_character_num = hero;
 
-	
+
 };

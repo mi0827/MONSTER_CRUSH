@@ -77,7 +77,7 @@ void GameInit()
 	// 最初ははタイトルシーンをつけておく
 	// scene = new EndScene;
 	// scene = new TitleScene;
-	// scene = new QuestAreaScene;
+	 scene = new QuestAreaScene;
 	// scene = new GameScene;
 
 	// キャラクターのせってい
@@ -140,7 +140,7 @@ void GameUpdate()
 			if (scene->m_scene_change_judge) {
 				// 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
 				if (scene->m_next_scene == scene->QuestArea)
-				{
+				{			
 					scene->Exit();              // delete前に終了処理を回す
 					delete scene;               // 現在のシーンの削除
 					scene = new QuestAreaScene; // 次のシーンをnewしておく
@@ -158,9 +158,11 @@ void GameUpdate()
 				// 次に行ってほしいシーンがバトルシーンだったら
 				if (scene->m_next_scene == scene->Battle)
 				{
+					int monster_num = scene->ReturnMonsterNum(); // 戦うモンスターの番号をもらってくる
 					scene->Exit();         // delete前に終了処理を回す
 					delete scene;          // 現在のシーンの削除
 					scene = new GameScene; // 次のシーンをnewしておく
+					scene->SetMonster(monster_num); // 登場させたいモンスターの番号の設定
 					scene->Init();         // 次のシーンの初期処理もここで済ます
 					ChangeBgm(scene->m_now_scene);
 				}

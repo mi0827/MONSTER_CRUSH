@@ -77,10 +77,10 @@ void GameScene::GameSceneInit()
 	{
 		monster = new Mutant;
 	}
-	/*if (m_monster_num == MONSTER)
+	if (m_monster_num == MONSTER)
 	{
 		monster = new Monster;
-	}*/
+	}
 
 }
 
