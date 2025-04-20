@@ -111,46 +111,46 @@ public:
 	//! @detail 攻撃アニメーションはコンボの続けたい順番に設定する
 	enum Animation_Max
 	{
-		idle_anim, //!< 待機
-		run_anim,  //!< 走り
-		die_anim,   //!< 死亡
-		shout_anim, //!< 叫び
+		idle_anim,       //!< 待機
+		run_anim,        //!< 走り
+		die_anim,        //!< 死亡
+		shout_anim,      //!< 叫び
 		hit_damage_anim, //!< 攻撃を受けた時
-		stun_down_anim, //!< スタンで倒れる時
-		stun_up_anim,  //!< スタンで起き上がるとき
+		stun_down_anim,  //!< スタンで倒れる時
+		stun_up_anim,    //!< スタンで起き上がるとき
 
-		punch_attack_1_anim, //!< パンチ攻撃１
-		sword_attack_1_anim, //!< ソード攻撃１
-		sword_attack_2_anim, //!< ソード攻撃２
-		sword_attack_3_anim, //!< ソード攻撃３
-		sword_attack_4_anim, //!< ソード攻撃４
-		sword_attack_5_anim, //!< ソード攻撃５
-		rolling_anim,  //!< ローリング
-		jump_anim,     //!< ジャンプアクション
+		punch_attack_anim,      //!< パンチ攻撃
+		kick_attack_anim,       //!< キック攻撃
+		bigpunch_attack_anim,   //!< 大パンチ攻撃
+		breath_attack_anim,     //!< ブレス攻撃
+		takle_attack_anim,      //!< タックル攻撃
+		upperpunch_attack_anim, //!< アッパー攻撃
+		rolling_anim,           //!< ローリング
+		jump_anim,              //!< ジャンプアクション
 
 		anim_max //!< アニメーションの最大数
 	};
 
 	//! 攻撃アニメーションの一番最初
-	static constexpr int ATTACK_ANIM_START = punch_attack_1_anim;
+	static constexpr int ATTACK_ANIM_START = punch_attack_anim;
 	//! 攻撃アニメーション最大値（jumpを抜いた分ジャンプを抜いておかないとコンボ攻撃の時なバグる）
 	static constexpr int ATTACK_ANIM_MAX = rolling_anim - ATTACK_ANIM_START;
 
 	//! 攻撃アクションの数
-	static constexpr int ATTACK_ACTION_MAX = anim_max - punch_attack_1_anim;
+	static constexpr int ATTACK_ACTION_MAX = anim_max - punch_attack_anim;
 
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
-		attack_end = -1, //< コンボ攻撃の終わり
-		attack_punch_1 = punch_attack_1_anim - ATTACK_ANIM_START,  //< 攻撃１
-		attack_sword_1 = sword_attack_1_anim - ATTACK_ANIM_START,  //< 攻撃２
-		attack_sword_2 = sword_attack_2_anim - ATTACK_ANIM_START,  //< 攻撃３
-		attack_sword_3 = sword_attack_3_anim - ATTACK_ANIM_START,  //< 攻撃４
-		attack_sword_4 = sword_attack_4_anim - ATTACK_ANIM_START,  //< 攻撃５
-		attack_sword_5 = sword_attack_5_anim - ATTACK_ANIM_START,  //< 攻撃６
-		attack_rolling = rolling_anim - ATTACK_ANIM_START,   //< ローリング攻撃
-		attack_jump = jump_anim - ATTACK_ANIM_START,         //< ジャンプ攻撃
+		attack_end = -1,                                                //< コンボ攻撃の終わり
+		attack_punch = punch_attack_anim - ATTACK_ANIM_START,           //< パンチ攻撃
+		attack_kick = kick_attack_anim - ATTACK_ANIM_START,             //< キック攻撃
+		attack_bigpunch = bigpunch_attack_anim - ATTACK_ANIM_START,     //< 大パンチ攻撃
+		attack_breath = breath_attack_anim - ATTACK_ANIM_START,         //< ブレス攻撃
+		attack_takle = takle_attack_anim - ATTACK_ANIM_START,           //< タックル攻撃
+		attack_upperpunch = upperpunch_attack_anim - ATTACK_ANIM_START, //< アッパー攻撃
+		attack_rolling = rolling_anim - ATTACK_ANIM_START,              //< ローリング攻撃
+		attack_jump = jump_anim - ATTACK_ANIM_START,                    //< ジャンプ攻撃
 
 		attack_max
 	};
@@ -163,12 +163,12 @@ public:
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	  {attack_sword_3,attack_sword_1,attack_end,attack_end},
-	  {attack_punch_1,attack_sword_5,attack_end,attack_end},
-	  {attack_sword_3,attack_sword_2,attack_end,attack_end},
-	  {attack_sword_4,attack_sword_1,attack_punch_1,attack_end},
-	  {attack_sword_5,attack_punch_1,attack_sword_3,attack_end},
-	  {attack_punch_1,attack_sword_3,attack_sword_2,attack_end},
+	  {attack_punch,attack_kick,attack_end,attack_end},
+	  {attack_bigpunch,attack_breath,attack_end,attack_end},
+	  {attack_takle,attack_end,attack_end,attack_end},
+	  {attack_upperpunch,attack_punch,attack_punch,attack_end},
+	  {attack_kick,attack_kick,attack_kick,attack_end},
+	  {attack_breath,attack_breath,attack_breath,attack_end},
 	};
 	// 各コンボの後隙
 	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
