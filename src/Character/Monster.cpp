@@ -396,9 +396,11 @@ void Monster::Draw()
 	//}
 
 	// カプセルの描画(当たり判定)
-	/*m_body.Draw();
+	m_body.Draw();
 	m_left_hand.Draw();
-	m_right_hand.Draw();*/
+	m_right_hand.Draw();
+	m_left_feet.Draw();
+	m_right_feet.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 
@@ -473,14 +475,15 @@ void Monster::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	// この座標をモデルのノードをでとってくるといいかも
-	m_body.CreateNodoCapsule(&m_model, 0, 7, 12.0f);
-
+	m_body.CreateNodoCapsule(&m_model, 5, 81, 12.0f);
 	// 左手のあたり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 13, 19, 6.0f);
-
+	m_left_hand.CreateNodoCapsule(&m_model, 13, 25, 6.0f);
 	// 右手の当たり判定
-	// 爪の部分が当たり判定がない
-	m_right_hand.CreateNodoCapsule(&m_model, 9, 11, 8.0f);
+	m_right_hand.CreateNodoCapsule(&m_model, 37, 49, 8.0f);
+	// 左足
+	m_left_feet.CreateNodoCapsule(&m_model, 67, 64, 6.0f);
+	// 右足
+	m_right_feet.CreateNodoCapsule(&m_model, 69, 72, 6.0f);
 
 	// 攻撃時の当たり判定の保存
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch], (attack_punch));
