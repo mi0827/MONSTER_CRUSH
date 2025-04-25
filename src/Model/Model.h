@@ -64,6 +64,14 @@ public:
 	//! @param ノードインデクス
 	Vector3 GetNodePos(int node_index);
 
+	//! @brief モデルのノードのフレームのローカル座標からワールド座標に変換する関数
+	//! @param ノードインデクス
+	MATRIX GetNodeWorldMatrix(int node_index);
+
+	//! @brief モデルのノードの回転軸の情報を習得するための関数
+	//! @param ノードインデクス
+	Vector3 GetNodeRot(int node_index);
+
 	//---------------------------------
 	// マテリアルの各設定用関数
 	//---------------------------------
@@ -92,6 +100,8 @@ public:
 
 	//! @brief モデルのY回転に制限をつける関数
 	void RotationYLimits();
+
+
 
 public:
 

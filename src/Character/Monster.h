@@ -120,13 +120,13 @@ public:
 		stun_up_anim,    //!< スタンで起き上がるとき
 
 		punch_attack_anim,      //!< パンチ攻撃
-		kick_attack_anim,       //!< キック攻撃
 		bigpunch_attack_anim,   //!< 大パンチ攻撃
-		breath_attack_anim,     //!< ブレス攻撃
-		takle_attack_anim,      //!< タックル攻撃
 		upperpunch_attack_anim, //!< アッパー攻撃
-		rolling_anim,           //!< ローリング
-		jump_anim,              //!< ジャンプアクション
+		kick_attack_anim,             //!< キック攻撃
+		tackle_attack_anim,          //!< タックル攻撃
+		breath_attack_anim,         //!< ブレス攻撃
+		rolling_anim,                    //!< ローリング
+		jump_anim,                      //!< ジャンプアクション
 
 		anim_max //!< アニメーションの最大数
 	};
@@ -144,11 +144,11 @@ public:
 	{
 		attack_end = -1,                                                //< コンボ攻撃の終わり
 		attack_punch = punch_attack_anim - ATTACK_ANIM_START,           //< パンチ攻撃
-		attack_kick = kick_attack_anim - ATTACK_ANIM_START,             //< キック攻撃
 		attack_bigpunch = bigpunch_attack_anim - ATTACK_ANIM_START,     //< 大パンチ攻撃
-		attack_breath = breath_attack_anim - ATTACK_ANIM_START,         //< ブレス攻撃
-		attack_takle = takle_attack_anim - ATTACK_ANIM_START,           //< タックル攻撃
 		attack_upperpunch = upperpunch_attack_anim - ATTACK_ANIM_START, //< アッパー攻撃
+		attack_kick = kick_attack_anim - ATTACK_ANIM_START,             //< キック攻撃
+		attack_takle = tackle_attack_anim - ATTACK_ANIM_START,           //< タックル攻撃
+		attack_breath = breath_attack_anim - ATTACK_ANIM_START,         //< ブレス攻撃
 		attack_rolling = rolling_anim - ATTACK_ANIM_START,              //< ローリング攻撃
 		attack_jump = jump_anim - ATTACK_ANIM_START,                    //< ジャンプ攻撃
 
@@ -163,12 +163,15 @@ public:
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	  {attack_punch,          attack_kick,attack_end,attack_end},
-	  {attack_bigpunch,      attack_breath,attack_end,attack_end},
-	  {attack_takle,            attack_end,attack_end,attack_end},
-	  {attack_upperpunch,  attack_punch,attack_punch,attack_end},
-	  {attack_kick,              attack_kick,attack_kick,attack_end},
-	  {attack_breath,          attack_breath,attack_breath,attack_end},
+	//---------------------------------------------------------------------------------------
+    //       コンボ１　       |          コンボ２        |         コンボ３        | コンボ終了
+    //---------------------------------------------------------------------------------------
+	  {attack_bigpunch,          attack_kick,              attack_end,             attack_end},
+	  {attack_bigpunch,          attack_breath,          attack_end,             attack_end},
+	  {attack_bigpunch,          attack_end,              attack_end,             attack_end},
+	  {attack_bigpunch,          attack_punch,           attack_punch,         attack_end},
+	  {attack_bigpunch,          attack_kick,              attack_kick,             attack_end},
+	  {attack_upperpunch,  attack_upperpunch,  attack_upperpunch,  attack_end},
 	};
 	// 各コンボの後隙
 	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
@@ -185,23 +188,21 @@ public:
 		float end_frame;
 	};
 
-	// 当たり判定を行ってほしいタイミングの設定の変数
-	// まだまだ未完成
-	// 作品展までに完成させる
+	// 攻撃の当たり判定を行ってほしいタイミングの設定の変数
 	AttackFrame attack_frame[attack_max] =
 	{
-		// パンチ１
-		{ 13.0f, 30.0f, },
-		// ソード１
-		{ 40.0f, 90.0f, },
-		// ソード２
-		{ 30.0f, 90.0f, },
-		// ソード３
-		{ 25.0f, 80.0f, },
-		// ソード４
-		{10.0f,30.0f},
-		// ソード５
-		{45.0f,75.0f},
+		// パンチ
+		{ 47.0f, 70.0f, },
+		// 大パンチ
+		{ 68.0f, 100.0f, },
+		// アッパー
+		{ 50.0f, 95.0f, },
+		// キック
+		{ 25.0f, 50.0f, },
+		// タックル
+		{ 44.0f, 86.0f},
+		// ブレス
+		{ 100.0f,240.0f},
 		// ローリング
 		{ 10.0f, 50.0f, },
 		// ジャンプ
@@ -218,10 +219,12 @@ public:
 	//! エフェクトの種類用の列挙体
 	enum Effect
 	{
-		sword_attack_effect, // 剣での攻撃時のエフェクト
-		punch_attack_effect, // パンチ攻撃時のエフェクト
-		damage_effect, // ダメージを受けた時のエフェクト
-		roar_effect,      // 咆哮時のエフェクト
+		punch_attack_effect,           // パンチ攻撃時のエフェクト
+		big_punch_attack_effect,     // 大パンチ攻撃時のエフェクト
+		upper_punch_attack_effect, // アッパー攻撃のエフェクト
+		breath_attack_effect,          // ブレス攻撃のエフェクト
+		damage_effect,                  // ダメージを受けた時のエフェクト
+		
 		effect_max
 	};
 
@@ -229,12 +232,12 @@ public:
 	enum EffectInfoNum
 	{
 		// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
-		attack_punch_1_effect_info, // パンチ攻撃１
-		attack_sword_1_effect_info, // ソード攻撃１
-		attack_sowrd_2_effect_info, // ソード攻撃２
-		attack_sowrd_3_effect_info, // ソード攻撃３
-		attack_sowrd_4_effect_info, // ソード攻撃４
-		attack_sowrd_5_effect_info, // ソード攻撃５
+		attack_punch_effect_info, // パンチ攻撃
+		attack_big_punch_effect_info, // 大パンチ攻撃
+		attack_upper_punch_effect_info, // アッパー攻撃
+		attack_kick_effect_info, // キック攻撃
+		attack_tackle_effect_info, // タックル攻撃
+		attack_breath_effect_info, // ブレス攻撃
 
 		// ここからは攻撃とは別のエフェクト
 		damage_effect_info,     // 攻撃を受けた時のエフェクト
@@ -257,18 +260,18 @@ public:
 	};
 	EffectInfo m_effect_info[effect_info_max]
 	{
-		// パンチ攻撃１
+		// パンチ攻撃
 		{ {4.0f,4.0f,4.0f},{15.0f,14.0f,15.0f},{90.0f,180.0f,0.0f}, 5},
-		// ソード攻撃１
-		{ {6.0f,6.0f,6.0f},{20.0f,18.0f,20.0f},{35.0f,-90.0f,0.0f}, 60},
-		// ソード攻撃２
+		// 大パンチ攻撃
+		{ {6.0f,6.0f,6.0f},{20.0f,18.0f,20.0f},{35.0f,-90.0f,0.0f}, 70},
+		// アッパー攻撃
 		{ {6.0f,6.0f,6.0f},{20.0f,25.0f,20.0f},{155.0f,-90.0f,0.0f}, 40},
-		// ソード攻撃３
+		// キック攻撃
 		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{35.0f,-90.0f,0.0f}, 30},
-		// ソード攻撃４
+		// タックル攻撃
 		{ {5.0f,5.0f,5.0f},{15.0f,24.0f,15.0f},{85.0f,-90.0f,0.0f}, 1},
-		// ソード攻撃５
-		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{90.0f,-90.0f,10.0f}, 30},
+		// ブレス攻撃
+		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{90.0f,-90.0f,10.0f}, 100},
 		// ダメージを受けた時のエフェクト
 		{ {1.0f,1.0f,1.0f},{0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
 		// 咆哮時のエフェクト  
@@ -343,8 +346,12 @@ public:
 		{run_se, DX_PLAYTYPE_LOOP, true, 1},
 	};
 
+	//=================
+	// 当たり判定
+	//=================
 	CapsuleCollision m_left_feet; //!< 左手のあたり判定
 	CapsuleCollision m_right_feet; //!< 右手の当たり判定
-
+	CapsuleCollision m_big_punch_hit; //!< 大パンチ専用の当たり判定
+	CapsuleCollision m_breath_hit; //!< ブレス攻撃専用の当たり判定
 };
 

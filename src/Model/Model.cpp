@@ -27,16 +27,16 @@ void Model::LoadModel(const char data[256])
 {
 	// モデルの読み込み
 	m_model = MV1LoadModel(data);
-	
+
 	GetMaterilaInfo();
 }
 
 //-----------------------------------------------
 // 描画用関数
 //-----------------------------------------------
-void Model::DrawModel(Transform *transform)
+void Model::DrawModel(Transform* transform)
 {
-	
+
 	// モデルのサイズの調整
 	m_transform = *transform;
 	//m_transform.scale.set(0.1f, 0.1f, 0.1f);
@@ -90,7 +90,7 @@ void Model::SetModelScale(Vector3 scale)
 }
 
 //-----------------------------------------------
-// モデルの指定のノードを取得する
+// モデルの指定のノードの座標を取得する
 //-----------------------------------------------
 Vector3 Model::GetNodePos(int node_index)
 {
@@ -99,6 +99,28 @@ Vector3 Model::GetNodePos(int node_index)
 	pos = MV1GetFramePosition(m_model, node_index);
 
 	return pos;
+}
+
+//-----------------------------------------------
+// モデルの指定のノードの情報を取得する
+//-----------------------------------------------
+MATRIX Model::GetNodeWorldMatrix(int node_index)
+{
+	MATRIX mat = MV1GetFrameLocalWorldMatrix(m_model, node_index);
+
+	return mat;
+}
+
+
+//-----------------------------------------------
+// モデルの指定のノードの開店情報を取得する
+//-----------------------------------------------
+Vector3 Model::GetNodeRot(int node_index)
+{
+	MATRIX mat = GetNodeWorldMatrix(node_index);
+
+	Vector3 rot = { mat.m[2][1],mat.m[2][2],mat.m[2][3] };
+	return rot;
 }
 
 
@@ -120,7 +142,6 @@ void Model::GetMaterilaInfo()
 		m_material[i].Specular = MV1GetMaterialSpcColor(m_model, i);
 		m_material[i].Power = MV1GetMaterialSpcPower(m_model, i);
 	}
-
 }
 
 //-----------------------------------------------
@@ -167,7 +188,7 @@ void Model::SetMaterialSpecular(COLOR_F color)
 //-----------------------------------------------
 void Model::SetMaterialEmissive(COLOR_F color)
 {
-	for(int i = 0; i < m_material_max; i++)
+	for (int i = 0; i < m_material_max; i++)
 	{
 		m_material[i].Emissive = { color.r,color.g,color.b, color.a };
 		// 受け取ってきたカラーを設定する

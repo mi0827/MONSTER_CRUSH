@@ -308,16 +308,22 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_effect.m_play_effect_flag == true
 			/*m_rolling_flag == false*/)
 		{
-			if (m_now_attack == attack_punch)
+		     if (m_now_attack == attack_bigpunch)
 			{
-				// パンチ攻撃の時のエフェクト
-				EffectUpdate(punch_attack_effect, m_now_attack);
+				EffectUpdate(big_punch_attack_effect, m_now_attack);
 			}
-			else
+		/*	else if (m_now_attack == attack_upperpunch)
 			{
-				//ソードで攻撃するときのエフェクト
-				EffectUpdate(sword_attack_effect, m_now_attack);
+				EffectUpdate(upper_punch_attack_effect, m_now_attack);
 			}
+			else if (m_now_attack == attack_breath)
+			{
+				EffectUpdate(breath_attack_effect, m_now_attack);
+			}
+			else if (m_now_attack == attack_punch)
+			{
+				 EffectUpdate(punch_attack_effect, m_now_attack);
+			}*/
 		}
 
 		// SEが設定されていない攻撃の時は再生しない
@@ -336,6 +342,8 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		{
 			// 次のエフェクトが再生できるようにする
 			m_effect.m_play_effect_flag = true;
+			// 現在再生中の攻撃エフェクトを終わらせる
+			m_effect.StopEffect();
 			// 次のSEを再生できるようにする
 			m_se.m_playing_flag = true;
 			// 再生中のSEを終わらせる
@@ -386,21 +394,23 @@ void Monster::DieUpdate()
 void Monster::Draw()
 {
 	// 攻撃タイミングだけ当たり判定を描画
-	//if (m_attack_flag)
-	//{
-	//	if (AttackHitGoodTiming(m_now_attack))
-	//	{
-	//		//m_right_hand.Draw();
-	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-	//	}
-	//}
+	if (m_attack_flag)
+	{
+		if (AttackHitGoodTiming(m_now_attack))
+		{
+			//m_right_hand.Draw();
+			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
+		}
+	}
 
 	// カプセルの描画(当たり判定)
-	m_body.Draw();
+	/*m_body.Draw();
 	m_left_hand.Draw();
 	m_right_hand.Draw();
 	m_left_feet.Draw();
 	m_right_feet.Draw();
+	m_big_punch_hit.Draw();
+	m_breath_hit.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 
@@ -485,13 +495,30 @@ void Monster::CDUpdate()
 	// 右足
 	m_right_feet.CreateNodoCapsule(&m_model, 69, 72, 6.0f);
 
+	// 大パンチ攻撃専用の当たり判定
+	m_big_punch_hit.CreateNodoCapsule(&m_model, 25, 49, 15.0f);
+
+	// カプセルの座標１
+	Vector3 top_pos;
+	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 20,
+		m_transform.pos.y + 8,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 20);
+
+	// カプセルの座標２
+	Vector3 under_pos;
+	under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) *10,
+		m_transform.pos.y + 8,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 10);
+	// ブレス攻撃の当たり判定の作成
+	m_breath_hit.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
+
 	// 攻撃時の当たり判定の保存
 	SetHitDamage(m_left_hand, m_attack_damage[attack_punch], (attack_punch));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_kick], (attack_kick));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_bigpunch], (attack_bigpunch));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_breath], (attack_breath));
-	SetHitDamage(m_right_hand, m_attack_damage[attack_takle], (attack_takle));
+	SetHitDamage(m_big_punch_hit, m_attack_damage[attack_bigpunch], (attack_bigpunch));
 	SetHitDamage(m_right_hand, m_attack_damage[attack_upperpunch], (attack_upperpunch));
+	SetHitDamage(m_right_feet, m_attack_damage[attack_kick], (attack_kick));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_takle], (attack_takle));
+	SetHitDamage(m_breath_hit, m_attack_damage[attack_breath], (attack_breath));
 	SetHitDamage(m_body, m_attack_damage[attack_rolling], (attack_rolling));
 	SetHitDamage(m_body, m_attack_damage[attack_jump], (attack_jump));
 
@@ -644,12 +671,12 @@ void Monster::AnimLoadInit()
 	m_animation.LoadAnimation("Data/Model/Monster/Animation/stun_up.mv1", stun_up_anim, 0, 2.0f);       //!< スタンを食らった時の起き上がり
 
 	// 攻撃アニメーション
-	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Punch.mv1", punch_attack_anim, 0, 1.5f);      //!< パンチ攻撃１
-	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Kick.mv1", kick_attack_anim, 0, 1.0f);       //!< ソード攻撃１
-	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/BigPunch.mv1", bigpunch_attack_anim, 0, 1.3f);   //!< ソード攻撃２
-	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Breath.mv1", breath_attack_anim, 0, 1.5f);     //!< ソード攻撃３
-	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/takle.mv1", takle_attack_anim, 0, 1.0f);      //!< ソード攻撃４
-	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/UpperPunch.mv1", upperpunch_attack_anim, 0, 1.5f); //!< ソード攻撃５
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Punch.mv1", punch_attack_anim, 0, 1.5f);      //!< パンチ攻撃
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Kick.mv1", kick_attack_anim, 0, 1.0f);            //!< キック攻撃
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/BigPunch.mv1", bigpunch_attack_anim, 0, 1.3f);   //!< 大パンチ攻撃
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Breath.mv1", breath_attack_anim, 0, 1.5f);     //!< ブレス攻撃
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/tackle.mv1", tackle_attack_anim, 0, 1.0f);      //!< タックル攻撃
+	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/UpperPunch.mv1", upperpunch_attack_anim, 0, 1.5f); //!< アッパー攻撃
 	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/Rolling.mv1", rolling_anim, 0, 1.0f);           //!< ローリング
 	m_animation.LoadAnimation("Data/Model/Monster/Animation/Attack/JumpAttack.mv1", jump_anim, 0, 1.0f);           //!< ジャンプ
 
@@ -667,10 +694,10 @@ void Monster::EffectLoadInit()
    // エフェクトの最大数を設定
 	m_effect.NewArraySecure(effect_max);
 	// エフェクトの読み込み
-	m_effect.LoadEffect("Data/Model/Mutant/Effect/Sword2_1.efkefc", sword_attack_effect, 1.0f); // 剣での攻撃時のエフェクト
-	m_effect.LoadEffect("Data/Model/Mutant/Effect/attack1.efkefc", punch_attack_effect, 1.0f); // パンチ攻撃時のエフェクト
-	m_effect.LoadEffect("Data/Model/Mutant/Effect/blood.efkefc", damage_effect, 4.0f);        // ダメージを受けた時のエフェクト
-	m_effect.LoadEffect("Data/Model/Mutant/Effect/roar.efkefc", roar_effect, 1.0f);              // 咆哮時のエフェクト
+	m_effect.LoadEffect("Data/Model/Monster/Effect/Punch2.efkefc", punch_attack_effect, 1.0f);      // パンチ攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Monster/Effect/Punch.efkefc", big_punch_attack_effect, 1.0f);  // 大パンチ攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Monster/Effect/Breath.efkefc", breath_attack_effect, 1.0f);      // ブレス攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Monster/Effect/blood.efkefc", damage_effect, 1.0f);                // ダメージを受けた時のエフェクト
 }
 
 //-----------------------------------------------

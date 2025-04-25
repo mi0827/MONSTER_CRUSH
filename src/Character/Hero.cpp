@@ -411,8 +411,7 @@ void Hero::CDUpdate()
 	m_left_feet.CreateNodoCapsule(&m_model, 55, 59, 2.5f);
 
 	// 剣の当たり判定を調べるために作ったもの
-
-		// カプセルの座標１
+	// カプセルの座標１
 	Vector3 top_pos;
 	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 11,
 		m_transform.pos.y + 8,
