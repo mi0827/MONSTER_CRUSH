@@ -101,9 +101,10 @@ public:
 	virtual void EffectLoadInit() = 0;
 
 	//! @brief エフェクトの更新処理
+	//! //! @param 行いたいエフェクトの座標がモデルのローカル座標だった場合のノード番号（なければ何も書かなくて大丈夫）
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
-	virtual void EffectUpdate(int effect_num, int effect_info_num) = 0;
+	virtual void EffectUpdate(int node_index = -1, int effect_num, int effect_info_num) = 0;
 
 	//! @brief SEの読み込み
 	virtual void SELoadInit() = 0;

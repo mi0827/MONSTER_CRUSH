@@ -72,12 +72,16 @@ public:
 
 	//! @brief エフェクトの読み込みをまとめる関数
 	void EffectLoadInit() override;
+	
 	//! @brief エフェクトの更新処理
+	//! @param 行いたいエフェクトの座標がモデルのローカル座標だった場合のノード番号（なければ何も書かなくて大丈夫）
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
-	void EffectUpdate(int effect_num, int effect_info_num) override;
+	void EffectUpdate(int node_index = -1, int effect_num, int effect_info_num) override;
+	
 	//! @brief SEの読み込み
 	void SELoadInit() override;
+	
 	//! @brief SEの更新処理
 	//! @param 行いたいSEの情報が保管されている番号
 	void SEUpdate(int se_num) override;
@@ -163,15 +167,15 @@ public:
 	//! コンボの最後にはattack_endを入れること
 	int m_combo_pattern[M_COMBO_PATTERN_MAX][M_COMBO_NUM_MAX]
 	{
-	//---------------------------------------------------------------------------------------
-    //       コンボ１　       |          コンボ２        |         コンボ３        | コンボ終了
-    //---------------------------------------------------------------------------------------
-	  {attack_bigpunch,          attack_kick,              attack_end,             attack_end},
-	  {attack_bigpunch,          attack_breath,          attack_end,             attack_end},
-	  {attack_bigpunch,          attack_end,              attack_end,             attack_end},
-	  {attack_bigpunch,          attack_punch,           attack_punch,         attack_end},
-	  {attack_bigpunch,          attack_kick,              attack_kick,             attack_end},
-	  {attack_upperpunch,  attack_upperpunch,  attack_upperpunch,  attack_end},
+		//---------------------------------------------------------------------------------------
+		//       コンボ１　       |          コンボ２        |         コンボ３        | コンボ終了
+		//---------------------------------------------------------------------------------------
+		  {attack_upperpunch,             attack_kick,                attack_end,             attack_end},
+		  {attack_upperpunch,             attack_breath,              attack_end,             attack_end},
+		  {attack_upperpunch,             attack_end,                 attack_end,             attack_end},
+		  {attack_upperpunch,             attack_punch,               attack_punch,           attack_end},
+		  {attack_upperpunch,             attack_kick,                attack_kick,            attack_end},
+		  {attack_upperpunch,        attack_upperpunch,          attack_upperpunch,      attack_end},
 	};
 	// 各コンボの後隙
 	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
@@ -192,7 +196,7 @@ public:
 	AttackFrame attack_frame[attack_max] =
 	{
 		// パンチ
-		{ 47.0f, 70.0f, },
+		{ 50.0f, 70.0f, },
 		// 大パンチ
 		{ 68.0f, 100.0f, },
 		// アッパー
@@ -213,18 +217,17 @@ public:
 	//! 各攻撃のダメージ
 	int m_attack_damage[attack_max]
 	{
-		20,70,50,40,20,60,50,50,
+		0,0,0,0,0,0,0,0,
 	};
 
 	//! エフェクトの種類用の列挙体
 	enum Effect
 	{
 		punch_attack_effect,           // パンチ攻撃時のエフェクト
-		big_punch_attack_effect,     // 大パンチ攻撃時のエフェクト
-		upper_punch_attack_effect, // アッパー攻撃のエフェクト
+		big_punch_attack_effect,       // 大パンチ攻撃時のエフェクト
 		breath_attack_effect,          // ブレス攻撃のエフェクト
-		damage_effect,                  // ダメージを受けた時のエフェクト
-		
+		damage_effect,                 // ダメージを受けた時のエフェクト
+
 		effect_max
 	};
 
@@ -232,12 +235,12 @@ public:
 	enum EffectInfoNum
 	{
 		// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
-		attack_punch_effect_info, // パンチ攻撃
-		attack_big_punch_effect_info, // 大パンチ攻撃
+		attack_punch_effect_info,       // パンチ攻撃
+		attack_big_punch_effect_info,   // 大パンチ攻撃
 		attack_upper_punch_effect_info, // アッパー攻撃
-		attack_kick_effect_info, // キック攻撃
-		attack_tackle_effect_info, // タックル攻撃
-		attack_breath_effect_info, // ブレス攻撃
+		attack_kick_effect_info,        // キック攻撃
+		attack_tackle_effect_info,      // タックル攻撃
+		attack_breath_effect_info,      // ブレス攻撃
 
 		// ここからは攻撃とは別のエフェクト
 		damage_effect_info,     // 攻撃を受けた時のエフェクト
@@ -245,10 +248,14 @@ public:
 
 		effect_info_max
 	};
+
 	struct EffectInfo
 	{
+	
 		// エフェクトのスケール
 		Vector3 size;
+		// モデルのノードにエフェクトを設定したい場合のノード(櫃脳なかったら-1を書く)
+		int nodo_index;
 		// エフェクトの座標(キャラの座標からずらす分の座標)
 		Vector3 pos;
 		// エフェクトの向き
@@ -261,21 +268,21 @@ public:
 	EffectInfo m_effect_info[effect_info_max]
 	{
 		// パンチ攻撃
-		{ {4.0f,4.0f,4.0f},{15.0f,14.0f,15.0f},{90.0f,180.0f,0.0f}, 5},
+		{ {4.0f,4.0f,4.0f}, 1, {20.0f,5.0f,20.0f},{90.0f,180.0f,0.0f}, 30},
 		// 大パンチ攻撃
-		{ {6.0f,6.0f,6.0f},{20.0f,18.0f,20.0f},{35.0f,-90.0f,0.0f}, 70},
+		{ {8.0f,8.0f,8.0f}, 1, {20.0f,5.0f,20.0f},{35.0f,-90.0f,0.0f}, 50},
 		// アッパー攻撃
-		{ {6.0f,6.0f,6.0f},{20.0f,25.0f,20.0f},{155.0f,-90.0f,0.0f}, 40},
+		{ {4.0f,4.0f,4.0f}, 1, {20.0f,25.0f,20.0f},{0.0f, 0.0f, 0.0f}, 10},
 		// キック攻撃
-		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{35.0f,-90.0f,0.0f}, 30},
+		{ {6.0f,6.0f,6.0f}, 1, {15.0f,20.0f,15.0f},{35.0f,-90.0f,0.0f}, 30},
 		// タックル攻撃
-		{ {5.0f,5.0f,5.0f},{15.0f,24.0f,15.0f},{85.0f,-90.0f,0.0f}, 1},
+		{ {5.0f,5.0f,5.0f}, 1, {15.0f,24.0f,15.0f},{85.0f,-90.0f,0.0f}, 1},
 		// ブレス攻撃
-		{ {6.0f,6.0f,6.0f},{15.0f,20.0f,15.0f},{90.0f,-90.0f,10.0f}, 100},
+		{ {6.0f,6.0f,6.0f}, 1, {15.0f,20.0f,15.0f},{90.0f,-90.0f,10.0f}, 100},
 		// ダメージを受けた時のエフェクト
-		{ {1.0f,1.0f,1.0f},{0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
+		{ {1.0f,1.0f,1.0f}, 1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
 		// 咆哮時のエフェクト  
-		{ {1.0f,1.0f,1.0f},{5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
+		{ {1.0f,1.0f,1.0f}, 1, {5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
 
 	};
 

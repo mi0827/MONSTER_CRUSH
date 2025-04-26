@@ -271,6 +271,7 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		// ジャンプフラグが立っているとき
 		if (m_jump_flag)
 		{
+
 			// ジャンプの更新処理
 			JumpActionUpdate(JUMP_MOV_SPEED, JUMP_STRAT_FRAME, JUMP_END_FRAME);
 			// ジャンプアニメーションが終わったときにアニメーションできた座標のずれを力ずくで直す
@@ -308,22 +309,19 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_effect.m_play_effect_flag == true
 			/*m_rolling_flag == false*/)
 		{
-		     if (m_now_attack == attack_bigpunch)
+			if (m_now_attack == attack_bigpunch || m_now_attack == attack_punch || m_now_attack == attack_upperpunch)
 			{
 				EffectUpdate(big_punch_attack_effect, m_now_attack);
 			}
-		/*	else if (m_now_attack == attack_upperpunch)
+			/*else if (m_now_attack == attack_upperpunch )
 			{
-				EffectUpdate(upper_punch_attack_effect, m_now_attack);
-			}
+				EffectUpdate(punch_attack_effect, m_now_attack);
+			}*/
 			else if (m_now_attack == attack_breath)
 			{
 				EffectUpdate(breath_attack_effect, m_now_attack);
 			}
-			else if (m_now_attack == attack_punch)
-			{
-				 EffectUpdate(punch_attack_effect, m_now_attack);
-			}*/
+
 		}
 
 		// SEが設定されていない攻撃の時は再生しない
@@ -332,7 +330,6 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			// 攻撃にあったサウンドを再生
 			if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
 			{
-
 				SEUpdate(m_now_attack);
 			}
 		}
@@ -487,7 +484,7 @@ void Monster::CDUpdate()
 	// この座標をモデルのノードをでとってくるといいかも
 	m_body.CreateNodoCapsule(&m_model, 5, 81, 12.0f);
 	// 左手のあたり判定
-	m_left_hand.CreateNodoCapsule(&m_model, 13, 25, 6.0f);
+	m_left_hand.CreateNodoCapsule(&m_model, 13, 25, 8.0f);
 	// 右手の当たり判定
 	m_right_hand.CreateNodoCapsule(&m_model, 37, 49, 8.0f);
 	// 左足
@@ -506,14 +503,14 @@ void Monster::CDUpdate()
 
 	// カプセルの座標２
 	Vector3 under_pos;
-	under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) *10,
+	under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 10,
 		m_transform.pos.y + 8,
 		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 10);
 	// ブレス攻撃の当たり判定の作成
 	m_breath_hit.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
 
 	// 攻撃時の当たり判定の保存
-	SetHitDamage(m_left_hand, m_attack_damage[attack_punch], (attack_punch));
+	SetHitDamage(m_right_hand, m_attack_damage[attack_punch], (attack_punch));
 	SetHitDamage(m_big_punch_hit, m_attack_damage[attack_bigpunch], (attack_bigpunch));
 	SetHitDamage(m_right_hand, m_attack_damage[attack_upperpunch], (attack_upperpunch));
 	SetHitDamage(m_right_feet, m_attack_damage[attack_kick], (attack_kick));
@@ -703,7 +700,7 @@ void Monster::EffectLoadInit()
 //-----------------------------------------------
 // エフェクトの更新処理
 //-----------------------------------------------
-void Monster::EffectUpdate(int effect_num, int effect_info_num)
+void Monster::EffectUpdate(int nodo_index, int effect_num, int effect_info_num)
 {
 	// エフェクトが再生可能状態なら
 	if (m_effect.m_play_effect_flag == true)
@@ -714,11 +711,23 @@ void Monster::EffectUpdate(int effect_num, int effect_info_num)
 		m_effect.m_play_effect_flag = false;
 	}
 
+	
+
 	// エフェクトによって座標を合わせる
 	//m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
-	m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	if (nodo_index == -1)
+	{
+		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	}
+	else
+	{
+		m_model.GetNodePos(nodo_index);
+		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	}
+	
 	// エフェクトのサイズを合わせる
 	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
+	
 	// エフェクトの向きを合わせる
 	// プレイヤーの向きにも合わせる
 	m_effect.SetEffectRot(m_effect_info[effect_info_num].rot.x, m_effect_info[effect_info_num].rot.y + m_transform.rot.y, m_effect_info[effect_info_num].rot.z);
