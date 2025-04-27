@@ -101,10 +101,9 @@ public:
 	virtual void EffectLoadInit() = 0;
 
 	//! @brief エフェクトの更新処理
-	//! //! @param 行いたいエフェクトの座標がモデルのローカル座標だった場合のノード番号（なければ何も書かなくて大丈夫）
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
-	virtual void EffectUpdate(int node_index = -1, int effect_num, int effect_info_num) = 0;
+	virtual void EffectUpdate( int effect_num, int effect_info_num) = 0;
 
 	//! @brief SEの読み込み
 	virtual void SELoadInit() = 0;
@@ -157,8 +156,6 @@ public:
 	//! @brief 咆哮攻撃中の処理
 	//! @param カメラシェイクのためのカメラ
 	void RoarAction(Camera* camera);
-
-
 
 	//! @brief ジャンプ攻撃開始の処理
 	//! @param ジャンプ用のアニメーション番号
@@ -213,13 +210,7 @@ public:
 	//! @param 攻撃アニメーションの最大数
 	void SetAttackHitDamage(int attack_anim_max);
 
-
-
-
-
 public:
-
-
 
 	//! モンスターの状態
 	enum MonsterMode

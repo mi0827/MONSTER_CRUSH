@@ -323,7 +323,17 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			}
 
 		}
-
+		// エフェクトによって座標を合わせる
+	    //m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
+		/*if (m_effect_info[m_now_attack].nodo_index == -1)
+		{
+			m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[m_now_attack].pos, m_transform.rot);
+		}
+		else
+		{
+			Vector3 pos = m_model.GetNodePos(m_effect_info[m_now_attack].nodo_index);
+			m_effect.SetEffectRotPos(pos, m_effect_info[m_now_attack].pos, m_transform.rot);
+		}*/
 		// SEが設定されていない攻撃の時は再生しない
 		if (m_rolling_flag == false && m_jump_flag == false)
 		{
@@ -497,15 +507,15 @@ void Monster::CDUpdate()
 
 	// カプセルの座標１
 	Vector3 top_pos;
-	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 20,
+	top_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 50,
+		m_transform.pos.y + 8,
+		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 50);
+
+	// カプセルの座標２ 
+	Vector3 under_pos;
+	under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 20,
 		m_transform.pos.y + 8,
 		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 20);
-
-	// カプセルの座標２
-	Vector3 under_pos;
-	under_pos.set(m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * 10,
-		m_transform.pos.y + 8,
-		m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * 10);
 	// ブレス攻撃の当たり判定の作成
 	m_breath_hit.CreateCapsuleCoordinatePos(top_pos, under_pos, 10);
 
@@ -700,7 +710,7 @@ void Monster::EffectLoadInit()
 //-----------------------------------------------
 // エフェクトの更新処理
 //-----------------------------------------------
-void Monster::EffectUpdate(int nodo_index, int effect_num, int effect_info_num)
+void Monster::EffectUpdate(int effect_num, int effect_info_num)
 {
 	// エフェクトが再生可能状態なら
 	if (m_effect.m_play_effect_flag == true)
@@ -711,25 +721,20 @@ void Monster::EffectUpdate(int nodo_index, int effect_num, int effect_info_num)
 		m_effect.m_play_effect_flag = false;
 	}
 
-	
-
-	// エフェクトによって座標を合わせる
-	//m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
-	if (nodo_index == -1)
+	//　エフェクトの座標の設定
+	if (m_effect_info[effect_info_num].nodo_index == -1)
 	{
 		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
 	}
 	else
 	{
-		m_model.GetNodePos(nodo_index);
-		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+		Vector3 pos = m_model.GetNodePos(m_effect_info[effect_info_num].nodo_index);
+		m_effect.SetEffectRotPos(pos, m_effect_info[effect_info_num].pos, m_transform.rot);
 	}
-	
 	// エフェクトのサイズを合わせる
 	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
 	
 	// エフェクトの向きを合わせる
-	// プレイヤーの向きにも合わせる
 	m_effect.SetEffectRot(m_effect_info[effect_info_num].rot.x, m_effect_info[effect_info_num].rot.y + m_transform.rot.y, m_effect_info[effect_info_num].rot.z);
 }
 
@@ -742,12 +747,12 @@ void Monster::SELoadInit()
 	// SEの最大数を設定
 	m_se.NewArraySecureSound(se_max);
 	// SEの読み込み
-	m_se.LoadSound("Data/Model/Mutant/SE/PunchAttack_2.mp3", punch_attack_se);                   // パンチ攻撃
-	m_se.LoadSound("Data/Model/Mutant/SE/LightningSwordAttack_1.mp3", sword_attack_se_1);   // 剣攻撃１
-	m_se.LoadSound("Data/Model/Mutant/SE/LightningSwordAttack_2.mp3", sword_attack_se_2);   // 剣攻撃２
-	m_se.LoadSound("Data/Model/Mutant/SE/Damage.mp3", damage_se);									 // ダメージを受けた時
-	m_se.LoadSound("Data/Model/Mutant/SE/Roar.mp3", roar_se);												  // 咆哮時
-	m_se.LoadSound("Data/Model/Mutant/SE/Run3.mp3", run_se);													 // 足音
+	m_se.LoadSound("Data/Model/Monster/SE/punch.mp3", punch_attack_se_1);   // パンチ攻撃
+	m_se.LoadSound("Data/Model/Monster/SE/big_punch.mp3", big_punch_attack_se);   // 大パンチ
+	m_se.LoadSound("Data/Model/Monster/SE/breath.mp3", breath_attack_se);   // ブレス攻撃
+	m_se.LoadSound("Data/Model/Monster/SE/Damage.mp3", damage_se);	     // ダメージを受けた時
+	m_se.LoadSound("Data/Model/Monster/SE/Roar.mp3", roar_se);				      // 咆哮時
+	m_se.LoadSound("Data/Model/Monster/SE/Run3.mp3", run_se);				   	  // 足音
 
 }
 

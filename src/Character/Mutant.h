@@ -69,10 +69,9 @@ public:
 	void EffectLoadInit() override;
 	
 	//! @brief エフェクトの更新処理
-	//! @param 行いたいエフェクトの座標がモデルのローカル座標だった場合のノード番号（なければ何も書かなくて大丈夫）
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
-	void EffectUpdate(int node_index = -1, int effect_num, int effect_info_num) override;
+	void EffectUpdate( int effect_num, int effect_info_num) override;
 	
 	//! @brief SEの読み込み
 	void SELoadInit() override;

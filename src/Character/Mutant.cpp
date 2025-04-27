@@ -673,7 +673,7 @@ void Mutant::EffectLoadInit()
 //-----------------------------------------------
 // エフェクトの更新処理
 //-----------------------------------------------
-void Mutant::EffectUpdate(int nodo_index, int effect_num, int effect_info_num)
+void Mutant::EffectUpdate( int effect_num, int effect_info_num)
 {
 	// エフェクトが再生可能状態なら
 	if (m_effect.m_play_effect_flag == true)
@@ -686,11 +686,16 @@ void Mutant::EffectUpdate(int nodo_index, int effect_num, int effect_info_num)
 
 	// エフェクトによって座標を合わせる
 	//m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
-	if (nodo_index == -1)
+	if (m_effect_info[effect_info_num].nodo_index == -1)
 	{
 		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
 	}
-	
+	else
+	{
+		m_model.GetNodePos(m_effect_info[effect_info_num].nodo_index);
+		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	}
+
 	// エフェクトのサイズを合わせる
 	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
 	
