@@ -105,6 +105,9 @@ public:
 	//! @param 行いたいエフェクトの情報番号
 	virtual void EffectUpdate( int effect_num, int effect_info_num) = 0;
 
+	//! @brief 攻撃を受けた時のエフェクトの更新処理
+	virtual void DamageEffectUpdate() = 0;
+
 	//! @brief SEの読み込み
 	virtual void SELoadInit() = 0;
 
@@ -452,6 +455,8 @@ public:
 	Combo m_combo;
 	//! エフェクトクラスオブジェクト
 	Effect m_effect;
+	//! 攻撃を受けたときようのエフェクトクラスオブジェクト
+	Effect m_damage_effect;
 	//! サウンドクラスのオブジェクト
 	Sound m_se;
 

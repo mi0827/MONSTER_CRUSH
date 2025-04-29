@@ -43,7 +43,7 @@ Monster::Monster()
 	m_monster_mode = IDLE;
 
 	// 初期座標の設定
-	m_transform.pos.set(150.0f, 0.0f, 150.0f);
+	m_transform.pos.set(200.0f, 0.0f, 200.0f);
 	// モデルのスケールの設定
 	m_transform.scale.set(0.25f, 0.25f, 0.25f);
 }
@@ -184,7 +184,6 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		{
 			m_stun_value += RECOVERY_STUN_VALUE;
 		}
-
 	}
 
 	// 咆哮攻撃の処理
@@ -303,37 +302,22 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		}
 
 		// 攻撃のあったエフェクトの再生
-		// 攻撃のエフェクトがキック以外の時
 		// 攻撃時のエフェクトは攻撃とタイミングを合わせる
 		if (m_animation.m_contexts[0].play_time >= m_effect_info[m_now_attack].effect_start_anim_frame &&
 			m_effect.m_play_effect_flag == true
-			/*m_rolling_flag == false*/)
+			)
 		{
 			if (m_now_attack == attack_bigpunch || m_now_attack == attack_punch || m_now_attack == attack_upperpunch)
 			{
 				EffectUpdate(big_punch_attack_effect, m_now_attack);
 			}
-			/*else if (m_now_attack == attack_upperpunch )
-			{
-				EffectUpdate(punch_attack_effect, m_now_attack);
-			}*/
 			else if (m_now_attack == attack_breath)
 			{
+				// 再生中のエフェクトを停止する
 				EffectUpdate(breath_attack_effect, m_now_attack);
 			}
+		}
 
-		}
-		// エフェクトによって座標を合わせる
-	    //m_effect.SetEffectPos(attack_effect[m_now_attack].pos);
-		/*if (m_effect_info[m_now_attack].nodo_index == -1)
-		{
-			m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[m_now_attack].pos, m_transform.rot);
-		}
-		else
-		{
-			Vector3 pos = m_model.GetNodePos(m_effect_info[m_now_attack].nodo_index);
-			m_effect.SetEffectRotPos(pos, m_effect_info[m_now_attack].pos, m_transform.rot);
-		}*/
 		// SEが設定されていない攻撃の時は再生しない
 		if (m_rolling_flag == false && m_jump_flag == false)
 		{
@@ -469,12 +453,12 @@ void Monster::ReinforceUpdate()
 //-----------------------------------------------
 void Monster::ComeAttackUpdate()
 {
-	m_effect.m_play_effect_flag = true;
+	m_damage_effect.m_play_effect_flag = true;
 
 	// 再生中のエフェクトがあったら終了させる
-	m_effect.StopEffect();
+	m_damage_effect.StopEffect();
 	//ダメージを受けた時のエフェクト
-	EffectUpdate(damage_effect, damage_effect_info);
+	DamageEffectUpdate();
 
 	// 攻撃を受けた時だけSEが重なってほしいため他とは違う方法で再生
 	m_se.m_playing_flag = true;
@@ -704,7 +688,11 @@ void Monster::EffectLoadInit()
 	m_effect.LoadEffect("Data/Model/Monster/Effect/Punch2.efkefc", punch_attack_effect, 1.0f);      // パンチ攻撃時のエフェクト
 	m_effect.LoadEffect("Data/Model/Monster/Effect/Punch.efkefc", big_punch_attack_effect, 1.0f);  // 大パンチ攻撃時のエフェクト
 	m_effect.LoadEffect("Data/Model/Monster/Effect/Breath.efkefc", breath_attack_effect, 1.0f);      // ブレス攻撃時のエフェクト
-	m_effect.LoadEffect("Data/Model/Monster/Effect/blood.efkefc", damage_effect, 1.0f);                // ダメージを受けた時のエフェクト
+	// ダメージを受けた時のエフェクト
+
+
+	m_damage_effect.NewArraySecure(damage_effect_max);
+	m_damage_effect.LoadEffect("Data/Model/Monster/Effect/blood.efkefc", damage_effect, 4.0f);
 }
 
 //-----------------------------------------------
@@ -733,9 +721,29 @@ void Monster::EffectUpdate(int effect_num, int effect_info_num)
 	}
 	// エフェクトのサイズを合わせる
 	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
-	
 	// エフェクトの向きを合わせる
 	m_effect.SetEffectRot(m_effect_info[effect_info_num].rot.x, m_effect_info[effect_info_num].rot.y + m_transform.rot.y, m_effect_info[effect_info_num].rot.z);
+}
+
+//-----------------------------------------------
+// ダメージ受けた時専用エフェクトの更新処理
+//-----------------------------------------------
+void Monster::DamageEffectUpdate()
+{
+	// エフェクトが再生可能状態なら
+	if (m_effect.m_play_effect_flag == true)
+	{
+		// エフェクトの再生
+		m_damage_effect.PlayEffect(damage_effect, m_transform.pos);
+		// エフェクトが再生されたので再生してはいけないようにする
+		m_damage_effect.m_play_effect_flag = false;
+	}
+	Vector3 pos = m_model.GetNodePos(m_damage_effect_info.nodo_index);
+	m_damage_effect.SetEffectRotPos(pos, m_damage_effect_info.pos, m_transform.rot);
+	// エフェクトのサイズを合わせる
+	m_damage_effect.SetEffectSize(m_damage_effect_info.size);
+	// エフェクトの向きを合わせる
+	m_damage_effect.SetEffectRot(m_damage_effect_info.rot.x, m_damage_effect_info.rot.y + m_transform.rot.y, m_damage_effect_info.rot.z);
 }
 
 //-----------------------------------------------

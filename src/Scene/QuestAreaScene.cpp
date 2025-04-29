@@ -211,6 +211,16 @@ void QuestAreaScene::Draw()
 		break;
 	}
 
+	// ストーリーを進行キーの描画
+	const char* text = "後ろの木でお試し攻撃できるよ！！";
+	// ゲームパッドの接続しているかによって描画するものを変更する
+
+	float x = GetDrawStringWidth(text, -1);
+	// テキストバーの端っこからテキスト分引いた位置に設定
+	Vector2 draw_pos = { SCREEN_W / 2 - x / 2, 50 };
+	DrawString(draw_pos.x, draw_pos.y, text, GetColor(255, 128, 50));
+
+
 	// フェードの描画処理
 	FadeDraw();
 }
@@ -297,7 +307,7 @@ void QuestAreaScene::LandMarkUpdate()
 {
 	// カメラの向きを取得する
 	m_camera_rot = camera.GetCameraRot();
-	
+
 
 	// 文字列の描画のための設定
 	for (int i = 0; i < landmark_text_max; i++)

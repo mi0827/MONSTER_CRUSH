@@ -43,7 +43,7 @@ Mutant::Mutant()
 	m_monster_mode = IDLE;
 
 	// 初期座標の設定
-	m_transform.pos.set(150.0f, 0.0f, 150.0f);
+	m_transform.pos.set(200.0f, 0.0f, 200.0f);
 	// モデルのスケールの設定
 	m_transform.scale.set(0.25f, 0.25f, 0.25f);
 }
@@ -450,12 +450,12 @@ void Mutant::ReinforceUpdate()
 //-----------------------------------------------
 void Mutant::ComeAttackUpdate()
 {
-	m_effect.m_play_effect_flag = true;
+	m_damage_effect.m_play_effect_flag = true;
 
 	// 再生中のエフェクトがあったら終了させる
-	m_effect.StopEffect();
+	m_damage_effect.StopEffect();
 	//ダメージを受けた時のエフェクト
-	EffectUpdate(damage_effect, damage_effect_info);
+	DamageEffectUpdate();
 
 	// 攻撃を受けた時だけSEが重なってほしいため他とは違う方法で再生
 	m_se.m_playing_flag = true;
@@ -666,8 +666,10 @@ void Mutant::EffectLoadInit()
 	// エフェクトの読み込み
 	m_effect.LoadEffect("Data/Model/Mutant/Effect/Sword2_1.efkefc", sword_attack_effect, 1.0f); // 剣での攻撃時のエフェクト
 	m_effect.LoadEffect("Data/Model/Mutant/Effect/attack1.efkefc", punch_attack_effect, 1.0f); // パンチ攻撃時のエフェクト
-	m_effect.LoadEffect("Data/Model/Mutant/Effect/blood.efkefc", damage_effect, 4.0f);        // ダメージを受けた時のエフェクト
 	m_effect.LoadEffect("Data/Model/Mutant/Effect/roar.efkefc", roar_effect, 1.0f);              // 咆哮時のエフェクト
+
+	m_damage_effect.NewArraySecure(damage_effect_max);
+	m_damage_effect.LoadEffect("Data/Model/Mutant/Effect/blood.efkefc", damage_effect, 4.0f);
 }
 
 //-----------------------------------------------
@@ -702,6 +704,27 @@ void Mutant::EffectUpdate( int effect_num, int effect_info_num)
 	// エフェクトの向きを合わせる
 	// プレイヤーの向きにも合わせる
 	m_effect.SetEffectRot(m_effect_info[effect_info_num].rot.x, m_effect_info[effect_info_num].rot.y + m_transform.rot.y, m_effect_info[effect_info_num].rot.z);
+}
+
+//-----------------------------------------------
+// ダメージ受けた時専用エフェクトの更新処理
+//-----------------------------------------------
+void Mutant::DamageEffectUpdate()
+{
+	// エフェクトが再生可能状態なら
+	if (m_effect.m_play_effect_flag == true)
+	{
+		// エフェクトの再生
+		m_damage_effect.PlayEffect(damage_effect, m_transform.pos);
+		// エフェクトが再生されたので再生してはいけないようにする
+		m_damage_effect.m_play_effect_flag = false;
+	}
+	Vector3 pos = m_model.GetNodePos(m_damage_effect_info.nodo_index);
+	m_damage_effect.SetEffectRotPos(pos, m_damage_effect_info.pos, m_transform.rot);
+	// エフェクトのサイズを合わせる
+	m_damage_effect.SetEffectSize(m_damage_effect_info.size);
+	// エフェクトの向きを合わせる
+	m_damage_effect.SetEffectRot(m_damage_effect_info.rot.x, m_damage_effect_info.rot.y + m_transform.rot.y, m_damage_effect_info.rot.z);
 }
 
 //-----------------------------------------------

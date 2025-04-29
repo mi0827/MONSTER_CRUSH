@@ -72,7 +72,10 @@ public:
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
 	void EffectUpdate( int effect_num, int effect_info_num) override;
-	
+
+	//! @brief 攻撃を受けた時のエフェクトの更新処理
+	void DamageEffectUpdate() override;
+
 	//! @brief SEの読み込み
 	void SELoadInit() override;
 	
@@ -218,7 +221,6 @@ public:
 	{
 		sword_attack_effect, // 剣での攻撃時のエフェクト
 		punch_attack_effect, // パンチ攻撃時のエフェクト
-		damage_effect, // ダメージを受けた時のエフェクト
 		roar_effect,      // 咆哮時のエフェクト
 		effect_max
 	};
@@ -240,6 +242,15 @@ public:
 
 		effect_info_max
 	};
+
+	//! エフェクトの種類用の列挙体
+	enum DamageEffect
+	{
+		damage_effect,                 // ダメージを受けた時のエフェクト
+		damage_effect_max
+	};
+
+
 	struct EffectInfo
 	{
 		// エフェクトのスケール
@@ -275,7 +286,8 @@ public:
 		{ {1.0f,1.0f,1.0f}, -1, {5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
 
 	};
-
+	// ダメージを受けた時のエフェクト
+	EffectInfo m_damage_effect_info = { {1.0f,1.0f,1.0f}, -1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1 };
 
 	// SEの種類用の列挙体
 	enum SE

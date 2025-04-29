@@ -72,16 +72,18 @@ public:
 
 	//! @brief エフェクトの読み込みをまとめる関数
 	void EffectLoadInit() override;
-	
+
 	//! @brief エフェクトの更新処理
-	
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
 	void EffectUpdate(int effect_num, int effect_info_num) override;
-	
+
+	//! @brief 攻撃を受けた時のエフェクトの更新処理
+	void DamageEffectUpdate() override;
+
 	//! @brief SEの読み込み
 	void SELoadInit() override;
-	
+
 	//! @brief SEの更新処理
 	//! @param 行いたいSEの情報が保管されている番号
 	void SEUpdate(int se_num) override;
@@ -170,12 +172,12 @@ public:
 		//---------------------------------------------------------------------------------------
 		//       コンボ１　       |          コンボ２        |         コンボ３        | コンボ終了
 		//---------------------------------------------------------------------------------------
-		  {attack_breath,             attack_kick,                attack_end,             attack_end},
-		  {attack_breath,             attack_breath,              attack_end,             attack_end},
-		  {attack_breath,             attack_end,                 attack_end,             attack_end},
-		  {attack_breath,             attack_punch,               attack_punch,           attack_end},
-		  {attack_breath,             attack_kick,                attack_kick,            attack_end},
-		  {attack_breath,             attack_upperpunch,          attack_upperpunch,      attack_end},
+		  {attack_punch,             attack_breath,           attack_end,           attack_end},
+		  {attack_bigpunch,        attack_breath,           attack_end,           attack_end},
+		  {attack_kick,                attack_bigpunch,       attack_end,           attack_end},
+		  {attack_upperpunch,     attack_punch,           attack_end,           attack_end},
+		  {attack_punch,             attack_kick,              attack_end,            attack_end},
+		  {attack_breath,            attack_end,               attack_end,           attack_end},
 	};
 	// 各コンボの後隙
 	int m_combo_rear_crevice_frame[M_COMBO_PATTERN_MAX]
@@ -217,16 +219,40 @@ public:
 	//! 各攻撃のダメージ
 	int m_attack_damage[attack_max]
 	{
-		0,0,0,0,0,0,0,0,
+		20, 30, 30, 10, 10, 50, 20, 20,
 	};
 
+	//! エフェクトの種類用の列挙体
+	//enum Effect
+	//{
+	//	punch_attack_effect,           // パンチ攻撃時のエフェクト
+	//	big_punch_attack_effect,       // 大パンチ攻撃時のエフェクト
+	//	breath_attack_effect,          // ブレス攻撃のエフェクト
+	//	damage_effect,                 // ダメージを受けた時のエフェクト
+	//	effect_max
+	//};
+	//// エフェクトをつけたいアニメーションの種類を列挙体で管理
+	//enum EffectInfoNum
+	//{
+	//	// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
+	//	attack_punch_effect_info,       // パンチ攻撃
+	//	attack_big_punch_effect_info,   // 大パンチ攻撃
+	//	attack_upper_punch_effect_info, // アッパー攻撃
+	//	attack_kick_effect_info,        // キック攻撃
+	//	attack_tackle_effect_info,      // タックル攻撃
+	//	attack_breath_effect_info,      // ブレス攻撃
+	//	// ここからは攻撃とは別のエフェクト
+	//	damage_effect_info,     // 攻撃を受けた時のエフェクト
+	//	roar_effect_info,       // 咆哮時のエフェクト  
+	//	effect_info_max
+	//};
+	
 	//! エフェクトの種類用の列挙体
 	enum Effect
 	{
 		punch_attack_effect,           // パンチ攻撃時のエフェクト
 		big_punch_attack_effect,       // 大パンチ攻撃時のエフェクト
 		breath_attack_effect,          // ブレス攻撃のエフェクト
-		damage_effect,                 // ダメージを受けた時のエフェクト
 
 		effect_max
 	};
@@ -243,15 +269,21 @@ public:
 		attack_breath_effect_info,      // ブレス攻撃
 
 		// ここからは攻撃とは別のエフェクト
-		damage_effect_info,     // 攻撃を受けた時のエフェクト
 		roar_effect_info,       // 咆哮時のエフェクト  
 
 		effect_info_max
 	};
+	//! エフェクトの種類用の列挙体
+	enum DamageEffect
+	{
+		damage_effect,                 // ダメージを受けた時のエフェクト
+		damage_effect_max
+	};
+
+
 
 	struct EffectInfo
 	{
-	
 		// エフェクトのスケール
 		Vector3 size;
 		// モデルのノードにエフェクトを設定したい場合のノード(櫃脳なかったら-1を書く)
@@ -272,20 +304,19 @@ public:
 		// 大パンチ攻撃
 		{ {8.0f,8.0f,8.0f}, -1, {20.0f,5.0f,20.0f},{35.0f,-90.0f,0.0f}, 50},
 		// アッパー攻撃
-		{ {4.0f,4.0f,4.0f}, -1, {20.0f,25.0f,20.0f},{0.0f, 0.0f, 0.0f}, 10},
+		{ {4.0f,4.0f,4.0f}, -1, {10.0f,5.0f,10.0f},{0.0f, 0.0f, 0.0f}, 30},
 		// キック攻撃
 		{ {6.0f,6.0f,6.0f}, -1, {15.0f,20.0f,15.0f},{35.0f,-90.0f,0.0f}, 30},
 		// タックル攻撃
 		{ {5.0f,5.0f,5.0f}, -1, {15.0f,24.0f,15.0f},{85.0f,-90.0f,0.0f}, 1},
 		// ブレス攻撃
-		{ {8.0f,8.0f,8.0f}, -1, {30.0f,18.0f,30.0f},{0.0f,-90.0f,0.0f}, 100},
-		// ダメージを受けた時のエフェクト
-		{ {1.0f,1.0f,1.0f}, -1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
+		{ {8.0f,8.0f,8.0f}, -1, {30.0f,15.0f,30.0f},{0.0f,-90.0f,0.0f}, 100},
+		
 		// 咆哮時のエフェクト  
-		{ {1.0f,1.0f,1.0f}, -1, {5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
-
+		{ {1.0f,1.0f,1.0f}, -1, {5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1}
 	};
-
+	// ダメージを受けた時のエフェクト
+	EffectInfo m_damage_effect_info = { {1.0f,1.0f,1.0f}, -1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1 };
 
 	// SEの種類用の列挙体
 	enum SE
@@ -328,17 +359,18 @@ public:
 		// 再生するタイミング
 		int se_start_frame;
 	};
+
 	SEInfo m_se_info[se_info_max]
 	{
 		// 攻撃番号と合わせたいので攻撃のエフェクト情報から先に調べる
 		// パンチ攻撃
-		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
+		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 40},
 		// 大パンチ攻撃
-		{ big_punch_attack_se, DX_PLAYTYPE_BACK, true, 10},
+		{ big_punch_attack_se, DX_PLAYTYPE_BACK, true, 60},
 		// アッパー攻撃
-		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
+		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 40},
 		// キック攻撃
-		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
+		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 20},
 		// タックル攻撃
 		{ punch_attack_se_1, DX_PLAYTYPE_BACK, true, 1},
 		// ブレス攻撃
