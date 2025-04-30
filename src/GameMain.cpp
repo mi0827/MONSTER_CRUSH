@@ -75,13 +75,8 @@ void GameInit()
 	option.Init();
 
 	// 最初ははタイトルシーンをつけておく
-	// scene = new EndScene;
-	// scene = new TitleScene;
-	 scene = new QuestAreaScene;
-	// scene = new GameScene;
+	scene = new TitleScene;
 
-	// キャラクターのせってい
-	//scene->SetCharacter(scene->SAMPLEPLAYER,scene->MUTANT);
 
 	scene->Init();
 
@@ -140,7 +135,7 @@ void GameUpdate()
 			if (scene->m_scene_change_judge) {
 				// 次に行ってほしいシーンがクエスト受注エリアなら                     	                                                
 				if (scene->m_next_scene == scene->QuestArea)
-				{			
+				{
 					scene->Exit();              // delete前に終了処理を回す
 					delete scene;               // 現在のシーンの削除
 					scene = new QuestAreaScene; // 次のシーンをnewしておく

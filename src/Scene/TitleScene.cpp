@@ -97,12 +97,12 @@ void TitleScene::Draw()
 	// タイトルの描画
 	const char* name = "モンスタークラッシュ";
 	// 描画幅の取得
-	float w = GetDrawStringWidth(name, -1);
+	float w = (float)GetDrawStringWidth(name, -1);
 	// 文字列の高さの取得
-	float h = GetFontSize();
+	float h = (float)GetFontSize();
 	// 描画座標
 	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h };
-	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	DrawString((int)draw_pos.x, (int)draw_pos.y, name, GetColor(255, 128, 50));
 
 	// どのボタンを押せば始まるかを描画
 	SetFontSize(100);
@@ -115,12 +115,12 @@ void TitleScene::Draw()
 		name = " A ";
 	}
 
-	w = GetDrawStringWidth(name, -1);
-	h = GetFontSize();
+	w = (float)GetDrawStringWidth(name, -1);
+	h = (float)GetFontSize();
 	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 + h * 2 };
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString(draw_pos.x, draw_pos.y, name, GetColor(255, 128, 50));
+	DrawString((int)draw_pos.x, (int)draw_pos.y, name, GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 
@@ -156,7 +156,7 @@ void TitleScene::HitField()
 void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
-	camera.SetCameraSensi(mouse);
+	camera.SetCameraSensi((float)mouse);
 
 	// キャラクターのサウンドの調整
 	//m_player->m_se.SetSoundVolume(se);

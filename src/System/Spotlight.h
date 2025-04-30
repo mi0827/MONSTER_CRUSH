@@ -22,7 +22,7 @@ public:
 	void SetLightSpotPos(Vector3* spot_pos);
 
 	//! スポットライトの座標の更新処理
-	void  UpdateTransform(Vector3* pos, Vector3* spot_pos);
+	void UpdateTransform(Vector3* pos, Vector3* spot_pos);
 
 private:
 	//! ライトハンドル
