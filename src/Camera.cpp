@@ -361,6 +361,11 @@ void Camera::CameraShakeLimited(float power, float time)
 	}
 	// ずれを含めた座標
 	m_pos += m_shake_pos;
+
+	// カメラシェイクはこの値を変更するといい
+	SetupCamera_Perspective(TO_RADIAN(45.0f));
+
+	// 大きいい攻撃を受けたときに画面を傾けるなどの処理があるとなお良き
 }
 
 

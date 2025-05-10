@@ -108,6 +108,9 @@ MATRIX Model::GetNodeWorldMatrix(int node_index)
 {
 	MATRIX mat = MV1GetFrameLocalWorldMatrix(m_model, node_index);
 
+	// マトリックスの中からROTに関するデータをひぬいてくる
+	//GetMatrixXYZRotation();
+
 	return mat;
 }
 

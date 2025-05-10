@@ -318,6 +318,18 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			}
 		}
 
+		//　エフェクトの座標の設定
+		if (m_effect_info[m_now_attack].nodo_index == -1)
+		{
+			m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[m_now_attack].pos, m_transform.rot);
+		}
+		else
+		{
+			Vector3 pos = m_model.GetNodePos(m_effect_info[m_now_attack].nodo_index);
+			m_effect.SetEffectRotPos(pos, m_effect_info[m_now_attack].pos, m_transform.rot);
+		}
+
+
 		// SEが設定されていない攻撃の時は再生しない
 		if (m_rolling_flag == false && m_jump_flag == false)
 		{
@@ -709,16 +721,16 @@ void Monster::EffectUpdate(int effect_num, int effect_info_num)
 		m_effect.m_play_effect_flag = false;
 	}
 
-	//　エフェクトの座標の設定
-	if (m_effect_info[effect_info_num].nodo_index == -1)
-	{
-		m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
-	}
-	else
-	{
-		Vector3 pos = m_model.GetNodePos(m_effect_info[effect_info_num].nodo_index);
-		m_effect.SetEffectRotPos(pos, m_effect_info[effect_info_num].pos, m_transform.rot);
-	}
+	////　エフェクトの座標の設定
+	//if (m_effect_info[effect_info_num].nodo_index == -1)
+	//{
+	//	m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	//}
+	//else
+	//{
+	//	Vector3 pos = m_model.GetNodePos(m_effect_info[effect_info_num].nodo_index);
+	//	m_effect.SetEffectRotPos(pos, m_effect_info[effect_info_num].pos, m_transform.rot);
+	//}
 	// エフェクトのサイズを合わせる
 	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
 	// エフェクトの向きを合わせる
