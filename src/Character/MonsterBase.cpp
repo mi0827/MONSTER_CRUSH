@@ -143,7 +143,7 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 	case UP: // 起き上がるとき
 		// アニメーションの再生速度に合わせてスタン値を回復させる
 		static float stun_recovery_value = sutn_value_max / m_animation.m_contexts[0].animation_total_time;
-		m_stun_value = stun_recovery_value * m_animation.m_contexts[0].play_time;
+		m_stun_value = (int)(stun_recovery_value * m_animation.m_contexts[0].play_time);
 
 		if (m_animation.m_contexts[0].is_playing == false)
 		{
@@ -208,7 +208,7 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 //---------------------------------------------------------------------------
 // 当たり判定をとってほしいタイミングを保存するための関数
 //---------------------------------------------------------------------------
-void MonsterBase::SetHitTime(int attack_frame_start, int attack_frame_end, int attack_num)
+void MonsterBase::SetHitTime(float attack_frame_start, float attack_frame_end, int attack_num)
 {
 	// 当たり判定をとってほしい最初のフレームの保存
 	m_attack_hit_damage[attack_num]->start_time = attack_frame_start;
@@ -227,7 +227,7 @@ bool MonsterBase::AttackHitGoodTiming(int attack_num)
 	// 終わってほしいフレーム
 	int end_time = m_attack_hit_damage[attack_num]->end_time;
 	// アニメーションの現在のフレーム
-	int play_anim_time = m_animation.m_contexts[0].play_time;
+	float play_anim_time = m_animation.m_contexts[0].play_time;
 	if (play_anim_time >= start_time && play_anim_time <= end_time)
 	{
 		return true;
@@ -577,7 +577,7 @@ void MonsterBase::RoarAction(Camera* camera)
 		// ゲームパッドが接続されているときはゲームパッドを振動させたい
 		if (GetJoypadNum() >= 1)
 		{
-			PadVidation(DX_INPUT_PAD1, 1000, 3.0f, -1);
+			PadVidation((int)DX_INPUT_PAD1, 1000, 3.0f, -1);
 		}
 
 		// アニメーションが終わったら画面シェイクを終わる

@@ -80,7 +80,7 @@ void HitGroundCharacterJump(Vector3* character_pos, Vector3* jump_mov, bool* jum
 	}
 
 	// í‚É‰º‚ÉˆÚ“®
-	jump_mov->y -= 0.1 * down_speed;
+	jump_mov->y -= 0.1f * down_speed;
 
 	// í‚ÉˆÚ“®—Ê‚ğ‘«‚·
 	*character_pos += *jump_mov;

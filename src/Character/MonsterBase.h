@@ -197,7 +197,7 @@ public:
 	//! @param 当たり判定をとってほしいフレームのスタート
 	//! @param 当たり判定を終わってほしいフレームの終わり
 	//! @param 保存したい攻撃番号
-	void SetHitTime(int attack_frame_start, int attack_frame_end, int attack_num);
+	void SetHitTime(float attack_frame_start, float attack_frame_end, int attack_num);
 
 	// 当たり判定をとってよいタイミングかを判断する関数
 	//! @brief 攻撃番号

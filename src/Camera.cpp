@@ -105,8 +105,8 @@ void Camera::MouseCamera(Vector3* target_pos)
 	Vector2 move;
 
 	//	固定されたマウスのから移動用をゲット
-	move.x = GetFixedMouseMoveX();
-	move.y = GetFixedMouseMoveY();
+	move.x = (float)GetFixedMouseMoveX();
+	move.y = (float)GetFixedMouseMoveY();
 
 	// 回転はそのままだと大きすぎるので小さく
 	//移動量を小さくします
@@ -255,7 +255,7 @@ void Camera::Draw()
 {
 	//	カメラの設定
 	SetCameraNearFar(0.1f, 3000.0f);
-	SetupCamera_Perspective(TO_RADIAN(45.0f));
+	SetupCamera_Perspective(TO_RADIAN(55.0f));
 	// カメラ座標と見る座標を渡してカメラの設定
 	SetCameraPositionAndTarget_UpVecY(m_pos.VGet(), m_look.VGet());
 
@@ -353,6 +353,8 @@ void Camera::CameraShakeLimited(float power, float time)
 		m_shake_pos.x = GetRandomF(-m_power, m_power);
 		m_shake_pos.y = GetRandomF(-m_power, m_power);
 		m_shake_pos.z = GetRandomF(-m_power, m_power);
+		/*float power = GetRandomF(m_power)*100000;
+		SetupCamera_Perspective(TO_RADIAN(45.0f+ power));*/
 	}
 	else
 	{
@@ -363,7 +365,7 @@ void Camera::CameraShakeLimited(float power, float time)
 	m_pos += m_shake_pos;
 
 	// カメラシェイクはこの値を変更するといい
-	SetupCamera_Perspective(TO_RADIAN(45.0f));
+	
 
 	// 大きいい攻撃を受けたときに画面を傾けるなどの処理があるとなお良き
 }
@@ -409,7 +411,7 @@ Vector3 Camera::GetCameraRot()
 void Camera::ChangeDistance()
 {
 	// マウスのホイールでの変更
-	m_mouse_wheel = GetMouseWheelRotVol();
+	m_mouse_wheel = (float)GetMouseWheelRotVol();
 	m_length += m_mouse_wheel * 1.5f;
 
 	if (GetJoypadNum() >= 1)

@@ -104,6 +104,26 @@ void Effect::SetEffectRotPos(Vector3 character_pos, Vector3 pos2, Vector3 rot)
 	}
 }
 
+//---------------------------------------------------------------------------
+// 再生中のエフェクトの座標をモデルのノードの座標、ノードの向きに合わせてずらす関数
+//---------------------------------------------------------------------------
+void Effect::SetEffectRotPosNode(Vector3 node_pos, Vector3 pos, Vector3 rot)
+{
+	// エフェクトが再生中なら
+	if (IsEffekseer3DEffectPlaying(m_playing_effect[m_playing_effect_num]) == 0)
+	{
+		// 設定したいモデルの向きに合わせて座標をセットする
+		Vector3 pos_ = node_pos;
+		pos_.x += pos.x * sinf(TO_RADIAN(rot.y));
+		pos_.y += pos.y;
+		pos_.z += pos.z * cosf(TO_RADIAN(rot.y));
+		// エフェクトの座標を設定
+		SetPosPlayingEffekseer3DEffect(m_playing_effect[m_playing_effect_num], pos_.x, pos_.y, pos_.z);
+	}
+}
+
+
+
 
 //---------------------------------------------------------------------------
 //  再生中のエフェクトの向きのを設定

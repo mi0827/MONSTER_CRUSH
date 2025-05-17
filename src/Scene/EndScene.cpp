@@ -284,7 +284,7 @@ void EndScene::Draw()
 	box_pos.set(m_text_draw_pos[m_select_num].x - 30, m_text_draw_pos[m_select_num].y - 30);
 	if (m_hit_select_flag)
 	{
-		DrawBox(box_pos.x, box_pos.y, box_pos.x + m_text.END_BACK_SIZE + 70, box_pos.y + h + 70, GetColor(255, 255, 0), TRUE);
+		DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_text.END_BACK_SIZE + 70), (int)(box_pos.y + h + 70), GetColor(255, 255, 0), TRUE);
 	}
 
 	// テキストの描画

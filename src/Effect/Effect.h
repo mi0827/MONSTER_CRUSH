@@ -36,6 +36,12 @@ public:
 	//! @param 設定したいモデルの向き
 	void SetEffectRotPos(Vector3 character_pos, Vector3 pos, Vector3 rot);
 
+	//! @brief エフェクトの座標をモデルのノードの座標、ノードの向きに合わせてずらす関数
+	//! @param 設定したいNodeの座標
+	//! @param ずらしたい座標
+	//! @param 設定したいNodeの向き
+	void SetEffectRotPosNode(Vector3 character_pos, Vector3 pos, Vector3 rot);
+
 	//! @brief エフェクトの向きの設定
 	//! @param X軸の回転
 	//! @param Y軸の回転

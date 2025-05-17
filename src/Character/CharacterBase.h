@@ -113,7 +113,7 @@ public:
 	//! @param 当たり判定を終わってほしいフレームの終わり
 	//! @param 保存したい攻撃番号
 	//! @param ヒットストップを行っていいか
-	void SetHitTiming(int attack_frame_start, int attack_frame_end,  bool can_hitstop, int attack_num);
+	void SetHitTiming(float attack_frame_start, float attack_frame_end,  bool can_hitstop, int attack_num);
 
 	// 当たり判定をとってよいタイミングかを判断する関数
 	//! @brief 攻撃番号

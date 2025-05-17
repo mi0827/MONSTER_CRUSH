@@ -108,14 +108,14 @@ public:
 	// 変数
 
 	//! モデル用の変数
-	int m_model;
+	int m_model = 0;
 	//! モデルの座標、向き、サイズ
 	Transform m_transform;
 
 private:
 
 	//! マテリアルの最大数を保存する
-	int m_material_max;
+	int m_material_max = 0;
 	//! モデルのマテリアル情報
 	std::vector<MATERIALPARAM> m_material;
 

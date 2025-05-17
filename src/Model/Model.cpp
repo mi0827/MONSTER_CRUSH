@@ -97,6 +97,7 @@ Vector3 Model::GetNodePos(int node_index)
 	Vector3 pos;
 	// 指定したノードの座標を取ってくる
 	pos = MV1GetFramePosition(m_model, node_index);
+	//MATRIX mat = MV1GetFrameLocalWorldMatrix(m_model, node_index);
 
 	return pos;
 }
@@ -122,7 +123,9 @@ Vector3 Model::GetNodeRot(int node_index)
 {
 	MATRIX mat = GetNodeWorldMatrix(node_index);
 
-	Vector3 rot = { mat.m[2][1],mat.m[2][2],mat.m[2][3] };
+	Vector3 rot ;
+	// マトリックスの中からROTに関するデータをひぬいてくる
+	GetMatrixXYZRotation(&mat,&rot.x,&rot.y,&rot.z);
 	return rot;
 }
 

@@ -22,7 +22,6 @@
 #include "Monster.h"
 
 
-
 namespace
 {
 	// プレイヤーのとのあたり判定で使うboxのあたり判定のサイズ
@@ -222,13 +221,13 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			// ジャンプアクションをセットする
-			JumpAction(jump_anim, JUMP_TARGET_DISTANCE);
+			JumpAction(jump_anim, (int)JUMP_TARGET_DISTANCE);
 		}
 		// 走っている時間が一定以上になったら
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			// ローリングアクションをセットする
-			SetRollingAction(rolling_anim, ROLLING_TARGET_DISTANCE);
+			SetRollingAction(rolling_anim, (int)ROLLING_TARGET_DISTANCE);
 		}
 
 		// ランフラグが立っている間だけ
@@ -325,8 +324,12 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		}
 		else
 		{
+			// 指定のノードの座標をとってくる
 			Vector3 pos = m_model.GetNodePos(m_effect_info[m_now_attack].nodo_index);
-			m_effect.SetEffectRotPos(pos, m_effect_info[m_now_attack].pos, m_transform.rot);
+			// 指定のノードの向きをとってくる
+			Vector3 rot = m_model.GetNodeRot(m_effect_info[m_now_attack].nodo_index);
+			rot = rot + m_transform.rot;
+			m_effect.SetEffectRotPosNode(pos, m_effect_info[m_now_attack].pos, rot);
 		}
 
 
@@ -416,7 +419,6 @@ void Monster::Draw()
 	m_breath_hit.Draw();*/
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
-
 }
 
 //-----------------------------------------------

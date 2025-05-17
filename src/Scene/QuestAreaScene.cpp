@@ -215,10 +215,10 @@ void QuestAreaScene::Draw()
 	const char* text = "後ろの木でお試し攻撃できるよ！！";
 	// ゲームパッドの接続しているかによって描画するものを変更する
 
-	float x = GetDrawStringWidth(text, -1);
+	float x = (float)GetDrawStringWidth(text, -1);
 	// テキストバーの端っこからテキスト分引いた位置に設定
 	Vector2 draw_pos = { SCREEN_W / 2 - x / 2, 50 };
-	DrawString(draw_pos.x, draw_pos.y, text, GetColor(255, 128, 50));
+	DrawString((int)draw_pos.x, (int)draw_pos.y, text, GetColor(255, 128, 50));
 
 
 	// フェードの描画処理
