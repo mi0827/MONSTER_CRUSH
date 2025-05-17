@@ -63,9 +63,6 @@ void Scene_Base::BaseInit()
 	m_sky_transform.pos.set(0.0f, 500.0f, 0.0f);
 	m_sky_transform.rot.set(0.0f, 0.0f, 0.0f);
 	m_sky_transform.scale.set(20.0f, 20.0f, 20.0f);
-
-	
-	
 }
 
 // --------------------------------------------------------------------------
@@ -98,9 +95,6 @@ void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 			m_text.TextDraw(target_camera_text, draw_pos, m_text.OPTION_BACK_SIZE);
 		}
 	}
-	
-	
-
 }
 
 // --------------------------------------------------------------------------

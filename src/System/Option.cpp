@@ -355,8 +355,7 @@ void Option::Draw()
 
 		// メニュー画面をゲームパッド、キーボード開いたほうに合わせて描画する
 		if (m_operateType == GamePad)
-		{
-			
+		{	
 				// 操作説明(仮で描画)
 				DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
 					SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_gamePad_operation_explanation_image, TRUE);
@@ -367,7 +366,5 @@ void Option::Draw()
 			DrawExtendGraphF(m_operation_instructions_pos.x, m_operation_instructions_pos.y,
 				SCREEN_W - MARGIN, SCREEN_H - MARGIN, m_operation_instructions_image, TRUE);
 		}
-
 	}
-
 }

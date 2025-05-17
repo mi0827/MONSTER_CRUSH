@@ -112,7 +112,7 @@ void TitleScene::Draw()
 	}
 	else
 	{
-		name = " A ";
+		name = " B ";
 	}
 
 	w = (float)GetDrawStringWidth(name, -1);

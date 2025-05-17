@@ -410,13 +410,13 @@ void Monster::Draw()
 	}
 
 	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
-	/*m_body.Draw();
+	m_body.Draw();
 	m_left_hand.Draw();
 	m_right_hand.Draw();
 	m_left_feet.Draw();
 	m_right_feet.Draw();
 	m_big_punch_hit.Draw();
-	m_breath_hit.Draw();*/
+	m_breath_hit.Draw();
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ (•`‰æ‚ðŒã‚É‚µ‚È‚¢‚Æ“–‚½‚è”»’è‚ª‚¿‚©‚¿‚©‚·‚é)
 	m_model.DrawModel(&m_transform);
 }

@@ -45,8 +45,8 @@ void Camera::Init()
 //---------------------------------------------------------------------------------
 void Camera::PlayFieldInit()
 {
-	//m_field_size.set(SCREEN_W , SCREEN_H);                                                                                          // •`‰æ‚·‚é‰æ–Ê‚ÌƒTƒCƒY‚ÌÝ’è
-	//m_screen_field = MakeScreen((int)m_field_size.x, (int)m_field_size.y);                                             // •`‰æ‰æ–Ê‚ð‘‚«ž‚Þ‚½‚ß‚Ì‰ŠúÝ’è
+	//m_field_size.set(SCREEN_W , SCREEN_H);                                              // •`‰æ‚·‚é‰æ–Ê‚ÌƒTƒCƒY‚ÌÝ’è
+	//m_screen_field = MakeScreen((int)m_field_size.x, (int)m_field_size.y);              // •`‰æ‰æ–Ê‚ð‘‚«ž‚Þ‚½‚ß‚Ì‰ŠúÝ’è
 	SetCameraPositionAndTarget_UpVecY(VGet(0.0f, 2.0f, -50.0f), VGet(0.0f, 0.0f, 1.0f));  // ƒJƒƒ‰‚ÌÝ’è
 }
 
@@ -172,18 +172,11 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 	// ŠOÏ‚É‚æ‚Á‚Ä•ûŒü‚ð•Ï‚¦‚é
 	if (cross_product.y > 0)
 	{
-//		if (inner_product <= 0.95f)
-		{
-			m_rot.y += std::min(inner_angle, TARGET_ROT_SPEED);
-		}
-		
+			m_rot.y += std::min(inner_angle, TARGET_ROT_SPEED);	
 	}
 	else
 	{
-//		if (inner_product <= 0.95f)
-		{
 			m_rot.y -= std::min(inner_angle, TARGET_ROT_SPEED);
-		}
 	}
 
 

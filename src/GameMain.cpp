@@ -64,6 +64,10 @@ Option option;
 // BGM
 Sound m_bgm;
 
+// ゲーム操作の画像よう変数
+int pad_image;
+int key_image;
+
 //! ライトの座標用変数
 //-------------------------------------------------------------
 // 初期処理
@@ -93,6 +97,11 @@ void GameInit()
 	m_bgm.LoadSound("Data/BGM/End.mp3", scene->End);
 
 	m_bgm.PlaySound_(scene->Title, DX_PLAYTYPE_BACK, true);
+
+
+	// 操作画像の読み込み
+	pad_image = LoadGraph("pad_.png");
+	key_image = LoadGraph("key_.png");
 }
 
 //-------------------------------------------------------------
@@ -244,7 +253,22 @@ void GameDraw()
 
 	scene->BaseDraw(scene->m_now_scene, { 0,200 });
 
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+	if (scene->m_now_scene == scene->Story || scene->m_now_scene == scene->QuestArea || scene->m_now_scene == scene->Battle)
+	{
+		if (GetJoypadNum() <= 0)
+		{
+			DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, key_image, true);
+		}
+		else
+		{
+			DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, pad_image, true);
+		}
 
+	}
+
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 
 // 終了処理
