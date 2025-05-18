@@ -19,7 +19,7 @@ public:
 	//! @brief エフェクトの読み込み用関数
 	//! @param エフェクト保存用番号
 	//! @param エフェクトの再生速度
-	void LoadEffect(const char file_path[256], int effect_noint ,float effect_play_speed);
+	void LoadEffect(const char file_path[256], int effect_noint, float effect_play_speed);
 
 	//! @brief エフェクトを再生
 	//! @param 再生したいエフェクト番号
@@ -28,7 +28,7 @@ public:
 
 	//! @brief エフェクトの座標を設定
 	//! @param ずらしたい座標
-	void SetEffectPos( Vector3 pos = { 0.0f,0.0f,0.0f });
+	void SetEffectPos(Vector3 pos = { 0.0f,0.0f,0.0f });
 
 	//! @brief エフェクトの座標をモデルの向きに合わせてずらす関数
 	//! @param 設定したいキャラの座標
@@ -50,15 +50,15 @@ public:
 
 	//! @brief エフェクトの細かいサイズの設定
 	//! @param 各方向に対しての拡大率(Vector3)
-	void SetEffectSize( Vector3 size);
+	void SetEffectSize(Vector3 size);
 
 	//! @brief エフェクトの再生速度の設定
 	//! @param 再生速度
-	void SetEffectPlaySpeed( float speed);
+	void SetEffectPlaySpeed(float speed);
 
 	//! @brief エフェクトの色の設定
 	//! @param 設定したいカラー
-	void SetEffectColor( COLOR_F color);
+	void SetEffectColor(COLOR_F color);
 
 	//! @brief エフェクトが再生中かどうかを調べる
 	//! @return	再生中かどうか?
@@ -75,24 +75,24 @@ private:
 	struct EffectInfo
 	{
 		//! エフェクトの入れ物
-		int effect_handle;
+		int effect_handle = 0;
 		//! エフェクトの再生速度
-		int effect_play_speed;
-		
+		int effect_play_speed = 0;
+
 	};
 	std::vector<EffectInfo>m_effect_info;
 	//! 現在再生中のエフェクト番号を保存する変数
-	int m_playing_effect_num;
+	int m_playing_effect_num = 0;
 
 private:
 	//! 現在再生中のエフェクトのを保存する変数
 	std::vector<int> m_playing_effect;
-	
+
 	//! エフェクトの再生中かのフラグ
-    int m_playing_effect_flag;
+	int m_playing_effect_flag = 0;
 
 	//! モデルの座標
-	Vector3 m_model_pos;
+	Vector3 m_model_pos = { 0.0f,0.0f,0.0f };
 public:
 	//! エフェクトを再生再生していいかのフラグ
 	bool m_play_effect_flag = true;

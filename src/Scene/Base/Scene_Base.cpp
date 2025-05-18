@@ -72,7 +72,7 @@ void Scene_Base::BaseDraw(int scene_num, Vector2 draw_pos_)
 {
 	// あたらたなフォントサイズをせてい
 	SetFontSize(30);
-	float h = GetFontSize();
+	int h = GetFontSize();
 	// 描画する座標を設定
 	Vector2 draw_pos = { draw_pos_.x,draw_pos_.y };
 	// テキストの描画

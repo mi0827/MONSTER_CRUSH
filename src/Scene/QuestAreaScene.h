@@ -125,7 +125,7 @@ private:
 	//! クエストエリアのテキスト
 	Text m_quest_area_text;
 	//! テキストの何行目を見ているのかを保存する変数
-	int m_quest_area_text_line;
+	int m_quest_area_text_line = 0;
 
 
 
@@ -167,7 +167,7 @@ private:
 	//! クエスト受付嬢のテキスト
 	Text m_reception_text;
 	//! 受付嬢のテキストの何行目かを保存するための
-	int m_reception_text_line;
+	int m_reception_text_line = 0;
 
 
 
@@ -227,11 +227,11 @@ private:
 		reply_selection,  // 返答選択
 	};
 	// クエスト選択画面の状態
-	int m_quest_selection_num;
+	int m_quest_selection_num = 0;
 	// どのクエストを選んだか保存する変数
-	int m_quest_num;
+	int m_quest_num = 0;
 	// 返答がどちらかなのかを保存する変数
-	int m_reply_num;
+	int m_reply_num = 0;
 	// 選択画面で選択しているものを示すための変数
 	int m_select_num = 0;
 

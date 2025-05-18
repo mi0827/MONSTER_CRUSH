@@ -194,9 +194,9 @@ void CharacterBase::AttackUpdate()
 void CharacterBase::SetHitTiming(float attack_frame_start, float attack_frame_end, bool can_hitstop, int attack_num )
 {
 	// 当たり判定をとってほしい最初のフレームの保存
-	m_attack_hit_damage[attack_num]->start_time = attack_frame_start;
+	m_attack_hit_damage[attack_num]->start_time = (int)attack_frame_start;
 	// 終わってほしいフレームの保存
-	m_attack_hit_damage[attack_num]->end_time = attack_frame_end;
+	m_attack_hit_damage[attack_num]->end_time = (int)attack_frame_end;
 	// ヒットストップを行っていいかどうかの保存
 	m_attack_hit_damage[attack_num]->can_hit_stop = can_hitstop;
 }
@@ -438,7 +438,7 @@ void CharacterBase::HitDamageUpdate(int hit_damage_anim)
 	// 攻撃を受けたらゲームパッドを揺らす
 	if (GetJoypadNum() >= 1)
 	{
-		PadVidation(DX_INPUT_PAD1, 1000, 3.0f, -1);
+		PadVidation(DX_INPUT_PAD1, 1000, 3, -1);
 	}
 	// ダメージを食らったアニメーションが終わりにかかったら
 	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10)

@@ -204,7 +204,7 @@ void StoryScene::Draw()
 	// フォントサイズの設定
 	SetFontSize(80);
 	// 文字列の高さの取得
-	float h = GetFontSize();
+	float h = (float)GetFontSize();
 
 	Vector2 draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
 	// テキストファイルからのストーリーの描画
@@ -263,7 +263,7 @@ void StoryScene::HitField()
 void StoryScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
-	camera.SetCameraSensi(mouse);
+	camera.SetCameraSensi((float)mouse);
 
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);

@@ -43,13 +43,13 @@ public:
 	//! 設定したい数値を保存する変数
 	int m_value = 0;
 	//! 本体かカラー
-	int m_color;
+	int m_color = 0;
 	//! バックカラー
-	int m_back_color;
+	int m_back_color = 0;
 	//! 外枠のカラー
-	int m_line_color;
+	int m_line_color = 0;
 	//! 文字のカラー
-	int m_character_color;
+	int m_character_color = 0;
 
 private:
 	//! バーの座標
@@ -75,13 +75,13 @@ private:
 	bool m_line_judgment = false;
 
 	//! valueの最大値を保存しておく変数
-	int m_value_max;
+	int m_value_max = 0;
 
 	//! valueの値が１減るたびにバーの減る量
-	 float value_decrease;
+	float value_decrease = 0;
 
 	// 今どれだけ増減してどれほぼ残っているか
-	float new_value;
+	float new_value = 0;
 
 	//! 名前を保存するための変数
 	 char m_name[256] ;

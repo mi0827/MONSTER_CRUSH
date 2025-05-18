@@ -161,14 +161,14 @@ bool CheckCircleHit(Vector3 pos1, int radius1, Vector3 pos2, int radius2)
 	// マイナスになるとどこでも当たっている判定になるのでプラスにする
 	if (pos_x < 0)
 	{
-		pos_x * -1;
+		pos_x *= -1;
 	}
 	
 	float pos_z = pos1.z - pos2.z;
 	// マイナスになるとどこでも当たっている判定になるのでプラスにする
 	if (pos_z < 0)
 	{
-		pos_z * -1;
+		pos_z *= -1;
 	}
 	// 互いの座標の距離が上で求めた距離より短くなったら円に入ったことになる
 	// X座標の場合を調べる

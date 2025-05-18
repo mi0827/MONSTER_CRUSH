@@ -89,7 +89,7 @@ void MonsterBase::ActionRolling(const int rolling_speed, float rolling_start_fra
 {
 	// ローリング中の移動処理
 	// 向いている方向に PLAYER_ROLLING_SPEED 分移動する
-	MoveBetween(rolling_speed, rolling_start_frame, rolling_end_frame);
+	MoveBetween((float)rolling_speed, rolling_start_frame, rolling_end_frame);
 	// ローリングアニメーションが終わったら
 	if (m_animation.m_contexts[0].is_playing == false)
 	{
@@ -211,9 +211,9 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 void MonsterBase::SetHitTime(float attack_frame_start, float attack_frame_end, int attack_num)
 {
 	// 当たり判定をとってほしい最初のフレームの保存
-	m_attack_hit_damage[attack_num]->start_time = attack_frame_start;
+	m_attack_hit_damage[attack_num]->start_time = (int)attack_frame_start;
 	// 終わってほしいフレームの保存
-	m_attack_hit_damage[attack_num]->end_time = attack_frame_end;
+	m_attack_hit_damage[attack_num]->end_time = (int)attack_frame_end;
 }
 
 
@@ -577,7 +577,7 @@ void MonsterBase::RoarAction(Camera* camera)
 		// ゲームパッドが接続されているときはゲームパッドを振動させたい
 		if (GetJoypadNum() >= 1)
 		{
-			PadVidation((int)DX_INPUT_PAD1, 1000, 3.0f, -1);
+			PadVidation((int)DX_INPUT_PAD1, 1000, 3, -1);
 		}
 
 		// アニメーションが終わったら画面シェイクを終わる

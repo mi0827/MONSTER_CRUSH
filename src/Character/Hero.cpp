@@ -470,7 +470,7 @@ void Hero::SetHitTimeInit()
 {
 	for (int i = 0; i < attack_max; i++)
 	{
-		SetHitTiming((int)attack_frame[i].start_frame, (int)attack_frame[i].end_frame, (int)attack_frame[i].can_hit_stop, i);
+		SetHitTiming(attack_frame[i].start_frame, attack_frame[i].end_frame, attack_frame[i].can_hit_stop, i);
 	}
 
 }

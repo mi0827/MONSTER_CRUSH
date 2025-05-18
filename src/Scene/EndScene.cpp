@@ -277,7 +277,7 @@ void EndScene::Draw()
 	SetFontSize(60);
 
 	// 文字列の高さの取得
-	float h = GetFontSize();
+	int h = GetFontSize();
 	// 描画座標
 	Vector2 box_pos;
 	// どちらを選択しているかの外枠
@@ -363,7 +363,7 @@ void EndScene::HitField()
 void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
-	camera.SetCameraSensi(mouse);
+	camera.SetCameraSensi((float) mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
 }

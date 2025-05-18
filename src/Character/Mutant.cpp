@@ -223,13 +223,13 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			// ジャンプアクションをセットする
-			JumpAction(jump_anim, JUMP_TARGET_DISTANCE);
+			JumpAction(jump_anim, (int)JUMP_TARGET_DISTANCE);
 		}
 		// 走っている時間が一定以上になったら
 		if (m_running_frame_count >= CHANGE_JUMP_RUNNIG_FRAME)
 		{
 			// ローリングアクションをセットする
-			SetRollingAction(rolling_anim, ROLLING_TARGET_DISTANCE);
+			SetRollingAction(rolling_anim, (int)ROLLING_TARGET_DISTANCE);
 		}
 
 		// ランフラグが立っている間だけ

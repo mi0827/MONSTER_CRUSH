@@ -63,7 +63,7 @@ void SamplePlayer::Init()
 	// 向きの設定
 	SetCharacterRot({ 0,180.0f,0 });
 	// モデルのスケールの設定
-	m_transform.scale.set(0.1f, 0.1, 0.1);
+	m_transform.scale.set(0.1f, 0.1f, 0.1f);
 
 
 	// モデル画像の読み込み
@@ -227,7 +227,7 @@ void SamplePlayer::LiveUpdate(Vector3* camera_rot)
 
 		break;
 	case ROLLING: // ローリングアクションをしている時
-		RollingActionUpdate(rolling, PLAYER_ROLLING_SPEED);
+		RollingActionUpdate(rolling, (int)PLAYER_ROLLING_SPEED);
 
 		break;
 	case COUNTER:

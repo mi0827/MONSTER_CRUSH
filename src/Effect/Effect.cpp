@@ -43,7 +43,7 @@ void Effect::LoadEffect(const char file_path[256], int effect_no, float  effect_
 	// エフェクトの読み込み
 	m_effect_info[effect_no].effect_handle = LoadEffekseerEffect(file_path);
 	// エフェクトの再生速度の設定
-	m_effect_info[effect_no].effect_play_speed = effect_play_speed;
+	m_effect_info[effect_no].effect_play_speed = (int)effect_play_speed;
 }
 
 //---------------------------------------------------------------------------
@@ -65,7 +65,7 @@ void Effect::PlayEffect(int effect_num, Vector3 pos)
 	}
 	// 現在再生中のエフェクトに設定しておく
 	// エフェクトの再生スピードの設定
-	SetSpeedPlayingEffekseer3DEffect(m_playing_effect[m_playing_effect_num], m_effect_info[effect_num].effect_play_speed);
+	SetSpeedPlayingEffekseer3DEffect(m_playing_effect[m_playing_effect_num], (float)m_effect_info[effect_num].effect_play_speed);
 	// エフェクトの生成座標の設定
 	SetPosPlayingEffekseer3DEffect(m_playing_effect[m_playing_effect_num], pos.x, pos.y, pos.z);
 }
@@ -178,7 +178,7 @@ void Effect::SetEffectColor(COLOR_F color)
 	if (IsEffekseer3DEffectPlaying(m_playing_effect[m_playing_effect_num]) == 0)
 	{
 		// エフェクトの色の設定
-		SetColorPlayingEffekseer3DEffect(m_playing_effect[m_playing_effect_num], color.r, color.g, color.b, color.a);
+		SetColorPlayingEffekseer3DEffect(m_playing_effect[m_playing_effect_num], (int)color.r, (int)color.g, (int)color.b, (int)color.a);
 	}
 }
 

@@ -35,7 +35,7 @@ public:
 	void OptionValuesReflect(int bgm, int se, int mouse)override;
 
 	//! @brief サウンドの再生
-    //! @param 再生したいSE番号
+	//! @param 再生したいSE番号
 	void SoundPlay(int se_num);
 
 
@@ -57,8 +57,8 @@ private:
 	//! テキストの描画位置
 	Vector2 m_text_draw_pos[text_max] =
 	{
-		{ (100),(SCREEN_H/ 2)},
-		{ (100 + SCREEN_W /2),(SCREEN_H / 2)}
+		{ (100),(SCREEN_H / 2)},
+		{ (100 + SCREEN_W / 2),(SCREEN_H / 2)}
 	};
 
 	//! 画面切り替え用の変数
@@ -68,7 +68,7 @@ private:
 	//! 選択マスにあったているかどうかのフラグ
 	bool m_hit_select_flag = false;
 	// タイトル画面でボタンが押されたかどうかのフラグ
-	bool m_start_flag = false; 
+	bool m_start_flag = false;
 
 	// カメラクラスのオブジェクト
 	Camera camera;
@@ -87,7 +87,7 @@ private:
 	int m_change_scene = 0;
 
 	//! エンドシーンで何フレーム進んでいるのかを保存するための変数
-	int m_frame_count;
+	int m_frame_count = 0;
 	//! エンドシーンで指定のフレーム過ぎると勝手にシーンを変える
 	static constexpr int END_SCENE_FRAME_MAX = 480; // 現在のゲームが６０フレームなので１０秒
 };

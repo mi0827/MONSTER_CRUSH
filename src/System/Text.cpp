@@ -60,11 +60,11 @@ void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 	box_size.set(draw_pos.x + back_size+ MARGIN* 2, draw_pos.y + font_size+ MARGIN*2);
 
 	// ï∂éöÇÃå„ÇÎÇï`âÊÇ”Çø
-	DrawBox(draw_pos.x - MARGIN*2, draw_pos.y - MARGIN*2, box_size.x + MARGIN, box_size.y+ MARGIN, GetColor(m_r, m_b, m_g), TRUE);
+	DrawBox((int)(draw_pos.x - MARGIN*2), (int)(draw_pos.y - MARGIN*2), (int)(box_size.x + MARGIN), (int)(box_size.y+ MARGIN), GetColor(m_r, m_b, m_g), TRUE);
 	// ï∂éöÇÃå„ÇÎÇÃÇ∆Ç±ÇÎÇîºìßñæÇ…Ç∑ÇÈ
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
 	// ï∂éöÇÃå„ÇÎÇï`âÊ
-	DrawBox(draw_pos.x - MARGIN, draw_pos.y - MARGIN, box_size.x, box_size.y, GetColor(255, 255, 255), TRUE);
+	DrawBox((int)(draw_pos.x - MARGIN), (int)(draw_pos.y - MARGIN), (int)box_size.x, (int)box_size.y, GetColor(255, 255, 255), TRUE);
 	// ìßñæìxÇÇ‡Ç∆Ç…Ç‡Ç«Ç∑
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 
@@ -73,7 +73,7 @@ void Text::TextDraw(int line_num, Vector2 draw_pos , int back_size)
 	const char* text = 0;
 	text = lines[line_num].data();
 	// ï`âÊèàóù
-	DrawString(draw_pos.x, draw_pos.y + MARGIN, text, GetColor(0, 0, 0));
+	DrawString((int)draw_pos.x, (int)(draw_pos.y + MARGIN), text, GetColor(0, 0, 0));
 }
 
 

@@ -112,27 +112,30 @@ void UIBra::Draw()
 	// 外枠のラインを引く場合
 	if (m_line_judgment)
 	{
-		DrawBox(m_line_pos1.x, m_line_pos1.y, m_line_pos2.x, m_line_pos2.y, m_line_color, TRUE);
+		DrawBox((int)m_line_pos1.x, (int)m_line_pos1.y, (int)m_line_pos2.x, (int)m_line_pos2.y, m_line_color, TRUE);
 	}
 
 	// バックバーの描画
-	DrawBox(m_back_pos1.x, m_back_pos1.y, m_back_pos2.x, m_back_pos2.y, m_back_color, TRUE);
+	DrawBox((int)m_back_pos1.x, (int)m_back_pos1.y, (int)m_back_pos2.x, (int)m_back_pos2.y, m_back_color, TRUE);
 
-	DrawBox(m_pos1.x, m_pos1.y, m_pos2.x - (float)new_value, m_pos2.y, m_color, TRUE);
+	DrawBox((int)m_pos1.x, (int)m_pos1.y, (int)(m_pos2.x - new_value), (int)m_pos2.y, m_color, TRUE);
 
 	if (m_name_judge)
 	{
 		// 現在のフォントのサイズを保存してい置く
 		int font_size = GetFontSize();
 		// フォントのサイズを設定（バーのサイズに合わせる）
-		SetFontSize(m_size.y);
+		SetFontSize((int)m_size.y);
 		// 名前の描画
-		DrawString(m_back_pos1.x + 5, m_back_pos1.y, m_name, m_character_color);
+		DrawString((int)(m_back_pos1.x + 5), (int)(m_back_pos1.y), m_name, m_character_color);
 		// フォントのサイズをもとのサイズに戻す
 		SetFontSize(font_size);
 	}
 }
 
+//-----------------------------------------------
+// バーと点との当たり判定を返す
+//-----------------------------------------------
 bool UIBra::HitPointBra(float pos_x, float pos_y)
 {
 	// ポイントの座標

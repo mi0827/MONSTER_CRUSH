@@ -162,7 +162,7 @@ void Move::MoveGamePad(bool* m_check_move, Vector3* mov, Vector3* camera_rot, Ve
 void Move::MoveFront(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = 0.0f;
+	m_face_num = 0;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	// 動いていい
@@ -178,7 +178,7 @@ void Move::MoveFront(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 void Move::MoveDhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = 180.0f;
+	m_face_num = 180;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 
@@ -195,7 +195,7 @@ void Move::MoveDhindo(bool* m_check_move, Vector3* camera_rot, Vector3* player_r
 void Move::MoveLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = -90.0f;
+	m_face_num = -90;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	// 動いていい
@@ -211,7 +211,7 @@ void Move::MoveLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot
 void Move::MoveRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = 90.0f;
+	m_face_num = 90;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	
@@ -229,7 +229,7 @@ void Move::MoveRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_ro
 void Move::MoveDiagonallyUpRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = 45.0f;
+	m_face_num = 45;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	// 動いていい
@@ -245,7 +245,7 @@ void Move::MoveDiagonallyUpRight(bool* m_check_move, Vector3* camera_rot, Vector
 void Move::MoveDiagonallyUpLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = -45.0f;
+	m_face_num = -45;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	// 動いていい
@@ -261,7 +261,7 @@ void Move::MoveDiagonallyUpLeft(bool* m_check_move, Vector3* camera_rot, Vector3
 void Move::MoveObliqueLowerRight(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = 135.0f;
+	m_face_num = 135;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	// 動いていい
@@ -277,7 +277,7 @@ void Move::MoveObliqueLowerRight(bool* m_check_move, Vector3* camera_rot, Vector
 void Move::MoveObliqueLowerLeft(bool* m_check_move, Vector3* camera_rot, Vector3* player_rot, Vector3* player_pos, const float* mov_speed)
 {
 	// 向てほしい方向セット
-	m_face_num = 225.0f;
+	m_face_num = 225;
 	// 補完フラグを上げる
 	m_complementation_flag = true;
 	// 動いていい

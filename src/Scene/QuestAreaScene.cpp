@@ -280,7 +280,7 @@ void QuestAreaScene::HitField()
 void QuestAreaScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
-	camera.SetCameraSensi(mouse);
+	camera.SetCameraSensi((float)mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
 
@@ -658,14 +658,14 @@ void QuestAreaScene::ModeNormalDraw()
 	SetFontSize(FONT_SIZE);
 
 	// 文字列の高さの取得
-	float h = GetFontSize();
+	int h = GetFontSize();
 	// 目印の描画
 	for (int i = 0; i < landmark_text_max; i++)
 	{
 		if (m_landmark_text[i].draw_flag)
 		{
 			// 描画幅の取得
-			float w = GetDrawStringWidth(m_landmark_text[i].text, -1);
+			int w = GetDrawStringWidth(m_landmark_text[i].text, -1);
 			// 描画座標
 			m_landmark_draw_pos = { m_landmark_text[i].draw_pos.x - w / 2,  m_landmark_text[i].draw_pos.y - h };
 			// 文字列の描画
@@ -673,16 +673,16 @@ void QuestAreaScene::ModeNormalDraw()
 			{
 				if (GetJoypadNum() >= 1)
 				{
-					DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[1].text, GetColor(255, 128, 50));
+					DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[1].text, GetColor(255, 128, 50));
 				}
 				else
 				{
-					DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[0].text, GetColor(255, 128, 50));
+					DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[0].text, GetColor(255, 128, 50));
 				}
 			}
 			else
 			{
-				DrawString(m_landmark_draw_pos.x, m_landmark_draw_pos.y, m_landmark_text[i].text, GetColor(255, 128, 50));
+				DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[i].text, GetColor(255, 128, 50));
 			}
 
 		}
@@ -690,11 +690,11 @@ void QuestAreaScene::ModeNormalDraw()
 	// プレイヤーのテキストの描画
 	SetFontSize(TEXT_FONT_SIZE);
 	h = GetFontSize();
-	m_text_draw_pos.set((SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
+	m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
 	m_quest_area_text.TextDraw(m_quest_area_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
 
 	// 誰が話しているかの描画
-	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
+	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
 }
 
 //------------------------------------------
@@ -712,9 +712,7 @@ void QuestAreaScene::TalkStartDraw()
 void QuestAreaScene::TalkDraw()
 {
 	// 文字列の高さの取得
-	float h = GetFontSize();
-
-	h = GetFontSize();
+	float h = (float)GetFontSize();
 	// 外枠の描画座標
 	Vector2 box_pos;
 	// クエスト出発確認中だけ描画する
@@ -730,7 +728,7 @@ void QuestAreaScene::TalkDraw()
 			box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE));
 		}
 
-		DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
+		DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70), (int)(box_pos.y + h * 2 + 40), GetColor(255, 255, 0), TRUE);
 		// YES
 		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
 		m_quest_text.TextDraw(3, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
@@ -757,18 +755,18 @@ void QuestAreaScene::TalkDraw()
 		text = " X ";
 	}
 
-	float x = GetDrawStringWidth(text, -1);
+	int x = GetDrawStringWidth(text, -1);
 	// テキストバーの端っこからテキスト分引いた位置に設定
-	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
+	int draw_pos_x = (int)(m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x);
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
 
-	DrawString(draw_pos_x, m_text_draw_pos.y + h, text, GetColor(255, 128, 50));
+	DrawString(draw_pos_x, (int)(m_text_draw_pos.y + h), text, GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 
 	// 誰が話しているかの描画
-	DrawString(m_text_draw_pos.x, m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
+	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
 }
 
 //------------------------------------------
@@ -777,36 +775,34 @@ void QuestAreaScene::TalkDraw()
 void QuestAreaScene::AcceptingQuestDraw()
 {
 	// 文字列の高さの取得
-	float h = GetFontSize();
-
-	h = GetFontSize();
+	int h = GetFontSize();
 
 	Vector2 box_pos;
 	if (m_select_num == 0)
 	{
-		box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30);
+		box_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30), (float)(SCREEN_H / 2 - 30));
 	}
 	else
 	{
-		box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE));
+		box_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30), (float)(SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE)));
 	}
 	// どちらを選んでいるかがわかる用のボックス
-	DrawBox(box_pos.x, box_pos.y, box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70, box_pos.y + h * 2 + 40, GetColor(255, 255, 0), TRUE);
+	DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70), (int)(box_pos.y + h * 2 + 40), GetColor(255, 255, 0), TRUE);
 
 	if (m_quest_selection_num == quest_selection)
 	{
 		m_text_draw_pos.set(m_quest_draw_pos[0].x, m_quest_draw_pos[0].y);
 		// クエスト１
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
+		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2));
 		m_quest_text.TextDraw(0, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// クエスト２ 
 		// Y座標はずれてほしい分を足す
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(1, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// 確認文言1
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
 		m_quest_text.TextDraw(2, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
 
@@ -815,15 +811,15 @@ void QuestAreaScene::AcceptingQuestDraw()
 	{
 
 		// YES
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
+		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2));
 		m_quest_text.TextDraw(3, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// NO
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(4, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// 確認文言2
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
 		m_quest_text.TextDraw(5, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
 
@@ -838,12 +834,12 @@ void QuestAreaScene::AcceptingQuestDraw()
 	{
 		text = " X ";
 	}
-	float x = GetDrawStringWidth(text, -1);
+	int x = GetDrawStringWidth(text, -1);
 	// テキストバーの端っこからテキスト分引いた位置に設定
-	int draw_pos_x = m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x;
+	int draw_pos_x = (int)(m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x);
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString(draw_pos_x, m_text_draw_pos.y, text, GetColor(255, 128, 50));
+	DrawString(draw_pos_x, (int)m_text_draw_pos.y, text, GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 
