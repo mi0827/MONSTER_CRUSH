@@ -7,8 +7,6 @@
 #include "src/System/Transform.h"
 #include "src/System/InputPad.h"
 
-#include "src/System/Spotlight.h"
-
 #include "src/Model/Model.h"
 #include "src/Animation/Animation.h"
 

@@ -157,8 +157,4 @@ public:
 	float inner_product;
 	// ターゲットカメラに使用する外積保存用の変数
 	Vector3 cross_product;
-
-
-
-
 };

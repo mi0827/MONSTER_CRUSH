@@ -111,9 +111,6 @@
     <ClCompile Include="src\Collision\BoxCollision.cpp">
       <Filter>ソース ファイル\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="src\System\Spotlight.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="src\Character\Monster.cpp">
       <Filter>ソース ファイル\Character</Filter>
     </ClCompile>
@@ -253,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="src\Collision\BoxCollision.h">
       <Filter>ソース ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\System\Spotlight.h">
-      <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="src\Character\Monster.h">
       <Filter>ソース ファイル\Character</Filter>

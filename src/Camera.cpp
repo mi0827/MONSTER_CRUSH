@@ -2,7 +2,7 @@
 #include "src/System/Random.h"
 #include "System/Vector3.h"
 #include "System/Vector2.h"
-#include "src/System/Spotlight.h"
+
 #include "src/System/Transform.h"
 #include "Camera.h"
 
