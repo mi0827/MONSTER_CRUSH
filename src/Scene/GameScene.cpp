@@ -179,8 +179,8 @@ void GameScene::EntryUpdate()
 		// カウントをリセット
 		m_count_flame = 0;
 	}
-	// タイマーが一定時間たったら(５秒)
-	if (m_count_time > CHANGE_TIME)
+	// タイマーが一定時間たったら(3秒)
+	if (m_count_time >= CHANGE_TIME)
 	{
 		// バトルをスターとする
 		m_what_scene = battle;

@@ -66,6 +66,8 @@ public:
 	void CameraShakeLimited(float power, float time);
 
 
+	void CameraShakeReset();
+
 	//! @brief カメラの向きの設定
 	//! @param 設定したい向き
 	void SetCameraRot(Vector3 rot);
@@ -82,15 +84,16 @@ public:
 		left,   // 左
 	};
 
-	// カメラと移す標的との距離
+	//! カメラと移す標的との距離
 	static constexpr float CAMERA_LENGTH_MAX = 75.0f;      // プレイヤーとの最大値
 	static constexpr float CAMERA_LENGTH_MIN = 50.0f;       // プレイヤーとの最小値
 	static constexpr float CAMERA_MONSER_LENGTH = 100.0f;  // モンスター
-	// カメラが移すしたいものからy座標分変化させる値
+	//! カメラが移すしたいものからy座標分変化させる値
 	static constexpr float CAMERA_HEIGHT_PLAYER = 5.0f;    // プレイヤー
 	static constexpr float CAMERA_HEIGHT_MONSTER = 20.0f;  // モンスター
+private:
 
-	// カメラの回転スピード
+	//! カメラの回転スピード
 	static constexpr float MOUSE_SENSI_CORRECT = 0.01f;  // マウス用
 	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
 
@@ -99,10 +102,12 @@ public:
 	static constexpr float BOX_SIZE = 4.0f;                     // ボックスのサイズ
 	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
 
-	// ターゲットカメラの振り向き速度
+	//! ターゲットカメラの振り向き速度
 	static constexpr float TARGET_ROT_SPEED = 2.3f;
-	// ターゲットカメラの振り向き可能範囲
+	//! ターゲットカメラの振り向き可能範囲
 	static constexpr float RANGE = 500;
+	//! カメラの画角のデフォルト値
+	static constexpr float CAMERA_ANGLE_DEFAULT = 55.0f;
 
 	//---------------
 	// 変数の定義
@@ -126,7 +131,7 @@ public:
 	//! マウスカーソル用変数
 	float m_mouse_wheel = 0;
 private:
-	
+
 
 	//! マウスの移動量用の変数
 	float m_mouse_move_x = 0.0f; //! X座標の移動量
@@ -144,6 +149,10 @@ private:
 	Vector3 m_shake_pos;
 	// どれだけ揺れていてほしいのか
 	float m_shake_time = 0;
+	// 変化した画角の値を保存するためのもの
+	float m_change_angle_value = 0;
+	// カメラシェイクの時間カウント変数
+	int m_shake_tiam_count = 0;
 
 public:
 	int pad_no = 0;				//! 何番のパッドを使っているのか

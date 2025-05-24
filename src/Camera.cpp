@@ -26,10 +26,7 @@ Camera::Camera()
 	//! マウスの移動量の初期化最小は0.0fから
 	m_mouse_move_x = 0.0f;
 	m_mouse_move_y = 0.0f;
-	//! パネルの大きさ(カメラを中心として扱うため半分の大きさを使う)
-	// 今は使えてない
-	//m_hit_box_size.set(BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1, BOX_SIZE_HALF - (float)0.1);
-	m_before_pos.set(m_pos); //< 移動前の座標の設定
+	
 
 	// カメラの見る位置と距離の設定
 	SetCamera();
@@ -248,7 +245,8 @@ void Camera::Draw()
 {
 	//	カメラの設定
 	SetCameraNearFar(0.1f, 3000.0f);
-	SetupCamera_Perspective(TO_RADIAN(55.0f));
+	
+	SetupCamera_Perspective(TO_RADIAN(CAMERA_ANGLE_DEFAULT + m_change_angle_value));
 	// カメラ座標と見る座標を渡してカメラの設定
 	SetCameraPositionAndTarget_UpVecY(m_pos.VGet(), m_look.VGet());
 
@@ -281,6 +279,9 @@ void Camera::SetCamera(float height, float length)
 	m_look_height = height;
 	// カメラから目標までの距離の設定
 	m_length = length;
+	// カメラの画角の設定
+
+	SetupCamera_Perspective(TO_RADIAN(CAMERA_ANGLE_DEFAULT));
 }
 
 
@@ -327,40 +328,66 @@ void Camera::MoveCamera(Vector3* target_pos, int direction, float speed)
 void Camera::CameraShakeLimited(float power, float time)
 {
 	// 振動のパワーが0の時
-	if (m_power == 0.0f)
+	if (m_shake_time == 0.0f)
 	{
 		// 振動パワーを設定
 		m_power = power;
-		m_shake_time = power / time;
+		m_shake_time = time;
+		m_shake_tiam_count = m_shake_time * 60;
 	}
 
 	// 揺れの強さを徐々に弱くする
-	m_power -= m_shake_time;
+	// m_power -= m_shake_time_value;
+	
 	// 0より下回らないようにする
 	m_power = std::max(0.0f, m_power);
 
-	// 揺れがあるとき
-	if (m_power > 0.0f)
+	m_shake_tiam_count--;
+	if(m_shake_tiam_count % 60 == 0)
 	{
+		m_shake_time--;
+	}
+
+	// 揺れがあるとき
+	if (m_shake_time > 0.0f)
+	{
+
 		// 揺らす
 		m_shake_pos.x = GetRandomF(-m_power, m_power);
 		m_shake_pos.y = GetRandomF(-m_power, m_power);
 		m_shake_pos.z = GetRandomF(-m_power, m_power);
-		/*float power = GetRandomF(m_power)*100000;
-		SetupCamera_Perspective(TO_RADIAN(45.0f+ power));*/
+
+		int aaa = GetRandomF(-m_power, m_power);
+
+		if (m_shake_tiam_count % 2 == 0)
+		{
+			// カメラの画角の変更値がデフォルトかそうでないかで値を変える
+			if (m_change_angle_value == CAMERA_ANGLE_DEFAULT)
+			{
+				m_change_angle_value = CAMERA_ANGLE_DEFAULT + (aaa * 3);
+			}
+			else
+			{
+				m_change_angle_value = CAMERA_ANGLE_DEFAULT;
+			}
+		}
+
 	}
 	else
 	{
 		// そうじゃないときは揺れなし
 		m_shake_pos.clear();
+		// デフォルトの画角に戻す
+		SetupCamera_Perspective(TO_RADIAN(CAMERA_ANGLE_DEFAULT));
+		// 画角変更値をもデフォルトに戻しておく
+		m_change_angle_value = 0;
+		m_power = 0;
+		m_shake_time = 0;
 	}
 	// ずれを含めた座標
-	m_pos += m_shake_pos;
+	// m_pos += m_shake_pos;
 
-	// カメラシェイクはこの値を変更するといい
 	
-
-	// 大きいい攻撃を受けたときに画面を傾けるなどの処理があるとなお良き
 }
 
 
