@@ -351,27 +351,21 @@ void Camera::CameraShakeLimited(float power, float time)
 	// 揺れがあるとき
 	if (m_shake_time > 0.0f)
 	{
-
-		// 揺らす
-		m_shake_pos.x = GetRandomF(-m_power, m_power);
-		m_shake_pos.y = GetRandomF(-m_power, m_power);
-		m_shake_pos.z = GetRandomF(-m_power, m_power);
-
-		int aaa = GetRandomF(-m_power, m_power);
+		// 画角を変更する値
+		int value = GetRandomF(-m_power, m_power);
 
 		if (m_shake_tiam_count % 2 == 0)
 		{
 			// カメラの画角の変更値がデフォルトかそうでないかで値を変える
 			if (m_change_angle_value == CAMERA_ANGLE_DEFAULT)
 			{
-				m_change_angle_value = CAMERA_ANGLE_DEFAULT + (aaa * 3);
+				m_change_angle_value = CAMERA_ANGLE_DEFAULT + (value * 3);
 			}
 			else
 			{
 				m_change_angle_value = CAMERA_ANGLE_DEFAULT;
 			}
 		}
-
 	}
 	else
 	{
@@ -384,10 +378,19 @@ void Camera::CameraShakeLimited(float power, float time)
 		m_power = 0;
 		m_shake_time = 0;
 	}
-	// ずれを含めた座標
-	// m_pos += m_shake_pos;
+}
 
-	
+//---------------------------------------------------------------------------------
+// カメラシェイクを強制的に終了させる関数
+//---------------------------------------------------------------------------------
+void Camera::CameraShakeReset()
+{
+	// デフォルトの画角に戻す
+	SetupCamera_Perspective(TO_RADIAN(CAMERA_ANGLE_DEFAULT));
+	// 画角変更値をもデフォルトに戻しておく
+	m_change_angle_value = 0;
+	m_power = 0;
+	m_shake_time = 0;
 }
 
 

@@ -565,6 +565,10 @@ void MonsterBase::RoarSet(int anim_num, int se_num, Camera* camera)
 	}
 }
 
+
+//---------------------------------------------------------------------------
+// 咆哮攻撃の処理
+//---------------------------------------------------------------------------
 void MonsterBase::RoarAction(Camera* camera)
 {
 	if (m_roar_flag)
@@ -573,7 +577,7 @@ void MonsterBase::RoarAction(Camera* camera)
 		// 登場アニメーションのセット(ループさせない)
 
 		// 画面シェイクをする
-		camera->CameraShakeLimited(4.0f, 3.0f);
+		camera->CameraShakeLimited(ROAR_POWER, ROAR_TIME);
 		// ゲームパッドが接続されているときはゲームパッドを振動させたい
 		if (GetJoypadNum() >= 1)
 		{
@@ -587,11 +591,12 @@ void MonsterBase::RoarAction(Camera* camera)
 			m_roar_flag = false;
 			// モンスターの状態を攻撃状態にする
 			m_monster_mode = IDLE;
+			
+			// カメラシェイクを終わらす
+			camera->CameraShakeReset();
 		}
 	}
 }
-
-
 
 
 //---------------------------------------------------------------------------

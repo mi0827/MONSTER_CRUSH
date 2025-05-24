@@ -14,7 +14,7 @@ bool FieldBase::ObjectDrawSituation(Vector3 camera_pos, float camera_radius, Vec
 {
 	// カメラの一定の範囲に入ったものを消すのもあり
 	float length = GetVector3Distance(camera_pos, obj_pos);
-	float camera_length = camera_radius + 50;
+	float camera_length = camera_radius + 10;
 	// カメラのとプレイヤーの間にオブジェクトがあるかを調べる
 	if ((obj_pos.x >= camera_pos.x  && obj_pos.x <= player_pos.x) || (camera_pos.x >= obj_pos.x && obj_pos.x >= player_pos.x))
 	{

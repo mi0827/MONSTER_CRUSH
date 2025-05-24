@@ -385,21 +385,7 @@ void Mutant::DieUpdate()
 //-----------------------------------------------
 void Mutant::Draw()
 {
-	// UŒ‚ƒ^ƒCƒ~ƒ“ƒO‚¾‚¯“–‚½‚è”»’è‚ð•`‰æ
-	//if (m_attack_flag)
-	//{
-	//	if (AttackHitGoodTiming(m_now_attack))
-	//	{
-	//		//m_right_hand.Draw();
-	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-	//	}
-	//}
-
-	// ƒJƒvƒZƒ‹‚Ì•`‰æ(“–‚½‚è”»’è)
-	/*m_body.Draw();
-	m_left_hand.Draw();
-	m_right_hand.Draw();*/
-	// ƒ‚ƒfƒ‹‚Ì•`‰æ (•`‰æ‚ðŒã‚É‚µ‚È‚¢‚Æ“–‚½‚è”»’è‚ª‚¿‚©‚¿‚©‚·‚é)
+	
 	m_model.DrawModel(&m_transform);
 
 }

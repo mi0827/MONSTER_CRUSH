@@ -360,6 +360,10 @@ public:
 	static constexpr int ATTACK_AREA_DISTANCE = 15;
 	//! UŒ‚ƒGƒŠƒA‚É”¼Œa
 	static constexpr int ATTACK_AREA_R = 14;
+	//! ™ôšKUŒ‚‚ÌŠÔ
+	static constexpr float ROAR_TIME = 3.0f;
+	//! ™ôšKUŒ‚‚Ì‹­‚³ 
+	static constexpr float ROAR_POWER = 4.0f;
 
 	//------------------------------------------
 	// UŒ‚‚Ì“–‚½‚è”»’èŠÖ˜A

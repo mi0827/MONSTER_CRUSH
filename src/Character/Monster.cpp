@@ -399,27 +399,10 @@ void Monster::DieUpdate()
 //-----------------------------------------------
 void Monster::Draw()
 {
-	// 攻撃タイミングだけ当たり判定を描画
-	if (m_attack_flag)
-	{
-		if (AttackHitGoodTiming(m_now_attack))
-		{
-			//m_right_hand.Draw();
-			m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-		}
-	}
-
-	// カプセルの描画(当たり判定)
-	m_body.Draw();
-	m_left_hand.Draw();
-	m_right_hand.Draw();
-	m_left_feet.Draw();
-	m_right_feet.Draw();
-	m_big_punch_hit.Draw();
-	m_breath_hit.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }
+
 
 //-----------------------------------------------
 // 終了処理
@@ -723,16 +706,6 @@ void Monster::EffectUpdate(int effect_num, int effect_info_num)
 		m_effect.m_play_effect_flag = false;
 	}
 
-	////　エフェクトの座標の設定
-	//if (m_effect_info[effect_info_num].nodo_index == -1)
-	//{
-	//	m_effect.SetEffectRotPos(m_transform.pos, m_effect_info[effect_info_num].pos, m_transform.rot);
-	//}
-	//else
-	//{
-	//	Vector3 pos = m_model.GetNodePos(m_effect_info[effect_info_num].nodo_index);
-	//	m_effect.SetEffectRotPos(pos, m_effect_info[effect_info_num].pos, m_transform.rot);
-	//}
 	// エフェクトのサイズを合わせる
 	m_effect.SetEffectSize(m_effect_info[effect_info_num].size);
 	// エフェクトの向きを合わせる

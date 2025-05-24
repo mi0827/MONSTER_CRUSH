@@ -60,12 +60,12 @@ public:
 	//! @param 移動させたい向き
 	void MoveCamera(Vector3* target_pos, int direction, float speed);
 
-	//! @brief カメラシェイクを行う(最終的に揺れが弱まる)関数
+	//! @brief カメラシェイクを行う関数
 	//! @param カメラの振動するパワー
 	//! @param どれくらいの時間揺れて欲しいか
 	void CameraShakeLimited(float power, float time);
 
-
+	//! @brief カメラシェイクを強制的に終了させる関数
 	void CameraShakeReset();
 
 	//! @brief カメラの向きの設定

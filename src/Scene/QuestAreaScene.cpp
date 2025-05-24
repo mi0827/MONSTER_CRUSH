@@ -101,6 +101,10 @@ void QuestAreaScene::Init()
 	m_quest_text.LoadText("Data/Text/Quest.txt", quest_max);
 	m_quest_area_text.LoadText("Data/Text/QuestAreaStory.txt", palyer_story_max);
 	m_reception_text.LoadText("Data/Text/QuestReception.txt", recept_teception_max);
+
+	// 顔画像の読み込み
+	m_face_image[player_image] = LoadGraph("Data/Model/Hero/HeroFace.png");
+	m_face_image[receptionist_image] = LoadGraph("Data/Model/Receptionist/Receptionist.png");
 }
 
 
@@ -693,8 +697,12 @@ void QuestAreaScene::ModeNormalDraw()
 	m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
 	m_quest_area_text.TextDraw(m_quest_area_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
 
+	// 会話中のキャラがわかるようにボックスを表示
+	Vector2 draw_box_pos = { m_text_draw_pos.x - 2.5f ,m_text_draw_pos.y - FACE_IMAGE_SIZE + h };
+	Vector2 draw_box_pos_2 = { draw_box_pos.x + 97.5f ,m_text_draw_pos.y + h };
+	DrawExtendGraphF(draw_box_pos.x, draw_box_pos.y, draw_box_pos_2.x, draw_box_pos_2.y,m_face_image[player_image], TRUE);
 	// 誰が話しているかの描画
-	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "Player", GetColor(255, 128, 50));
+	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "Player", GetColor(255, 255, 255));
 }
 
 //------------------------------------------
@@ -764,9 +772,12 @@ void QuestAreaScene::TalkDraw()
 	DrawString(draw_pos_x, (int)(m_text_draw_pos.y + h), text, GetColor(255, 128, 50));
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
-
+	// 会話中のキャラがわかるようにボックスを表示
+	Vector2 draw_box_pos = { m_text_draw_pos.x - 2.5f ,m_text_draw_pos.y - FACE_IMAGE_SIZE + h };
+	Vector2 draw_box_pos_2 = { draw_box_pos.x + 97.5f ,m_text_draw_pos.y + h };
+	DrawExtendGraphF(draw_box_pos.x, draw_box_pos.y, draw_box_pos_2.x, draw_box_pos_2.y, m_face_image[receptionist_image], TRUE);
 	// 誰が話しているかの描画
-	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "謎の女", GetColor(255, 128, 50));
+	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "謎の女", GetColor(255, 255, 255));
 }
 
 //------------------------------------------

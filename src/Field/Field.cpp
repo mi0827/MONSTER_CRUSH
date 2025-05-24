@@ -133,7 +133,7 @@ void Field::Draw(Vector3 camera_pos, float camera_length,Vector3 player_pos)
 		{
 			if (ObjectDrawSituation(camera_pos, camera_length, player_pos, m_field_object[i].transform.pos) == false)
 			{
-				// 本来ここで
+				// ブレンド率を下げる
 				MV1SetOpacityRate(m_field_object[i].model.m_model, 0.3f);
 				// モデルの描画
 				m_field_object[i].model.DrawModel(&m_field_object[i].transform);

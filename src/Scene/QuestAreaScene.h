@@ -292,4 +292,16 @@ private:
 
 	//! ヒットストップ
 	HitStop m_hit_stop;
+
+	//! 顔画像を保存するためのもの
+	enum FaceImage
+	{
+		player_image,		// プレイヤー
+		receptionist_image,	// 受付嬢
+
+		face_image_max,
+	};
+	int m_face_image[face_image_max];
+	// 顔画像のサイズ
+	static const int FACE_IMAGE_SIZE = 100;
 };

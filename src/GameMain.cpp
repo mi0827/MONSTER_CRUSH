@@ -248,11 +248,13 @@ void GameDraw()
 	// エフェクトの描画処理
 	DrawEffekseer3D();
 
+	// オプション画面の表示
 	option.Draw();
 
+	// メニューを開くためのTabの表示
+	scene->BaseDraw(scene->m_now_scene, { 20,220 });
 
-	scene->BaseDraw(scene->m_now_scene, { 0,200 });
-
+	// 操作説明の画像の描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 	if (scene->m_now_scene == scene->Story || scene->m_now_scene == scene->QuestArea || scene->m_now_scene == scene->Battle)
 	{
@@ -264,10 +266,7 @@ void GameDraw()
 		{
 			DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, pad_image, true);
 		}
-
 	}
-
-
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 
