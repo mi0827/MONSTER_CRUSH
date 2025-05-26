@@ -104,7 +104,7 @@ void QuestAreaScene::Init()
 
 	// Šç‰æ‘œ‚Ì“Ç‚İ‚İ
 	m_face_image[player_image] = LoadGraph("Data/Model/Hero/HeroFace.png");
-	m_face_image[receptionist_image] = LoadGraph("Data/Model/Receptionist/Receptionist.png");
+	m_face_image[receptionist_image] = LoadGraph("Data/Model/Receptionist/ReceptionistFace.png");
 }
 
 
