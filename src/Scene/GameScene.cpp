@@ -117,9 +117,6 @@ void GameScene::Init()
 //---------------------------------------------------------------------------
 void GameScene::Update()
 {
-
-
-
 	// ゲームシーンの中でどの場面かによって処理を変える
 	switch (m_what_scene)
 	{
@@ -145,7 +142,6 @@ void GameScene::Update()
 	{
 		// 次に行ってほしいシーンの設定をする
 		SetNextScene(End);
-
 		m_scene_change_judge = true;
 	}
 
@@ -158,6 +154,7 @@ void GameScene::EntryUpdate()
 {
 	// カメラの更新処理
 	camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
+	// モンスターの登場演出
 	monster->EntryUpdate();
 	// カメラシェイクを行う(カメラの更新処理の後でないとできない)
 	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
@@ -191,7 +188,8 @@ void GameScene::EntryUpdate()
 		// モンスターのSE再生可能フラグを立てる
 		// 本来ならモンスター側で処理したいほうが良い
 		monster->m_se.m_playing_flag = true;
-
+		// 再生中のエフェクトを止める
+		monster->m_effect.StopEffect();
 	}
 }
 

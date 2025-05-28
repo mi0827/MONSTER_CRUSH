@@ -374,7 +374,7 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		break;
 	case ROAR: // 咆哮状態
 		// 咆哮攻撃時の処理
-		RoarAction(camera);
+ 		RoarAction(camera);
 		break;
 	}
 }
@@ -417,20 +417,20 @@ void Monster::Exit()
 //-----------------------------------------------
 void Monster::EntryUpdate()
 {
-	// ここですること
-	// 登場シーンにあった叫びのアニメーションをつける
+	// エフェクトの再生
+	m_effect.PlayEffect(entry_effect,m_transform.pos);
+	m_effect.SetEffectSize( { 10.0f, 10.0f, 10.0f });
 
+	// 登場シーンにあった叫びのアニメーションをつける
 	// 登場アニメーションのセット(ループさせない)
 	if (m_animation.ChangeFlag(true))
 	{
 		m_animation.ChangeAnimation(&m_model, shout_anim, true);
 	}
-
 	// アニメーションの再生
 	m_animation.PlayAnimation(&m_model, m_combo_flag);
 	// 咆哮用のSEの再生
 	SEUpdate(roar_se_info);
-
 }
 
 //-----------------------------------------------
@@ -685,9 +685,8 @@ void Monster::EffectLoadInit()
 	m_effect.LoadEffect("Data/Model/Monster/Effect/Punch2.efkefc", punch_attack_effect, 1.0f);      // パンチ攻撃時のエフェクト
 	m_effect.LoadEffect("Data/Model/Monster/Effect/Punch.efkefc", big_punch_attack_effect, 1.0f);  // 大パンチ攻撃時のエフェクト
 	m_effect.LoadEffect("Data/Model/Monster/Effect/Breath.efkefc", breath_attack_effect, 1.0f);      // ブレス攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Monster/Effect/entry.efkefc", entry_effect, 1.0f);      // 登場演出時のエフェクト
 	// ダメージを受けた時のエフェクト
-
-
 	m_damage_effect.NewArraySecure(damage_effect_max);
 	m_damage_effect.LoadEffect("Data/Model/Monster/Effect/blood.efkefc", damage_effect, 4.0f);
 }

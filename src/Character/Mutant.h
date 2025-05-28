@@ -220,7 +220,7 @@ public:
 	enum Effect
 	{
 		sword_attack_effect, // 剣での攻撃時のエフェクト
-		punch_attack_effect, // パンチ攻撃時のエフェクト
+		entry_effect, // 登場演出時のエフェクト
 		roar_effect,      // 咆哮時のエフェクト
 		effect_max
 	};
@@ -250,7 +250,7 @@ public:
 		damage_effect_max
 	};
 
-
+private:
 	struct EffectInfo
 	{
 		// エフェクトのスケール
@@ -284,10 +284,21 @@ public:
 		{ {1.0f,1.0f,1.0f}, -1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1},
 		// 咆哮時のエフェクト  
 		{ {1.0f,1.0f,1.0f}, -1, {5.0f,12.0f,5.0f},{0.0f,0.0f,0.0f}, 1},
-
 	};
 	// ダメージを受けた時のエフェクト
 	EffectInfo m_damage_effect_info = { {1.0f,1.0f,1.0f}, -1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1 };
+
+	// モンスターの登場演出中のエフェクトの情報
+	static constexpr int ENTRY_EFFECT_INFO_MAX = 2; // 登場演出に必要なエフェクトの情報数
+	EffectInfo m_entry_effect_info[ENTRY_EFFECT_INFO_MAX]
+	{
+		// 演出１
+		{ {6.0f,6.0f,6.0f}, -1, {-100.0f,-10.0f, -10.0f},{0.0f,0.0f,0.0f}},
+		// 演出２
+		{{6.0f,6.0f,6.0f}, -1, {100.0f,-10.0f, 10.0f},{0.0f,0.0f,0.0f}}
+	};
+	//! 演出の番号を保存するためのもの
+	int m_entry_count = 0; 
 
 	// SEの種類用の列挙体
 	enum SE

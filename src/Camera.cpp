@@ -372,7 +372,7 @@ void Camera::CameraShakeLimited(float power, float time)
 		// そうじゃないときは揺れなし
 		m_shake_pos.clear();
 		// デフォルトの画角に戻す
-		SetupCamera_Perspective(TO_RADIAN(CAMERA_ANGLE_DEFAULT));
+ 		SetupCamera_Perspective(TO_RADIAN(CAMERA_ANGLE_DEFAULT));
 		// 画角変更値をもデフォルトに戻しておく
 		m_change_angle_value = 0;
 		m_power = 0;

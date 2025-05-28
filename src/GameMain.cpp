@@ -278,7 +278,6 @@ void GameExit()
 
 	// シーンベースクラスの削除
 	delete scene;
-
 }
 
 

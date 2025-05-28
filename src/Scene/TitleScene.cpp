@@ -84,8 +84,6 @@ void TitleScene::Update()
 //------------------------------------------
 void TitleScene::Draw()
 {
-
-
 	//=============================================
 	// 仮でタイトルを描画
 	//=============================================
@@ -158,10 +156,7 @@ void TitleScene::OptionValuesReflect(int bgm, int se, int mouse)
 	// カメラの感度設定
 	camera.SetCameraSensi((float)mouse);
 
-	// キャラクターのサウンドの調整
-	//m_player->m_se.SetSoundVolume(se);
-
-
+	m_sound.SetSoundVolume(se);
 }
 
 //------------------------------------------

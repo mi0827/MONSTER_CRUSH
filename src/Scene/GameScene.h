@@ -101,7 +101,7 @@ public:
 	//! ターゲットカメラを使用するかマウスでカメラを操作するかの判断用変数
 	bool m_camera_change = true;
 
-	static constexpr float CAMERA_ROT_SPEED = 2.0f;
+	static constexpr float CAMERA_ROT_SPEED = 1.5f;
 	//! カメラの回転する方向
 	static constexpr int CAMERA_DIRECTIN_RIGHT = 0; // 右回転
 	static constexpr int CAMERA_DIRECTIN_FLET = 1;   // 左回転

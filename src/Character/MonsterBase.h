@@ -103,7 +103,7 @@ public:
 	//! @brief エフェクトの更新処理
 	//! @param 行いたいエフェクト番号
 	//! @param 行いたいエフェクトの情報番号
-	virtual void EffectUpdate( int effect_num, int effect_info_num) = 0;
+	virtual void EffectUpdate(int effect_num, int effect_info_num) = 0;
 
 	//! @brief 攻撃を受けた時のエフェクトの更新処理
 	virtual void DamageEffectUpdate() = 0;
@@ -365,6 +365,15 @@ public:
 	//! 咆哮攻撃の強さ 
 	static constexpr float ROAR_POWER = 4.0f;
 
+private:
+	//! 咆哮攻撃の時間計算用変数
+	//! 経過フレームをカウントするための変数
+	int m_time_count = 0; 
+	//! 経過時間をカウントするための変数
+	int m_roar_time_count = 0;
+
+public:
+
 	//------------------------------------------
 	// 攻撃の当たり判定関連
 	//------------------------------------------
@@ -440,6 +449,10 @@ public:
 	static constexpr int STUN_VALUE_RECOVERY_FRAME = 60;
 	// スタン用のバー
 	UIBra m_stun_bra;
+
+
+
+
 protected:
 	//! 攻撃を受けていないフレームをカウント
 	int m_not_damaged_frame = 0;

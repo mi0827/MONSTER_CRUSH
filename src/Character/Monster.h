@@ -222,30 +222,7 @@ public:
 		20, 30, 30, 10, 10, 50, 20, 20,
 	};
 
-	//! エフェクトの種類用の列挙体
-	//enum Effect
-	//{
-	//	punch_attack_effect,           // パンチ攻撃時のエフェクト
-	//	big_punch_attack_effect,       // 大パンチ攻撃時のエフェクト
-	//	breath_attack_effect,          // ブレス攻撃のエフェクト
-	//	damage_effect,                 // ダメージを受けた時のエフェクト
-	//	effect_max
-	//};
-	//// エフェクトをつけたいアニメーションの種類を列挙体で管理
-	//enum EffectInfoNum
-	//{
-	//	// 攻撃番号と合わせたいから攻撃に合うように攻撃から設定
-	//	attack_punch_effect_info,       // パンチ攻撃
-	//	attack_big_punch_effect_info,   // 大パンチ攻撃
-	//	attack_upper_punch_effect_info, // アッパー攻撃
-	//	attack_kick_effect_info,        // キック攻撃
-	//	attack_tackle_effect_info,      // タックル攻撃
-	//	attack_breath_effect_info,      // ブレス攻撃
-	//	// ここからは攻撃とは別のエフェクト
-	//	damage_effect_info,     // 攻撃を受けた時のエフェクト
-	//	roar_effect_info,       // 咆哮時のエフェクト  
-	//	effect_info_max
-	//};
+
 	
 	//! エフェクトの種類用の列挙体
 	enum Effect
@@ -253,6 +230,7 @@ public:
 		punch_attack_effect,           // パンチ攻撃時のエフェクト
 		big_punch_attack_effect,       // 大パンチ攻撃時のエフェクト
 		breath_attack_effect,          // ブレス攻撃のエフェクト
+		entry_effect,                     // 登場演出用のエフェクト
 
 		effect_max
 	};
@@ -279,7 +257,6 @@ public:
 		damage_effect,                 // ダメージを受けた時のエフェクト
 		damage_effect_max
 	};
-
 
 
 	struct EffectInfo
@@ -317,6 +294,8 @@ public:
 	};
 	// ダメージを受けた時のエフェクト
 	EffectInfo m_damage_effect_info = { {1.0f,1.0f,1.0f}, -1, {0.0f,15.0f,0.0f},{0.0f,0.0f,0.0f}, 1 };
+
+
 
 	// SEの種類用の列挙体
 	enum SE

@@ -187,7 +187,7 @@ void MonsterBase::BaseInit(int hp_num)
 void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_r, CapsuleCollision body)
 {
 	// 移動の際のターゲットのの設定
-	m_move.SetTargetInfo(target_pos, m_target_hit_r,  body);
+	m_move.SetTargetInfo(target_pos, m_target_hit_r, body);
 	// 自身の情報を設定
 	m_move.SetInfo(&m_transform, m_hit_r, M_MOV_SPEED, M_ROT_SPEED);
 }
@@ -201,7 +201,7 @@ void MonsterBase::MoveUpdate(bool* run_flag)
 
 	// 移動処理
 	m_move.Update(run_flag);
-	
+
 }
 
 
@@ -397,14 +397,14 @@ bool MonsterBase::HitAttackArea()
 {
 	// モンスターの前方方向に攻撃範囲の円を置きそこにプリえやーが入ったら攻撃をする
 	// モンスターの前方方向の座標
-	m_attack_area_1.x = (m_transform.pos.x+sinf(TO_RADIAN(m_transform.rot.y))* ATTACK_AREA_DISTANCE);
+	m_attack_area_1.x = (m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE);
 	m_attack_area_1.y = m_transform.pos.y + 10;
-	m_attack_area_1.z = (m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y))* ATTACK_AREA_DISTANCE);
+	m_attack_area_1.z = (m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE);
 	// カプセル二つ目の座標(はモンスターの座標
 	m_attack_area_2.x = (m_transform.pos.x + sinf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE);
 	m_attack_area_2.y = m_transform.pos.y + 10;
-	m_attack_area_2.z = (m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE); 
-	
+	m_attack_area_2.z = (m_transform.pos.z + cosf(TO_RADIAN(m_transform.rot.y)) * ATTACK_AREA_DISTANCE);
+
 	// 前方方向攻撃エリア用カプセル
 	m_attack_area.CreateCapsuleCoordinatePos(m_attack_area_1, m_attack_area_2, ATTACK_AREA_R);
 	// カプセルと当たり判定があったら
@@ -513,31 +513,11 @@ void MonsterBase::AttackActionComboUpdate()
 void MonsterBase::RoarSet(int anim_num, int se_num, Camera* camera)
 {
 
-	if (m_roar_flag)
-	{
-		// フラグが立っている間だけ下の処理を行う
-		// 登場アニメーションのセット(ループさせない)
-
-		// 画面シェイクをする
-		camera->CameraShakeLimited(4.0f, 3.0f);
-
-		// アニメーションが終わったら画面シェイクを終わる
-		if (m_animation.m_contexts[0].is_playing == false)
-		{
-			// 咆哮フラグを下げる
-			m_roar_flag = false;
-			// モンスターの状態を攻撃状態にする
-			m_monster_mode = IDLE;
-			// 再生中のSEを止める
-			m_se.StopSound();
-			m_se.m_playing_flag = true;
-		}
-	}
 	// モンスターのHPが一定数減ったら咆哮させたいので一定の値で割る
 	int constant_hp = m_hp_max / 4;
 
 	// HPがいって定数減ったら咆哮フラグを立てる
-	if(m_hp_value < constant_hp * m_roar_count)
+	if (m_hp_value < constant_hp * m_roar_count)
 	{
 		// 咆哮攻撃のカウントを下げる
 		m_roar_count--;
@@ -552,10 +532,10 @@ void MonsterBase::RoarSet(int anim_num, int se_num, Camera* camera)
 		if (m_animation.ChangeFlag(true))
 		{
 			// 咆哮アニメーションをつける
-		m_animation.ChangeAnimation(&m_model, anim_num, false);
+			m_animation.ChangeAnimation(&m_model, anim_num, false);
 		}
 		// アニメーションを一フレーム分進める
-		m_animation.PlayAnimation(&m_model,false);
+		m_animation.PlayAnimation(&m_model, false);
 		// 再生中のSEを終わらせる
 		m_se.StopSound();
 		// 次のSEを再生できるようにする
@@ -573,9 +553,6 @@ void MonsterBase::RoarAction(Camera* camera)
 {
 	if (m_roar_flag)
 	{
-		// フラグが立っている間だけ下の処理を行う
-		// 登場アニメーションのセット(ループさせない)
-
 		// 画面シェイクをする
 		camera->CameraShakeLimited(ROAR_POWER, ROAR_TIME);
 		// ゲームパッドが接続されているときはゲームパッドを振動させたい
@@ -583,18 +560,25 @@ void MonsterBase::RoarAction(Camera* camera)
 		{
 			PadVidation((int)DX_INPUT_PAD1, 1000, 3, -1);
 		}
-
-		// アニメーションが終わったら画面シェイクを終わる
-		if (m_animation.m_contexts[0].is_playing == false)
+		// フレームのカウントを増やす
+		m_time_count++;
+		if (m_time_count % 60 == 0)
 		{
-			// 咆哮フラグを下げる
+			m_roar_time_count++;
+		}
+		if (m_roar_time_count >= ROAR_TIME)
+		{
+			m_time_count = 0;
+			m_roar_time_count = 0;
+			// アニメーションが終わったら画面シェイクを終わる
+	        // 咆哮フラグを下げる
 			m_roar_flag = false;
 			// モンスターの状態を攻撃状態にする
 			m_monster_mode = IDLE;
-			
 			// カメラシェイクを終わらす
-			camera->CameraShakeReset();
+ 			camera->CameraShakeReset();
 		}
+	
 	}
 }
 

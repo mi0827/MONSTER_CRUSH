@@ -308,15 +308,10 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_effect.m_play_effect_flag == true
 			/*m_rolling_flag == false*/)
 		{
-			if (m_now_attack == attack_punch_1)
-			{
-				// パンチ攻撃の時のエフェクト
-				EffectUpdate(punch_attack_effect, m_now_attack);
-			}
-			else
+			if (m_now_attack != attack_punch_1)
 			{
 				//ソードで攻撃するときのエフェクト
-				EffectUpdate(sword_attack_effect, m_now_attack);
+				EffectUpdate(sword_attack_effect, m_now_attack);	
 			}
 		}
 
@@ -326,7 +321,6 @@ void Mutant::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			// 攻撃にあったサウンドを再生
 			if (m_animation.m_contexts[0].play_time >= m_se_info[m_now_attack].se_start_frame)
 			{
-
 				SEUpdate(m_now_attack);
 			}
 		}
@@ -403,9 +397,23 @@ void Mutant::Exit()
 //-----------------------------------------------
 void Mutant::EntryUpdate()
 {
-	// ここですること
-	// 登場シーンにあった叫びのアニメーションをつける
+	// エフェクトの再生が終わったら
+	if (m_effect.IsPlayingEffect() == -1)
+	{
+		// エフェクトのカウントを進める
+		m_entry_count++;
+		// カウントが一定以上になったらリセットする
+		if (m_entry_count >= ENTRY_EFFECT_INFO_MAX)
+		{
+			m_entry_count = 0;
+		}
+	}
+	// エフェクトの再生
+	m_effect.PlayEffect(entry_effect,m_transform.pos);
+	m_effect.SetEffectRotPos(m_transform.pos, m_entry_effect_info[m_entry_count].pos, m_entry_effect_info[m_entry_count].rot);
+	m_effect.SetEffectSize(m_entry_effect_info[m_entry_count].size);
 
+	// 登場シーンにあった叫びのアニメーションをつける
 	// 登場アニメーションのセット(ループさせない)
 	if (m_animation.ChangeFlag(true))
 	{
@@ -651,7 +659,7 @@ void Mutant::EffectLoadInit()
 	m_effect.NewArraySecure(effect_max);
 	// エフェクトの読み込み
 	m_effect.LoadEffect("Data/Model/Mutant/Effect/Sword2_1.efkefc", sword_attack_effect, 1.0f); // 剣での攻撃時のエフェクト
-	m_effect.LoadEffect("Data/Model/Mutant/Effect/attack1.efkefc", punch_attack_effect, 1.0f); // パンチ攻撃時のエフェクト
+	m_effect.LoadEffect("Data/Model/Mutant/Effect/Entry.efkefc", entry_effect, 1.0f); // パンチ攻撃時のエフェクト
 	m_effect.LoadEffect("Data/Model/Mutant/Effect/roar.efkefc", roar_effect, 1.0f);              // 咆哮時のエフェクト
 
 	m_damage_effect.NewArraySecure(damage_effect_max);
