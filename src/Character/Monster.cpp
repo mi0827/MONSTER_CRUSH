@@ -473,7 +473,7 @@ void Monster::CDUpdate()
 {
 	// キャラ本体の当たり判定のカプセル（後で消す）
 	// この座標をモデルのノードをでとってくるといいかも
-	m_body.CreateNodoCapsule(&m_model, 5, 81, 12.0f);
+	m_body.CreateNodoCapsule(&m_model, 81, 5, 12.0f);
 	// 左手のあたり判定
 	m_left_hand.CreateNodoCapsule(&m_model, 13, 25, 8.0f);
 	// 右手の当たり判定

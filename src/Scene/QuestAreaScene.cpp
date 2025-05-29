@@ -77,12 +77,13 @@ void QuestAreaScene::Init()
 	// プレイヤーの初期設定 
 	m_player->Init();
 	// プレイヤーの座標の設定
-	m_player->SetCharacterPos({ 0.0f, 0.0f,250.0f });
+	m_player->SetCharacterPos({ 0.0f, 0.0f, 250.0f });
 	// プレイヤーの向きの設定
-	m_player->SetCharacterRot({ 0.0f,-180.0f,0.0f });
+	m_player->SetCharacterRot({ 0.0f, -180.0f, 0.0f });
 
 	// カメラの向きの設定
-	camera.SetCameraRot(m_player->m_transform.rot);
+	Vector3 rot = { m_player->m_transform.rot.x + 120.0f, m_player->m_transform.rot.y,m_player->m_transform.rot.z };
+	camera.SetCameraRot(rot);
 
 	// 受付嬢の初期設定
 	receptionist.Init();
@@ -117,7 +118,7 @@ void QuestAreaScene::Update()
 	{
 	case Main:
 		// カメラの更新処理
-		camera.MouseCamera(&m_player->m_transform.pos);
+		camera.MouseCamera(&m_player->m_transform.pos,&m_field_1.m_field_model);
 		// メインで行う処理をこのシーンの状態に合わせて処理を分け実行する関数
 		QuestAreaUpdate();
 

@@ -90,7 +90,7 @@ void StoryScene::Update()
 		HitField();
 
 		// カメラの更新処理
-		camera.MouseCamera(&m_player->m_transform.pos);
+		camera.MouseCamera(&m_player->m_transform.pos ,& m_field_1.m_field_model);
 
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
 		if (PushHitKey(KEY_INPUT_RETURN))

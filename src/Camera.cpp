@@ -4,6 +4,7 @@
 #include "System/Vector2.h"
 
 #include "src/System/Transform.h"
+#include "src/Model/Model.h"
 #include "Camera.h"
 
 //	この座標にマウスを固定しようと思います
@@ -52,8 +53,11 @@ void Camera::PlayFieldInit()
 //---------------------------------------------------------------------------------
 //	更新処理
 //---------------------------------------------------------------------------------
-void Camera::MouseCamera(Vector3* target_pos)
+void Camera::MouseCamera(Vector3* target_pos,Model* ground_model)
 {
+	// 変更前のカメラの回転xを保存する
+	m_before_rot_x = m_rot.x;
+
 	// マウスホイールでカメラの距離の変更
 	ChangeDistance();
 
@@ -109,8 +113,25 @@ void Camera::MouseCamera(Vector3* target_pos)
 	//移動量を小さくします
 	move *= m_camera_mouse_sensi;
 	m_rot.y += move.x;
-	m_rot.x += move.y;
 
+	// 当たり情報の更新
+	MV1RefreshCollInfo(ground_model->m_model);
+	// 線の開始座標(キャラクターの上のほうの座標)
+	Vector3 line_start = m_pos + Vector3(0.0f, 100.0f, 0.0f);
+	// 線のゴール座標(プレイヤーの下のほうの座標)
+	Vector3 line_goal = m_pos + Vector3(0.0f, -10.0f, 0.0f);
+	// 地面モデルと線の当たり判定
+	MV1_COLL_RESULT_POLY character_hit = MV1CollCheck_Line(ground_model->m_model, -1, line_start.VGet(), line_goal.VGet());
+	// 当たっていたらの判定
+	if (character_hit.HitFlag)
+	{
+		// 埋まる前の向きににする
+		m_rot.x = m_before_rot_x +0.2f;
+	}
+	else
+	{
+		m_rot.x += move.y;
+	}
 
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
@@ -200,11 +221,11 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 //---------------------------------------------------------------------------------
 // カメラが壁に埋まらないようにする(うまくいかない)
 //---------------------------------------------------------------------------------
-void Camera::UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2)
+void Camera::UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2, Model* ground_model)
 {
 	if (change_camera)
 	{
-		MouseCamera(target_pos1);
+		MouseCamera(target_pos1, ground_model);
 	}
 	else
 	{
@@ -400,6 +421,7 @@ void Camera::CameraShakeReset()
 void Camera::SetCameraRot(Vector3 rot)
 {
 	m_rot.y = rot.y;
+	m_rot.x = rot.x;
 	// まずは回転前のベクトルを用意します
 	// カメラが見るプレイヤー方向のベクトルを作成します
 	VECTOR base_dir = VGet(0.0f, 0.0f, -m_length);

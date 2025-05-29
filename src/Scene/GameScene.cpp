@@ -79,7 +79,6 @@ void GameScene::GameSceneInit()
 	{
 		monster = new Monster;
 	}
-
 }
 
 
@@ -199,7 +198,7 @@ void GameScene::EntryUpdate()
 void GameScene::GameUpdate()
 {
 	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos);
+	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_1.m_field_model);
 	
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
@@ -376,7 +375,6 @@ void GameScene::Draw()
 //---------------------------------------------------------------------------
 void GameScene::Exit()
 {
-
 	//　シャドーマップの削除
 	ExitShadowMap();
 	// プレイヤーの終了処理
@@ -392,7 +390,6 @@ void GameScene::StatusDraw()
 {
 	m_player->StatusBarDraw();
 	monster->StatusBarDraw();
-	//monster->StatusBarDraw();
 }
 
 //---------------------------------------------------------------------------
@@ -407,7 +404,6 @@ void GameScene::LightInit()
 //---------------------------------------------------------------------------
 void GameScene::HitField()
 {
-
 	// フィールドの地面モデルとキャラクターの当たり判定
 	HitGroundCharacter(&m_player->m_transform.pos, &m_field_2.m_field_model);
 
@@ -423,7 +419,6 @@ void GameScene::HitField()
 			m_player->MoveHitUpdate(&m_field_2.m_hit_wall[i]);
 		}
 	}
-
 }
 
 //------------------------------------------
@@ -437,7 +432,6 @@ void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 	m_player->m_se.SetSoundVolume(se);
 	// モンスターのサウンドの調整
 	monster->m_se.SetSoundVolume(se);
-
 }
 
 //---------------------------------------------------------------------------
@@ -465,8 +459,6 @@ void GameScene::CharacterUpdate()
 
 	// モンスターの更新処理
 	monster->Update(&m_player->m_transform, m_player->m_hit_r, m_player->m_body, &camera);
-
-
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, m_player->m_body))
 	{
@@ -509,15 +501,11 @@ void GameScene::AttackUpdate()
 					// モンスターが攻撃受けた時の処理
 					monster->ComeAttackUpdate();
 					//--------------------------------------------
-
 					// ヒットストップを行っていいいタイミングだけ行う
 					if (m_player->m_attack_hit_damage[num]->can_hit_stop)
 					{
 						// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 						hit_stop.StopCountReset();
-						// ヒットストップを受ける攻撃を受けたときにモンスターに咆哮をさせてプレイヤーを遠ざけるためのフラグが必要
-						//????
-
 					}
 				}
 			}
@@ -532,7 +520,7 @@ void GameScene::AttackUpdate()
 	//モンスターの攻撃
 	if (monster->m_monster_mode == monster->ATTACK && monster->m_attack_flag)
 	{
-		// モンスターの攻撃時に使いたい当たり判定とplayerの体との当たり判定
+		// モンスターの攻撃時に使いたい当たり判定と player の体との当たり判定
 		int num = monster->m_now_attack;
 
 		// 攻撃の当たり判定行っていいときだけ(攻撃アニメーションの指定のフレーム間だけ)
@@ -541,14 +529,12 @@ void GameScene::AttackUpdate()
 			// プレイヤーのボディーとの当たり判定をとる
 			if (HitAttack(m_player->m_body, monster->m_attack_hit_damage[num]->attack_hit) == true)
 			{
-
 				// 当たり判定があったら一回だけこの処理を通るようにする
 				// ダメージ処理を行っていいフラグが上がっていたら
 				if (monster->m_can_hit_damage_flag)
 				{
 					// 一回だけ通ってほしいからフラグを下げる
 					monster->m_can_hit_damage_flag = false;
-
 					//--------------------------------------------
 					// プレイヤーの中身を変更する
 					// プレイヤーの攻撃受けたフラグが下がっているとき
@@ -563,9 +549,6 @@ void GameScene::AttackUpdate()
 					// プレイヤーが攻撃受けた時の処理
 					m_player->ComeAttackUpdate();
 					//--------------------------------------------
-					// ゲームパッドが接続されているときはゲームパッドを振動させたい
-
-
 					// ダメージが入ったタイミングでヒットストップのカウントをリセットする
 					hit_stop.StopCountReset();
 				}
@@ -578,7 +561,6 @@ void GameScene::AttackUpdate()
 		}
 	}
 }
-
 
 //---------------------------------------------------------------------------
 // キャラクタ―の攻撃に関する更新処理
@@ -612,12 +594,10 @@ void GameScene::CharacterKeepAway()
 {
 	// プレイヤーの移動速度より少し早いくらい
 	// 本来プレイヤーの移動スピードに対し少し早いスピードに使用と思っていた
-	// float keepaway_speed = m_player.MOVE + 1;
 	float keep_away_speed = 2.5f;
 
 	// モンスターとターゲット（プレイヤーとの距離）
 	float distance = monster->m_move.GetTargetDistance();
-
 
 	// モンスターが咆哮中に一定のスピードでキャラの座標を遠ざける
 	if (monster->m_roar_flag)

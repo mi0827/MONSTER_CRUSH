@@ -22,7 +22,7 @@ public:
 	// プレイヤーの座標と向きを受け取れるようにします
 	//! @brief 更新処理
 	//! @param 移したい目標の座標
-	void MouseCamera(Vector3* target_pos);
+	void MouseCamera(Vector3* target_pos, Model* ground_model);
 
 	//! @brief ターゲットカメラの更新処理
 	//! @param カメラの手毎側にいるターゲットの座標
@@ -35,7 +35,7 @@ public:
 	//! @param どちらのカメラを使うか true : マウスカメラ、false : ターゲットカメラ
 	//! @param カメラの手毎側にいるターゲットの座標
 	//! @param カメラの奥側にいるターゲットの座標
-	void UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2);
+	void UseCameraUpdate(bool change_camera, Vector3* target_pos1, Vector3* target_pos2, Model* ground_model);
 
 	//! @brief カメラが壁に埋まらないようにする
 	void HitObject(Vector3* obj_pos, Vector3* obj_size);
@@ -98,7 +98,7 @@ private:
 	static constexpr float PAD_CAMERA_ROT_SPEED = 3.0f;    // パッド用
 
 	static constexpr float UP_ANGLE_MAX = 30.0f;           // カメラの上アングルの最大
-	static constexpr float LOWER_ANGLE = 10.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
+	static constexpr float LOWER_ANGLE = -8.0f;             // カメラの下アングルの最低（地面に埋まらない程度）
 	static constexpr float BOX_SIZE = 4.0f;                     // ボックスのサイズ
 	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
 
@@ -166,4 +166,8 @@ public:
 	float inner_product;
 	// ターゲットカメラに使用する外積保存用の変数
 	Vector3 cross_product;
+
+private:
+	// 回転前のｘのロットを保存するもの
+	float m_before_rot_x = 0;
 };
