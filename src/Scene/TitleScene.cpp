@@ -110,7 +110,7 @@ void TitleScene::Draw()
 	}
 	else
 	{
-		name = " B ";
+		name = " X ";
 	}
 
 	w = (float)GetDrawStringWidth(name, -1);
@@ -187,7 +187,7 @@ void TitleScene::TitleUpdate()
 		}
 
 		// Xキーを押された時にシーンの変更をする（今だけの仮）
-		if (PushHitKey(KEY_INPUT_SPACE)||IsPadOn(PAD_ID::PAD_A))
+		if (PushHitKey(KEY_INPUT_SPACE)||IsPadOn(PAD_ID::PAD_X))
 		{
 			// フェードアウト状態する
 			m_turn = FadeOut;
