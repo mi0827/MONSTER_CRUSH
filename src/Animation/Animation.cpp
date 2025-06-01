@@ -104,11 +104,11 @@ void Animation::InitAttachAnimation(Model* model, int anim_num, bool loop)
 		);
 
 		if (i == 0) {
-			m_contexts[0].m_blend_ratio = 1.0f;
+			m_contexts[0].m_blend_ratio = BLEND_VALUE_MAX;
 		}
 		else
 		{
-			m_contexts[1].m_blend_ratio = 0.0f;
+			m_contexts[1].m_blend_ratio = BLEND_VALUE_MIN;
 		}
 
 		// ループするかどうか
@@ -149,7 +149,7 @@ void Animation::AttachAnimation(Model* model, int anim_num, bool loop)
 		m_contexts[0].animation_attach_index
 	);
 	// ブレンド率をゼロからスタートする
-	m_contexts[0].m_blend_ratio = 0.2f;
+	m_contexts[0].m_blend_ratio = BLEND_VALUE_RESET;
 	// ループするかどうか
 	m_contexts[0].is_loop = loop;
 
@@ -253,7 +253,7 @@ void Animation::ActionComboChangeAnimation(Model* model, int anim_num, bool loop
 	// アニメーションが最後のフレームに差し掛かったら
 	if (combo_flag)
 	{
-		if (m_contexts[0].play_time >= m_contexts[0].animation_total_time - 30)
+		if (m_contexts[0].play_time >= m_contexts[0].animation_total_time - FRAME_PULL_NUM)
 		{
 			
 			ChangeAnimation(model, anim_num, loop);

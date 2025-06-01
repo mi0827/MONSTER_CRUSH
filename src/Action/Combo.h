@@ -39,7 +39,6 @@ public:
 
 	//! @brief コンボを続けていいか
 	bool  ComboCanContinueJudgent();
-
 	enum ComboMode
 	{
 		COMBO_START,    // コンボスタート
@@ -47,6 +46,9 @@ public:
 		COMBP_IN,       // コンボ中
 		COMBO_FINISH,   // コンボ終了
 	};
-	//ComboMode m_combo_mode;
+	// コンボの状態用変数
 	int m_combo_mode;
+private:
+	// コンボ中のアニメーションの最大フレームから少し減らす分
+	static constexpr float FRAME_PULL_NUM = 5.0f;
 };

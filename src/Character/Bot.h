@@ -45,6 +45,10 @@ private:
 	Sound m_se;
 	//! SEの数
 	static constexpr int SE_MAX = 1;
+	//! ダメージエフェクトサイズ
+	static constexpr float damage_effect_size = 4.0f;
+	//! エフェクトの再生の高さ
+	static constexpr float EFFECT_HEIGHT = 10.0f;
 
 };
 

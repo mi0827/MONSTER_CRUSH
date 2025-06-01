@@ -27,7 +27,7 @@ void Combo::ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, PAD_ID 
 	if (*combo_flag == false)
 	{
 		// 指定のマウスボタンを押していたら
-		if (PushMouseInput(key)|| IsPadOn(pad_button_no))
+		if (PushMouseInput(key) || IsPadOn(pad_button_no))
 		{
 			// 攻撃アニメーションが終わる前だったら
 			if (play_anim_time <= anim_total)
@@ -41,7 +41,7 @@ void Combo::ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, PAD_ID 
 
 				ChangeComboMode(COMBO_STANDBY);
 			}
-			
+
 		}
 	}
 }
@@ -53,7 +53,7 @@ void Combo::ComboJudgmentKey(bool* combo_flag, int* mouse_flag, int key, PAD_ID 
 void Combo::ComboJudgmentCondition(bool* combo_flag, bool condition, float play_anim_time, float anim_total)
 {
 	// 攻撃アニメーションが終わる時に
-	if (play_anim_time == anim_total - 5.0f)
+	if (play_anim_time == anim_total - FRAME_PULL_NUM)
 	{
 		if (*combo_flag == false)
 		{
@@ -86,7 +86,7 @@ void Combo::ComboStartJudgent()
 	{
 		m_combo_mode = COMBO_START;
 	}
-	
+
 }
 
 
@@ -104,7 +104,7 @@ bool Combo::ComboCanContinueJudgent()
 	{
 		return true;
 	}
-	
+
 }
 
 

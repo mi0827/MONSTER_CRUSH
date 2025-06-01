@@ -74,10 +74,10 @@ void Bot::Update()
 		m_bot_effect.StopEffect();
 	}
 	// エフェクトの再生
-	Vector3 effect_pos = { m_transform.pos.x,m_transform.pos.y + 10.0f ,m_transform.pos.z };
+	Vector3 effect_pos = { m_transform.pos.x,m_transform.pos.y + EFFECT_HEIGHT ,m_transform.pos.z };
 	m_bot_effect.PlayEffect(0, effect_pos);
 	// エフェクトサイズの変更
-	m_bot_effect.SetEffectSize({ 4.0f,4.0f,4.0f });
+	m_bot_effect.SetEffectSize({ damage_effect_size,damage_effect_size,damage_effect_size });
 	// SEが再生中なら止める
     m_se.StopSound();
 	// SEの再生

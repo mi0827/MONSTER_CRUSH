@@ -6,6 +6,7 @@
 #include "src/Collision/BoxCollision.h"
 #include "src/Collision/CapsuleCollision.h"
 #include "src/System/Transform.h"
+#include "src/Hit/Hit.h"
 #include "TargetMove.h"
 
 TargetMove::TargetMove()
@@ -14,9 +15,7 @@ TargetMove::TargetMove()
 
 TargetMove::~TargetMove()
 {
-	// ポインタの解放
-	//delete m_transform;
-	//delete m_target;
+	
 }
 
 //---------------------------------------------------------------------------
@@ -118,17 +117,18 @@ bool TargetMove::WithinRange(int range)
 		// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
 		return true;
 	}
+	else if (m_cross.y < range)
+	{
+		// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
+		return true;
+	}
 	else
-		if (m_cross.y < range)
-		{
-			// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
-			return true;
-		}
-		else
-		{
-			// 範囲外
-			return false;
-		}
+	{
+		
+		
+		// 範囲外
+		return true;
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -159,12 +159,28 @@ bool TargetMove::TargetHit()
 			}
 			else
 			{
-				// 設定された値より近づいたら
-				if (distance < radius) {
-					// モンスターの向きも正しかったら
-					// 移動に制限をかける
-					return false;
+				// ターゲットの座標
+				Vector2 target_pos = { m_target_info.m_target->pos.x,m_target_info.m_target->pos.z };
+				// 見たい範囲のBOXの座標２
+				Vector2 box_pos1;
+				box_pos1.x = m_info.m_transform->pos.x + 500 * sinf(TO_RADIAN(m_info.m_transform->rot.y ));
+				box_pos1.y = m_info.m_transform->pos.z + 500 * cosf(TO_RADIAN(m_info.m_transform->rot.y));
+				// ここでターゲットが正面ろにいるかどうかを調べる
+				if (CheckPointCircleHit(target_pos, box_pos1, 500))
+				{
+					// 設定された値より近づいたら
+					if (distance < radius) {
+						// モンスターの向きも正しかったら
+						// 移動に制限をかける
+						return false;
+					}
+					
 				}
+				else
+				{
+					// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
+					m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
+				}	
 			}
 	}
 	// まだ範囲外の時は移動ができるようにしておく

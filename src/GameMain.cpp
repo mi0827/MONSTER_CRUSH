@@ -120,8 +120,6 @@ void GameUpdate()
 		switch (scene->m_now_scene)
 		{
 		case scene->Title: // タイトルシーン
-
-
 			scene->Update();
 			// シーンの変更フラグが立っていれば
 			if (scene->m_scene_change_judge) {

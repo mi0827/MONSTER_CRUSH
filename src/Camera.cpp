@@ -61,7 +61,6 @@ void Camera::MouseCamera(Vector3* target_pos,Model* ground_model)
 	// マウスホイールでカメラの距離の変更
 	ChangeDistance();
 
-	//m_before_pos.set(m_pos); //< 移動前の座標の設定
 	// プレイヤーの後ろに付いて動く
 	m_look.set(target_pos->x, target_pos->y + m_look_height, target_pos->z);
 
