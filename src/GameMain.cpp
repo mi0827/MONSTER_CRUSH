@@ -252,19 +252,23 @@ void GameDraw()
 	// ƒƒjƒ…[‚ðŠJ‚­‚½‚ß‚ÌTab‚Ì•\Ž¦
 	scene->BaseDraw(scene->m_now_scene, { 20,220 });
 
-	// ‘€ìà–¾‚Ì‰æ‘œ‚Ì•`‰æ
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-	if (scene->m_now_scene == scene->Story || scene->m_now_scene == scene->QuestArea || scene->m_now_scene == scene->Battle)
+	if (option.m_option_flag == false)
 	{
-		if (GetJoypadNum() <= 0)
+		// ‘€ìà–¾‚Ì‰æ‘œ‚Ì•`‰æ
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+		if (scene->m_now_scene == scene->Story || scene->m_now_scene == scene->QuestArea || scene->m_now_scene == scene->Battle)
 		{
-			DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, key_image, true);
-		}
-		else
-		{
-			DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, pad_image, true);
+			if (GetJoypadNum() <= 0)
+			{
+				DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, key_image, true);
+			}
+			else
+			{
+				DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, pad_image, true);
+			}
 		}
 	}
+	
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 

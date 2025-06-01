@@ -325,36 +325,7 @@ void EndScene::HitField()
 	// フィールドの地面モデルとキャラクターの当たり判定
 	HitGroundCharacter(&m_player->m_transform.pos, &m_field_2.m_field_model);
 
-	// 木のオブジェクトとプレイヤーの当たり判定
-	//for (int i = 0; i < m_field_2.TREE_MAX; i++)
-	//{
-	//	// モンスターとプレイヤーの移動の当たり判定
-	//	if (CheckCapsuleHit(m_field_2.m_hit_tree[i], m_player->m_body))
-	//	{
-	//		m_player->m_move.MoveHitCapsule(&m_player->m_transform.pos, m_player->m_body.m_capsule.radius, &m_field_2.m_hit_tree[i]);
-	//	}
-	//}
-
-	//// フェンスとキャラクターの当たり判定
-	//for (int i = 0; i < m_field_2.FENCE_MAX; i++)
-	//{
-	//	if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
-	//		m_field_2.m_hit_fence[i].m_box.hit_pos, m_field_2.m_hit_fence[i].m_box.half_size))
-	//	{
-	//		m_player->MoveHitUpdate(&m_field_2.m_hit_fence[i]);
-	//	}
-	//}
-
-
-	//// 石とキャラクターの当たり判定
-	//for (int i = 0; i < m_field_2.STONE_MAX; i++)
-	//{
-	//	if (CheckBoxHit3D(m_player->m_transform.pos, m_player->m_move_hit_size,
-	//		m_field_2.m_hit_stone[i].m_box.hit_pos, m_field_2.m_hit_stone[i].m_box.half_size))
-	//	{
-	//		m_player->MoveHitUpdate(&m_field_2.m_hit_stone[i]);
-	//	}
-	//}
+	
 }
 
 //------------------------------------------
@@ -366,6 +337,7 @@ void EndScene::OptionValuesReflect(int bgm, int se, int mouse)
 	camera.SetCameraSensi((float) mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
+	m_se.SetSoundVolume(se);
 }
 
 //----------------------------------------------

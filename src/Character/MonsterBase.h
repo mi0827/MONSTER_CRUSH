@@ -8,6 +8,12 @@
 //! @fule MonsterBase.h
 //! @brief モンスターのベースクラス
 
+struct FileFormat
+{
+	int a;
+	int b;
+};
+
 
 class MonsterBase
 {
@@ -391,7 +397,6 @@ public:
 		int start_time = 0;
 		//! 終わり
 		int end_time = 0;
-
 	};
 	std::vector< Attack_Hit_Damage*> m_attack_hit_damage;
 
