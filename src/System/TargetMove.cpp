@@ -124,8 +124,7 @@ bool TargetMove::WithinRange(int range)
 	}
 	else
 	{
-		
-		
+	
 		// �͈͊O
 		return true;
 	}
