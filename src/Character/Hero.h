@@ -86,6 +86,7 @@ public:
 	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;   //! プレイヤーのローリングスピード 
 	static constexpr int HP_MAX = 100;                    //! HPの最大値
 	static constexpr int PLAYER_HIT_R = 1;                //! プレイヤーの円の当たり半径の半径
+	static constexpr float DIE_ANIM_LOOP_FRAME = 140.0f; //! 死んだときのアニメーションのループさせたいフレーム
 	//-----------------------------------------------
 	// 列挙体の宣言
 	//-----------------------------------------------
@@ -115,20 +116,20 @@ public:
 		anim_max //!< アニメーションの最大数
 	};
 
-	static constexpr int ATTACK_ANIM_STAR = attack_sword_anim_1;                     //! アニメーションの攻撃系以外のアニメーションの数
+	static constexpr int ATTACK_ANIM_STAR = attack_sword_anim_1;      //! アニメーションの攻撃系以外のアニメーションの数
 	static constexpr int ATTACK_ACTION = anim_max - ATTACK_ANIM_STAR; //! 攻撃アニメーションの最大数
 
 	// 攻撃番号の再設定
 	enum AttackAnim
 	{
-		attack_sword_1 = attack_sword_anim_1 - ATTACK_ANIM_STAR,	   //< 攻撃２
-		attack_sword_2 = attack_sword_anim_2 - ATTACK_ANIM_STAR,	   //< 攻撃３
-		attack_sword_3 = attack_sword_anim_3 - ATTACK_ANIM_STAR,    //< 攻撃１
-		attack_sword_4 = attack_sword_anim_4 - ATTACK_ANIM_STAR, //< キック攻撃１
-		attack_kick_1 = attack_kick_anim_1 - ATTACK_ANIM_STAR,	//< キック攻撃２
-		attack_kick_2 = attack_kick_anim_2 - ATTACK_ANIM_STAR,	//< キック攻撃３
+		attack_sword_1 = attack_sword_anim_1 - ATTACK_ANIM_STAR,  //< 攻撃２
+		attack_sword_2 = attack_sword_anim_2 - ATTACK_ANIM_STAR,  //< 攻撃３
+		attack_sword_3 = attack_sword_anim_3 - ATTACK_ANIM_STAR,  //< 攻撃１
+		attack_sword_4 = attack_sword_anim_4 - ATTACK_ANIM_STAR,  //< キック攻撃１
+		attack_kick_1 = attack_kick_anim_1 - ATTACK_ANIM_STAR,	  //< キック攻撃２
+		attack_kick_2 = attack_kick_anim_2 - ATTACK_ANIM_STAR,	  //< キック攻撃３
 
-		attack_counter = counter_anim - ATTACK_ANIM_STAR,       //< カウンター攻撃
+		attack_counter = counter_anim - ATTACK_ANIM_STAR,         //< カウンター攻撃
 
 		attack_max
 	};

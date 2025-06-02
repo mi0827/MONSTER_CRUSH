@@ -71,7 +71,7 @@ void Hero::Init()
 	// キャラクターのマテリアル調整
 	// モデルのマテリアルを確保
 	// マテリアルのアンビエントをあげると自分にかかっている影が明るくなる
-	m_model.SetMaterialAmbient({ 1.0f,1.0f,1.0f,0.0f });
+	m_model.SetMaterialAmbient(MATERIAL_AMBIENT_COLOR);
 
 	// アニメーションの初期設定
 	AnimLoadInit();
@@ -349,10 +349,10 @@ void Hero::DieUpdate()
 {
 	// 死んだアニメーションが追わないように
 	// 一定のところまで進んだら
-	if (m_animation.m_contexts[0].play_time >= 140)
+	if (m_animation.m_contexts[0].play_time >= DIE_ANIM_LOOP_FRAME)
 	{
 		// 少し前に戻す
-		m_animation.m_contexts[0].play_time = 140;
+		m_animation.m_contexts[0].play_time = DIE_ANIM_LOOP_FRAME;
 	}
 }
 
@@ -361,25 +361,6 @@ void Hero::DieUpdate()
 //-----------------------------------------------
 void Hero::Draw()
 {
-	//===================
-	// カプセルの描画（仮）（後で消す）
-	//===================
-	// 攻撃フラグをが立っていたら
-	//if (m_attack_flag)
-	//{
-	//	// 攻撃の当たり判定行っていいときだけ
-	//	if (AttackHitGoodTiming(m_now_attack))
-	//	{
-	//		// 当たり判定を描画
-	//		m_attack_hit_damage[m_now_attack]->attack_hit.Draw();
-	//	}
-	//}
-	// m_body.Draw();
-	/*m_right_hand.Draw();
-	m_left_hand.Draw();
-	m_right_feet.Draw();
-	m_left_feet.Draw();*/
-	//m_sword.Draw();
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 	m_model.DrawModel(&m_transform);
 }

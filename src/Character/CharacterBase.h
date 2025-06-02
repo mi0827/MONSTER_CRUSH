@@ -177,9 +177,6 @@ public:
 	//! @detail 移動に関するものの更新処理
 	void BaseUpdate(bool* m_check_move, Vector3* camera_rot, const float* mov_speed);
 
-
-
-
 	//-----------------------------------------------
 	//! ゲームパッドの処理
 	//-----------------------------------------------
@@ -201,7 +198,6 @@ public:
 	}
 
 public:
-
 
 	//-----------------------------------------------
 	//! クラスのオブジェクトを定義
@@ -300,10 +296,8 @@ public:
 	int m_first_attack_anim_1;
 	int m_first_attack_anim_2;
 
-	// 調査
-	int aaa = 0;
-	int bbb = 0;
-
+	//! アニメーションの最大フレームから少し減らす分
+	static constexpr float FRAME_PULL_NUM = 10.0f;
 
 	//! コンボの最大コンボ数用の変数
 	int m_COMBO_MAX;
@@ -317,16 +311,19 @@ protected:
 	bool m_combo_flag = false;
 	//! コンボの際マウスのどちらを押されたか
 	int m_mouse_flag = 0; // MOUSE_INPUT_RIGHT : 右ボタン、MOUSE_INPUT_LEFT : 左ボタン 
-	
 	//! 次のアニメーション番号を保存
 	int m_next_anim = -1;
 	//! コンボをやめてほしい時のフラグ
 	bool m_stop_combo_flag = false;
-
-
 	//!  ゲームパッド用移動用ベクトル用変数
 	Vector3 m_mov = { 0.0f,0.0f,0.0f };
-
+	
+	
+	//------------------------------------------
+	// モデル関連
+	//------------------------------------------
+	//! モデルのマテリアルのアンビエントカラーの値
+	static constexpr COLOR_F MATERIAL_AMBIENT_COLOR = {1.0f,1.0f,1.0f,0.0f};
 public:
 	//! 敵との移動当たり判定に使う
 	float m_hit_r = 0.0f;

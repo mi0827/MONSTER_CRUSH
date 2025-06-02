@@ -112,6 +112,7 @@ public:
 	//! モデルの座標、向き、サイズ
 	Transform m_transform;
 
+
 private:
 
 	//! マテリアルの最大数を保存する

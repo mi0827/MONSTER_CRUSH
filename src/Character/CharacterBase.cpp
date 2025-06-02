@@ -279,7 +279,7 @@ void CharacterBase::RollingActionUpdate(int rolling_anim_no, const int rolling_s
 
 	// ローリングアニメーションが終わったら(終わりだとうまく入らなかったから終わる少し前にした)
 	// またはダメージを食らったフラグが上がったいたら
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10)
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - FRAME_PULL_NUM)
 	{
 		// アニメーションのチェンジフラグを上げる
 		m_animation.m_anim_change_flag = true;
@@ -353,14 +353,12 @@ void CharacterBase::ComboActionUpdate()
 		if (m_mouse_flag == MOUSE_INPUT_LEFT)
 		{
 			m_next_anim = m_first_attack_anim_1 + m_combo_count;
-			aaa = m_next_anim;
 			m_combo.ChangeComboMode(m_combo.COMBP_IN);
 			break;
 		}
 		if (m_mouse_flag == MOUSE_INPUT_RIGHT)
 		{
 			m_next_anim = m_first_attack_anim_2 + m_combo_count;
-			bbb = m_next_anim;
 			m_combo.ChangeComboMode(m_combo.COMBP_IN);
 			break;
 		}
@@ -441,7 +439,7 @@ void CharacterBase::HitDamageUpdate(int hit_damage_anim)
 		PadVidation(DX_INPUT_PAD1, 1000, 3, -1);
 	}
 	// ダメージを食らったアニメーションが終わりにかかったら
-	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - 10)
+	if (m_animation.m_contexts[0].play_time >= m_animation.m_contexts[0].animation_total_time - FRAME_PULL_NUM)
 	{
 		// 一旦ここでダメージ受けたフラグを下げておく
 		m_damage_flag = false;

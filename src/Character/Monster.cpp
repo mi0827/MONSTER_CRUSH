@@ -66,7 +66,7 @@ void Monster::Init()
 	// キャラクターのマテリアル調整
 	// モデルのマテリアルを確保
 	// マテリアルのアンビエントをあげると自分にかかっている影が明るくなる
-	m_model.SetMaterialAmbient({ 1.0f,1.0f,1.0f,0.0f });
+	m_model.SetMaterialAmbient(MATERIAL_AMBIENT_COLOR);
 
 	// アニメーションの初期設定
 	AnimLoadInit();

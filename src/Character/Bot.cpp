@@ -54,7 +54,7 @@ void Bot::Init()
 
 	// “–‚½‚è”»’è‚Ì‰Šú‰»
 	Vector3 pos2 = { m_transform.pos.x,m_transform.pos.y + 10,m_transform.pos.z };
-	m_body.CreateCapsuleCoordinatePos(m_transform.pos, pos2, 15.0f);
+	m_body.CreateCapsuleCoordinatePos(m_transform.pos, pos2, 17.0f);
 
 	// SE‚Ì‰Šú‰»
 	m_se.NewArraySecureSound(SE_MAX);

@@ -454,13 +454,16 @@ public:
 	static constexpr int STUN_VALUE_RECOVERY_FRAME = 60;
 	// スタン用のバー
 	UIBra m_stun_bra;
-
-
-
-
 protected:
 	//! 攻撃を受けていないフレームをカウント
 	int m_not_damaged_frame = 0;
+
+	//------------------------------------------
+	// モデル関連
+	//------------------------------------------
+	//! モデルのマテリアルのアンビエントカラーの値
+	static constexpr COLOR_F MATERIAL_AMBIENT_COLOR = { 1.0f,1.0f,1.0f,0.0f };
+
 public:
 	//-----------------------------------------------
 	// クラスのオブジェクトの宣言

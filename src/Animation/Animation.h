@@ -18,7 +18,7 @@ private:
 	static constexpr float BLEND_VALUE_MIN = 0.0f;
 	//! ブレンド率リセット値
 	static constexpr float BLEND_VALUE_RESET = 0.2f;
-	//! コンボ中のアニメーションの最大フレームから少し減らす分
+	//! アニメーションの最大フレームから少し減らす分
 	static constexpr float FRAME_PULL_NUM = 30.0f;
 public:
 
