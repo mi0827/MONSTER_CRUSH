@@ -162,13 +162,18 @@ public:
 
 	//-----------------------------------------------
 	// 定数の宣言
-    //-----------------------------------------------
+	//-----------------------------------------------
 	static constexpr float PLAYER_MOVE_SPEED = 2.0f;       //! プレイヤーの移動スピード
 	static constexpr float PLAYER_R = 5.0f;                //! プレイヤーの回転スピード
 	static constexpr float PLAYER_ROLLING_SPEED = 1.1f;    //! プレイヤーのローリングスピード 
 	static constexpr float PLAYER_HIT_R = 1.5;             //! プレイヤーの円の当たり半径の半径
 	static constexpr int HP_MAX = 100;                     //! HPの最大値
 	static constexpr int M_DEFENSE = 20;                   //! 防御力
+private:
+	//! 死んだときのアニメーションをループさせたいフレーム
+	static constexpr float DIE_ANIM_LOOP_FRAME = 260.0f;
+	//! 死んだアニメーションのループ時にリセットさせたいフレーム
+	static constexpr float DIE_ANIM_LOOP_RESET_FRAME = 200.0f;
 	//----------------------------------------------- 
 	// 列挙体の宣言
 	//-----------------------------------------------

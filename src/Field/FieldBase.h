@@ -38,4 +38,8 @@ public:
 	Model m_field_model;
 	Transform m_field_transform;
 
+private:
+	// ƒJƒƒ‰‚Ì”¼Œa‚©‚ç­‚µ”ÍˆÍ‚ğ‘å‚«‚­‚·‚é‚½‚ß‚Ì’l
+	static const int CAMERA_LENGTH_PLUS = 10;
+
 };

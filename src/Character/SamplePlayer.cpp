@@ -89,12 +89,8 @@ void SamplePlayer::Init()
 //-----------------------------------------------
 void SamplePlayer::Update(Vector3* camera_rot)
 {
-
-
 	// HPの値が減ったかどうか
 	m_hp.Update(m_hp_value);
-
-
 
 	// 生きてるか死んでるかで処理を変える
 	switch (m_life_and_death)
@@ -271,10 +267,10 @@ void SamplePlayer::DieUpdate()
 {
 	// 死んだアニメーションが追わないように
 	// 一定のところまで進んだら
-	if (m_animation.m_contexts[0].play_time >= 260)
+	if (m_animation.m_contexts[0].play_time >= DIE_ANIM_LOOP_FRAME)
 	{
 		// 少し前に戻す
-		m_animation.m_contexts[0].play_time = 200;
+		m_animation.m_contexts[0].play_time = DIE_ANIM_LOOP_RESET_FRAME;
 	}
 }
 
@@ -305,11 +301,6 @@ void SamplePlayer::Draw()
 			
 		}
 	}
-	/*m_body.Draw();
-	m_right_hand.Draw();
-	m_left_hand.Draw();
-	m_right_feet.Draw();
-	m_left_feet.Draw();*/
 
 	// モデルの描画 (描画を後にしないと当たり判定がちかちかする)
 

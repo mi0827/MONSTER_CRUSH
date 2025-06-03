@@ -29,8 +29,7 @@ void BoxCollision::Draw(int color, int line_color)
 	// —§•û‘Ì‚Ì•`‰æ
 	DrawCube3D(m_box.pos1.VGet(), m_box.pos2.VGet(), m_box.color, m_box.color, TRUE);
 	
-	//DrawCube3D(m_box.pos1.VGet(), m_box.pos2.VGet(), m_box.color, m_box.line_color, FALSE);
-	/*SetUseLighting(TRUE);*/
+
 }
 
 //-----------------------------------------------

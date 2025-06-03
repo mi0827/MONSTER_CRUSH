@@ -7,14 +7,6 @@
 //! 
 //! @fule MonsterBase.h
 //! @brief モンスターのベースクラス
-
-struct FileFormat
-{
-	int a;
-	int b;
-};
-
-
 class MonsterBase
 {
 public:
@@ -272,9 +264,6 @@ private:
 	//! ランダムで攻撃を選ぶ際にはぶいてほしいアニメーション番号
 	int M_ATTACK_ANIM_EXCEPT = 0;
 
-
-
-
 public:
 	//------------------------------------------
 	// ステータス関連
@@ -366,18 +355,23 @@ public:
 	static constexpr int ATTACK_AREA_DISTANCE = 15;
 	//! 攻撃エリアに半径
 	static constexpr int ATTACK_AREA_R = 14;
+
+
+	//------------------------------------------
+	// 咆哮攻撃関連
+	//------------------------------------------
 	//! 咆哮攻撃の時間
 	static constexpr float ROAR_TIME = 3.0f;
 	//! 咆哮攻撃の強さ 
 	static constexpr float ROAR_POWER = 4.0f;
-
 private:
 	//! 咆哮攻撃の時間計算用変数
 	//! 経過フレームをカウントするための変数
-	int m_time_count = 0; 
+	int m_time_count = 0;
 	//! 経過時間をカウントするための変数
 	int m_roar_time_count = 0;
-
+	//! 咆哮攻撃の時間
+	
 public:
 
 	//------------------------------------------
@@ -454,6 +448,13 @@ public:
 	static constexpr int STUN_VALUE_RECOVERY_FRAME = 60;
 	// スタン用のバー
 	UIBra m_stun_bra;
+private:
+	//! スタンアニメーションのずれを修正するための値
+	static constexpr float MISALIGNMENT_VALUE = 22.0f;
+	//! スタン値のリセット値
+	static constexpr int STUN_RESET_VALUE = 150;
+	//! スタン回数を分割する値
+	static constexpr int STUN_HP_DIVISION = 4;
 protected:
 	//! 攻撃を受けていないフレームをカウント
 	int m_not_damaged_frame = 0;
@@ -493,4 +494,11 @@ public:
 	CapsuleCollision m_right_hand; //!< 右手の当たり判定
 	CapsuleCollision m_body;       //!< 本体のあたり判定
 
+protected:
+	//! 死んだときのアニメーションをループさせたいフレーム
+	static constexpr float DIE_ANIM_LOOP_FRAME = 260.0f;
+	//! 死んだアニメーションのループ時にリセットさせたいフレーム
+	static constexpr float DIE_ANIM_LOOP_RESET_FRAME = 200.0f;
+	//! 登場演出のエフェクトのサイズ
+	static constexpr float ENTYE_EFFECT_SIZE = 10.0f;
 };

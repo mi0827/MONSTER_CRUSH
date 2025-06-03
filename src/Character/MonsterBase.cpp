@@ -133,8 +133,8 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 			// 起き上がるアニメーションに変更
 			m_animation.ChangeAnimation(&m_model, up_anim_num, false);
 			// スタンアニメーションでずれた座標を治す
-			m_transform.pos.z += 22.0f * cosf(TO_RADIAN(m_transform.rot.y));
-			m_transform.pos.x += 22.0f * sinf(TO_RADIAN(m_transform.rot.y));
+			m_transform.pos.z += MISALIGNMENT_VALUE * cosf(TO_RADIAN(m_transform.rot.y));
+			m_transform.pos.x += MISALIGNMENT_VALUE * sinf(TO_RADIAN(m_transform.rot.y));
 			// 状態を次の変更
 			m_stun_info_num = UP;
 		}
@@ -158,13 +158,11 @@ void MonsterBase::StunActionUpdate(int down_anim_num, int up_anim_num, int sutn_
 			// アニメーション切り替え用のフラグを切り替える
 			m_animation.m_anim_change_flag = true;
 			// ほんとは徐々に増やしていきたかったけどそれがうまくいかない
-			m_stun_value = 150;
+			m_stun_value = STUN_RESET_VALUE;
 		}
 		break;
 	}
-
 }
-
 
 //---------------------------------------------------------------------------
 // ベースクラスの初期処理
@@ -175,9 +173,6 @@ void MonsterBase::BaseInit(int hp_num)
 	m_hp_value = hp_num;
 	// HPの最大値
 	m_hp_max = hp_num;
-	// ジャンプ関連の設定
-	/*m_up_speed = up_speed;
-	m_down_speed = down_speed;*/
 }
 
 
@@ -198,10 +193,8 @@ void MonsterBase::BaseSetTarget(Transform* target_pos, const float m_target_hit_
 //---------------------------------------------------------------------------
 void MonsterBase::MoveUpdate(bool* run_flag)
 {
-
 	// 移動処理
 	m_move.Update(run_flag);
-
 }
 
 
@@ -469,7 +462,7 @@ void MonsterBase::AttackActionComboUpdate()
 			}
 			else
 			{
-				// 次の攻撃番号が-1ならコンボが続かないからbreakして
+				// 次の攻撃番号が-1ならコンボが続かないから breakして
 				// モンスターの状態をIdle状態に変更する
 				m_monster_mode = IDLE;
 				// アニメーション変更フラグを上げる
@@ -482,7 +475,7 @@ void MonsterBase::AttackActionComboUpdate()
 			// 移動制限が外れたら(攻撃範囲から出たら)
 			if (!HitAttackArea())
 			{
-				// 次の攻撃番号が-1ならコンボが続かないからbreakして
+				// 次の攻撃番号が-1ならコンボが続かないから breakして
 				// モンスターの状態をIdle状態に変更する
 				m_monster_mode = IDLE;
 				// アニメーション変更フラグを上げる
@@ -505,8 +498,6 @@ void MonsterBase::AttackActionComboUpdate()
 	}
 }
 
-
-
 //---------------------------------------------------------------------------
 // 一定のダメージを受けた時に相手との距離をとる用の関数(咆哮攻撃)
 //---------------------------------------------------------------------------
@@ -514,7 +505,7 @@ void MonsterBase::RoarSet(int anim_num, int se_num, Camera* camera)
 {
 
 	// モンスターのHPが一定数減ったら咆哮させたいので一定の値で割る
-	int constant_hp = m_hp_max / 4;
+	int constant_hp = m_hp_max / STUN_HP_DIVISION;
 
 	// HPがいって定数減ったら咆哮フラグを立てる
 	if (m_hp_value < constant_hp * m_roar_count)
@@ -558,7 +549,7 @@ void MonsterBase::RoarAction(Camera* camera)
 		// ゲームパッドが接続されているときはゲームパッドを振動させたい
 		if (GetJoypadNum() >= 1)
 		{
-			PadVidation((int)DX_INPUT_PAD1, 1000, 3, -1);
+			PadVidation((int)DX_INPUT_PAD1, PAD_VIDRATION_STRENGTH, ROAR_TIME, PAD_VIDRATION_MOTOR);
 		}
 		// フレームのカウントを増やす
 		m_time_count++;

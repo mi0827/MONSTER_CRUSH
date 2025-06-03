@@ -68,7 +68,6 @@ void Receptionist::Update()
 	// アニメーションの再生
 	m_animation.PlayAnimation(&m_model, true);
 
-
 	// Bodyの当たり判定の設定
 	m_hit_body.CreateNodoCapsule(&m_model, 69, 5, BDOY_R);
 }
@@ -81,8 +80,6 @@ void Receptionist::Draw()
 	// モデルの描画
 	m_model.DrawModel(&m_transform);
 
-	// ボディーの当たり判定の描画
-	//m_hit_body.Draw();
 }
 
 //---------------------------------------------------------------------------

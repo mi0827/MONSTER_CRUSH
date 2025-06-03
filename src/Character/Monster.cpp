@@ -269,7 +269,6 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 		// ジャンプフラグが立っているとき
 		if (m_jump_flag)
 		{
-
 			// ジャンプの更新処理
 			JumpActionUpdate(JUMP_MOV_SPEED, JUMP_STRAT_FRAME, JUMP_END_FRAME);
 			// ジャンプアニメーションが終わったときにアニメーションできた座標のずれを力ずくで直す
@@ -332,7 +331,6 @@ void Monster::LiveUpdate(Transform* target_pos, float target_r, Camera* camera)
 			m_effect.SetEffectRotPosNode(pos, m_effect_info[m_now_attack].pos, rot);
 		}
 
-
 		// SEが設定されていない攻撃の時は再生しない
 		if (m_rolling_flag == false && m_jump_flag == false)
 		{
@@ -387,10 +385,10 @@ void Monster::DieUpdate()
 {
 	// 死んだアニメーションが追わないように
 	// 一定のところまで進んだら
-	if (m_animation.m_contexts[0].play_time >= 260)
+	if (m_animation.m_contexts[0].play_time >= DIE_ANIM_LOOP_FRAME)
 	{
 		// 少し前に戻す
-		m_animation.m_contexts[0].play_time = 200;
+		m_animation.m_contexts[0].play_time = DIE_ANIM_LOOP_RESET_FRAME;
 	}
 }
 
@@ -419,7 +417,7 @@ void Monster::EntryUpdate()
 {
 	// エフェクトの再生
 	m_effect.PlayEffect(entry_effect,m_transform.pos);
-	m_effect.SetEffectSize( { 10.0f, 10.0f, 10.0f });
+	m_effect.SetEffectSize( { ENTYE_EFFECT_SIZE, ENTYE_EFFECT_SIZE, ENTYE_EFFECT_SIZE });
 
 	// 登場シーンにあった叫びのアニメーションをつける
 	// 登場アニメーションのセット(ループさせない)

@@ -21,8 +21,6 @@
 
 #include "Mutant.h"
 
-
-
 namespace
 {
 	// プレイヤーのとのあたり判定で使うboxのあたり判定のサイズ
@@ -47,7 +45,6 @@ Mutant::Mutant()
 	// モデルのスケールの設定
 	m_transform.scale.set(0.25f, 0.25f, 0.25f);
 }
-
 
 //-----------------------------------------------
 // デストラクタ
@@ -97,7 +94,6 @@ void Mutant::Init()
 //-----------------------------------------------
 void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body, Camera* camera)
 {
-
 	// モンスターの状態によってのフラグ管理
 	MonsterMode(m_monster_mode);
 
@@ -108,7 +104,6 @@ void Mutant::Update(Transform* target_pos, float target_r, CapsuleCollision body
 		m_stun_bra.Update(m_stun_value);
 	}
 	
-
 	switch (m_life_and_death)
 	{
 
@@ -367,10 +362,10 @@ void Mutant::DieUpdate()
 {
 	// 死んだアニメーションが追わないように
 	// 一定のところまで進んだら
-	if (m_animation.m_contexts[0].play_time >= 260)
+	if (m_animation.m_contexts[0].play_time >= DIE_ANIM_LOOP_FRAME)
 	{
 		// 少し前に戻す
-		m_animation.m_contexts[0].play_time = 200;
+		m_animation.m_contexts[0].play_time = DIE_ANIM_LOOP_RESET_FRAME;
 	}
 }
 
@@ -379,9 +374,7 @@ void Mutant::DieUpdate()
 //-----------------------------------------------
 void Mutant::Draw()
 {
-	
 	m_model.DrawModel(&m_transform);
-
 }
 
 //-----------------------------------------------

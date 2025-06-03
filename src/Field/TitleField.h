@@ -50,7 +50,7 @@ public:
 		fence9,
 		fence10,
 		fence11,
-	
+
 		// フィールドののオブジェクトの最大数
 		MODEL_MAX
 	};
@@ -114,7 +114,7 @@ public:
 	// 置かれるオブジェクトの数分用意する
 	field m_field_object[MODEL_MAX];
 
-	
+
 	//! 木の当たり判定
 	CapsuleCollision m_hit_tree[TREE_MAX];
 
@@ -131,7 +131,7 @@ public:
 		field, // フィールドのモデル
 		terr,  // 木のモデル
 		fence, // フェンスのモデル
-		
+
 		model_num_max
 	};
 
@@ -143,4 +143,16 @@ public:
 	InfoText m_object_rot_info;
 	//! モデルのサイズの設定
 	InfoText m_object_scale_info;
+
+private:
+	//! 木の当たり判定の高さ
+	static constexpr float TREE_HIT_HEIGHT = 30.0f;
+	//! 高さ大
+	static constexpr float TREE_HIT_HEIGHT_LAEGE = 50.0f;
+	//! 木の当たり判定の半径小
+	static constexpr float TREE_HIT_RADIUS_AMSLL = 10.0f;
+	//! 木の当たり判定の半径大
+	static constexpr float TREE_HIT_RADIUS_MEDIUM = 30.0f;
+	//! 木の当たり判定の半径大
+	static constexpr float TREE_HIT_RADIUS_LAEGE = 100.0f;
 };

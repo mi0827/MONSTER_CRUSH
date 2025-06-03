@@ -143,7 +143,8 @@ public:
 
 
 private:
-
+	//! U‚èŒü‚«•âŠÔ‚ÌÛ‚ÌU‚èŒü‚­’l
+	static constexpr float  TURN_AROUND = 11.0f;
 
 	//-------------------------------------
 	// ƒLƒƒƒ‰‚Ì•âŠ®ŠÖ˜A

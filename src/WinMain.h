@@ -23,6 +23,12 @@
 #define SCREEN_W	1920//800//1280//1920
 #define SCREEN_H	1080//450//720 //1080
 
+//ゲームパッドの振動する値
+static constexpr int PAD_VIDRATION_STRENGTH = 1000; // 振動大
+static constexpr int PAD_VIDRATION_MEDIUM = 600;      // 振動中
+static constexpr int PAD_VIDRATION_SMALL = 200;         // 振動小
+// ゲームパッドの振動させるモーター番号
+static constexpr int PAD_VIDRATION_MOTOR = -1;
 
 
 #include "System/InputPad.h" // ゲームパッド

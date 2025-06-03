@@ -161,35 +161,35 @@ void TitleField::TreeInit()
 	//--------------------------------------------------------------------------
 	// ìñÇΩÇËîªíËÇÃê›íË
 	//--------------------------------------------------------------------------
-	m_hit_tree[tree1].CreateCapsule(m_field_object[tree1].transform.pos, { 0.0f,50.0f,0.0f }, 100);
+	m_hit_tree[tree1].CreateCapsule(m_field_object[tree1].transform.pos, { 0.0f,TREE_HIT_HEIGHT_LAEGE,0.0f },  TREE_HIT_RADIUS_LAEGE );
 	// ç∂ë§
-	m_hit_tree[tree2].CreateCapsule(m_field_object[tree2].transform.pos, { 0.0f,30.0f,0.0f }, 30);
-	m_hit_tree[tree3].CreateCapsule(m_field_object[tree3].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree4].CreateCapsule(m_field_object[tree4].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree5].CreateCapsule(m_field_object[tree5].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree6].CreateCapsule(m_field_object[tree6].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree7].CreateCapsule(m_field_object[tree7].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree8].CreateCapsule(m_field_object[tree8].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree9].CreateCapsule(m_field_object[tree9].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree10].CreateCapsule(m_field_object[tree10].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree11].CreateCapsule(m_field_object[tree11].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree12].CreateCapsule(m_field_object[tree12].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree13].CreateCapsule(m_field_object[tree13].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree2].CreateCapsule(m_field_object[tree2].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_MEDIUM);
+	m_hit_tree[tree3].CreateCapsule(m_field_object[tree3].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree4].CreateCapsule(m_field_object[tree4].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree5].CreateCapsule(m_field_object[tree5].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree6].CreateCapsule(m_field_object[tree6].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree7].CreateCapsule(m_field_object[tree7].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree8].CreateCapsule(m_field_object[tree8].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree9].CreateCapsule(m_field_object[tree9].transform.pos, { 0.0f, TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree10].CreateCapsule(m_field_object[tree10].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree11].CreateCapsule(m_field_object[tree11].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree12].CreateCapsule(m_field_object[tree12].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree13].CreateCapsule(m_field_object[tree13].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
 	// âEë§
-	m_hit_tree[tree14].CreateCapsule(m_field_object[tree14].transform.pos, { 0.0f,30.0f,0.0f }, 30);
-	m_hit_tree[tree15].CreateCapsule(m_field_object[tree15].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree16].CreateCapsule(m_field_object[tree16].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree17].CreateCapsule(m_field_object[tree17].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree18].CreateCapsule(m_field_object[tree18].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree19].CreateCapsule(m_field_object[tree19].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree20].CreateCapsule(m_field_object[tree20].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree21].CreateCapsule(m_field_object[tree21].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree22].CreateCapsule(m_field_object[tree22].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree23].CreateCapsule(m_field_object[tree23].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree24].CreateCapsule(m_field_object[tree24].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree25].CreateCapsule(m_field_object[tree25].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree26].CreateCapsule(m_field_object[tree26].transform.pos, { 0.0f,30.0f,0.0f }, 10);
-	m_hit_tree[tree27].CreateCapsule(m_field_object[tree27].transform.pos, { 0.0f,30.0f,0.0f }, 10);
+	m_hit_tree[tree14].CreateCapsule(m_field_object[tree14].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_MEDIUM);
+	m_hit_tree[tree15].CreateCapsule(m_field_object[tree15].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree16].CreateCapsule(m_field_object[tree16].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree17].CreateCapsule(m_field_object[tree17].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree18].CreateCapsule(m_field_object[tree18].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree19].CreateCapsule(m_field_object[tree19].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree20].CreateCapsule(m_field_object[tree20].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree21].CreateCapsule(m_field_object[tree21].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree22].CreateCapsule(m_field_object[tree22].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree23].CreateCapsule(m_field_object[tree23].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree24].CreateCapsule(m_field_object[tree24].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree25].CreateCapsule(m_field_object[tree25].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree26].CreateCapsule(m_field_object[tree26].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
+	m_hit_tree[tree27].CreateCapsule(m_field_object[tree27].transform.pos, { 0.0f,TREE_HIT_HEIGHT,0.0f }, TREE_HIT_RADIUS_AMSLL);
 
 
 }

@@ -161,7 +161,7 @@ void GameScene::EntryUpdate()
 	// ゲームパッドが接続されているときはゲームパッドを振動させたい
 	if (GetJoypadNum() >= 1)
 	{
-		PadVidation(DX_INPUT_PAD1, 1000, CHANGE_TIME, -1);
+		PadVidation(DX_INPUT_PAD1, PAD_VIDRATION_STRENGTH, CHANGE_TIME, PAD_VIDRATION_MOTOR);
 	}
 
 
