@@ -207,9 +207,12 @@ void StoryScene::Draw()
 	float h = (float)GetFontSize();
 
 	Vector2 draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
-	// テキストファイルからのストーリーの描画
-	m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
-
+	// シーンが切り替わる時に描画したくない
+	if (m_turn != FadeOut)
+	{
+		// テキストファイルからのストーリーの描画
+		m_text.TextDraw(m_text_num, { draw_pos.x, draw_pos.y }, m_text.TITLE_BACK_SIZE);
+	}
 	// フェードの描画処理
 	FadeDraw();
 }

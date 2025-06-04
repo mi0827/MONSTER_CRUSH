@@ -249,29 +249,32 @@ void GameDraw()
 	// エフェクトの描画処理
 	DrawEffekseer3D();
 
-	// オプション画面の表示
-	option.Draw();
-
-	// メニューを開くためのTabの表示
-	scene->BaseDraw(scene->m_now_scene, { 20,220 });
-
-	if (option.m_option_flag == false)
+	// シーンが切り替わる時に描画したくない
+	if (scene->m_turn != scene->FadeOut)
 	{
-		// 操作説明の画像の描画
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-		if (scene->m_now_scene == scene->Story || scene->m_now_scene == scene->QuestArea || scene->m_now_scene == scene->Battle)
+		// オプション画面の表示
+		option.Draw();
+
+		// メニューを開くためのTabの表示
+		scene->BaseDraw(scene->m_now_scene, { 20,220 });
+
+		if (option.m_option_flag == false)
 		{
-			if (GetJoypadNum() <= 0)
+			// 操作説明の画像の描画
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+			if (scene->m_now_scene == scene->Story || scene->m_now_scene == scene->QuestArea || scene->m_now_scene == scene->Battle)
 			{
-				DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, key_image, true);
-			}
-			else
-			{
-				DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, pad_image, true);
+				if (GetJoypadNum() <= 0)
+				{
+					DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, key_image, true);
+				}
+				else
+				{
+					DrawExtendGraph((SCREEN_W - 500), 200, SCREEN_W - 20, 550, pad_image, true);
+				}
 			}
 		}
 	}
-	
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 

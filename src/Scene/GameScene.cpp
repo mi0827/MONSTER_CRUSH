@@ -199,14 +199,14 @@ void GameScene::GameUpdate()
 {
 	// カメラの更新処理
 	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_2.m_field_model);
-	
+
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
 	{
 		// キャラクターの更新処理
 		CharacterUpdate();
 	}
-	
+
 	// モンスターが咆哮攻撃をしてきたときにプレイヤーを遠ざけるための処理
 	CharacterKeepAway();
 
@@ -240,7 +240,7 @@ void GameScene::GameUpdate()
 		m_what_scene = result;
 	}
 
-	
+
 }
 
 //---------------------------------------------------------------------------
@@ -355,15 +355,18 @@ void GameScene::Draw()
 	}
 
 	UseShadowMapSet();
-
-	// ステータスバーの描画
-	StatusDraw();
-
-	// リザルトの時だけ描画する
-	if (m_what_scene == result)
+	// シーンが切り替わる時に描画したくない
+	if (m_turn != FadeOut)
 	{
-		// バトル後のメッセージの描画
-		VDMessage();
+		// ステータスバーの描画
+		StatusDraw();
+
+		// リザルトの時だけ描画する
+		if (m_what_scene == result)
+		{
+			// バトル後のメッセージの描画
+			VDMessage();
+		}
 	}
 
 	// フェードの描画処理

@@ -76,18 +76,12 @@ void EndScene::Init()
 	// 現在のシーンの設定(エンドシーン)
 	m_now_scene = End;
 
-
 	// エンドシーンで使う用のテキストの読み込み
 	m_text.LoadText("Data/Text/End.txt", text_max);
-
-
 
 	// SEの初期化
 	m_se.NewArraySecureSound(se_max);
 	m_se.LoadSound("Data/SE/menu_selection.mp3", se_1); // 各メニューを選択しているとき
-
-
-
 }
 
 

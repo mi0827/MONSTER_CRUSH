@@ -118,7 +118,7 @@ void QuestAreaScene::Update()
 	{
 	case Main:
 		// カメラの更新処理
-		camera.MouseCamera(&m_player->m_transform.pos,&m_field_1.m_field_model);
+		camera.MouseCamera(&m_player->m_transform.pos, &m_field_1.m_field_model);
 		// メインで行う処理をこのシーンの状態に合わせて処理を分け実行する関数
 		QuestAreaUpdate();
 
@@ -198,33 +198,36 @@ void QuestAreaScene::Draw()
 	}
 	UseShadowMapSet();
 
-
-	// 会話内容に応じて処理を変更
-	switch (scene_mode_num)
+	// シーンが切り替わる時に描画したくない
+	if (m_turn != FadeOut)
 	{
-	case normal:// 会話していない状態
-		ModeNormalDraw();
-		break;
+		// 会話内容に応じて処理を変更
+		switch (scene_mode_num)
+		{
+		case normal:// 会話していない状態
+			ModeNormalDraw();
+			break;
 
-	case talk_start:
-		break;
-	case receptionist_talk: // 会話中
-		TalkDraw();
-		break;
-	case accepting_quest: // クエストを受けている状態
-		AcceptingQuestDraw();
-		break;
+		case talk_start:
+			break;
+		case receptionist_talk: // 会話中
+			TalkDraw();
+			break;
+		case accepting_quest: // クエストを受けている状態
+			AcceptingQuestDraw();
+			break;
+		}
+
+		// ストーリーを進行キーの描画
+		const char* text = "後ろの木でお試し攻撃できるよ！！";
+		// ゲームパッドの接続しているかによって描画するものを変更する
+
+		float x = (float)GetDrawStringWidth(text, -1);
+		// テキストバーの端っこからテキスト分引いた位置に設定
+		Vector2 draw_pos = { SCREEN_W / 2 - x / 2, 50 };
+
+		DrawString((int)draw_pos.x, (int)draw_pos.y, text, GetColor(255, 128, 50));
 	}
-
-	// ストーリーを進行キーの描画
-	const char* text = "後ろの木でお試し攻撃できるよ！！";
-	// ゲームパッドの接続しているかによって描画するものを変更する
-
-	float x = (float)GetDrawStringWidth(text, -1);
-	// テキストバーの端っこからテキスト分引いた位置に設定
-	Vector2 draw_pos = { SCREEN_W / 2 - x / 2, 50 };
-	DrawString((int)draw_pos.x, (int)draw_pos.y, text, GetColor(255, 128, 50));
-
 
 	// フェードの描画処理
 	FadeDraw();
@@ -701,7 +704,7 @@ void QuestAreaScene::ModeNormalDraw()
 	// 会話中のキャラがわかるようにボックスを表示
 	Vector2 draw_box_pos = { m_text_draw_pos.x - 2.5f ,m_text_draw_pos.y - FACE_IMAGE_SIZE + h };
 	Vector2 draw_box_pos_2 = { draw_box_pos.x + 97.5f ,m_text_draw_pos.y + h };
-	DrawExtendGraphF(draw_box_pos.x, draw_box_pos.y, draw_box_pos_2.x, draw_box_pos_2.y,m_face_image[player_image], TRUE);
+	DrawExtendGraphF(draw_box_pos.x, draw_box_pos.y, draw_box_pos_2.x, draw_box_pos_2.y, m_face_image[player_image], TRUE);
 	// 誰が話しているかの描画
 	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "Player", GetColor(255, 255, 255));
 }
