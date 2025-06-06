@@ -197,8 +197,7 @@ void GameScene::EntryUpdate()
 //---------------------------------------------------------------------------
 void GameScene::GameUpdate()
 {
-	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_2.m_field_model);
+	
 
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
@@ -240,7 +239,8 @@ void GameScene::GameUpdate()
 		m_what_scene = result;
 	}
 
-
+	// カメラの更新処理
+	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_2.m_field_model);
 }
 
 //---------------------------------------------------------------------------

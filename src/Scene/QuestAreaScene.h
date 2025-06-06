@@ -285,6 +285,10 @@ private:
 	Vector2 m_text_draw_pos;
 	// 目印の描画座標
 	Vector2 m_landmark_draw_pos;
+	// モンスターの顔画像の描画座標
+	Vector2 m_monster_image_draw_pos;
+	// モンスターの顔画像のサイズ
+	static constexpr float IMAGE_SIZE = 100.0f;
 private:
 
 	//! ボットのオブジェクト
@@ -298,6 +302,8 @@ private:
 	{
 		player_image,		// プレイヤー
 		receptionist_image,	// 受付嬢
+		monster_image,  // モンスター
+		mutant_image, // ミュータント
 
 		face_image_max,
 	};
