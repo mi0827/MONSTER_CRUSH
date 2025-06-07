@@ -302,8 +302,9 @@ private:
 	{
 		player_image,		// プレイヤー
 		receptionist_image,	// 受付嬢
+		mutant_image, // ミュータントmutant_image, // ミュータント
 		monster_image,  // モンスター
-		mutant_image, // ミュータント
+		
 
 		face_image_max,
 	};

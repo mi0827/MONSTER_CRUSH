@@ -23,8 +23,14 @@ public:
 	//! @param 変換した数字を保存するための変数２(なければ設定されない)
 	//! @param 変換した数字を保存するための変数３(なければ設定されない)
 	void ConversionNumbers(int text_num , float* variable_1, float* variable_2 = nullptr, float* variable_3 = nullptr);
+	
+	//! @brief 読み込んだテキストを一行ずつもらってくる
+	//! @param 配列の何行目かの値
+	//! @return 指定した配列内の文字列
+	//char GetString(int num);
+	
 	//! @brief テキストに書き込むように変数
-	void UpText();
+	//void UpText();
 
 
 public:
@@ -36,7 +42,4 @@ public:
 	// テキストファイルから文字列を読み取ったものを保存するもの
 	// 文字列を入れる
 	std::vector<std::string> lines;
-
-
-
 };

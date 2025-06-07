@@ -20,18 +20,12 @@ public:
 	void LoadUiImage(const char file_path[256]);
 
 
-	//! @brief 更新処理
-	//! 
-	void ChangeDisplay();
+	//! @brief UIの表示非表示の変更
+	//! @param 表示するかどうか、true : 描画する、false : 描画しない
+	void ChangeDisplay(bool display_flag);
 
 	//! @brief 描画用関数
 	void Draw();
-
-	//! @brief バーと点との当たり判定を返す
-	//! @param x座標
-	//! @param y座標
-	//! @return true : ヒットしている、false : ヒットしていない
-	bool HitPointBra(float pos_x, float pos_y);
 
 private:
 	//! UIの座標

@@ -39,14 +39,11 @@ void Model::DrawModel(Transform* transform)
 
 	// モデルのサイズの調整
 	m_transform = *transform;
-	//m_transform.scale.set(0.1f, 0.1f, 0.1f);
-	//m_transform.scale.set(1.0f, 1.0f, 1.0f);
 
 	MV1SetPosition(m_model, VGet(m_transform.pos.x, m_transform.pos.y, m_transform.pos.z)); // 描画するプレイヤーモデルの座標の設定
 	MV1SetRotationXYZ(m_model, VGet(TO_RADIAN(m_transform.rot.x), TO_RADIAN(m_transform.rot.y + 180), TO_RADIAN(m_transform.rot.z))); // モデルの回転
 	MV1SetScale(m_model, m_transform.scale.VGet()); // モデルの大きさ(10分の１のサイズ)
 	MV1DrawModel(m_model); // モデルの描画
-
 }
 
 //-----------------------------------------------
@@ -97,8 +94,6 @@ Vector3 Model::GetNodePos(int node_index)
 	Vector3 pos;
 	// 指定したノードの座標を取ってくる
 	pos = MV1GetFramePosition(m_model, node_index);
-	//MATRIX mat = MV1GetFrameLocalWorldMatrix(m_model, node_index);
-
 	return pos;
 }
 

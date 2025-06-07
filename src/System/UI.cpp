@@ -41,10 +41,19 @@ void UI::LoadUiImage(const char file_path[256])
 }
 
 //---------------------------------------
+// UI‚Ì•\¦”ñ•\¦‚Ì•ÏX
+//---------------------------------------
+void UI::ChangeDisplay(bool display_flag)
+{
+	m_display_flag = display_flag;
+}
+
+//---------------------------------------
 // •`‰æˆ—
 //---------------------------------------
 void UI::Draw()
 {
+	// •`‰æ‚µ‚Ä‚¢‚¢‚Æ‚«‚Í•`‰æ‚³‚¹‚é
 	if (m_display_flag)
 	{
 		DrawExtendGraph(m_pos.x, m_pos.y, m_pos2.x, m_pos2.y, m_ui_image, true);

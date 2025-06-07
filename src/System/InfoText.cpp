@@ -14,8 +14,10 @@ InfoText::~InfoText()
 	lines.clear();
 }
 
-//! @brief テキストファイルから文字列の読み込み処理
-//! @param ファイルのパス
+//---------------------------------------
+// テキストファイルから文字列の読み込み処理
+//---------------------------------------
+
 void InfoText::LoadText(const char file_path[256])
 {
 	// テキストファイルの読み込み
@@ -39,19 +41,18 @@ void InfoText::LoadText(const char file_path[256])
 			}
 			// vectorの配列に追加
 			lines.emplace_back(line);
-
-
 		}
 		// ファイルを閉じる
 		file.close();
 	}
 }
 
+
+//---------------------------------------
+// 読み込んだテキストの文字を数字に変換するようの関数
+//---------------------------------------
 void InfoText::ConversionNumbers(int text_num, float* variable_1, float* variable_2, float* variable_3)
 {
-	// string型からchar型に変更
-	// const char* text = lines[text_num].c_str();
-
 	// 引数に渡された変数によって処理が少し変わる 
 	// 設定された引数が一つの時
 	if (variable_2 == nullptr && variable_3 == nullptr)
@@ -69,5 +70,7 @@ void InfoText::ConversionNumbers(int text_num, float* variable_1, float* variabl
 		sscanf_s(lines[text_num].c_str(), "%f %f %f", variable_1, variable_2, variable_3);
 	}
 }
+
+
 
 

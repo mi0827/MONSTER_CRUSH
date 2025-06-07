@@ -40,7 +40,7 @@
 #include "src/System/DamageAction.h"
 #include "src/Action/Attack.h"
 
-
+#include "src/System/UI.h"
 #include "src/System/Text.h"
 
 #include "src/Scene/Base/Scene_Base.h"
@@ -94,7 +94,7 @@ void GameScene::Init()
 	GameSceneInit();
 
 	// カメラの初期設定
-	camera.PlayFieldInit();
+	m_camera.PlayFieldInit();
 
 	// キャラクターの初期処理
 	CharacterInit();
@@ -108,7 +108,16 @@ void GameScene::Init()
 	m_now_scene = Battle;
 
 	// カメラの設定
-	camera.SetCamera(camera.CAMERA_HEIGHT_MONSTER, camera.CAMERA_LENGTH_MAX);
+	m_camera.SetCamera(m_camera.CAMERA_HEIGHT_MONSTER, m_camera.CAMERA_LENGTH_MAX);
+	
+	// モンスターの画像の読み込み 
+	m_monster_image[mutant_image] = LoadGraph("Data/Model/Monster/MutantFace.png");
+	m_monster_image[monster_image] = LoadGraph("Data/Model/Monster/MonsterFace.png");
+
+	// ターゲットカメラのレティクルの初期化
+	m_camera_reticle.LoadUiImage("Data/UI/レティクル2.png");
+	m_camera_reticle.SetUiPosSize({ SCREEN_W - 100,SCREEN_H - 100}, { 100, 100 });
+
 }
 
 //---------------------------------------------------------------------------
@@ -152,11 +161,11 @@ void GameScene::Update()
 void GameScene::EntryUpdate()
 {
 	// カメラの更新処理
-	camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
+	m_camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 	// モンスターの登場演出
 	monster->EntryUpdate();
 	// カメラシェイクを行う(カメラの更新処理の後でないとできない)
-	camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
+	m_camera.CameraShakeLimited(4.0f, (float)CHANGE_TIME);
 
 	// ゲームパッドが接続されているときはゲームパッドを振動させたい
 	if (GetJoypadNum() >= 1)
@@ -183,7 +192,7 @@ void GameScene::EntryUpdate()
 		// タイマーをリセットする
 		m_count_time = 0;
 		// バトルのためにカメラの向きの設定
-		camera.SetCameraRot(m_player->m_transform.rot);
+		m_camera.SetCameraRot(m_player->m_transform.rot);
 		// モンスターのSE再生可能フラグを立てる
 		// 本来ならモンスター側で処理したいほうが良い
 		monster->m_se.m_playing_flag = true;
@@ -220,6 +229,7 @@ void GameScene::GameUpdate()
 		{
 			m_camera_change = true;
 		}
+		m_camera_reticle.ChangeDisplay(m_camera_change);
 	}
 
 	// プレイヤーのHPが０になったら
@@ -240,7 +250,7 @@ void GameScene::GameUpdate()
 	}
 
 	// カメラの更新処理
-	camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_2.m_field_model);
+	m_camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_2.m_field_model);
 }
 
 //---------------------------------------------------------------------------
@@ -280,13 +290,13 @@ void GameScene::EndUpdate()
 	case player_die: // プレイヤーが死んだとき
 		// プレイヤーを中心に
 		// 右回転
-		camera.MoveCamera(&m_player->m_transform.pos, CAMERA_DIRECTIN_RIGHT, CAMERA_ROT_SPEED);
+		m_camera.MoveCamera(&m_player->m_transform.pos, CAMERA_DIRECTIN_RIGHT, CAMERA_ROT_SPEED);
 		break;
 
 	case monster_die: // モンスターが死んだとき
 		// モンスターを中心に
 		// 左回転
-		camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
+		m_camera.MoveCamera(&monster->m_transform.pos, CAMERA_DIRECTIN_FLET, CAMERA_ROT_SPEED);
 		break;
 	}
 
@@ -318,7 +328,7 @@ void GameScene::Draw()
 	ShadowMap_DrawSetup(m_shadowMap_handle);
 	{
 		// フィールドの描画
-		m_field_2.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
+		m_field_2.Draw(m_camera.m_pos, m_camera.m_length, m_player->m_transform.pos);
 
 	}
 	// シャドウマップへの描画を終了
@@ -332,7 +342,7 @@ void GameScene::Draw()
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	// カメラの描画処理
-	camera.Draw();
+	m_camera.Draw();
 	// 空の描画
 	SkyDraw();
 
@@ -348,7 +358,7 @@ void GameScene::Draw()
 	SetUseShadowMap(0, m_shadowMap_handle);
 	{
 		// シャドウマップへキャラクターモデルの描画
-		m_field_2.Draw(camera.m_pos, camera.m_length, m_player->m_transform.pos);
+		m_field_2.Draw(m_camera.m_pos, m_camera.m_length, m_player->m_transform.pos);
 		m_player->Draw();
 		// モンスターの描画
 		monster->Draw();
@@ -368,7 +378,7 @@ void GameScene::Draw()
 			VDMessage();
 		}
 	}
-
+	m_camera_reticle.Draw();
 	// フェードの描画処理
 	FadeDraw();
 }
@@ -430,7 +440,7 @@ void GameScene::HitField()
 void GameScene::OptionValuesReflect(int bgm, int se, int mouse)
 {
 	// カメラの感度設定
-	camera.SetCameraSensi((float)mouse);
+	m_camera.SetCameraSensi((float)mouse);
 	// キャラクターのサウンドの調整
 	m_player->m_se.SetSoundVolume(se);
 	// モンスターのサウンドの調整
@@ -455,13 +465,13 @@ void GameScene::CharacterInit()
 void GameScene::CharacterUpdate()
 {
 	// カメラの向きを取得する
-	m_camera_rot = camera.GetCameraRot();
+	m_camera_rot = m_camera.GetCameraRot();
 
 	// プレイヤーの更新処理
 	m_player->Update(&m_camera_rot);
 
 	// モンスターの更新処理
-	monster->Update(&m_player->m_transform, m_player->m_hit_r, m_player->m_body, &camera);
+	monster->Update(&m_player->m_transform, m_player->m_hit_r, m_player->m_body, &m_camera);
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, m_player->m_body))
 	{

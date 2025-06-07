@@ -37,12 +37,6 @@ public:
 	//! @brief ステータスバーの描画
 	void StatusDraw();
 
-	// 現時点で必要かわからない
-	//// SEの初期化
-	//void SE_Init();
-	//// BGMの初期化
-	//void BGM_Init();
-
 	// ライトの初期化
 	void LightInit();
 
@@ -50,7 +44,7 @@ public:
 	void HitField()override;
 
 	//! @brief オプションメニューでもらってきた値を反映する関数
-	//! //! @param BGMの音量
+	//! @param BGMの音量
 	//! @param SEの音量
 	//! @param マウス感度
 	void OptionValuesReflect(int bgm, int se, int mouse)override;
@@ -67,20 +61,13 @@ public:
 	//! @brief 勝敗が付いたらそれを知らせるメッセージを描画するための関数
 	void VDMessage();
 
-	////! @brief モンスターの咆哮攻撃の際にプレイヤーを遠ざけるための処理
-	////! @param モンスターの咆哮中華のフラグ
-	////! @param モンスターの座標と向き
-	////! @param 遠ざけたいキャラの向きと座標
-	////! @param キャラクターの移動スピード
-	//void CharacterKeepAway(bool moster_roar_flag, Transform monster,Transform character,float character_move_speed);
-
 	//! @brief モンスターの咆哮攻撃の際にプレイヤーを遠ざけるための処理
 	void CharacterKeepAway();
 
 public:
 
 	//! カメラクラスのオブジェクト
-	Camera camera;
+	Camera m_camera;
 
 	//! プレイヤーキャラ用のオブジェクト
 	// CharacterBase* player;
@@ -88,23 +75,11 @@ public:
 	//! モンスター用のオブジェクト
 	MonsterBase* monster;
 
-	//// フィールドオブジェクト
-	//Field field;
 
 	// ヒットストップ用のオブジェクト
 	HitStop hit_stop;
 
-	//=================
-	// カメラに関しての変数
-	//! カメラの移動スピード
 
-	//! ターゲットカメラを使用するかマウスでカメラを操作するかの判断用変数
-	bool m_camera_change = true;
-
-	static constexpr float CAMERA_ROT_SPEED = 1.5f;
-	//! カメラの回転する方向
-	static constexpr int CAMERA_DIRECTIN_RIGHT = 0; // 右回転
-	static constexpr int CAMERA_DIRECTIN_FLET = 1;   // 左回転
 	// どちらが死んだかをわかりやすく管理
 	enum Ditection
 	{
@@ -153,4 +128,26 @@ public:
 	};
 	//! メッセージの描画座標
 	Vector2 m_massage_pos{ 0.0f,0.0f };
+
+private:
+	//! モンスターの画像を入れるようの変数
+	enum Monster_image
+	{
+		mutant_image,  // ミュータント画像
+		monster_image, // モンスター画像
+	
+		image_max
+	};
+	int m_monster_image[image_max];
+
+	//! ターゲットカメラのON、OFFのレティクル
+	UI m_camera_reticle;
+	//=================
+	//! カメラに関しての変数
+	//! ターゲットカメラを使用するかマウスでカメラを操作するかの判断用変数
+	bool m_camera_change = true;
+	static constexpr float CAMERA_ROT_SPEED = 1.5f;
+	//! カメラの回転する方向
+	static constexpr int CAMERA_DIRECTIN_RIGHT = 0; // 右回転
+	static constexpr int CAMERA_DIRECTIN_FLET = 1;  // 左回転
 };

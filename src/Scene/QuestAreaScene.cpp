@@ -106,8 +106,9 @@ void QuestAreaScene::Init()
 	// 顔画像の読み込み
 	m_face_image[player_image] = LoadGraph("Data/Model/Hero/HeroFace.png");
 	m_face_image[receptionist_image] = LoadGraph("Data/Model/Receptionist/ReceptionistFace.png"); 
-	m_face_image[monster_image] = LoadGraph("Data/Model/Monster/MonsterFace.png");
 	m_face_image[mutant_image] = LoadGraph("Data/Model/Mutant/MutantFace.png");
+	m_face_image[monster_image] = LoadGraph("Data/Model/Monster/MonsterFace.png");
+	
 }
 
 
@@ -813,14 +814,14 @@ void QuestAreaScene::AcceptingQuestDraw()
 		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2));
 		m_quest_text.TextDraw(0, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 		m_monster_image_draw_pos.set(m_text_draw_pos.x + m_quest_text.QUEST_BACK_SIZE_HALF_SIZE, m_text_draw_pos.y - 30);
-		DrawExtendGraphF(m_monster_image_draw_pos.x - IMAGE_SIZE, m_monster_image_draw_pos.y, m_monster_image_draw_pos.x, m_monster_image_draw_pos.y + IMAGE_SIZE, m_face_image[monster_image], true);
+		DrawExtendGraphF(m_monster_image_draw_pos.x - IMAGE_SIZE, m_monster_image_draw_pos.y, m_monster_image_draw_pos.x, m_monster_image_draw_pos.y + IMAGE_SIZE, m_face_image[mutant_image], true);
 
 		// クエスト２ 
 		// Y座標はずれてほしい分を足す
 		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(1, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);	
 		m_monster_image_draw_pos.set(m_text_draw_pos.x + m_quest_text.QUEST_BACK_SIZE_HALF_SIZE, m_text_draw_pos.y - 30);
-		DrawExtendGraphF(m_monster_image_draw_pos.x - IMAGE_SIZE, m_monster_image_draw_pos.y, m_monster_image_draw_pos.x, m_monster_image_draw_pos.y + IMAGE_SIZE, m_face_image[mutant_image], true);
+		DrawExtendGraphF(m_monster_image_draw_pos.x - IMAGE_SIZE, m_monster_image_draw_pos.y, m_monster_image_draw_pos.x, m_monster_image_draw_pos.y + IMAGE_SIZE, m_face_image[monster_image], true);
 
 		// 確認文言1
 		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));

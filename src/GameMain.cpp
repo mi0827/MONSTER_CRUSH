@@ -44,6 +44,7 @@
 
 #include <fstream>
 #include <string>
+#include "src/System/UI.h"
 #include "src/System/Text.h"
 
 #include "src/Scene/Base/Scene_Base.h"
@@ -278,7 +279,10 @@ void GameDraw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 }
 
+//-------------------------------------------------------------
 // 終了処理
+//-------------------------------------------------------------
+
 void GameExit()
 {
 	// シーンの終了処理
@@ -299,6 +303,7 @@ void ChangeBgm(int bgm_num)
 	// 次に再生したいBGMを再生する
 	m_bgm.PlaySound_(bgm_num, DX_PLAYTYPE_BACK, true);
 }
+
 
 //----------------------------------------------
 // 今のシーンから次のシーンに切り替える関数

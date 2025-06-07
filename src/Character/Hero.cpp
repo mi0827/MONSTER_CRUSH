@@ -53,11 +53,8 @@ Hero::~Hero()
 //-----------------------------------------------
 void Hero::Init()
 {
-
 	// ベースクラスで行っている初期化を呼ぶ
 	CharacterBase::BaseInit(PLAYER_HIT_R, HP_MAX);
-
-
 
 	// プレイヤーの初期座標
 	SetCharacterPos({ 250,0,250 });
