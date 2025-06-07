@@ -232,6 +232,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\OCA SPG\sample\Sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\OCA SPG\sample\Sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="src\System\UI.cpp" />
     <ClCompile Include="src\System\UIBar.cpp" />
     <ClCompile Include="src\System\Vector2.cpp" />
     <ClCompile Include="src\System\Vector3.cpp" />
@@ -290,6 +291,7 @@ ShaderCompiler.exe /Tps_3_0 SamplePS.fx&lt;別のオプション&gt;</Command>
     <ClInclude Include="src\System\TargetMove.h" />
     <ClInclude Include="src\System\Text.h" />
     <ClInclude Include="src\System\Transform.h" />
+    <ClInclude Include="src\System\UI.h" />
     <ClInclude Include="src\System\UIBar.h" />
     <ClInclude Include="src\System\Vector2.h" />
     <ClInclude Include="src\System\Vector3.h" />
