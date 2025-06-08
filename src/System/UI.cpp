@@ -53,12 +53,8 @@ void UI::ChangeDisplay(bool display_flag)
 //---------------------------------------
 void UI::Draw()
 {
-	// •`‰æ‚µ‚Ä‚¢‚¢‚Æ‚«‚Í•`‰æ‚³‚¹‚é
-	if (m_display_flag)
-	{
-		DrawExtendGraph(m_pos.x, m_pos.y, m_pos2.x, m_pos2.y, m_ui_image, true);
-	}
-	
+	// •`‰æ‚µ‚Ä‚¢‚¢‚Æ‚«‚Í•`‰æ‚³‚¹‚é	
+	DrawExtendGraph(m_pos.x, m_pos.y, m_pos2.x, m_pos2.y, m_ui_image, true);
 }
 
 

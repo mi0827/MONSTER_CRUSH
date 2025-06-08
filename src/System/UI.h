@@ -36,7 +36,7 @@ private:
 
 	//! UI画像保存用の変数
 	int m_ui_image = 0;
-
+public:
 	//! 表示していいかのフラグ
 	bool m_display_flag = false;
 };

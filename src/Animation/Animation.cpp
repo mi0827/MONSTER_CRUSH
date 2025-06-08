@@ -92,13 +92,17 @@ void Animation::InitAttachAnimation(Model* model, int anim_num, bool loop)
 			m_contexts[i].animation_attach_index
 		);
 
-		// ブレンド率の取得
+		// ブレンド率を変更する際の値の取得
+		m_contexts[0].m_blend_value = anim_handle[anim_num]->blend_value;
+
+		// 現在のブレンド率の取得
 		m_contexts[i].m_blend_ratio = MV1GetAttachAnimBlendRate
 		(
 			model->m_model,
 			m_contexts[i].animation_attach_index
 		);
 
+		// ブレンド率の変更
 		if (i == 0) {
 			m_contexts[0].m_blend_ratio = BLEND_VALUE_MAX;
 		}
@@ -138,19 +142,19 @@ void Animation::AttachAnimation(Model* model, int anim_num, bool loop)
 		m_contexts[0].animation_attach_index
 	);
 
-	// ブレンド率の取得
+	// ブレンド率を変更する際の値の取得
+	m_contexts[0].m_blend_value = anim_handle[anim_num]->blend_value;
+
+	// 現在のブレンド率の取得
 	m_contexts[0].m_blend_ratio = MV1GetAttachAnimBlendRate
 	(
 		model->m_model,
 		m_contexts[0].animation_attach_index
 	);
-	// ブレンド率をゼロからスタートする
+	// ブレンド率をBLEND_VALUE_RESETからスタートする
 	m_contexts[0].m_blend_ratio = BLEND_VALUE_RESET;
 	// ループするかどうか
 	m_contexts[0].is_loop = loop;
-
-	// アニメーションを再生中にする
-	//m_contexts[0].is_playering = true;
 
 	// どのアニメーションかを保存
 	m_anim_num = anim_num;

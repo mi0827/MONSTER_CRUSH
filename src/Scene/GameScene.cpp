@@ -110,13 +110,15 @@ void GameScene::Init()
 	// カメラの設定
 	m_camera.SetCamera(m_camera.CAMERA_HEIGHT_MONSTER, m_camera.CAMERA_LENGTH_MAX);
 	
-	// モンスターの画像の読み込み 
-	m_monster_image[mutant_image] = LoadGraph("Data/Model/Monster/MutantFace.png");
-	m_monster_image[monster_image] = LoadGraph("Data/Model/Monster/MonsterFace.png");
+	// モンスターの画像の初期化
+	m_monster_image[mutant_image].LoadUiImage("Data/Model/Mutant/MutantFace.png"); 
+	m_monster_image[monster_image].LoadUiImage("Data/Model/Monster/MonsterFace.png");
+	m_monster_image[mutant_image].SetUiPosSize({ SCREEN_W - MONSTER_IMAGE_SIZE, SCREEN_H - MONSTER_IMAGE_SIZE }, { MONSTER_IMAGE_SIZE,MONSTER_IMAGE_SIZE });
+	m_monster_image[monster_image].SetUiPosSize({ SCREEN_W - MONSTER_IMAGE_SIZE, SCREEN_H - MONSTER_IMAGE_SIZE }, { MONSTER_IMAGE_SIZE, MONSTER_IMAGE_SIZE });
 
 	// ターゲットカメラのレティクルの初期化
-	m_camera_reticle.LoadUiImage("Data/UI/レティクル2.png");
-	m_camera_reticle.SetUiPosSize({ SCREEN_W - 100,SCREEN_H - 100}, { 100, 100 });
+	m_target_camera_reticle.LoadUiImage("Data/UI/reticle2.jpg");
+	m_target_camera_reticle.SetUiPosSize({ SCREEN_W - RETICLE_SIZE, SCREEN_H - RETICLE_SIZE }, { RETICLE_SIZE, RETICLE_SIZE });
 
 }
 
@@ -224,12 +226,15 @@ void GameScene::GameUpdate()
 		if (m_camera_change)
 		{
 			m_camera_change = false;
+			m_target_camera_reticle.ChangeDisplay(true);
+
 		}
 		else
 		{
 			m_camera_change = true;
+			m_target_camera_reticle.ChangeDisplay(false);
 		}
-		m_camera_reticle.ChangeDisplay(m_camera_change);
+		
 	}
 
 	// プレイヤーのHPが０になったら
@@ -378,7 +383,16 @@ void GameScene::Draw()
 			VDMessage();
 		}
 	}
-	m_camera_reticle.Draw();
+	// 描画したいときにあったUIを出す
+	if (m_target_camera_reticle.m_display_flag)
+	{
+		m_target_camera_reticle.Draw();
+	}
+	else
+	{
+		m_monster_image[m_monster_num].Draw();
+	}
+	
 	// フェードの描画処理
 	FadeDraw();
 }

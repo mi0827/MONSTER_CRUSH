@@ -37,6 +37,7 @@ public:
 		int handle = -1;       //! アニメーションの入れ物
 		int index = -1;        //! アニメションのインデックス
 		float play_speed = -1; //! アニメーションの再生速度
+		float blend_value = -1; //! ブレンド率を変更させる値
 	};
 	std::vector<AnimData*> anim_handle;
 
@@ -47,7 +48,8 @@ public:
 		bool  is_loop = false;              //!< ループ再生かどうか
 		int   animation_index = -1;         //!< 現在の再生中の番号
 		int   animation_attach_index = -1;  //!< アタッチされたスロット番号
-		float m_blend_ratio = 0.0f;         //!< ブレンド比(0.0f～1.0f)
+		float m_blend_value = -1;          // !< ブレンド率を変更させる値
+		float m_blend_ratio = 0.0f;         //!< 現状のブレンド比(0.0f～1.0f)
 		float animation_total_time = 0.0;   //!< 総再生時間
 		float play_time = 0.0f;             //!< 現在再生中の時間
 	};
