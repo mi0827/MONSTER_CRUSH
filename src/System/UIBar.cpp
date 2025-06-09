@@ -42,20 +42,18 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 	// 外枠のラインを引く場合
 	if (m_line_judgment)
 	{
-		/*m_line_size.x = m_size.x + LINE_SIZE_X;
-		m_line_size.y = m_size.y + LINE_SIZE_Y;*/
 		// 外枠のラインの設定
 		m_line_pos1.x = m_pos1.x - LINE_SIZE_X;
 		m_line_pos1.y = m_pos1.y - LINE_SIZE_Y;
 
 		m_line_pos2.x = m_pos2.x + LINE_SIZE_X;
 		m_line_pos2.y = m_pos2.y + LINE_SIZE_Y;
-		SetColor(255, 255, 255, &m_line_color);
+		SetColor(BLACK, &m_line_color);
 	}
 	// 各カラーの設定
-	SetColor(128, 128, 128, &m_color);
-	SetColor(0, 0, 0, &m_back_color);
-	SetColor(255, 255, 0, &m_character_color);
+	SetColor(GRAY, &m_color);
+	SetColor(WHITE, &m_back_color);
+	SetColor(YELLOW, &m_character_color);
 
 	// valueの値が１減るたびに減る量の設定
 	value_decrease = m_size.x / m_value;
@@ -66,10 +64,10 @@ void UIBra::Set(Vector2 pos, Vector2 size, int* value, bool line)
 //-----------------------------------------------
 // カラーのセット用関数
 //-----------------------------------------------
-void UIBra::SetColor(int red, int green, int blue, int* color)
+void UIBra::SetColor(int color_value, int* color)
 {
 	// 色の設定
-	*color = GetColor(red, green, blue);
+	*color = color_value;
 }
 
 //-----------------------------------------------

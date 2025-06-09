@@ -17,11 +17,9 @@ public:
 	void Set(Vector2 pos, Vector2 size, int* value, bool line);
 
 	//! @brief バーの色の設定
-	//! @param 赤の値
-	//! @param 緑の値
-	//! @param 青の値
+	//! @param カラー
 	//! @param UIBraクラスの各カラー変数のどれかを入れる(どの色を変えか変数を入れる)
-	void SetColor(int red,int green, int blue, int* color);
+	void SetColor(int color_value, int* color_num);
 	
 	//! @brief 名前の設定関数
 	//! @param 名前

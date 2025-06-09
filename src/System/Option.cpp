@@ -163,7 +163,7 @@ void Option::SetOptionMenu()
 		// バーのバックの色
 		m_bra[i].SetColor(128, 128, 0, &m_bra[i].m_back_color);
 		// 外枠の色
-		m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_line_color);
+		m_bra[i].SetColor(BLACK, &m_bra[i].m_line_color);
 		// 文字の色
 		m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_character_color);
 	}

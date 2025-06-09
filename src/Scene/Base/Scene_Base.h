@@ -95,7 +95,7 @@ public:
 	int ReturnMonsterNum();
 
 	//! @brief クエストで受けられてた番号によってモンスターを登場させるためのもの
-    //! @param 受けたクエスト番号（モンスター番号）
+	//! @param 受けたクエスト番号（モンスター番号）
 	void SetMonster(int monster_num);
 
 public:
@@ -199,4 +199,7 @@ public:
 	int m_character_num = hero;
 
 
+protected:
+	// テキストボックスを選択しているか見やすくる用のボックスを作る際の座標の差
+	static constexpr int TEXT_SELECTION_BOX_POS_DIFF = 30;
 };

@@ -309,6 +309,11 @@ private:
 		face_image_max,
 	};
 	int m_face_image[face_image_max];
-	// 顔画像のサイズ
+	//! 顔画像のサイズ
 	static const int FACE_IMAGE_SIZE = 100;
+
+	//! テキスト選択ボックスのX軸のサイズ
+	static const int TEXT_SELECTION_BOX_X_SIZE = 70;
+	//! テキスト選択ボックスのY軸のサイズ
+	static const int TEXT_SELECTION_BOX_Y_SIZE = 40;
 };

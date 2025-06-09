@@ -33,7 +33,6 @@
 #include "TitleScene.h"
 
 
-
 //------------------------------------------
 // 初期処理
 //------------------------------------------
@@ -99,8 +98,8 @@ void TitleScene::Draw()
 	// 文字列の高さの取得
 	float h = (float)GetFontSize();
 	// 描画座標
-	Vector2 draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h };
-	DrawString((int)draw_pos.x, (int)draw_pos.y, name, GetColor(255, 128, 50));
+	Vector2 draw_pos = { SCREEN_W_HALF - w / 2, SCREEN_H_HALF - h };
+	DrawString((int)draw_pos.x, (int)draw_pos.y, name, DARKORANGE);
 
 	// どのボタンを押せば始まるかを描画
 	SetFontSize(100);
@@ -115,10 +114,10 @@ void TitleScene::Draw()
 
 	w = (float)GetDrawStringWidth(name, -1);
 	h = (float)GetFontSize();
-	draw_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 + h * 2 };
+	draw_pos = { SCREEN_W_HALF - w / 2, SCREEN_H_HALF + h * 2 };
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString((int)draw_pos.x, (int)draw_pos.y, name, GetColor(255, 128, 50));
+	DrawString((int)draw_pos.x, (int)draw_pos.y, name, DARKORANGE);
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 

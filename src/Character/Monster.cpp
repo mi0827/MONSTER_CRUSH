@@ -519,20 +519,20 @@ void Monster::StatusBarInit()
 	m_hp_value = HP_VALUE_MAX;
 	// HPバーの設定
 	m_hp_bra.Set({ 25,25 }, { SCREEN_W - 50, 25 }, &m_hp_value, true);
-	m_hp_bra.SetColor(255, 100, 50, &m_hp_bra.m_color);
-	m_hp_bra.SetColor(128, 128, 128, &m_hp_bra.m_back_color);
-	m_hp_bra.SetColor(0, 0, 0, &m_hp_bra.m_line_color);
-	m_hp_bra.SetColor(255, 255, 255, &m_hp_bra.m_character_color);
+	m_hp_bra.SetColor(ORANGE, &m_hp_bra.m_color);
+	m_hp_bra.SetColor(GRAY, &m_hp_bra.m_back_color);
+	m_hp_bra.SetColor(BLACK, &m_hp_bra.m_line_color);
+	m_hp_bra.SetColor(WHITE, &m_hp_bra.m_character_color);
 	m_hp_bra.SetName("HP");
 
 	// スタン値の残量を設定
 	m_stun_value = STUN_VALUE_MAX;
 	// スタンバーの設定
 	m_stun_bra.Set({ 25,70 }, { SCREEN_W - 50, 20 }, &m_stun_value, true);
-	m_stun_bra.SetColor(255, 255, 0, &m_stun_bra.m_color);
-	m_stun_bra.SetColor(128, 128, 128, &m_stun_bra.m_back_color);
-	m_stun_bra.SetColor(0, 0, 0, &m_stun_bra.m_line_color);
-	m_stun_bra.SetColor(255, 255, 255, &m_stun_bra.m_character_color);
+	m_stun_bra.SetColor(YELLOW, &m_stun_bra.m_color);
+	m_stun_bra.SetColor(GRAY, &m_stun_bra.m_back_color);
+	m_stun_bra.SetColor(BLACK, &m_stun_bra.m_line_color);
+	m_stun_bra.SetColor(WHITE, &m_stun_bra.m_character_color);
 	//m_stun_bra.SetName("STUN");
 }
 

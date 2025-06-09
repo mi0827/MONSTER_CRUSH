@@ -21,15 +21,12 @@ BoxCollision::~BoxCollision()
 //-----------------------------------------------
 void BoxCollision::Draw(int color, int line_color)
 {
-	/*SetUseLighting(FALSE);*/
 	// 色の保存
 	m_box.color = color;
 	m_box.line_color = line_color;
 
 	// 立方体の描画
 	DrawCube3D(m_box.pos1.VGet(), m_box.pos2.VGet(), m_box.color, m_box.color, TRUE);
-	
-
 }
 
 //-----------------------------------------------
@@ -53,7 +50,7 @@ void BoxCollision::SetPos(Vector3 pos)
 	// 座標2も設定
 	m_box.pos2.set(pos.x + m_box.half_size.x, pos.y + m_box.half_size.y, pos.z + m_box.half_size.z);
 	// 当たり判定用ボックス座標の設定
-	m_box.hit_pos.set(pos.x, pos.y/* + m_box.half_size.y*/, pos.z);
+	m_box.hit_pos.set(pos.x, pos.y, pos.z);
 }
 
 //-----------------------------------------------

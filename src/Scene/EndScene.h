@@ -90,4 +90,7 @@ private:
 	int m_frame_count = 0;
 	//! エンドシーンで指定のフレーム過ぎると勝手にシーンを変える
 	static constexpr int END_SCENE_FRAME_MAX = 480; // 現在のゲームが６０フレームなので１０秒
+	//! テキスト選択ボックスのサイズ
+	static constexpr int TEXT_SELECTION_BOX_SIZE = 70;
+
 };

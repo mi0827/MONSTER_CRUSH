@@ -275,10 +275,10 @@ void EndScene::Draw()
 	// 描画座標
 	Vector2 box_pos;
 	// どちらを選択しているかの外枠
-	box_pos.set(m_text_draw_pos[m_select_num].x - 30, m_text_draw_pos[m_select_num].y - 30);
+	box_pos.set(m_text_draw_pos[m_select_num].x - TEXT_SELECTION_BOX_POS_DIFF, m_text_draw_pos[m_select_num].y - TEXT_SELECTION_BOX_POS_DIFF);
 	if (m_hit_select_flag)
 	{
-		DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_text.END_BACK_SIZE + 70), (int)(box_pos.y + h + 70), GetColor(255, 255, 0), TRUE);
+		DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_text.END_BACK_SIZE + TEXT_SELECTION_BOX_SIZE), (int)(box_pos.y + h + TEXT_SELECTION_BOX_SIZE), YELLOW, TRUE);
 	}
 
 	// テキストの描画

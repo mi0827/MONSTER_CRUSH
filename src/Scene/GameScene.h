@@ -140,7 +140,7 @@ private:
 	};
 	
 	// モンスターの画像用
-	UI m_monster_image[image_max];
+	UI m_monster_image;
 	// 画像のサイズ
 	static constexpr int MONSTER_IMAGE_SIZE = 200;
 	//! ターゲットカメラのON、OFFのレティクル
@@ -148,6 +148,10 @@ private:
 	// レティクルのサイズ
 	static constexpr int RETICLE_SIZE = 200;
 	
+	// モンスター画像とレティクルを描画する座標
+	static const int MONSTER_RETICLE_POS_X = 50;
+	static const int MONSTER_RETICLE_POS_Y = 380;
+
 	//=================
 	//! カメラに関しての変数
 	//! ターゲットカメラを使用するかマウスでカメラを操作するかの判断用変数

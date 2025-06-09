@@ -206,7 +206,7 @@ void StoryScene::Draw()
 	// •¶Žš—ñ‚Ì‚‚³‚ÌŽæ“¾
 	float h = (float)GetFontSize();
 
-	Vector2 draw_pos = { (SCREEN_W / 2 - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
+	Vector2 draw_pos = { (SCREEN_W_HALF - m_text.TITLE_BACK_HALF_SIZE),(SCREEN_H - h - m_text.CREVICE_SIZE) };
 	// ƒV[ƒ“‚ªØ‚è‘Ö‚í‚éŽž‚É•`‰æ‚µ‚½‚­‚È‚¢
 	if (m_turn != FadeOut)
 	{

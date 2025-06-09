@@ -108,7 +108,6 @@ void QuestAreaScene::Init()
 	m_face_image[receptionist_image] = LoadGraph("Data/Model/Receptionist/ReceptionistFace.png"); 
 	m_face_image[mutant_image] = LoadGraph("Data/Model/Mutant/MutantFace.png");
 	m_face_image[monster_image] = LoadGraph("Data/Model/Monster/MonsterFace.png");
-	
 }
 
 
@@ -229,7 +228,7 @@ void QuestAreaScene::Draw()
 		// テキストバーの端っこからテキスト分引いた位置に設定
 		Vector2 draw_pos = { SCREEN_W / 2 - x / 2, 50 };
 
-		DrawString((int)draw_pos.x, (int)draw_pos.y, text, GetColor(255, 128, 50));
+		DrawString((int)draw_pos.x, (int)draw_pos.y, text, DARKORANGE);
 	}
 
 	// フェードの描画処理
@@ -684,24 +683,23 @@ void QuestAreaScene::ModeNormalDraw()
 			{
 				if (GetJoypadNum() >= 1)
 				{
-					DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[1].text, GetColor(255, 128, 50));
+					DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[1].text, DARKORANGE);
 				}
 				else
 				{
-					DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[0].text, GetColor(255, 128, 50));
+					DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[0].text, DARKORANGE);
 				}
 			}
 			else
 			{
-				DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[i].text, GetColor(255, 128, 50));
+				DrawString((int)m_landmark_draw_pos.x, (int)m_landmark_draw_pos.y, m_landmark_text[i].text, DARKORANGE);
 			}
-
 		}
 	}
 	// プレイヤーのテキストの描画
 	SetFontSize(TEXT_FONT_SIZE);
 	h = GetFontSize();
-	m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_area_text.TITLE_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
+	m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_area_text.TITLE_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_area_text.CREVICE_SIZE)));
 	m_quest_area_text.TextDraw(m_quest_area_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_quest_area_text.TITLE_BACK_SIZE);
 
 	// 会話中のキャラがわかるようにボックスを表示
@@ -709,7 +707,7 @@ void QuestAreaScene::ModeNormalDraw()
 	Vector2 draw_box_pos_2 = { draw_box_pos.x + 97.5f ,m_text_draw_pos.y + h };
 	DrawExtendGraphF(draw_box_pos.x, draw_box_pos.y, draw_box_pos_2.x, draw_box_pos_2.y, m_face_image[player_image], TRUE);
 	// 誰が話しているかの描画
-	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "Player", GetColor(255, 255, 255));
+	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "Player", BLACK);
 }
 
 //------------------------------------------
@@ -736,26 +734,26 @@ void QuestAreaScene::TalkDraw()
 		// どちらを選択しているかの外枠
 		if (m_select_num == 0)
 		{
-			box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30);
+			box_pos.set(SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - TEXT_SELECTION_BOX_POS_DIFF, SCREEN_H_HALF - TEXT_SELECTION_BOX_POS_DIFF);
 		}
 		else
 		{
-			box_pos.set(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30, SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE));
+			box_pos.set(SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - TEXT_SELECTION_BOX_POS_DIFF, SCREEN_H_HALF - TEXT_SELECTION_BOX_POS_DIFF + (h * 2 + m_quest_text.CREVICE_SIZE));
 		}
 
-		DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70), (int)(box_pos.y + h * 2 + 40), GetColor(255, 255, 0), TRUE);
+		DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_quest_text.QUEST_BACK_SIZE + TEXT_SELECTION_BOX_X_SIZE), (int)(box_pos.y + h * 2 + TEXT_SELECTION_BOX_Y_SIZE), YELLOW, TRUE);
 		// YES
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2));
+		m_text_draw_pos.set((SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), SCREEN_H_HALF);
 		m_quest_text.TextDraw(3, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// NO
 		// Y座標はずれてほしい分を足す
-		m_text_draw_pos.set((SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_text_draw_pos.set((SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (SCREEN_H_HALF + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(4, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 	}
 
 	// 会話内容の描画
-	m_text_draw_pos.set((SCREEN_W / 2 - m_reception_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
+	m_text_draw_pos.set((SCREEN_W_HALF - m_reception_text.QUEST_STORY_BACK_HALF_SIZE), (SCREEN_H - (h * 2 + m_reception_text.CREVICE_SIZE)));
 	m_reception_text.TextDraw(m_reception_text_line, { m_text_draw_pos.x, (m_text_draw_pos.y + h) }, m_reception_text.QUEST_STORY_BACK_SIZE);
 
 	// ストーリーを進行キーの描画
@@ -776,7 +774,7 @@ void QuestAreaScene::TalkDraw()
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
 
-	DrawString(draw_pos_x, (int)(m_text_draw_pos.y + h), text, GetColor(255, 128, 50));
+	DrawString(draw_pos_x, (int)(m_text_draw_pos.y + h), text, DARKORANGE);
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 	// 会話中のキャラがわかるようにボックスを表示
@@ -784,7 +782,7 @@ void QuestAreaScene::TalkDraw()
 	Vector2 draw_box_pos_2 = { draw_box_pos.x + 97.5f ,m_text_draw_pos.y + h };
 	DrawExtendGraphF(draw_box_pos.x, draw_box_pos.y, draw_box_pos_2.x, draw_box_pos_2.y, m_face_image[receptionist_image], TRUE);
 	// 誰が話しているかの描画
-	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "謎の女", GetColor(255, 255, 255));
+	DrawString((int)m_text_draw_pos.x, (int)m_text_draw_pos.y, "謎の女", BLACK);
 }
 
 //------------------------------------------
@@ -798,33 +796,33 @@ void QuestAreaScene::AcceptingQuestDraw()
 	Vector2 box_pos;
 	if (m_select_num == 0)
 	{
-		box_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30), (float)(SCREEN_H / 2 - 30));
+		box_pos.set((float)(SCREEN_W_HALF- m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - TEXT_SELECTION_BOX_POS_DIFF), (float)(SCREEN_H_HALF - TEXT_SELECTION_BOX_POS_DIFF));
 	}
 	else
 	{
-		box_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - 30), (float)(SCREEN_H / 2 - 30 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		box_pos.set((float)(SCREEN_W_HALF- m_quest_text.QUEST_BACK_SIZE_HALF_SIZE - TEXT_SELECTION_BOX_POS_DIFF), (float)(SCREEN_H_HALF - TEXT_SELECTION_BOX_POS_DIFF + (h * 2 + m_quest_text.CREVICE_SIZE)));
 	}
 	// どちらを選んでいるかがわかる用のボックス
-	DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_quest_text.QUEST_BACK_SIZE + 70), (int)(box_pos.y + h * 2 + 40), GetColor(255, 255, 0), TRUE);
+	DrawBox((int)box_pos.x, (int)box_pos.y, (int)(box_pos.x + m_quest_text.QUEST_BACK_SIZE + TEXT_SELECTION_BOX_X_SIZE), (int)(box_pos.y + h * 2 + TEXT_SELECTION_BOX_Y_SIZE), YELLOW, TRUE);
 
 	if (m_quest_selection_num == quest_selection)
 	{
 		m_text_draw_pos.set(m_quest_draw_pos[0].x, m_quest_draw_pos[0].y);
 		// クエスト１
-		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2));
+		m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)SCREEN_H_HALF);
 		m_quest_text.TextDraw(0, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
-		m_monster_image_draw_pos.set(m_text_draw_pos.x + m_quest_text.QUEST_BACK_SIZE_HALF_SIZE, m_text_draw_pos.y - 30);
+		m_monster_image_draw_pos.set(m_text_draw_pos.x + m_quest_text.QUEST_BACK_SIZE_HALF_SIZE, m_text_draw_pos.y - TEXT_SELECTION_BOX_POS_DIFF);
 		DrawExtendGraphF(m_monster_image_draw_pos.x - IMAGE_SIZE, m_monster_image_draw_pos.y, m_monster_image_draw_pos.x, m_monster_image_draw_pos.y + IMAGE_SIZE, m_face_image[mutant_image], true);
 
 		// クエスト２ 
 		// Y座標はずれてほしい分を足す
-		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H_HALF + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(1, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);	
-		m_monster_image_draw_pos.set(m_text_draw_pos.x + m_quest_text.QUEST_BACK_SIZE_HALF_SIZE, m_text_draw_pos.y - 30);
+		m_monster_image_draw_pos.set(m_text_draw_pos.x + m_quest_text.QUEST_BACK_SIZE_HALF_SIZE, m_text_draw_pos.y - TEXT_SELECTION_BOX_POS_DIFF);
 		DrawExtendGraphF(m_monster_image_draw_pos.x - IMAGE_SIZE, m_monster_image_draw_pos.y, m_monster_image_draw_pos.x, m_monster_image_draw_pos.y + IMAGE_SIZE, m_face_image[monster_image], true);
 
 		// 確認文言1
-		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+		m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
 		m_quest_text.TextDraw(2, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	
 	}
@@ -834,15 +832,15 @@ void QuestAreaScene::AcceptingQuestDraw()
 	{
 
 		// YES
-		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2));
+		m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H_HALF));
 		m_quest_text.TextDraw(3, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// NO
-		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H / 2 + (h * 2 + m_quest_text.CREVICE_SIZE)));
+		m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_text.QUEST_BACK_SIZE_HALF_SIZE), (float)(SCREEN_H_HALF + (h * 2 + m_quest_text.CREVICE_SIZE)));
 		m_quest_text.TextDraw(4, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_BACK_SIZE);
 
 		// 確認文言2
-		m_text_draw_pos.set((float)(SCREEN_W / 2 - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
+		m_text_draw_pos.set((float)(SCREEN_W_HALF - m_quest_text.QUEST_STORY_BACK_HALF_SIZE), (float)(SCREEN_H - (h * 2 + m_quest_text.CREVICE_SIZE) - 100));
 		m_quest_text.TextDraw(5, { m_text_draw_pos.x, m_text_draw_pos.y }, m_quest_text.QUEST_STORY_BACK_SIZE);
 	}
 
@@ -862,7 +860,7 @@ void QuestAreaScene::AcceptingQuestDraw()
 	int draw_pos_x = (int)(m_text_draw_pos.x + m_reception_text.QUEST_STORY_BACK_SIZE - x);
 	// このキーを描画するのだけ透明度を変更し続ける
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_text_blend_value);
-	DrawString(draw_pos_x, (int)m_text_draw_pos.y, text, GetColor(255, 128, 50));
+	DrawString(draw_pos_x, (int)m_text_draw_pos.y, text, DARKORANGE);
 	// 暗さの変更
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, TEXT_BLEND_MAX);
 

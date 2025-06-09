@@ -111,14 +111,22 @@ void GameScene::Init()
 	m_camera.SetCamera(m_camera.CAMERA_HEIGHT_MONSTER, m_camera.CAMERA_LENGTH_MAX);
 	
 	// モンスターの画像の初期化
-	m_monster_image[mutant_image].LoadUiImage("Data/Model/Mutant/MutantFace.png"); 
-	m_monster_image[monster_image].LoadUiImage("Data/Model/Monster/MonsterFace.png");
-	m_monster_image[mutant_image].SetUiPosSize({ SCREEN_W - MONSTER_IMAGE_SIZE, SCREEN_H - MONSTER_IMAGE_SIZE }, { MONSTER_IMAGE_SIZE,MONSTER_IMAGE_SIZE });
-	m_monster_image[monster_image].SetUiPosSize({ SCREEN_W - MONSTER_IMAGE_SIZE, SCREEN_H - MONSTER_IMAGE_SIZE }, { MONSTER_IMAGE_SIZE, MONSTER_IMAGE_SIZE });
-
-	// ターゲットカメラのレティクルの初期化
-	m_target_camera_reticle.LoadUiImage("Data/UI/reticle2.jpg");
-	m_target_camera_reticle.SetUiPosSize({ SCREEN_W - RETICLE_SIZE, SCREEN_H - RETICLE_SIZE }, { RETICLE_SIZE, RETICLE_SIZE });
+	if (m_monster_num == mutant_image)
+	{
+		// ミュータント画像の読み込み
+		m_monster_image.LoadUiImage("Data/Model/Mutant/MutantFace.png");
+		// ターゲットカメラのレティクルの初期化
+		m_target_camera_reticle.LoadUiImage("Data/UI/reticle2Mutant.jpg");
+	}
+	else
+	{
+		// モンスター画像の読み込み
+		m_monster_image.LoadUiImage("Data/Model/Monster/MonsterFace.png");
+		// ターゲットカメラのレティクルの初期化
+		m_target_camera_reticle.LoadUiImage("Data/UI/reticle2Monster.jpg");
+	}
+	m_monster_image.SetUiPosSize({ MONSTER_RETICLE_POS_X , MONSTER_RETICLE_POS_Y }, { RETICLE_SIZE, RETICLE_SIZE });
+	m_target_camera_reticle.SetUiPosSize({ MONSTER_RETICLE_POS_X, MONSTER_RETICLE_POS_Y }, { RETICLE_SIZE, RETICLE_SIZE });
 
 }
 
@@ -386,11 +394,11 @@ void GameScene::Draw()
 	// 描画したいときにあったUIを出す
 	if (m_target_camera_reticle.m_display_flag)
 	{
-		m_target_camera_reticle.Draw();
+ 		m_target_camera_reticle.Draw();
 	}
 	else
 	{
-		m_monster_image[m_monster_num].Draw();
+		m_monster_image.Draw();
 	}
 	
 	// フェードの描画処理
@@ -607,8 +615,8 @@ void GameScene::VDMessage()
 	// 文字列の高さの取得
 	float h = (float)GetFontSize();
 	// 描画座標
-	m_massage_pos = { SCREEN_W / 2 - w / 2, SCREEN_H / 2 - h };
-	DrawString((int)m_massage_pos.x, (int)m_massage_pos.y, m_massage[m_who_died].message, GetColor(255, 128, 50));
+	m_massage_pos = { SCREEN_W_HALF - w / 2, SCREEN_H_HALF - h };
+	DrawString((int)m_massage_pos.x, (int)m_massage_pos.y, m_massage[m_who_died].message, DARKORANGE);
 
 	// フォントのサイズをデフォルトサイズに戻す
 	SetFontSize(default_font_size);
