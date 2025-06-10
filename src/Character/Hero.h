@@ -106,18 +106,32 @@ public:
 		attack_sword_anim_1,      //< ソード攻撃１
 		attack_sword_anim_2,      //< ソード攻撃２
 		attack_sword_anim_3,      //< ソード攻撃３
-
-		attack_sword_anim_4, //< ソード攻撃４
-		attack_kick_anim_1,   //< キック攻撃1
-		attack_kick_anim_2,   //< キック攻撃1
+		attack_sword_anim_4,      //< ソード攻撃４
+		attack_kick_anim_1,         //< キック攻撃1
+		attack_kick_anim_2,         //< キック攻撃1
 
 		counter_anim,              // カウンター攻撃
 
 		anim_max //!< アニメーションの最大数
 	};
+	//! アニメーションの攻撃系以外のアニメーションの数
+	static constexpr int ATTACK_ANIM_STAR = attack_sword_anim_1;   
+	//! 攻撃アニメーションの最大数
+	static constexpr int ATTACK_ACTION = anim_max - ATTACK_ANIM_STAR;
 
-	static constexpr int ATTACK_ANIM_STAR = attack_sword_anim_1;      //! アニメーションの攻撃系以外のアニメーションの数
-	static constexpr int ATTACK_ACTION = anim_max - ATTACK_ANIM_STAR; //! 攻撃アニメーションの最大数
+	// アニメーションの再生速度とブレンド率の変数
+	struct AnimInfo
+	{
+		// 再生速度
+		float play_speed;
+		// ブレンド変更の値
+		float blend_value;
+	};
+	AnimInfo m_anim_info =
+	{
+
+
+	};
 
 	// 攻撃番号の再設定
 	enum AttackAnim

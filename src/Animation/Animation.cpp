@@ -58,7 +58,7 @@ void Animation::InitAnimation(int anim_max, int default_anim)
 //-----------------------------------------------
 // 読み込み
 //-----------------------------------------------
-void Animation::LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed)
+void Animation::LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed, float anim_blend_value)
 {
 	// 読み込み
 	anim_handle[anim_no]->handle = MV1LoadModel(file_path);
@@ -66,6 +66,8 @@ void Animation::LoadAnimation(const char file_path[256], int anim_no, int anim_i
 	anim_handle[anim_no]->index = anim_index;
 	// アニメーションの再生速度の設定
 	anim_handle[anim_no]->play_speed = anim_play_speed;
+	// アニメーションのブレンド変更する値の設定
+	anim_handle[anim_no]->blend_value = anim_blend_value;
 }
 
 //-----------------------------------------------

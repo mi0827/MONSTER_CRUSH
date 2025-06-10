@@ -78,7 +78,8 @@ public:
 	//! @param アニメーション番号
 	//! @param アニメーションのイデックス番号
 	//! @param アニメーションの再生速度
-	void LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed);
+	//! @param アニメーションのブレンド変更の値
+	void LoadAnimation(const char file_path[256], int anim_no, int anim_index, float anim_play_speed, float anim_blend_value);
 
 	//! @briefアニメーションをセットする関数
 	//! @param ベースのモデル
