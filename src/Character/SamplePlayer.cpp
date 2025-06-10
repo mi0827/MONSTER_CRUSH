@@ -371,10 +371,10 @@ void SamplePlayer::StatusBarInit()
 {
 	// HPÇÃê›íË
 	m_hp.Set({ 50, SCREEN_H - 50 }, { 500,25 }, &m_hp_value, true);
-	m_hp.SetColor(50, 255, 50, &m_hp.m_color);
-	m_hp.SetColor(128, 128, 128, &m_hp.m_back_color);
-	m_hp.SetColor(0, 0, 0, &m_hp.m_line_color);
-	m_hp.SetColor(255, 0, 0, &m_hp.m_character_color);
+	m_hp.SetColor(LIME, &m_hp.m_color);
+	m_hp.SetColor(GRAY, &m_hp.m_back_color);
+	m_hp.SetColor(BLACK, &m_hp.m_line_color);
+	m_hp.SetColor(RED, &m_hp.m_character_color);
 	m_hp.SetName("HP");
 }
 

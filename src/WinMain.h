@@ -46,12 +46,14 @@ static const int BLACK = GetColor(0, 0, 0);
 static const int WHITE = GetColor(255, 255, 255);
 //! 黄色
 static const int YELLOW = GetColor(255, 255, 0);
+//! ダークイエロー
+static const int DARKYELLOW = GetColor(128, 128, 0);
 //! ダークオレンジ
 static const int DARKORANGE = GetColor(255, 128, 0);
-//! グレイ
-static const int GRAY = GetColor(128, 128, 128);
 //! オレンジ　
 static const int ORANGE = GetColor(255, 100, 50);
+//! グレイ
+static const int GRAY = GetColor(128, 128, 128);
  
  
 #include "System/InputPad.h" // ゲームパッド

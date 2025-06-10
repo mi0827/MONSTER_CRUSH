@@ -159,13 +159,13 @@ void Option::SetOptionMenu()
 
 		// 色の設定
 		// バー本体の色
-		m_bra[i].SetColor(255, 255, 0, &m_bra[i].m_color);
+		m_bra[i].SetColor(YELLOW, &m_bra[i].m_color);
 		// バーのバックの色
-		m_bra[i].SetColor(128, 128, 0, &m_bra[i].m_back_color);
+		m_bra[i].SetColor(DARKYELLOW , &m_bra[i].m_back_color);
 		// 外枠の色
 		m_bra[i].SetColor(BLACK, &m_bra[i].m_line_color);
 		// 文字の色
-		m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_character_color);
+		m_bra[i].SetColor(BLACK, &m_bra[i].m_character_color);
 	}
 }
 
@@ -204,12 +204,12 @@ void Option::MenuSelect()
 		if (i == m_selection_menu)
 		{
 			// 外枠の色
-			m_bra[m_selection_menu].SetColor(255, 255, 255, &m_bra[m_selection_menu].m_line_color);
+			m_bra[m_selection_menu].SetColor(WHITE, &m_bra[m_selection_menu].m_line_color);
 		}
 		else
 		{
 			// 外枠の色
-			m_bra[i].SetColor(0, 0, 0, &m_bra[i].m_line_color);
+			m_bra[i].SetColor(BLACK, &m_bra[i].m_line_color);
 		}
 	}
 
