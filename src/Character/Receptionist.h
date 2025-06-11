@@ -31,11 +31,20 @@ public:
 	enum Animation_Max
 	{
 		idle, // アイドルアニメーション
-		idle2,
 		anim_max // アニメーションの最大数
 	};
-
-
+	// アニメーションの再生速度とブレンド率の変数
+	struct AnimInfo
+	{
+		// 再生速度
+		float play_speed;
+		// ブレンド変更の値
+		float blend_value;
+	};
+	AnimInfo m_anim_info[anim_max] =
+	{
+		{1.0f,0.2f}, //! アイドルアニメーション
+	};
 	//! 座標、向き、大きさ
 	Transform m_transform;
 

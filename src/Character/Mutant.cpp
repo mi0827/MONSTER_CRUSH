@@ -619,23 +619,23 @@ void Mutant::AnimLoadInit()
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle_anim);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1", idle_anim, 0, 1.0f); //!< アイドル
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run_anim, 0, 1.0f); //!< ラン
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die_anim, 0, 1.0f); //!< 死亡
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout_anim, 0, 0.5f); //!< 叫び
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage_anim, 0, 1.0f); //!< ダメージを受けた時
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim, 0, 1.5f);  //!< スタンを食らった時のダウン
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up_anim, 0, 2.0f);          //!< スタンを食らった時の起き上がり
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/idle2.mv1", idle_anim, 0, m_anim_info[idle_anim].play_speed, m_anim_info[idle_anim].blend_value); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Run.mv1", run_anim, 0, m_anim_info[run_anim].play_speed, m_anim_info[run_anim].blend_value); //!< ラン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/die.mv1", die_anim, 0, m_anim_info[die_anim].play_speed, m_anim_info[die_anim].blend_value); //!< 死亡
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/shout.mv1", shout_anim, 0, m_anim_info[shout_anim].play_speed, m_anim_info[shout_anim].blend_value); //!< 叫び
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/hit_damage.mv1", hit_damage_anim, 0, m_anim_info[hit_damage_anim].play_speed, m_anim_info[hit_damage_anim].blend_value); //!< ダメージを受けた時
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_down2.mv1", stun_down_anim, 0, m_anim_info[stun_down_anim].play_speed, m_anim_info[stun_down_anim].blend_value);  //!< スタンを食らった時のダウン
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/stun_up.mv1", stun_up_anim, 0, m_anim_info[stun_up_anim].play_speed, m_anim_info[stun_up_anim].blend_value);          //!< スタンを食らった時の起き上がり
 
 	// 攻撃アニメーション
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", punch_attack_1_anim, 0, 1.5f); //!< パンチ攻撃１
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_1.mv1", sword_attack_1_anim, 0, 1.0f); //!< ソード攻撃１
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_2.mv1", sword_attack_2_anim, 0, 1.3f); //!< ソード攻撃２
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_3.mv1", sword_attack_3_anim, 0, 1.5f); //!< ソード攻撃３
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_4.mv1", sword_attack_4_anim, 0, 1.0f); //!< ソード攻撃４
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_5.mv1", sword_attack_5_anim, 0, 1.5f); //!< ソード攻撃５
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling_anim, 0, 1.0f); //!< ローリング
-	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump_anim, 0, 1.0f); //!< ジャンプ
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Punch1.mv1", punch_attack_1_anim, 0, m_anim_info[punch_attack_1_anim].play_speed, m_anim_info[punch_attack_1_anim].blend_value); //!< パンチ攻撃１
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_1.mv1", sword_attack_1_anim, 0, m_anim_info[sword_attack_1_anim].play_speed, m_anim_info[sword_attack_1_anim].blend_value); //!< ソード攻撃１
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_2.mv1", sword_attack_2_anim, 0, m_anim_info[sword_attack_2_anim].play_speed, m_anim_info[sword_attack_2_anim].blend_value); //!< ソード攻撃２
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_3.mv1", sword_attack_3_anim, 0, m_anim_info[sword_attack_3_anim].play_speed, m_anim_info[sword_attack_3_anim].blend_value); //!< ソード攻撃３
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_4.mv1", sword_attack_4_anim, 0, m_anim_info[sword_attack_4_anim].play_speed, m_anim_info[sword_attack_4_anim].blend_value); //!< ソード攻撃４
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/SwordAttack_5.mv1", sword_attack_5_anim, 0, m_anim_info[sword_attack_5_anim].play_speed, m_anim_info[sword_attack_5_anim].blend_value); //!< ソード攻撃５
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/Rolling.mv1", rolling_anim, 0, m_anim_info[rolling_anim].play_speed, m_anim_info[rolling_anim].blend_value); //!< ローリング
+	m_animation.LoadAnimation("Data/Model/Mutant/Animation/Attack/JumpAttack.mv1", jump_anim, 0, m_anim_info[jump_anim].play_speed, m_anim_info[jump_anim].blend_value); //!< ジャンプ
 
 
 	// 最初はデフォルトアニメーションをつけておく

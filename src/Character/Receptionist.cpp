@@ -54,7 +54,7 @@ void Receptionist::Init()
 	// アニメーションの読み込み
 	// とりあえずの状態を設定しておく
 	// 後で変更予定
-	m_animation.LoadAnimation("Data/Model/Receptionist/Animation/idle.mv1", idle,0,1.0f);
+	m_animation.LoadAnimation("Data/Model/Receptionist/Animation/idle.mv1", idle,0, m_anim_info[idle].play_speed, m_anim_info[idle].blend_value);
 	// 最初はアイドルアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, 0, true);
 

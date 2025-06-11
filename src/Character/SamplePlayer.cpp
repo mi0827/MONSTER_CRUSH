@@ -416,18 +416,18 @@ void SamplePlayer::AnimLoadInit()
 	// アニメーションの初期設定
 	m_animation.InitAnimation(anim_max, idle);
 	// アニメーションの読み込み
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Player_Idle.mv1", idle, 1, 1.0f); //!< アイドル
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Player_Run.mv1", run, 1, 1.0f);   //!< 走り
-	m_animation.LoadAnimation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, 2.0f);     //!< ローリング
-	m_animation.LoadAnimation("Data/Model/player/Animation/hit_damage.mv1", hit_damage, 1, 1.0f); //!< ダメージを食らった時
-	m_animation.LoadAnimation("Data/Model/Player/Animation/die.mv1", die, 1, 1.0f);            //!< 死んだとき
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_anim_1, 1, 1.0f);  //!< 攻撃１
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_anim_2, 1, 2.0f); //!< 攻撃２
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Punch3.mv1", attack_anim_3, 1, 2.0f); //!< 攻撃３
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick2.mv1", attack_kick_anim_1, 1, 1.5f); //<! キック攻撃
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick3.mv1", attack_kick_anim_2, 1, 1.5f); //<! キック攻撃
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", attack_kick_anim_3, 1, 1.5f); //<! キック攻撃
-	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", counter_anim, 1, 1.5f);       //<! カウンター攻撃
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Player_Idle.mv1", idle, 1, m_anim_info[idle].play_speed, m_anim_info[idle].blend_value); //!< アイドル
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Player_Run.mv1", run, 1, m_anim_info[run].play_speed, m_anim_info[run].blend_value);   //!< 走り
+	m_animation.LoadAnimation("Data/Model/Player/Animation/rolling.mv1", rolling, 1, m_anim_info[rolling].play_speed, m_anim_info[rolling].blend_value);     //!< ローリング
+	m_animation.LoadAnimation("Data/Model/player/Animation/hit_damage.mv1", hit_damage, 1, m_anim_info[hit_damage].play_speed, m_anim_info[hit_damage].blend_value); //!< ダメージを食らった時
+	m_animation.LoadAnimation("Data/Model/Player/Animation/die.mv1", die, 1, m_anim_info[die].play_speed, m_anim_info[die].blend_value);            //!< 死んだとき
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Punch.mv1", attack_anim_1, 1, m_anim_info[attack_anim_1].play_speed, m_anim_info[attack_anim_1].blend_value);  //!< 攻撃１
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Punch2.mv1", attack_anim_2, 1, m_anim_info[attack_anim_2].play_speed, m_anim_info[attack_anim_2].blend_value); //!< 攻撃２
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Punch3.mv1", attack_anim_3, 1, m_anim_info[attack_anim_3].play_speed, m_anim_info[attack_anim_3].blend_value); //!< 攻撃３
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick2.mv1", attack_kick_anim_1, 1, m_anim_info[attack_kick_anim_1].play_speed, m_anim_info[attack_kick_anim_1].blend_value); //<! キック攻撃
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick3.mv1", attack_kick_anim_2, 1, m_anim_info[attack_kick_anim_2].play_speed, m_anim_info[attack_kick_anim_2].blend_value); //<! キック攻撃
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", attack_kick_anim_3, 1, m_anim_info[attack_kick_anim_3].play_speed, m_anim_info[attack_kick_anim_3].blend_value); //<! キック攻撃
+	m_animation.LoadAnimation("Data/Model/Player/Animation/Attack/Kick4.mv1", counter_anim, 1, m_anim_info[counter_anim].play_speed, m_anim_info[counter_anim].blend_value);       //<! カウンター攻撃
 	// 最初はデフォルトアニメーションをつけておく
 	m_animation.InitAttachAnimation(&m_model, idle, true);
 }
