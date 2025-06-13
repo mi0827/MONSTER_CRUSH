@@ -169,13 +169,9 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 
 	// 向かせたい方向ベクトル
 	// カメラから見たターゲットがどっちの咆哮にいるのかのベクトル
-	//Vector3 camera_pos =  m_pos.x,m_pos.z };
-	//Vector3 target_pos = { target_pos2->x, target_pos2->z };
 	Vector3  target_dir = *target_pos2 - m_pos;
 	target_dir.y = 0.0f;
 	target_dir.normalize();
-
-
 
 	// カメラの前方方向ベクトルと向いてほしい方向ベクトルの二つのベクトルの内積を求める
 	inner_product = GetVector3Dot(camera_dir, target_dir);
@@ -354,9 +350,6 @@ void Camera::CameraShakeLimited(float power, float time)
 		m_shake_tiam_count = m_shake_time * 60;
 	}
 
-	// 揺れの強さを徐々に弱くする
-	// m_power -= m_shake_time_value;
-	
 	// 0より下回らないようにする
 	m_power = std::max(0.0f, m_power);
 
@@ -375,13 +368,13 @@ void Camera::CameraShakeLimited(float power, float time)
 		if (m_shake_tiam_count % 2 == 0)
 		{
 			// カメラの画角の変更値がデフォルトかそうでないかで値を変える
-			if (m_change_angle_value == CAMERA_ANGLE_DEFAULT)
+			if (m_change_angle_value == 0)
 			{
-				m_change_angle_value = CAMERA_ANGLE_DEFAULT + (value * 3);
+				m_change_angle_value = (value * 1);
 			}
 			else
 			{
-				m_change_angle_value = CAMERA_ANGLE_DEFAULT;
+				m_change_angle_value = 0;
 			}
 		}
 	}

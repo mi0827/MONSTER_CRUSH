@@ -41,9 +41,6 @@ void CharacterBase::MoveAction(int run_anim_no, const float move_speed, Vector3*
 	// 毎回リセット
 	m_run_flag = false;
 
-	//// 移動前の座標一旦保存しておく
-	//m_before_pos = m_transform.pos;
-
 	// ベースクラスの更新処理
 	// 移動の処理が中に入っている
 	BaseUpdate(&m_run_flag, camera_rot, &move_speed);

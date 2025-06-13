@@ -183,7 +183,7 @@ void Animation::ChangeBlend()
 	bool blend_flag1 = false;
 	bool blend_flag2 = false;
 	// 次のアニメーションのブレンド率を上げる
-	m_contexts[0].m_blend_ratio += BLEND_VALUE;
+	m_contexts[0].m_blend_ratio += m_contexts[0].m_blend_value;
 	// 上限の設定
 	if (m_contexts[0].m_blend_ratio >= BLEND_VALUE_MAX)
 	{
@@ -191,7 +191,7 @@ void Animation::ChangeBlend()
 		blend_flag1 = true;
 	}
 	// もともとのアニメーションのブレンド率を下げる
-	m_contexts[1].m_blend_ratio -= BLEND_VALUE;
+	m_contexts[1].m_blend_ratio -= m_contexts[1].m_blend_value;
 	// 下限の設定
 	if (m_contexts[1].m_blend_ratio <= BLEND_VALUE_MIN)
 	{
@@ -257,13 +257,11 @@ void Animation::ActionComboChangeAnimation(Model* model, int anim_num, bool loop
 	{
 		if (m_contexts[0].play_time >= m_contexts[0].animation_total_time - FRAME_PULL_NUM)
 		{
-			
 			ChangeAnimation(model, anim_num, loop);
 			 //次のアニメーションがついたからコンボフラグを下す
 			*combo_flag = false;
 		}
 	}
-	
 }
 
 //-----------------------------------------------

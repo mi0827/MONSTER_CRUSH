@@ -144,7 +144,6 @@ void Monster::Update(Transform* target_pos, float target_r, CapsuleCollision bod
 				m_animation.ChangeAnimation(&m_model, die_anim, true);
 			}
 		}
-
 		break;
 
 	case die_anim: // Ž€‚ñ‚¾‚Æ‚«

@@ -76,6 +76,8 @@ public:
 	//! @brief カメラとターゲットとの距離をマウスホイールで変更できるようにする
 	void ChangeDistance();
 
+	//! @brief シームレスにカメラのチェンジ
+
 	enum Direction
 	{
 		right, // 右
