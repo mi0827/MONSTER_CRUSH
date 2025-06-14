@@ -216,8 +216,6 @@ void GameScene::EntryUpdate()
 //---------------------------------------------------------------------------
 void GameScene::GameUpdate()
 {
-	
-
 	// ヒットストップが起こってほしいときいがい
 	if (hit_stop.CheckHitStop() == false)
 	{
@@ -261,9 +259,9 @@ void GameScene::GameUpdate()
 		// バトルが終わったころを知らせる
 		m_what_scene = result;
 	}
-
 	// カメラの更新処理
 	m_camera.UseCameraUpdate(m_camera_change, &m_player->m_transform.pos, &monster->m_transform.pos, &m_field_2.m_field_model);
+	
 }
 
 //---------------------------------------------------------------------------
@@ -494,6 +492,8 @@ void GameScene::CharacterUpdate()
 
 	// モンスターの更新処理
 	monster->Update(&m_player->m_transform, m_player->m_hit_r, m_player->m_body, &m_camera);
+
+
 	// モンスターとプレイヤーの移動の当たり判定
 	if (CheckCapsuleHit(monster->m_body, m_player->m_body))
 	{

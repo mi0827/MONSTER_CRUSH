@@ -86,7 +86,7 @@ void Monster::Init()
 	// 攻撃に関することの初期関数
 	SetAttackInfo();
 	// モンスターのステータスの初期設定
-	BaseInit(HP_VALUE_MAX/* JUMP_UP_SPEED, JUMP_DOWN_SPEED*/);
+	BaseInit(HP_VALUE_MAX);
 	// アニメーションつけるのフラグを上げておく
 	m_animation.m_anim_change_flag = true;
 }
@@ -415,6 +415,7 @@ void Monster::Exit()
 void Monster::EntryUpdate()
 {
 	// エフェクトの再生
+	Vector3 pos;
 	m_effect.PlayEffect(entry_effect,m_transform.pos);
 	m_effect.SetEffectSize( { ENTYE_EFFECT_SIZE, ENTYE_EFFECT_SIZE, ENTYE_EFFECT_SIZE });
 

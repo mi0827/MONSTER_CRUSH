@@ -500,5 +500,5 @@ protected:
 	//! 死んだアニメーションのループ時にリセットさせたいフレーム
 	static constexpr float DIE_ANIM_LOOP_RESET_FRAME = 200.0f;
 	//! 登場演出のエフェクトのサイズ
-	static constexpr float ENTYE_EFFECT_SIZE = 10.0f;
+	static constexpr float ENTYE_EFFECT_SIZE = 13.0f;
 };
