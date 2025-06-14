@@ -216,7 +216,7 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 	/*Vector3  pos = *target_pos1 - *target_pos2;
 	pos.normalize();
 
-	m_pos = m_look +(pos * m_length);*/
+	m_pos = pos * m_length + target_pos1;*/
 }
 
 //---------------------------------------------------------------------------------
