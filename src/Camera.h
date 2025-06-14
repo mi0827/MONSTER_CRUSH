@@ -77,6 +77,7 @@ public:
 	void ChangeDistance();
 
 	//! @brief シームレスにカメラのチェンジ
+	void SeamlessChange();
 
 	enum Direction
 	{
@@ -103,9 +104,9 @@ private:
 	static constexpr float BOX_SIZE_HALF = (BOX_SIZE / 2.0f); // 半数のサイズ
 
 	//! ターゲットカメラの振り向き速度
-	static constexpr float TARGET_ROT_SPEED = 2.3f;
+	static constexpr float TARGET_ROT_SPEED = 2.5f;
 	//! ターゲットカメラの振り向き可能範囲
-	static constexpr float RANGE = 500;
+	static constexpr float RANGE = 400;
 	//! カメラの画角のデフォルト値
 	static constexpr float CAMERA_ANGLE_DEFAULT = 55.0f;
 

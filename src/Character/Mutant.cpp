@@ -699,7 +699,7 @@ void Mutant::EffectUpdate( int effect_num, int effect_info_num)
 void Mutant::DamageEffectUpdate()
 {
 	// エフェクトが再生可能状態なら
-	if (m_effect.m_play_effect_flag == true)
+	if (m_damage_effect.m_play_effect_flag == true)
 	{
 		// エフェクトの再生
 		m_damage_effect.PlayEffect(damage_effect, m_transform.pos);
