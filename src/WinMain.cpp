@@ -31,19 +31,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	int Time; // 時間をとるための変数
 
-	// ６：Log.txtを出力しないようにします
+	// Log.txtを出力しないようにします
 	SetOutApplicationLogValidFlag(FALSE);
-	// ３：ウィンドウモードでかいします
+	// ウィンドウモードでかいします
 	ChangeWindowMode(TRUE);
-	// ７：ウィンドウタイトルの文字列の設定
+	// ウィンドウタイトルの文字列の設定
 	SetMainWindowText("Monsuta");
-	// ８：背景の塗りつぶしの色を設定
+	// 背景の塗りつぶしの色を設定
 	SetBackgroundColor(100, 100, 100);
 
 
-	// ９：ウィンドウサイズの設定
+	//  ウィンドウサイズの設定
 	// 800 × 450 : ウィンドウの大きさ
-	// 32 : 色数（32ビットカラー）*直接てな色の数じゃない
+	//  色数（32ビットカラー）*直接てな色の数じゃない
 	SetGraphMode(SCREEN_W, SCREEN_H, 32);
 
 	// 画面用のＺバッファのビット深度を設定する( 16 or 24 or 32 )
@@ -58,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ウィンドウが前面にあっても後ろにあっても動く状態にします
 	SetAlwaysRunFlag(TRUE);
 
-	// 10 :画面描画設定(描画領域を二つにして後ろに書き込んで完了したものを前にして画面に出す）
+	// 画面描画設定(描画領域を二つにして後ろに書き込んで完了したものを前にして画面に出す）
 	SetDrawScreen(DX_SCREEN_BACK);
 
 
@@ -125,18 +125,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// フォントを見やすくしている
 	ChangeFontType(DX_FONTTYPE_ANTIALIASING_4X4);
 
-	// ４：メインループ
+	// メインループ
 	while (TRUE) {
 		// DXライブラリのカメラとEffekseerのカメラを同期する。
 		//Effekseer_Sync3DSetting();
 
 		Time = GetNowCount();
 
-		// １１：描画領域をクリア
+		// 描画領域をクリア
 		ClearDrawScreen();
-
-
-		
+	
 		// ゲームパッドの更新処理
 		InputPadUpdate();
 
@@ -180,22 +178,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		
 		
-		// １２：描画が完了したものを画面に映します
+		// 描画が完了したものを画面に映します
 		ScreenFlip();
 
 		// これがあるとフレームレートが固定できる
 		while (GetNowCount() - Time < 17) {}
 
-		// ５：赤いXボタンを押したらループを抜ける（ウィンドウを閉じたら）
+		// 赤いXボタンを押したらループを抜ける（ウィンドウを閉じたら）
 		if (ProcessMessage())
 		{
 			break;
 		}
 
-		// ５：右シフトキーを押したら終了
+		// 右シフトキーを押したら終了
 		if (CheckHitKey(KEY_INPUT_RSHIFT))
 		{
 			break;
+		}
+
+		// ゲームパッドが接続させているときは
+		if (GetJoypadNum() >= 1)
+		{
+			if (IsPadOn(PAD_ID::PAD_BACK))
+			{
+				break;
+			}
 		}
 	}
 	// ゲーム終了処理

@@ -104,8 +104,8 @@ void GameInit()
 
 
 	// ‘€ì‰æ‘œ‚Ì“Ç‚İ‚İ
-	pad_image = LoadGraph("pad_.png");
-	key_image = LoadGraph("key_.png");
+	pad_image = LoadGraph("Data/UI/pad_.png");
+	key_image = LoadGraph("Data/UI/key_.png");
 }
 
 //-------------------------------------------------------------
@@ -236,6 +236,8 @@ void GameUpdate()
 		option.option_menu[option.MOUSE].m_value);
 	// BGM‚Ì‰¹—Ê’²®
 	m_bgm.SetSoundVolume(option.option_menu[option.BGM].m_value);
+
+	
 
 }
 

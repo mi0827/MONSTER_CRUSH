@@ -210,13 +210,6 @@ void Camera::TargetCamera(Vector3* target_pos1, Vector3* target_pos2)
 	// カメラの位置を見ている座標から一定の位置に再設定
 	m_pos = m_look + change_dir;
 	
-	
-	// 向かせたい方向ベクトル
-	// カメラから見たターゲットがどっちの咆哮にいるのかのベクトル
-	/*Vector3  pos = *target_pos1 - *target_pos2;
-	pos.normalize();
-
-	m_pos = pos * m_length + target_pos1;*/
 }
 
 //---------------------------------------------------------------------------------
