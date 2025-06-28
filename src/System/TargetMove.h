@@ -40,10 +40,12 @@ public:
 	//! @return true : 範囲内, false : 範囲外
 	bool WithinRange(int range);
 
-	//! @brief ターゲットと一定の距離に入ったかを返す関数
-	bool TargetHit();
-
+	//! @brief ターゲットの方を向き一定の距離に入っていないかを返す関数
+	//! @rerun true：範囲外、false：範囲内
 	//! @brief ターゲットとの距離を返す関数
+	bool TurnToTarget();
+
+
 	float GetTargetDistance();
 
 	// @brief 向きの変更をしてよいかのフラグを受け取る
@@ -95,7 +97,7 @@ public:
 	// 定数の宣言
 	//=========================================================================
 	//! 振り向きを行ってほしい値
-	static constexpr int RANGE = 500;
+	static constexpr float RANGE = 0;
 
 public:
 	//! ターゲットとの距離が一定より近づいたかを知るための変数

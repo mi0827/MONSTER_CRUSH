@@ -55,7 +55,7 @@ void TargetMove::Update(bool* run_flag)
 	// 本体の向きの設定
 	SetDirection();
 	// ターゲットと一定の距離に入ったかを受け取る
-	m_hit = TargetHit();
+	m_hit = TurnToTarget();
 	// 範囲に入っていないとき
 	if (m_hit)
 	{
@@ -72,7 +72,7 @@ void TargetMove::Update(bool* run_flag)
 }
 
 //---------------------------------------------------------------------------
-// 本体の向きの設定
+// 本体の向いている方向の更新
 //---------------------------------------------------------------------------
 void TargetMove::SetDirection()
 {
@@ -133,7 +133,7 @@ bool TargetMove::WithinRange(int range)
 //---------------------------------------------------------------------------
 // ターゲットと一定の距離に入ったかを返す関数
 //---------------------------------------------------------------------------
-bool TargetMove::TargetHit()
+bool TargetMove::TurnToTarget()
 {
 	SetDirection();
 	// それぞれの更新処理が終わったのでプレイヤーとNPCの位置関係から一定距離近づかないようにします
@@ -142,19 +142,38 @@ bool TargetMove::TargetHit()
 	// 基準の距離を求める（それぞれの半径）
 	// プレイヤーが壁際でスタックしないようにお互いの半径プラスプリイヤーの半径の半分分の距離をとる
 	float radius = m_info.m_hit_r + m_target_info.m_target_hit_r + m_target_info.m_target_hit_r / 2;
+
+	// カメラのY軸回転行列
+	MATRIX  oneself_rot = MGetRotY(TO_RADIAN(m_info.m_transform->rot.y));
+	// カメラの前方方向ベクトル
+	Vector3 oneself_dir = VGet(oneself_rot.m[2][0], oneself_rot.m[2][1], oneself_rot.m[2][2]);
+	oneself_dir.y = 0.0f;
+	oneself_dir.normalize();
+
+	// 向かせたい方向ベクトル
+	// カメラから見たターゲットがどっちの咆哮にいるのかのベクトル
+	Vector3  target_dir = m_target_info.m_target->pos - m_info.m_transform->pos;
+	target_dir.y = 0.0f;
+	target_dir.normalize();
+
+	// カメラの前方方向ベクトルと向いてほしい方向ベクトルの二つのベクトルの内積を求める
+	float inner_product = GetVector3Dot(oneself_dir, target_dir);
+	float inner_angle = TO_DEGREE(acosf(std::clamp(inner_product, -1.0f, 1.0f)));
 	// 回転していいときだけ回転する
 	if (m_can_rot)
 	{
 		// 一定の範囲に入ったら振り向きをやめる
 		if (m_cross.y > RANGE) {
+			
 			// 外積のＹの値がプラスの時はプレイヤーは線の右にいます
-			m_info.m_transform->rot.y += m_info.M_ROT_SPEED;
+			m_info.m_transform->rot.y += std::min(inner_angle, m_info.M_ROT_SPEED);;
 		}
 		else
 			if (m_cross.y < -RANGE)
 			{
+				
 				// 外積のＹの値がマイナスの時はプレイヤーは線の左にいます	
-				m_info.m_transform->rot.y -= m_info.M_ROT_SPEED;
+				m_info.m_transform->rot.y -= std::min(inner_angle, m_info.M_ROT_SPEED);;
 			}
 			else
 			{
@@ -172,8 +191,7 @@ bool TargetMove::TargetHit()
 						// モンスターの向きも正しかったら
 						// 移動に制限をかける
 						return false;
-					}
-					
+					}		
 				}
 				else
 				{
